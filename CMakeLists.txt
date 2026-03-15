@@ -46,7 +46,7 @@ target_include_directories(TombaRecomp PRIVATE
 target_link_libraries(TombaRecomp PRIVATE glfw glad fmt)
 
 if(WIN32)
-    target_link_libraries(TombaRecomp PRIVATE opengl32 winmm)
+    target_link_libraries(TombaRecomp PRIVATE opengl32 winmm comdlg32)
 endif()
 
 # Copy keyconfig.ini to output dir

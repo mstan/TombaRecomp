@@ -26,3 +26,11 @@ int game_handle_arg(const char *key, const char *val) {
 const char *game_arg_usage(void) {
     return NULL;
 }
+
+const char *game_get_exe_filename(void) {
+    return "SCUS_942.36_no_header";
+}
+
+uint32_t game_get_expected_crc32(void) {
+    return 0;
+}
