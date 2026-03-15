@@ -1,0 +1,19 @@
+# Build output
+build/
+
+# Game disc images
+isos/
+
+# Temporary files
+*.bmp
+*.ppm
+
+# IDE
+.vs/
+.vscode/
+*.user
+CMakeSettings.json
+
+# OS
+Thumbs.db
+.DS_Store

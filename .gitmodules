@@ -1,0 +1,3 @@
+[submodule "psxrecomp"]
+	path = psxrecomp
+	url = ../psxrecomp
