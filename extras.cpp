@@ -1,4 +1,6 @@
 #include "game_extras.h"
+#include "debug_server.h"
+#include "psx_runtime.h"
 
 const char *game_get_name(void) {
     return "Tomba!";
@@ -33,4 +35,25 @@ const char *game_get_exe_filename(void) {
 
 uint32_t game_get_expected_crc32(void) {
     return 0;
+}
+
+void game_fill_frame_record(void *record) {
+    PSXFrameRecord *r = (PSXFrameRecord *)record;
+    /* Tomba-specific state: fill game_data[32] with relevant RAM values.
+     * Addresses TBD after Ghidra analysis of Tomba's RAM layout. */
+    (void)r;
+}
+
+int game_handle_debug_cmd(const char *cmd, int id, const char *json) {
+    (void)cmd; (void)id; (void)json;
+    /* Tomba-specific commands:
+     * - "entity_list" to dump all 200 entity slots
+     * - "player_state" for position/health/inventory
+     * - "area_info" for current area/map
+     * These will be implemented after Ghidra identifies the relevant addresses. */
+    return 0;  /* not handled */
+}
+
+void game_post_frame(uint32_t frame_count) {
+    (void)frame_count;
 }
