@@ -37,6 +37,10 @@ uint32_t game_get_expected_crc32(void) {
     return 0;
 }
 
+uint32_t game_get_entry_point(void) {
+    return 0x8006B58Cu;
+}
+
 void game_fill_frame_record(void *record) {
     PSXFrameRecord *r = (PSXFrameRecord *)record;
     /* Tomba-specific state: fill game_data[32] with relevant RAM values.

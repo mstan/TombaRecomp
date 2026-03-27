@@ -30,12 +30,20 @@ FetchContent_Declare(fmt
 )
 FetchContent_MakeAvailable(fmt)
 
-add_executable(TombaRecomp
-    ${PSXRECOMP_RUNNER_SOURCES}
-    extras.cpp
-    generated/SCUS_942.36_full.c
-    generated/SCUS_942.36_dispatch.c
-)
+if(INTERPRETER_ONLY)
+    add_executable(TombaRecomp
+        ${PSXRECOMP_RUNNER_SOURCES}
+        extras.cpp
+    )
+    target_compile_definitions(TombaRecomp PRIVATE INTERPRETER_ONLY=1)
+else()
+    add_executable(TombaRecomp
+        ${PSXRECOMP_RUNNER_SOURCES}
+        extras.cpp
+        generated/SCUS_942.36_full.c
+        generated/SCUS_942.36_dispatch.c
+    )
+endif()
 
 target_include_directories(TombaRecomp PRIVATE
     ${PSXRECOMP_RUNNER_INCLUDE_DIRS}
