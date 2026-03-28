@@ -13,26 +13,23 @@ Tomba is the vehicle. The recompiler is the product.
 ---
 
 ## ██████████████████████████████████████████████████
-## ██  RULE 0: NO GHIDRA = NO ACTION. FULL STOP.  ██
+## ██  RULE 0: USE THE RIGHT TOOL FOR THE JOB     ██
 ## ██████████████████████████████████████████████████
 
-**At the start of EVERY session, before touching ANY file:**
+**Debugging tools (use in combination as needed):**
 
-Call `mcp__ghidra__get_program_info`. If it does not respond:
+1. **TCP debug server** (port 4370) — pause/step, read RAM, watchpoints, frame history, registers.
+   Connect with `python psxrecomp/tools/dbg.py`. Available whenever the native build is running.
 
-> GHIDRA IS NOT RUNNING.
-> I will not read files, write code, or make any suggestions.
-> Load SCUS_942.36_no_header into Ghidra as Raw Binary, MIPS LE 32-bit, base address 0x80010000.
-> Start the Ghidra MCP server, reconnect with /mcp, then try again.
+2. **PSXE interpreter** (`psxrecomp/tools/interp/`) — full PS1 emulator for ground truth comparison
+   and function discovery. Run: `psxe -a -b BIOS.BIN game.cue`
 
-**This rule has no exceptions. No "I'll just check the source while Ghidra loads."
-No action of any kind until Ghidra responds.**
+3. **Ghidra** — for decompiling unknown game-specific functions. Not required for BIOS calls
+   (PS1 BIOS is publicly documented) or runtime infrastructure work.
+   Ghidra address = PS1 address (no offset — raw binary loaded at 0x80010000).
 
-Before touching any crash address: Ghidra first.
-Before implementing any function: Ghidra first.
-Before guessing what anything does: Ghidra first.
-
-Ghidra address = PS1 address (no offset — raw binary loaded at 0x80010000).
+4. **Annotations** — when you confirm what a function does, annotate it in
+   `annotations/SCUS_942.36_annotations.csv` so generated code is self-documenting.
 
 ---
 
@@ -67,35 +64,26 @@ If something is wrong in the generated code → fix `recompiler/src/code_generat
 8. GOTO 1
 ```
 
-## Debugging Hierarchy (DO NOT SKIP STEPS)
+## Debugging Hierarchy
 
-When investigating a bug, use tools in THIS ORDER. Do not jump ahead.
+When investigating a bug, use the most effective tool:
 
-**Step 1 — Ghidra any unknown compiled function immediately.**
-Compiled range = 0x80010000–0x80097FFF. Call `mcp__ghidra__get_code` before reading source or
-adding any printf. Do not guess. Do not read large sections of generated code.
+**TCP debug server** — first line of defense. Pause the game, read RAM, set watchpoints,
+query frame history. Connect: `python psxrecomp/tools/dbg.py`
 
-**Step 2 — Use INTERP-CALL trace to find what overlay code calls.**
-Overlay functions (≥0x80098000) cannot be decompiled in Ghidra. But every JAL they make to
-compiled code shows up in INTERP-CALL. Grep script_output.txt for `[INTERP-CALL]`, then
-Ghidra every unknown compiled callee. This is the correct tool for overlay debugging.
+**PSXE interpreter** — ground truth for behavioral questions. Run the same game in the
+full emulator and compare state. Also discovers function entry points automatically.
 
-**Step 3 — Use PCSX-Redux as ground truth for behavioral questions.**
-"What value should entity+0x24 have?" → ask PCSX, not yourself.
-Use `mcp__pcsx-redux__pcsx_exec_lua` to read RAM directly during gameplay.
-PCSX save state load via MCP is broken — start PCSX fresh, navigate manually.
+**Ghidra** — for unknown game-specific functions where decompilation helps understand logic.
+Not needed for BIOS calls or well-documented PS1 hardware behavior.
 
-**Step 4 — Add targeted printf traces as a last resort.**
-Log ONE specific value you need. Not hex dumps. Not 512 bytes of overlay code.
-If you're adding more than one new printf per investigation cycle, stop and use Ghidra instead.
+**INTERP-CALL trace** — for overlay debugging. Overlay functions (≥0x80098000) run through
+the MIPS interpreter; their JAL calls to compiled code show up in INTERP-CALL logs.
 
-**NEVER do this:**
-- Dump raw overlay bytes and manually decode MIPS instructions by hand
-- Dump 512+ bytes to "see what's there" — use PCSX Lua reads instead
-- Add multiple rounds of hex dumps hoping to find the bug by exhaustion
+**Targeted printf** — last resort. Log ONE specific value. If you need more than one new
+printf per investigation cycle, use the debug server instead.
 
-Session resume after context clear: **say "Run the game."** That's the entire prompt.
-The screenshot + Ghidra are the source of truth. There is no other state to reconstruct.
+Session resume after context clear: **say "Run the game."**
 
 ---
 
@@ -135,29 +123,34 @@ powershell.exe -NoProfile -File "C:/temp/kill_game.ps1"
 
 ## Build Commands
 
-Build system is **CMake/Ninja** (NOT MSBuild). Use the C:\temp bat scripts:
+Build system is **CMake/Ninja** with **MinGW GCC** (from MSYS2 mingw64 shell).
+MSVC also works for compiling but the game crashes at runtime — use MinGW.
 
 ```bash
-# Build runner (most common — after opengl_renderer.cpp / gpu_interpreter.cpp / runtime.c changes)
-powershell.exe -NoProfile -File "C:/temp/run_in_console.ps1" -bat "C:/temp/psxrecomp_build_runner.bat"
-cat /c/temp/build_runner_log.txt | tail -10
+# Build must run from proper MSYS2 mingw64 shell:
+C:/msys64/msys2_shell.cmd -mingw64 -defterm -no-start -c "COMMAND"
 
-# Build recompiler (after code_generator.cpp changes)
-powershell.exe -NoProfile -File "C:/temp/run_in_console.ps1" -bat "C:/temp/psxrecomp_build_recompiler.bat"
-cat /c/temp/build_recompiler_log.txt | tail -10
+# Configure (first time only)
+cmake -S . -B build -G Ninja
 
-# Regenerate tomba_full.c (after recompiler changes)
-/f/Projects/psxrecomp-v2/build/recompiler/PSXRecomp.exe /f/Projects/psxrecomp-v2/isos/SCUS_942.36
+# Build runner (most common)
+ninja -C build
 
-# Run game (timed — kill after 30s then read screenshot)
-powershell.exe -NoProfile -File "C:/temp/kill_game.ps1"
-powershell.exe -NoProfile -File "C:/temp/run_in_console.ps1" -bat "C:/temp/psxrecomp_run_game.bat" &
-sleep 30
-powershell.exe -NoProfile -File "C:/temp/kill_game.ps1"
-# Then: Read C:/temp/game_screenshot.bmp
+# Run game
+./build/TombaRecomp.exe isos/SCUS_942.36_no_header isos/tomba.cue
+
+# Debug server (while game is running)
+python psxrecomp/tools/dbg.py ping
+python psxrecomp/tools/dbg.py regs
+python psxrecomp/tools/dbg.py pause
+
+# Build + run interpreter (function discovery)
+cd psxrecomp/tools/interp && make
+./bin/psxe -a -b ../../isos/SCPH1001.BIN ../../isos/tomba.cue
+# Output: discovered_functions_live.log
 ```
 
-Key paths: recompiler at `build/recompiler/PSXRecomp.exe`, runner at `build/runner/PSXRecompGame.exe`.
+Key paths: recompiler at `psxrecomp/build/recompiler/PSXRecomp.exe`, game at `build/TombaRecomp.exe`.
 
 ---
 
@@ -191,7 +184,7 @@ The comment appears as `/* [NOTE] ... */` above the function signature in `tomba
 after the next `PSXRecomp.exe` regeneration. This makes the generated code self-documenting
 without ever reading `tomba_full.c` whole.
 
-**When to annotate:** after Ghidra confirms the function's purpose. Not before, not speculatively.
+**When to annotate:** after confirming the function's purpose (via Ghidra, debug server, or PSXE comparison). Not speculatively.
 **Annotation scope:** function-level only (one entry per function start address).
 **For other games:** create `annotations/<serial>_annotations.csv` — same format, picked up automatically.
 
@@ -235,7 +228,7 @@ logs the address. Look it up in Ghidra. Implement it in `runtime.c`. Log it in `
 
 - Do not pre-emptively implement BIOS functions "just in case"
 - Do not read large sections of tomba_full.c for "context"
-- Do not guess what a function does — Ghidra it
+- Do not guess what a function does — check with debug server, PSXE, or Ghidra
 - Do not add override/patch mechanisms to avoid fixing the recompiler
 - Do not carry assumptions from any previous project or conversation
 - Do not write verbose documentation — a one-line log entry is enough
