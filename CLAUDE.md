@@ -13,22 +13,29 @@ Tomba is the vehicle. The recompiler is the product.
 ---
 
 ## ██████████████████████████████████████████████████
-## ██  RULE 0: USE THE RIGHT TOOL FOR THE JOB     ██
+## ██  RULE 0: TCP DEBUG SERVER FIRST. ALWAYS.     ██
 ## ██████████████████████████████████████████████████
 
-**Debugging tools (use in combination as needed):**
+**ALL debugging starts with the TCP debug server.** Query live game state via
+`python psxrecomp/tools/dbg.py`. Read RAM, set watchpoints, pause/step, check
+registers, query frame history. Do NOT parse stdout logs. Do NOT add printf traces.
 
-1. **TCP debug server** (port 4370) — pause/step, read RAM, watchpoints, frame history, registers.
-   Connect with `python psxrecomp/tools/dbg.py`. Available whenever the native build is running.
+**RULE 0.1: If the TCP server can't answer your question, BUILD the command.**
+Add a new handler to `debug_server.c`. The server is the debugging interface —
+extend it, don't work around it.
 
-2. **PSXE interpreter** (`psxrecomp/tools/interp/`) — full PS1 emulator for ground truth comparison
-   and function discovery. Run: `psxe -a -b BIOS.BIN game.cue`
+Logs (stdout/stderr) are a LAST resort, not a debugging strategy.
 
-3. **Ghidra** — for decompiling unknown game-specific functions. Not required for BIOS calls
+**Other tools (secondary):**
+
+1. **PSXE interpreter** (`psxrecomp/tools/interp/`) — full PS1 emulator for ground truth
+   comparison and function discovery. Run: `psxe -a -b BIOS.BIN game.cue`
+
+2. **Ghidra** — for decompiling unknown game-specific functions. Not required for BIOS calls
    (PS1 BIOS is publicly documented) or runtime infrastructure work.
    Ghidra address = PS1 address (no offset — raw binary loaded at 0x80010000).
 
-4. **Annotations** — when you confirm what a function does, annotate it in
+3. **Annotations** — when you confirm what a function does, annotate it in
    `annotations/SCUS_942.36_annotations.csv` so generated code is self-documenting.
 
 ---
