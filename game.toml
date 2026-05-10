@@ -1,0 +1,20 @@
+[game]
+name = "Tomba!"
+id = "SCUS-94236"
+exe = "tomba/SCUS_942.36"
+disc = "tomba/tomba.cue"
+load_address = "0x80010000"
+entry_pc = "0x8006B58C"
+text_size = "0x00088000"
+stack_base = "0x801FFFF0"
+
+[recompiler]
+seeds = "seeds/ghidra_funcs.txt"
+bios_thunks = "seeds/tomba_bios_thunks.txt"
+out_dir = "generated"
+strict = true
+
+[runtime]
+debug_port = 4470
+window_title = "TombaRecomp"
+memcard_dir = "saves"
