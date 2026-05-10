@@ -1,0 +1,27 @@
+# Build outputs
+/build/
+/out/
+/generated/
+
+# Local PlayStation assets
+/tomba/
+/isos/
+/saves/
+*.bin
+*.cue
+*.iso
+*.img
+*.sub
+*.ccd
+*.mcd
+*.mcr
+
+# Ghidra projects and local analysis databases
+*.gpr
+*.rep/
+
+# Local editor/cache files
+.vs/
+.vscode/
+*.user
+*.log
