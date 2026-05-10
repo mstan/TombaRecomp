@@ -21,5 +21,6 @@ psxrecomp_v4_add_runtime_target(tomba-runtime
     WINDOW_TITLE "TombaRecomp"
     DEFAULT_BIOS_PATH "${PSXRECOMP_V4_ROOT}/bios/SCPH1001.BIN"
     DEFAULT_GAME_ROOT "${CMAKE_CURRENT_SOURCE_DIR}"
+    DEFAULT_MEMCARD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/saves"
     DEFAULT_DISC_PATH "${CMAKE_CURRENT_SOURCE_DIR}/tomba/tomba.cue"
 )
