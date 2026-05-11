@@ -32,3 +32,9 @@ psx_crash.txt
 psx_last_run_report.json
 psx_screenshot.bmp
 starvation_dump.jsonl
+
+# Diagnostic dumps from debug-server probes (wtrace/fntrace/restore/cdrom/mdec/etc.)
+# and ad-hoc screenshots. Root-level only so audit_notes/*.json stays tracked.
+/*.json
+/*.bmp
+/*.bin

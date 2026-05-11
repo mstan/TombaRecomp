@@ -2,6 +2,8 @@
 
 #include "psx_runtime.h"
 
+extern void debug_server_log_call_entry(uint32_t func_addr);
+
 /* --- Unaligned memory access helper implementations --- */
 
 /* LWL: Load Word Left - merges high bytes from aligned word into rt.
@@ -878,9 +880,6 @@ void func_8005AF70(CPUState* cpu);
 void func_8005B1A4(CPUState* cpu);
 void func_8005B1F8(CPUState* cpu);
 void func_8005B208(CPUState* cpu);
-void func_8005B2D4(CPUState* cpu);
-void func_8005B2DC(CPUState* cpu);
-void func_8005B334(CPUState* cpu);
 void func_8005B350(CPUState* cpu);
 void func_8005B38C(CPUState* cpu);
 void func_8005B39C(CPUState* cpu);
@@ -1504,190 +1503,6 @@ void func_8007694C(CPUState* cpu);
 void func_80076CE0(CPUState* cpu);
 void func_80076DB0(CPUState* cpu);
 void func_8007D5C0(CPUState* cpu);
-void func_8007D864(CPUState* cpu);
-void func_8007D880(CPUState* cpu);
-void func_8007D904(CPUState* cpu);
-void func_8007D918(CPUState* cpu);
-void func_8007D9A4(CPUState* cpu);
-void func_8007D9E0(CPUState* cpu);
-void func_8007D9F0(CPUState* cpu);
-void func_8007D9F8(CPUState* cpu);
-void func_8007DA08(CPUState* cpu);
-void func_8007DA44(CPUState* cpu);
-void func_8007DAE4(CPUState* cpu);
-void func_8007DB3C(CPUState* cpu);
-void func_8007DB68(CPUState* cpu);
-void func_8007DB6C(CPUState* cpu);
-void func_8007DB70(CPUState* cpu);
-void func_8007DBF4(CPUState* cpu);
-void func_8007DBF8(CPUState* cpu);
-void func_8007DBFC(CPUState* cpu);
-void func_8007DC04(CPUState* cpu);
-void func_8007DC0C(CPUState* cpu);
-void func_8007DC18(CPUState* cpu);
-void func_8007DC20(CPUState* cpu);
-void func_8007DC24(CPUState* cpu);
-void func_8007DC2C(CPUState* cpu);
-void func_8007DC34(CPUState* cpu);
-void func_8007DC3C(CPUState* cpu);
-void func_8007DC4C(CPUState* cpu);
-void func_8007DC54(CPUState* cpu);
-void func_8007DC60(CPUState* cpu);
-void func_8007DC64(CPUState* cpu);
-void func_8007DC68(CPUState* cpu);
-void func_8007DC6C(CPUState* cpu);
-void func_8007DC74(CPUState* cpu);
-void func_8007DC7C(CPUState* cpu);
-void func_8007DC84(CPUState* cpu);
-void func_8007DC8C(CPUState* cpu);
-void func_8007DC94(CPUState* cpu);
-void func_8007DC9C(CPUState* cpu);
-void func_8007DCA4(CPUState* cpu);
-void func_8007DDA0(CPUState* cpu);
-void func_8007E11C(CPUState* cpu);
-void func_8007E19C(CPUState* cpu);
-void func_8007E1AC(CPUState* cpu);
-void func_8007E1B0(CPUState* cpu);
-void func_8007E1B4(CPUState* cpu);
-void func_8007E1B8(CPUState* cpu);
-void func_8007E1BC(CPUState* cpu);
-void func_8007E454(CPUState* cpu);
-void func_8007E474(CPUState* cpu);
-void func_8007E594(CPUState* cpu);
-void func_8007E7BC(CPUState* cpu);
-void func_8007E7D4(CPUState* cpu);
-void func_8007E7E8(CPUState* cpu);
-void func_8007E920(CPUState* cpu);
-void func_8007EA2C(CPUState* cpu);
-void func_8007EA90(CPUState* cpu);
-void func_8007EBD4(CPUState* cpu);
-void func_8007EC8C(CPUState* cpu);
-void func_8007ECAC(CPUState* cpu);
-void func_8007EDD0(CPUState* cpu);
-void func_8007EE08(CPUState* cpu);
-void func_8007EE80(CPUState* cpu);
-void func_8007EE88(CPUState* cpu);
-void func_8007EFC0(CPUState* cpu);
-void func_8007EFC4(CPUState* cpu);
-void func_8007F034(CPUState* cpu);
-void func_8007F038(CPUState* cpu);
-void func_8007F068(CPUState* cpu);
-void func_8007F06C(CPUState* cpu);
-void func_8007F0FC(CPUState* cpu);
-void func_8007F124(CPUState* cpu);
-void func_8007F17C(CPUState* cpu);
-void func_8007F19C(CPUState* cpu);
-void func_8007F23C(CPUState* cpu);
-void func_8007F2B4(CPUState* cpu);
-void func_8007F2F0(CPUState* cpu);
-void func_8007F2F8(CPUState* cpu);
-void func_8007F2FC(CPUState* cpu);
-void func_8007F328(CPUState* cpu);
-void func_8007F36C(CPUState* cpu);
-void func_8007F3E8(CPUState* cpu);
-void func_8007F404(CPUState* cpu);
-void func_8007F468(CPUState* cpu);
-void func_8007F52C(CPUState* cpu);
-void func_8007F5A8(CPUState* cpu);
-void func_8007F5BC(CPUState* cpu);
-void func_8007F60C(CPUState* cpu);
-void func_8007F6C4(CPUState* cpu);
-void func_8007F6DC(CPUState* cpu);
-void func_8007F744(CPUState* cpu);
-void func_8007F764(CPUState* cpu);
-void func_8007F88C(CPUState* cpu);
-void func_8007F8DC(CPUState* cpu);
-void func_8007F8F8(CPUState* cpu);
-void func_8007F908(CPUState* cpu);
-void func_8007F98C(CPUState* cpu);
-void func_8007FA0C(CPUState* cpu);
-void func_8007FA34(CPUState* cpu);
-void func_8007FB5C(CPUState* cpu);
-void func_8007FB60(CPUState* cpu);
-void func_8007FC44(CPUState* cpu);
-void func_8007FC48(CPUState* cpu);
-void func_8007FC60(CPUState* cpu);
-void func_8007FC6C(CPUState* cpu);
-void func_8007FC74(CPUState* cpu);
-void func_8007FC78(CPUState* cpu);
-void func_8007FC80(CPUState* cpu);
-void func_8007FC88(CPUState* cpu);
-void func_8007FC8C(CPUState* cpu);
-void func_8007FC94(CPUState* cpu);
-void func_8007FC9C(CPUState* cpu);
-void func_8007FCA0(CPUState* cpu);
-void func_8007FCA8(CPUState* cpu);
-void func_8007FCB0(CPUState* cpu);
-void func_8007FCB4(CPUState* cpu);
-void func_8007FCBC(CPUState* cpu);
-void func_8007FCC4(CPUState* cpu);
-void func_8007FCC8(CPUState* cpu);
-void func_8007FCD0(CPUState* cpu);
-void func_8007FCD8(CPUState* cpu);
-void func_8007FCDC(CPUState* cpu);
-void func_8007FCE4(CPUState* cpu);
-void func_8007FCEC(CPUState* cpu);
-void func_8007FCF0(CPUState* cpu);
-void func_8007FCF8(CPUState* cpu);
-void func_8007FD00(CPUState* cpu);
-void func_8007FD04(CPUState* cpu);
-void func_8007FD0C(CPUState* cpu);
-void func_8007FD14(CPUState* cpu);
-void func_8007FD18(CPUState* cpu);
-void func_8007FD28(CPUState* cpu);
-void func_8007FD2C(CPUState* cpu);
-void func_8007FD3C(CPUState* cpu);
-void func_8007FD40(CPUState* cpu);
-void func_8007FD4C(CPUState* cpu);
-void func_8007FD50(CPUState* cpu);
-void func_8007FD60(CPUState* cpu);
-void func_8007FD64(CPUState* cpu);
-void func_8007FD74(CPUState* cpu);
-void func_8007FD78(CPUState* cpu);
-void func_8007FD88(CPUState* cpu);
-void func_8007FD8C(CPUState* cpu);
-void func_8007FD98(CPUState* cpu);
-void func_8007FD9C(CPUState* cpu);
-void func_8007FDA0(CPUState* cpu);
-void func_8007FDAC(CPUState* cpu);
-void func_8007FDB0(CPUState* cpu);
-void func_8007FDB4(CPUState* cpu);
-void func_8007FDBC(CPUState* cpu);
-void func_8007FDC0(CPUState* cpu);
-void func_8007FDC4(CPUState* cpu);
-void func_8007FDC8(CPUState* cpu);
-void func_8007FDD0(CPUState* cpu);
-void func_8007FDD4(CPUState* cpu);
-void func_8007FDD8(CPUState* cpu);
-void func_8007FDDC(CPUState* cpu);
-void func_8007FDE4(CPUState* cpu);
-void func_8007FDE8(CPUState* cpu);
-void func_8007FDEC(CPUState* cpu);
-void func_8007FDF0(CPUState* cpu);
-void func_8007FDF8(CPUState* cpu);
-void func_8007FDFC(CPUState* cpu);
-void func_8007FE00(CPUState* cpu);
-void func_8007FE04(CPUState* cpu);
-void func_8007FE0C(CPUState* cpu);
-void func_8007FE10(CPUState* cpu);
-void func_8007FE18(CPUState* cpu);
-void func_8007FE1C(CPUState* cpu);
-void func_8007FE20(CPUState* cpu);
-void func_8007FE24(CPUState* cpu);
-void func_8007FE2C(CPUState* cpu);
-void func_8007FE30(CPUState* cpu);
-void func_8007FE34(CPUState* cpu);
-void func_8007FE38(CPUState* cpu);
-void func_8007FE40(CPUState* cpu);
-void func_8007FE44(CPUState* cpu);
-void func_8007FE48(CPUState* cpu);
-void func_8007FE54(CPUState* cpu);
-void func_8007FE58(CPUState* cpu);
-void func_8007FE68(CPUState* cpu);
-void func_8007FE7C(CPUState* cpu);
-void func_8007FE90(CPUState* cpu);
-void func_8007FEA4(CPUState* cpu);
-void func_8007FEB8(CPUState* cpu);
 void func_80080020(CPUState* cpu);
 void func_80080024(CPUState* cpu);
 void func_80080028(CPUState* cpu);
@@ -1696,14 +1511,9 @@ void func_80080030(CPUState* cpu);
 void func_80080034(CPUState* cpu);
 void func_80080288(CPUState* cpu);
 void func_800802D0(CPUState* cpu);
-void func_800808A0(CPUState* cpu);
-void func_80080940(CPUState* cpu);
-void func_800809E0(CPUState* cpu);
-void func_80080A80(CPUState* cpu);
 void func_80080AB8(CPUState* cpu);
 void func_80080ABC(CPUState* cpu);
 void func_80080AE4(CPUState* cpu);
-void func_80080B20(CPUState* cpu);
 void func_8008174C(CPUState* cpu);
 void func_80081754(CPUState* cpu);
 void func_8008175C(CPUState* cpu);
@@ -1718,9 +1528,6 @@ void func_800817A4(CPUState* cpu);
 void func_800817AC(CPUState* cpu);
 void func_800817B4(CPUState* cpu);
 void func_800817BC(CPUState* cpu);
-void func_800818B4(CPUState* cpu);
-void func_800818D4(CPUState* cpu);
-void func_800818DC(CPUState* cpu);
 void func_800818E4(CPUState* cpu);
 void func_800818EC(CPUState* cpu);
 void func_800818F4(CPUState* cpu);
@@ -1737,47 +1544,6 @@ void func_80081928(CPUState* cpu);
 void func_80081930(CPUState* cpu);
 void func_80081938(CPUState* cpu);
 void func_8008193C(CPUState* cpu);
-void func_80081954(CPUState* cpu);
-void func_8008195C(CPUState* cpu);
-void func_80081964(CPUState* cpu);
-void func_80081974(CPUState* cpu);
-void func_8008197C(CPUState* cpu);
-void func_80081984(CPUState* cpu);
-void func_8008198C(CPUState* cpu);
-void func_80081994(CPUState* cpu);
-void func_800819F4(CPUState* cpu);
-void func_800819F8(CPUState* cpu);
-void func_800819FC(CPUState* cpu);
-void func_80081A00(CPUState* cpu);
-void func_80081A04(CPUState* cpu);
-void func_80081A08(CPUState* cpu);
-void func_80081A0C(CPUState* cpu);
-void func_80081A10(CPUState* cpu);
-void func_80081A14(CPUState* cpu);
-void func_80081A20(CPUState* cpu);
-void func_80081A24(CPUState* cpu);
-void func_80081A28(CPUState* cpu);
-void func_80081A34(CPUState* cpu);
-void func_80081A38(CPUState* cpu);
-void func_80081A3C(CPUState* cpu);
-void func_80081A40(CPUState* cpu);
-void func_80081A48(CPUState* cpu);
-void func_80081A94(CPUState* cpu);
-void func_80081A9C(CPUState* cpu);
-void func_80081AA4(CPUState* cpu);
-void func_80081AAC(CPUState* cpu);
-void func_80081AB4(CPUState* cpu);
-void func_80081AD4(CPUState* cpu);
-void func_80081ADC(CPUState* cpu);
-void func_80081B34(CPUState* cpu);
-void func_80081B38(CPUState* cpu);
-void func_80081B3C(CPUState* cpu);
-void func_80081B44(CPUState* cpu);
-void func_80081B54(CPUState* cpu);
-void func_80081B5C(CPUState* cpu);
-void func_80081B64(CPUState* cpu);
-void func_80081B74(CPUState* cpu);
-void func_80081B7C(CPUState* cpu);
 void func_80081EB4(CPUState* cpu);
 void func_80081EC8(CPUState* cpu);
 void func_80081ECC(CPUState* cpu);
@@ -1945,24 +1711,6 @@ void func_80082274(CPUState* cpu);
 void func_8008227C(CPUState* cpu);
 void func_80082284(CPUState* cpu);
 void func_8008228C(CPUState* cpu);
-void func_80082304(CPUState* cpu);
-void func_80082308(CPUState* cpu);
-void func_8008230C(CPUState* cpu);
-void func_80082310(CPUState* cpu);
-void func_80082314(CPUState* cpu);
-void func_80082318(CPUState* cpu);
-void func_8008231C(CPUState* cpu);
-void func_80082320(CPUState* cpu);
-void func_80082324(CPUState* cpu);
-void func_80082328(CPUState* cpu);
-void func_8008232C(CPUState* cpu);
-void func_80082330(CPUState* cpu);
-void func_80082334(CPUState* cpu);
-void func_80082338(CPUState* cpu);
-void func_8008233C(CPUState* cpu);
-void func_80082344(CPUState* cpu);
-void func_80082354(CPUState* cpu);
-void func_8008235C(CPUState* cpu);
 void func_800824D0(CPUState* cpu);
 void func_800824E4(CPUState* cpu);
 void func_800824F8(CPUState* cpu);
@@ -1980,35 +1728,9 @@ void func_80082610(CPUState* cpu);
 void func_80082624(CPUState* cpu);
 void func_80082638(CPUState* cpu);
 void func_800827A8(CPUState* cpu);
-void func_800828C8(CPUState* cpu);
-void func_80082968(CPUState* cpu);
-void func_8008296C(CPUState* cpu);
-void func_80082974(CPUState* cpu);
-void func_8008297C(CPUState* cpu);
-void func_80082984(CPUState* cpu);
-void func_8008298C(CPUState* cpu);
-void func_80082994(CPUState* cpu);
-void func_8008299C(CPUState* cpu);
-void func_800829B4(CPUState* cpu);
-void func_800829BC(CPUState* cpu);
-void func_80082A08(CPUState* cpu);
-void func_80082A0C(CPUState* cpu);
-void func_80082A14(CPUState* cpu);
-void func_80082A1C(CPUState* cpu);
-void func_80082A34(CPUState* cpu);
-void func_80082A3C(CPUState* cpu);
-void func_80082A44(CPUState* cpu);
-void func_80082A4C(CPUState* cpu);
-void func_80082A54(CPUState* cpu);
-void func_80082A60(CPUState* cpu);
-void func_80082A68(CPUState* cpu);
-void func_80082AA8(CPUState* cpu);
-void func_80082B48(CPUState* cpu);
 void func_80082F9C(CPUState* cpu);
 void func_80082FB0(CPUState* cpu);
 void func_8008327C(CPUState* cpu);
-void func_800832CC(CPUState* cpu);
-void func_800832E4(CPUState* cpu);
 void func_8008358C(CPUState* cpu);
 void func_80083594(CPUState* cpu);
 void func_8008359C(CPUState* cpu);
@@ -2018,49 +1740,6 @@ void func_800835BC(CPUState* cpu);
 void func_800835C4(CPUState* cpu);
 void func_800835D4(CPUState* cpu);
 void func_800835DC(CPUState* cpu);
-void func_800838DC(CPUState* cpu);
-void func_800838E4(CPUState* cpu);
-void func_800838E8(CPUState* cpu);
-void func_800838EC(CPUState* cpu);
-void func_800838F0(CPUState* cpu);
-void func_800838F4(CPUState* cpu);
-void func_800838F8(CPUState* cpu);
-void func_800838FC(CPUState* cpu);
-void func_80083900(CPUState* cpu);
-void func_80083920(CPUState* cpu);
-void func_80083928(CPUState* cpu);
-void func_8008397C(CPUState* cpu);
-void func_80083984(CPUState* cpu);
-void func_80083994(CPUState* cpu);
-void func_8008399C(CPUState* cpu);
-void func_800839A4(CPUState* cpu);
-void func_800839B4(CPUState* cpu);
-void func_800839BC(CPUState* cpu);
-void func_800839C4(CPUState* cpu);
-void func_800839D4(CPUState* cpu);
-void func_80083A1C(CPUState* cpu);
-void func_80083A20(CPUState* cpu);
-void func_80083A24(CPUState* cpu);
-void func_80083A28(CPUState* cpu);
-void func_80083A2C(CPUState* cpu);
-void func_80083A34(CPUState* cpu);
-void func_80083A38(CPUState* cpu);
-void func_80083A3C(CPUState* cpu);
-void func_80083A40(CPUState* cpu);
-void func_80083A44(CPUState* cpu);
-void func_80083A48(CPUState* cpu);
-void func_80083A50(CPUState* cpu);
-void func_80083A60(CPUState* cpu);
-void func_80083A68(CPUState* cpu);
-void func_80083A74(CPUState* cpu);
-void func_80083ABC(CPUState* cpu);
-void func_80083AC0(CPUState* cpu);
-void func_80083AC4(CPUState* cpu);
-void func_80083AC8(CPUState* cpu);
-void func_80083ACC(CPUState* cpu);
-void func_80083AD0(CPUState* cpu);
-void func_80083AD4(CPUState* cpu);
-void func_80083AD8(CPUState* cpu);
 void func_80083ADC(CPUState* cpu);
 void func_80083AE0(CPUState* cpu);
 void func_80083AE4(CPUState* cpu);
@@ -2093,17 +1772,9 @@ void func_80083B4C(CPUState* cpu);
 void func_80083B50(CPUState* cpu);
 void func_80083B54(CPUState* cpu);
 void func_80083B58(CPUState* cpu);
-void func_80083B5C(CPUState* cpu);
 void func_80083B60(CPUState* cpu);
-void func_80083B64(CPUState* cpu);
 void func_80083B68(CPUState* cpu);
-void func_80083B6C(CPUState* cpu);
 void func_80083B74(CPUState* cpu);
-void func_80083B7C(CPUState* cpu);
-void func_80083B84(CPUState* cpu);
-void func_80083B8C(CPUState* cpu);
-void func_80083B94(CPUState* cpu);
-void func_80083B9C(CPUState* cpu);
 void func_80083D28(CPUState* cpu);
 void func_80083E14(CPUState* cpu);
 void func_80083E3C(CPUState* cpu);
@@ -2331,664 +2002,13 @@ void func_80089BB0(CPUState* cpu);
 void func_80089BB8(CPUState* cpu);
 void func_80089BC0(CPUState* cpu);
 void func_80089BC8(CPUState* cpu);
-void func_8008A85C(CPUState* cpu);
 void func_8008AA08(CPUState* cpu);
 void func_8008C5D4(CPUState* cpu);
 void func_800905DC(CPUState* cpu);
-void func_800909E0(CPUState* cpu);
-void func_800909E4(CPUState* cpu);
-void func_800909E8(CPUState* cpu);
-void func_800909EC(CPUState* cpu);
-void func_800909F0(CPUState* cpu);
-void func_800909F4(CPUState* cpu);
-void func_800909F8(CPUState* cpu);
-void func_800909FC(CPUState* cpu);
-void func_80090A00(CPUState* cpu);
-void func_80090A04(CPUState* cpu);
-void func_80090A08(CPUState* cpu);
-void func_80090A0C(CPUState* cpu);
-void func_80090A10(CPUState* cpu);
-void func_80090A80(CPUState* cpu);
-void func_80090A88(CPUState* cpu);
-void func_80090A90(CPUState* cpu);
-void func_80090B20(CPUState* cpu);
-void func_80090BC0(CPUState* cpu);
-void func_80090BF8(CPUState* cpu);
-void func_80090BFC(CPUState* cpu);
-void func_80090C00(CPUState* cpu);
-void func_80090C04(CPUState* cpu);
-void func_80090C08(CPUState* cpu);
-void func_80090C0C(CPUState* cpu);
-void func_80090C10(CPUState* cpu);
-void func_80090C14(CPUState* cpu);
-void func_80090C18(CPUState* cpu);
-void func_80090C1C(CPUState* cpu);
-void func_80090C20(CPUState* cpu);
-void func_80090C24(CPUState* cpu);
-void func_80090C28(CPUState* cpu);
-void func_80090C2C(CPUState* cpu);
-void func_80090C30(CPUState* cpu);
-void func_80090C34(CPUState* cpu);
-void func_80090C38(CPUState* cpu);
-void func_80090C3C(CPUState* cpu);
-void func_80090C40(CPUState* cpu);
-void func_80090C44(CPUState* cpu);
-void func_80090C48(CPUState* cpu);
-void func_80090C4C(CPUState* cpu);
-void func_80090C50(CPUState* cpu);
-void func_80090C54(CPUState* cpu);
-void func_80090C58(CPUState* cpu);
-void func_80090C5C(CPUState* cpu);
-void func_80090C60(CPUState* cpu);
-void func_80090C64(CPUState* cpu);
-void func_80090C6C(CPUState* cpu);
-void func_80090C78(CPUState* cpu);
-void func_80090C80(CPUState* cpu);
-void func_80090C8C(CPUState* cpu);
-void func_80090C98(CPUState* cpu);
-void func_80090CA4(CPUState* cpu);
-void func_80090CAC(CPUState* cpu);
-void func_80090CB8(CPUState* cpu);
-void func_80090CC4(CPUState* cpu);
-void func_80090CD0(CPUState* cpu);
-void func_80090CD8(CPUState* cpu);
-void func_80090CE4(CPUState* cpu);
-void func_80090CF0(CPUState* cpu);
-void func_80090CFC(CPUState* cpu);
-void func_80090D08(CPUState* cpu);
-void func_80090D10(CPUState* cpu);
-void func_80090D1C(CPUState* cpu);
-void func_80090D28(CPUState* cpu);
-void func_80090D34(CPUState* cpu);
-void func_80090D40(CPUState* cpu);
-void func_80090D4C(CPUState* cpu);
-void func_80090D54(CPUState* cpu);
-void func_80090D60(CPUState* cpu);
-void func_80090D6C(CPUState* cpu);
-void func_80090D78(CPUState* cpu);
-void func_80090D7C(CPUState* cpu);
-void func_80090D84(CPUState* cpu);
-void func_80090D88(CPUState* cpu);
-void func_80090D90(CPUState* cpu);
-void func_80090D94(CPUState* cpu);
-void func_80090D9C(CPUState* cpu);
-void func_80090DA8(CPUState* cpu);
-void func_80090DB4(CPUState* cpu);
-void func_80090DC0(CPUState* cpu);
-void func_80090DCC(CPUState* cpu);
-void func_80090DD8(CPUState* cpu);
-void func_80090DE4(CPUState* cpu);
-void func_80090DF0(CPUState* cpu);
-void func_80090DFC(CPUState* cpu);
-void func_80090E08(CPUState* cpu);
-void func_80090E14(CPUState* cpu);
-void func_80090E20(CPUState* cpu);
-void func_80090E2C(CPUState* cpu);
-void func_80090E38(CPUState* cpu);
-void func_80090E44(CPUState* cpu);
-void func_80090E50(CPUState* cpu);
-void func_80090E5C(CPUState* cpu);
-void func_80090E68(CPUState* cpu);
-void func_80090E74(CPUState* cpu);
-void func_80090E80(CPUState* cpu);
-void func_80090E8C(CPUState* cpu);
-void func_80090E9C(CPUState* cpu);
-void func_80090EA8(CPUState* cpu);
-void func_80090EB4(CPUState* cpu);
-void func_80090EB8(CPUState* cpu);
-void func_80090EC0(CPUState* cpu);
-void func_80090EC8(CPUState* cpu);
-void func_80090ECC(CPUState* cpu);
-void func_80090ED0(CPUState* cpu);
-void func_80090ED8(CPUState* cpu);
-void func_80090EE4(CPUState* cpu);
-void func_80090EF4(CPUState* cpu);
-void func_80090F00(CPUState* cpu);
-void func_80090F0C(CPUState* cpu);
-void func_80090F18(CPUState* cpu);
-void func_80090F1C(CPUState* cpu);
-void func_80090F24(CPUState* cpu);
-void func_80090F28(CPUState* cpu);
-void func_80090F34(CPUState* cpu);
-void func_80090F38(CPUState* cpu);
-void func_80090F40(CPUState* cpu);
-void func_80090F44(CPUState* cpu);
-void func_80090F4C(CPUState* cpu);
-void func_80090F50(CPUState* cpu);
-void func_80090F58(CPUState* cpu);
-void func_80090F5C(CPUState* cpu);
-void func_80090F68(CPUState* cpu);
-void func_80090F6C(CPUState* cpu);
-void func_80090F74(CPUState* cpu);
-void func_80090F78(CPUState* cpu);
-void func_80090F80(CPUState* cpu);
-void func_80090F84(CPUState* cpu);
-void func_80090F90(CPUState* cpu);
-void func_80090F94(CPUState* cpu);
-void func_80090F9C(CPUState* cpu);
-void func_80090FA0(CPUState* cpu);
-void func_80090FA8(CPUState* cpu);
-void func_80090FAC(CPUState* cpu);
-void func_80090FB8(CPUState* cpu);
-void func_80090FBC(CPUState* cpu);
-void func_80090FC4(CPUState* cpu);
-void func_80090FC8(CPUState* cpu);
-void func_80090FD0(CPUState* cpu);
-void func_80090FD4(CPUState* cpu);
-void func_80090FE0(CPUState* cpu);
-void func_80090FE4(CPUState* cpu);
-void func_80090FEC(CPUState* cpu);
-void func_80090FF0(CPUState* cpu);
-void func_80090FF8(CPUState* cpu);
-void func_80090FFC(CPUState* cpu);
-void func_80091008(CPUState* cpu);
-void func_8009100C(CPUState* cpu);
-void func_80091014(CPUState* cpu);
-void func_80091018(CPUState* cpu);
-void func_80091020(CPUState* cpu);
-void func_80091024(CPUState* cpu);
-void func_80091030(CPUState* cpu);
-void func_80091034(CPUState* cpu);
-void func_80091038(CPUState* cpu);
-void func_8009103C(CPUState* cpu);
-void func_80091040(CPUState* cpu);
-void func_8009104C(CPUState* cpu);
-void func_80091050(CPUState* cpu);
-void func_80091058(CPUState* cpu);
-void func_8009105C(CPUState* cpu);
-void func_80091064(CPUState* cpu);
-void func_80091068(CPUState* cpu);
-void func_80091074(CPUState* cpu);
-void func_80091080(CPUState* cpu);
-void func_80091090(CPUState* cpu);
-void func_80091098(CPUState* cpu);
-void func_8009109C(CPUState* cpu);
-void func_800910A0(CPUState* cpu);
-void func_800910A8(CPUState* cpu);
-void func_800910AC(CPUState* cpu);
-void func_800910B0(CPUState* cpu);
-void func_800910B8(CPUState* cpu);
-void func_800910C0(CPUState* cpu);
-void func_800910C8(CPUState* cpu);
-void func_800910D4(CPUState* cpu);
-void func_800910E4(CPUState* cpu);
-void func_800910F0(CPUState* cpu);
-void func_80091100(CPUState* cpu);
-void func_8009110C(CPUState* cpu);
-void func_80091110(CPUState* cpu);
-void func_80091118(CPUState* cpu);
-void func_8009111C(CPUState* cpu);
-void func_80091120(CPUState* cpu);
-void func_80091128(CPUState* cpu);
-void func_8009112C(CPUState* cpu);
-void func_80091138(CPUState* cpu);
-void func_80091148(CPUState* cpu);
-void func_80091154(CPUState* cpu);
-void func_80091164(CPUState* cpu);
-void func_80091170(CPUState* cpu);
-void func_80091180(CPUState* cpu);
-void func_80091190(CPUState* cpu);
-void func_8009119C(CPUState* cpu);
-void func_800911AC(CPUState* cpu);
-void func_800911BC(CPUState* cpu);
-void func_800911C8(CPUState* cpu);
-void func_800911D0(CPUState* cpu);
-void func_800911D8(CPUState* cpu);
-void func_800911E0(CPUState* cpu);
-void func_800911E8(CPUState* cpu);
-void func_800911F0(CPUState* cpu);
-void func_800911F4(CPUState* cpu);
-void func_800911F8(CPUState* cpu);
-void func_80091200(CPUState* cpu);
-void func_80091204(CPUState* cpu);
-void func_80091208(CPUState* cpu);
-void func_80091210(CPUState* cpu);
-void func_80091214(CPUState* cpu);
-void func_80091218(CPUState* cpu);
-void func_80091220(CPUState* cpu);
-void func_80091228(CPUState* cpu);
-void func_80091230(CPUState* cpu);
-void func_80091238(CPUState* cpu);
-void func_80091240(CPUState* cpu);
-void func_80091248(CPUState* cpu);
-void func_80091250(CPUState* cpu);
-void func_8009125C(CPUState* cpu);
-void func_8009126C(CPUState* cpu);
-void func_8009127C(CPUState* cpu);
-void func_8009128C(CPUState* cpu);
-void func_80091298(CPUState* cpu);
-void func_800912A8(CPUState* cpu);
-void func_800912B0(CPUState* cpu);
-void func_800912B8(CPUState* cpu);
-void func_800912C8(CPUState* cpu);
-void func_800912D8(CPUState* cpu);
-void func_800912E4(CPUState* cpu);
-void func_800912F4(CPUState* cpu);
-void func_80091304(CPUState* cpu);
-void func_80091310(CPUState* cpu);
-void func_80091314(CPUState* cpu);
-void func_80091318(CPUState* cpu);
-void func_80091320(CPUState* cpu);
-void func_80091324(CPUState* cpu);
-void func_80091328(CPUState* cpu);
-void func_80091330(CPUState* cpu);
-void func_80091334(CPUState* cpu);
-void func_80091338(CPUState* cpu);
-void func_80091340(CPUState* cpu);
-void func_80091348(CPUState* cpu);
-void func_80091350(CPUState* cpu);
-void func_80091360(CPUState* cpu);
-void func_80091370(CPUState* cpu);
-void func_80091380(CPUState* cpu);
-void func_80091390(CPUState* cpu);
-void func_800913A0(CPUState* cpu);
-void func_800913B0(CPUState* cpu);
-void func_800913C0(CPUState* cpu);
-void func_800913D0(CPUState* cpu);
-void func_800913E0(CPUState* cpu);
-void func_800913F0(CPUState* cpu);
-void func_80091400(CPUState* cpu);
-void func_80091410(CPUState* cpu);
-void func_80091420(CPUState* cpu);
-void func_80091430(CPUState* cpu);
-void func_80091440(CPUState* cpu);
-void func_80091450(CPUState* cpu);
-void func_80091460(CPUState* cpu);
-void func_80091470(CPUState* cpu);
-void func_80091480(CPUState* cpu);
-void func_80091490(CPUState* cpu);
-void func_800914A0(CPUState* cpu);
-void func_800914B0(CPUState* cpu);
-void func_800914C0(CPUState* cpu);
-void func_800914D0(CPUState* cpu);
-void func_800914E0(CPUState* cpu);
-void func_800914F0(CPUState* cpu);
-void func_80091500(CPUState* cpu);
-void func_80091510(CPUState* cpu);
-void func_80091524(CPUState* cpu);
-void func_80091534(CPUState* cpu);
-void func_80091544(CPUState* cpu);
-void func_80091818(CPUState* cpu);
-void func_80091820(CPUState* cpu);
-void func_8009183C(CPUState* cpu);
-void func_8009185C(CPUState* cpu);
-void func_80091B00(CPUState* cpu);
-void func_80091B08(CPUState* cpu);
-void func_80091B88(CPUState* cpu);
-void func_80091B90(CPUState* cpu);
-void func_80091EF8(CPUState* cpu);
-void func_80091F60(CPUState* cpu);
-void func_80091F94(CPUState* cpu);
-void func_80091FB0(CPUState* cpu);
-void func_80091FB8(CPUState* cpu);
-void func_80091FC0(CPUState* cpu);
-void func_80091FC8(CPUState* cpu);
-void func_80091FFC(CPUState* cpu);
-void func_80092030(CPUState* cpu);
-void func_80092068(CPUState* cpu);
-void func_8009209C(CPUState* cpu);
-void func_800920D0(CPUState* cpu);
-void func_80092104(CPUState* cpu);
-void func_80092138(CPUState* cpu);
-void func_8009216C(CPUState* cpu);
-void func_800921A0(CPUState* cpu);
-void func_800921D4(CPUState* cpu);
-void func_80092208(CPUState* cpu);
-void func_8009220C(CPUState* cpu);
-void func_8009223C(CPUState* cpu);
-void func_80092240(CPUState* cpu);
-void func_80092270(CPUState* cpu);
-void func_80092274(CPUState* cpu);
-void func_800922A4(CPUState* cpu);
-void func_800922A8(CPUState* cpu);
-void func_800922D8(CPUState* cpu);
-void func_800922DC(CPUState* cpu);
-void func_8009230C(CPUState* cpu);
-void func_80092310(CPUState* cpu);
-void func_80092340(CPUState* cpu);
-void func_80092344(CPUState* cpu);
-void func_80092374(CPUState* cpu);
-void func_80092378(CPUState* cpu);
-void func_800923A8(CPUState* cpu);
-void func_800923AC(CPUState* cpu);
-void func_800923DC(CPUState* cpu);
-void func_800923E0(CPUState* cpu);
-void func_80092410(CPUState* cpu);
-void func_80092414(CPUState* cpu);
-void func_80092440(CPUState* cpu);
-void func_80092444(CPUState* cpu);
-void func_80092474(CPUState* cpu);
-void func_80092478(CPUState* cpu);
-void func_800924A8(CPUState* cpu);
-void func_800924AC(CPUState* cpu);
-void func_800924DC(CPUState* cpu);
-void func_80092510(CPUState* cpu);
-void func_80092544(CPUState* cpu);
-void func_80092578(CPUState* cpu);
-void func_800925A8(CPUState* cpu);
-void func_800925DC(CPUState* cpu);
-void func_80092610(CPUState* cpu);
-void func_80092644(CPUState* cpu);
-void func_80092674(CPUState* cpu);
-void func_800926A8(CPUState* cpu);
-void func_800926DC(CPUState* cpu);
-void func_80092710(CPUState* cpu);
-void func_80092740(CPUState* cpu);
-void func_80092774(CPUState* cpu);
-void func_800927A8(CPUState* cpu);
-void func_800927D8(CPUState* cpu);
-void func_8009280C(CPUState* cpu);
-void func_8009283C(CPUState* cpu);
-void func_80092870(CPUState* cpu);
-void func_800928A4(CPUState* cpu);
-void func_800928D4(CPUState* cpu);
-void func_80092908(CPUState* cpu);
-void func_80092938(CPUState* cpu);
-void func_8009296C(CPUState* cpu);
-void func_8009299C(CPUState* cpu);
-void func_800929D0(CPUState* cpu);
-void func_80092A00(CPUState* cpu);
-void func_80092A08(CPUState* cpu);
-void func_80092A34(CPUState* cpu);
-void func_80092A64(CPUState* cpu);
-void func_80092A88(CPUState* cpu);
-void func_80092A90(CPUState* cpu);
-void func_80092A98(CPUState* cpu);
-void func_80092AA8(CPUState* cpu);
-void func_80092AC8(CPUState* cpu);
-void func_80092AFC(CPUState* cpu);
-void func_80092B2C(CPUState* cpu);
-void func_80092B48(CPUState* cpu);
-void func_80092B5C(CPUState* cpu);
-void func_80092B90(CPUState* cpu);
-void func_80092BC0(CPUState* cpu);
-void func_80092BE8(CPUState* cpu);
-void func_80092BF0(CPUState* cpu);
-void func_80092C00(CPUState* cpu);
-void func_80092C08(CPUState* cpu);
-void func_80092C24(CPUState* cpu);
-void func_80092C54(CPUState* cpu);
-void func_80092C84(CPUState* cpu);
-void func_80092C88(CPUState* cpu);
-void func_80092CB4(CPUState* cpu);
-void func_80092CE8(CPUState* cpu);
-void func_80092D18(CPUState* cpu);
-void func_80092D48(CPUState* cpu);
-void func_80092D78(CPUState* cpu);
-void func_80092DA8(CPUState* cpu);
-void func_80092DDC(CPUState* cpu);
-void func_80092E0C(CPUState* cpu);
-void func_80092E3C(CPUState* cpu);
-void func_80092E6C(CPUState* cpu);
-void func_80092E9C(CPUState* cpu);
-void func_80092ECC(CPUState* cpu);
-void func_80092EFC(CPUState* cpu);
-void func_80092F2C(CPUState* cpu);
-void func_80092F5C(CPUState* cpu);
-void func_80092F8C(CPUState* cpu);
-void func_80092FBC(CPUState* cpu);
-void func_80092FEC(CPUState* cpu);
-void func_8009301C(CPUState* cpu);
-void func_8009304C(CPUState* cpu);
-void func_80093A1C(CPUState* cpu);
-void func_80093ABC(CPUState* cpu);
-void func_80093B00(CPUState* cpu);
-void func_80093B08(CPUState* cpu);
-void func_80093B5C(CPUState* cpu);
-void func_80093BFC(CPUState* cpu);
-void func_80093C9C(CPUState* cpu);
-void func_80094FF8(CPUState* cpu);
-void func_8009500C(CPUState* cpu);
-void func_80095020(CPUState* cpu);
-void func_80095104(CPUState* cpu);
-void func_80095118(CPUState* cpu);
-void func_8009512C(CPUState* cpu);
-void func_80095150(CPUState* cpu);
-void func_800955AC(CPUState* cpu);
-void func_800955B0(CPUState* cpu);
-void func_800955B4(CPUState* cpu);
-void func_800955B8(CPUState* cpu);
-void func_800955BC(CPUState* cpu);
-void func_800955D4(CPUState* cpu);
-void func_800957D4(CPUState* cpu);
-void func_800958CC(CPUState* cpu);
-void func_80095960(CPUState* cpu);
-void func_80095970(CPUState* cpu);
-void func_80095980(CPUState* cpu);
-void func_80095994(CPUState* cpu);
-void func_800959A4(CPUState* cpu);
-void func_800959B4(CPUState* cpu);
-void func_800959C4(CPUState* cpu);
-void func_800959D4(CPUState* cpu);
-void func_800959E4(CPUState* cpu);
-void func_800959F4(CPUState* cpu);
-void func_80095A04(CPUState* cpu);
-void func_80095A14(CPUState* cpu);
-void func_80095A24(CPUState* cpu);
-void func_80095A34(CPUState* cpu);
-void func_80095A44(CPUState* cpu);
-void func_80095A54(CPUState* cpu);
-void func_80095A64(CPUState* cpu);
-void func_80095A74(CPUState* cpu);
-void func_80095A84(CPUState* cpu);
-void func_80095A94(CPUState* cpu);
-void func_80095AA4(CPUState* cpu);
-void func_80095AB4(CPUState* cpu);
-void func_80095AB8(CPUState* cpu);
-void func_80095AC4(CPUState* cpu);
-void func_80095AD4(CPUState* cpu);
-void func_80095AE4(CPUState* cpu);
-void func_80095AF4(CPUState* cpu);
-void func_80095B04(CPUState* cpu);
-void func_80095B14(CPUState* cpu);
-void func_80095B24(CPUState* cpu);
-void func_80095B34(CPUState* cpu);
-void func_80095B44(CPUState* cpu);
-void func_80095B54(CPUState* cpu);
-void func_80095B64(CPUState* cpu);
-void func_80095B70(CPUState* cpu);
-void func_80095B80(CPUState* cpu);
-void func_80095B90(CPUState* cpu);
-void func_80095BA0(CPUState* cpu);
-void func_80095BA8(CPUState* cpu);
-void func_80095BB0(CPUState* cpu);
-void func_80095BC0(CPUState* cpu);
-void func_80095BCC(CPUState* cpu);
-void func_80095BDC(CPUState* cpu);
-void func_80095BEC(CPUState* cpu);
-void func_80095BFC(CPUState* cpu);
-void func_80095C0C(CPUState* cpu);
-void func_80095C18(CPUState* cpu);
-void func_80095C28(CPUState* cpu);
-void func_80095C38(CPUState* cpu);
-void func_80095C48(CPUState* cpu);
-void func_80095C54(CPUState* cpu);
-void func_80095C64(CPUState* cpu);
-void func_80095C74(CPUState* cpu);
-void func_80095C84(CPUState* cpu);
-void func_80095C90(CPUState* cpu);
-void func_80095C94(CPUState* cpu);
-void func_80095CA0(CPUState* cpu);
-void func_80095CB0(CPUState* cpu);
-void func_80095CBC(CPUState* cpu);
-void func_80095CCC(CPUState* cpu);
-void func_80095CDC(CPUState* cpu);
-void func_80095CE8(CPUState* cpu);
-void func_80095CF8(CPUState* cpu);
-void func_80095D08(CPUState* cpu);
-void func_80095D14(CPUState* cpu);
-void func_80095D24(CPUState* cpu);
-void func_80095D34(CPUState* cpu);
-void func_80095D40(CPUState* cpu);
-void func_80095D50(CPUState* cpu);
-void func_80095D5C(CPUState* cpu);
-void func_80095D6C(CPUState* cpu);
-void func_80095D78(CPUState* cpu);
-void func_80095D80(CPUState* cpu);
-void func_80095D88(CPUState* cpu);
-void func_80095D98(CPUState* cpu);
-void func_80095DA4(CPUState* cpu);
-void func_80095DB4(CPUState* cpu);
-void func_80095DC0(CPUState* cpu);
-void func_80095DD0(CPUState* cpu);
-void func_80095DDC(CPUState* cpu);
-void func_80095DEC(CPUState* cpu);
-void func_80095DF8(CPUState* cpu);
-void func_80095E08(CPUState* cpu);
-void func_80095E14(CPUState* cpu);
-void func_80095E24(CPUState* cpu);
-void func_80095E30(CPUState* cpu);
-void func_80095E40(CPUState* cpu);
-void func_80095E4C(CPUState* cpu);
-void func_80095E58(CPUState* cpu);
-void func_80095E68(CPUState* cpu);
-void func_80095E74(CPUState* cpu);
-void func_80095E84(CPUState* cpu);
-void func_80095E90(CPUState* cpu);
-void func_80095E9C(CPUState* cpu);
-void func_80095EAC(CPUState* cpu);
-void func_80095EB8(CPUState* cpu);
-void func_80095EC4(CPUState* cpu);
-void func_80095ED4(CPUState* cpu);
-void func_80095EE0(CPUState* cpu);
-void func_80095EEC(CPUState* cpu);
-void func_80095EFC(CPUState* cpu);
-void func_80095F08(CPUState* cpu);
-void func_80095F14(CPUState* cpu);
-void func_80095F24(CPUState* cpu);
-void func_80095F30(CPUState* cpu);
-void func_80095F3C(CPUState* cpu);
-void func_80095F4C(CPUState* cpu);
-void func_80095F58(CPUState* cpu);
-void func_80095F5C(CPUState* cpu);
-void func_80095F64(CPUState* cpu);
-void func_80095F68(CPUState* cpu);
-void func_80095F70(CPUState* cpu);
-void func_80095F80(CPUState* cpu);
-void func_80095F8C(CPUState* cpu);
-void func_80095F98(CPUState* cpu);
-void func_80095FA4(CPUState* cpu);
-void func_80095FB0(CPUState* cpu);
-void func_80095FC0(CPUState* cpu);
-void func_80095FCC(CPUState* cpu);
-void func_80095FD8(CPUState* cpu);
-void func_80095FE4(CPUState* cpu);
-void func_80095FF0(CPUState* cpu);
-void func_80095FFC(CPUState* cpu);
-void func_80096008(CPUState* cpu);
-void func_80096018(CPUState* cpu);
-void func_80096024(CPUState* cpu);
-void func_80096030(CPUState* cpu);
-void func_8009603C(CPUState* cpu);
-void func_80096048(CPUState* cpu);
-void func_80096054(CPUState* cpu);
-void func_80096060(CPUState* cpu);
-void func_8009606C(CPUState* cpu);
-void func_80096078(CPUState* cpu);
-void func_80096084(CPUState* cpu);
-void func_80096090(CPUState* cpu);
-void func_8009609C(CPUState* cpu);
-void func_800960A8(CPUState* cpu);
-void func_800960B4(CPUState* cpu);
-void func_800960C0(CPUState* cpu);
-void func_800960CC(CPUState* cpu);
-void func_800960D8(CPUState* cpu);
-void func_800960E4(CPUState* cpu);
-void func_800960F0(CPUState* cpu);
-void func_800960FC(CPUState* cpu);
-void func_80096108(CPUState* cpu);
-void func_8009610C(CPUState* cpu);
-void func_80096114(CPUState* cpu);
-void func_80096120(CPUState* cpu);
-void func_8009612C(CPUState* cpu);
-void func_80096138(CPUState* cpu);
-void func_80096144(CPUState* cpu);
-void func_80096150(CPUState* cpu);
-void func_80096158(CPUState* cpu);
-void func_80096164(CPUState* cpu);
-void func_80096170(CPUState* cpu);
-void func_8009617C(CPUState* cpu);
-void func_80096188(CPUState* cpu);
-void func_80096194(CPUState* cpu);
-void func_8009619C(CPUState* cpu);
-void func_800961A8(CPUState* cpu);
-void func_800961B4(CPUState* cpu);
-void func_800961C0(CPUState* cpu);
-void func_800961CC(CPUState* cpu);
-void func_800961D4(CPUState* cpu);
-void func_800961E0(CPUState* cpu);
-void func_800961EC(CPUState* cpu);
-void func_800961F8(CPUState* cpu);
-void func_80096200(CPUState* cpu);
-void func_8009620C(CPUState* cpu);
-void func_80096218(CPUState* cpu);
-void func_80096224(CPUState* cpu);
-void func_8009622C(CPUState* cpu);
-void func_80096238(CPUState* cpu);
-void func_80096244(CPUState* cpu);
-void func_8009624C(CPUState* cpu);
-void func_80096258(CPUState* cpu);
-void func_80096264(CPUState* cpu);
-void func_8009626C(CPUState* cpu);
-void func_80096278(CPUState* cpu);
-void func_80096284(CPUState* cpu);
-void func_8009628C(CPUState* cpu);
-void func_80096298(CPUState* cpu);
-void func_800962A0(CPUState* cpu);
-void func_800962AC(CPUState* cpu);
-void func_800962C4(CPUState* cpu);
-void func_800962C8(CPUState* cpu);
-void func_800963A0(CPUState* cpu);
-void func_800963A4(CPUState* cpu);
-void func_80096474(CPUState* cpu);
-void func_80096548(CPUState* cpu);
-void func_8009659C(CPUState* cpu);
-void func_800965A4(CPUState* cpu);
-void func_800965A8(CPUState* cpu);
-void func_8009661C(CPUState* cpu);
-void func_800966E8(CPUState* cpu);
-void func_800967B8(CPUState* cpu);
-void func_80096884(CPUState* cpu);
-void func_8009694C(CPUState* cpu);
-void func_80096A14(CPUState* cpu);
-void func_80096ADC(CPUState* cpu);
-void func_80096BA0(CPUState* cpu);
-void func_80096C64(CPUState* cpu);
-void func_80096D24(CPUState* cpu);
-void func_80096DB0(CPUState* cpu);
-void func_80096DE4(CPUState* cpu);
-void func_80096EA4(CPUState* cpu);
-void func_80096F60(CPUState* cpu);
-void func_8009701C(CPUState* cpu);
-void func_800970D4(CPUState* cpu);
-void func_8009718C(CPUState* cpu);
-void func_80097244(CPUState* cpu);
-void func_800972F8(CPUState* cpu);
-void func_800973AC(CPUState* cpu);
-void func_80097460(CPUState* cpu);
-void func_80097514(CPUState* cpu);
-void func_800975C4(CPUState* cpu);
-void func_80097674(CPUState* cpu);
-void func_80097678(CPUState* cpu);
-void func_80097720(CPUState* cpu);
-void func_80097724(CPUState* cpu);
-void func_800977CC(CPUState* cpu);
-void func_800977D0(CPUState* cpu);
-void func_80097878(CPUState* cpu);
-void func_80097924(CPUState* cpu);
-void func_800979CC(CPUState* cpu);
-void func_80097A74(CPUState* cpu);
-void func_80097B1C(CPUState* cpu);
-void func_80097BC4(CPUState* cpu);
-void func_80097C68(CPUState* cpu);
-void func_80097D0C(CPUState* cpu);
-void func_80097DB0(CPUState* cpu);
-void func_80097E54(CPUState* cpu);
-void func_80097EF4(CPUState* cpu);
-void func_80097F94(CPUState* cpu);
 
 void func_800163B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800163B0u);
     /* Address: 0x800163B0, Size: 1424 bytes, Blocks: 79 */
 
 block_800163B0:
@@ -4136,6 +3156,7 @@ block_80016924:
 
 void func_80016940(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80016940u);
     /* Address: 0x80016940, Size: 192 bytes, Blocks: 6 */
 
 block_80016940:
@@ -4242,6 +3263,7 @@ block_800169F0:
 
 void func_80016A00(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80016A00u);
     /* Address: 0x80016A00, Size: 24 bytes, Blocks: 1 */
 
 block_80016A00:
@@ -4261,6 +3283,7 @@ block_80016A00:
 
 void func_80016A18(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80016A18u);
     /* Address: 0x80016A18, Size: 220 bytes, Blocks: 1 */
 
 block_80016A18:
@@ -4329,6 +3352,7 @@ block_80016A18:
 
 void func_80016AF4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80016AF4u);
     /* Address: 0x80016AF4, Size: 344 bytes, Blocks: 9 */
 
 block_80016AF4:
@@ -4500,6 +3524,7 @@ block_80016C28:
 
 void func_80016C4C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80016C4Cu);
     /* Address: 0x80016C4C, Size: 400 bytes, Blocks: 7 */
 
 block_80016C4C:
@@ -4667,6 +3692,7 @@ block_80016DB4:
 
 void func_80016DDC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80016DDCu);
     /* Address: 0x80016DDC, Size: 384 bytes, Blocks: 7 */
 
 block_80016DDC:
@@ -4830,6 +3856,7 @@ block_80016F34:
 
 void func_80016F5C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80016F5Cu);
     /* Address: 0x80016F5C, Size: 124 bytes, Blocks: 12 */
 
 block_80016F5C:
@@ -4981,6 +4008,7 @@ block_80016FD0:
 
 void func_80016FD8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80016FD8u);
     /* Address: 0x80016FD8, Size: 76 bytes, Blocks: 3 */
 
 block_80016FD8:
@@ -5032,6 +4060,7 @@ block_8001701C:
 
 void func_80017024(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017024u);
     /* Address: 0x80017024, Size: 212 bytes, Blocks: 10 */
 
 block_80017024:
@@ -5184,6 +4213,7 @@ block_800170E4:
 
 void func_800170F8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800170F8u);
     /* Address: 0x800170F8, Size: 92 bytes, Blocks: 3 */
 
 block_800170F8:
@@ -5238,6 +4268,7 @@ block_8001713C:
 
 void func_80017154(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017154u);
     /* Address: 0x80017154, Size: 128 bytes, Blocks: 4 */
 
 block_80017154:
@@ -5310,6 +4341,7 @@ block_800171BC:
 
 void func_800171D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800171D4u);
     /* Address: 0x800171D4, Size: 52 bytes, Blocks: 2 */
 
 block_800171D4:
@@ -5345,6 +4377,7 @@ block_800171F8:
 
 void func_80017208(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017208u);
     /* Address: 0x80017208, Size: 80 bytes, Blocks: 5 */
 
 block_80017208:
@@ -5414,6 +4447,7 @@ block_80017248:
 
 void func_80017258(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017258u);
     /* Address: 0x80017258, Size: 108 bytes, Blocks: 5 */
 
 block_80017258:
@@ -5493,6 +4527,7 @@ block_800172B0:
 
 void func_800172C4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800172C4u);
     /* Address: 0x800172C4, Size: 88 bytes, Blocks: 5 */
 
 block_800172C4:
@@ -5564,6 +4599,7 @@ block_8001730C:
 
 void func_8001731C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001731Cu);
     /* Address: 0x8001731C, Size: 44 bytes, Blocks: 1 */
 
 block_8001731C:
@@ -5588,6 +4624,7 @@ block_8001731C:
 
 void func_80017348(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017348u);
     /* Address: 0x80017348, Size: 44 bytes, Blocks: 1 */
 
 block_80017348:
@@ -5612,6 +4649,7 @@ block_80017348:
 
 void func_80017374(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017374u);
     /* Address: 0x80017374, Size: 60 bytes, Blocks: 1 */
 
 block_80017374:
@@ -5640,6 +4678,7 @@ block_80017374:
 
 void func_800173B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800173B0u);
     /* Address: 0x800173B0, Size: 104 bytes, Blocks: 6 */
 
 block_800173B0:
@@ -5729,6 +4768,7 @@ block_80017410:
 
 void func_80017418(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017418u);
     /* Address: 0x80017418, Size: 68 bytes, Blocks: 3 */
 
 block_80017418:
@@ -5777,6 +4817,7 @@ block_80017440:
 
 void func_8001745C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001745Cu);
     /* Address: 0x8001745C, Size: 60 bytes, Blocks: 2 */
 
 block_8001745C:
@@ -5814,6 +4855,7 @@ block_80017488:
 
 void func_80017498(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017498u);
     /* Address: 0x80017498, Size: 244 bytes, Blocks: 11 */
 
 block_80017498:
@@ -5991,6 +5033,7 @@ block_80017564:
 
 void func_8001758C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001758Cu);
     /* Address: 0x8001758C, Size: 136 bytes, Blocks: 15 */
 
 block_8001758C:
@@ -6164,6 +5207,7 @@ block_80017604:
 
 void func_80017614(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017614u);
     /* Address: 0x80017614, Size: 288 bytes, Blocks: 1 */
 
 block_80017614:
@@ -6249,6 +5293,7 @@ block_80017614:
 
 void func_80017734(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017734u);
     /* Address: 0x80017734, Size: 164 bytes, Blocks: 2 */
 
 block_80017734:
@@ -6312,6 +5357,7 @@ block_8001774C:
 
 void func_800177D8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800177D8u);
     /* Address: 0x800177D8, Size: 776 bytes, Blocks: 9 */
 
 block_800177D8:
@@ -6591,6 +5637,7 @@ block_80017ACC:
 
 void func_80017AE0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017AE0u);
     /* Address: 0x80017AE0, Size: 448 bytes, Blocks: 4 */
 
 block_80017AE0:
@@ -6743,6 +5790,7 @@ block_80017B30:
 
 void func_80017CA0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017CA0u);
     /* Address: 0x80017CA0, Size: 44 bytes, Blocks: 2 */
 
 block_80017CA0:
@@ -6776,6 +5824,7 @@ block_80017CBC:
 
 void func_80017CCC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017CCCu);
     /* Address: 0x80017CCC, Size: 164 bytes, Blocks: 6 */
 
 block_80017CCC:
@@ -6877,6 +5926,7 @@ block_80017D4C:
 
 void func_80017D70(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017D70u);
     /* Address: 0x80017D70, Size: 212 bytes, Blocks: 6 */
 
 block_80017D70:
@@ -6990,6 +6040,7 @@ block_80017DF8:
 
 void func_80017E44(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017E44u);
     /* Address: 0x80017E44, Size: 168 bytes, Blocks: 6 */
 
 block_80017E44:
@@ -7092,6 +6143,7 @@ block_80017EC8:
 
 void func_80017EEC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017EECu);
     /* Address: 0x80017EEC, Size: 48 bytes, Blocks: 1 */
 
 block_80017EEC:
@@ -7117,6 +6169,7 @@ block_80017EEC:
 
 void func_80017F1C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017F1Cu);
     /* Address: 0x80017F1C, Size: 108 bytes, Blocks: 4 */
 
 block_80017F1C:
@@ -7185,6 +6238,7 @@ block_80017F78:
 
 void func_80017F88(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017F88u);
     /* Address: 0x80017F88, Size: 48 bytes, Blocks: 1 */
 
 block_80017F88:
@@ -7210,6 +6264,7 @@ block_80017F88:
 
 void func_80017FB8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80017FB8u);
     /* Address: 0x80017FB8, Size: 220 bytes, Blocks: 7 */
 
 block_80017FB8:
@@ -7334,6 +6389,7 @@ block_8001807C:
 
 void func_80018094(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018094u);
     /* Address: 0x80018094, Size: 48 bytes, Blocks: 1 */
 
 block_80018094:
@@ -7359,6 +6415,7 @@ block_80018094:
 
 void func_800180C4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800180C4u);
     /* Address: 0x800180C4, Size: 44 bytes, Blocks: 2 */
 
 block_800180C4:
@@ -7392,6 +6449,7 @@ block_800180E0:
 
 void func_800180F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800180F0u);
     /* Address: 0x800180F0, Size: 44 bytes, Blocks: 2 */
 
 block_800180F0:
@@ -7425,6 +6483,7 @@ block_8001810C:
 
 void func_8001811C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001811Cu);
     /* Address: 0x8001811C, Size: 212 bytes, Blocks: 6 */
 
 block_8001811C:
@@ -7538,6 +6597,7 @@ block_800181A4:
 
 void func_800181F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800181F0u);
     /* Address: 0x800181F0, Size: 44 bytes, Blocks: 2 */
 
 block_800181F0:
@@ -7571,7 +6631,8 @@ block_8001820C:
 
 void func_8001821C(CPUState* cpu)
 {
-    /* Address: 0x8001821C, Size: 52 bytes, Blocks: 3 */
+    debug_server_log_call_entry(0x8001821Cu);
+    /* Address: 0x8001821C, Size: 44 bytes, Blocks: 2 */
 
 block_8001821C:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -7599,20 +6660,13 @@ block_80018238:
     /* delay slot (always executes) */
     /* nop */  /* 0x80018244: 0x00000000 */
     return;  /* jr $ra */
-
-block_80018248:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x80018248: 0x3C021F80 */
-    cpu->gpr[2] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[2] + 566);  /* 0x8001824C: 0x84420236 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80018250(CPUState* cpu)
 {
-    /* Address: 0x80018250, Size: 128 bytes, Blocks: 8 */
+    debug_server_log_call_entry(0x80018250u);
+    /* Address: 0x80018250, Size: 120 bytes, Blocks: 7 */
 
 block_80018250:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -7702,19 +6756,12 @@ block_800182BC:
     /* delay slot (always executes) */
     /* nop */  /* 0x800182C4: 0x00000000 */
     return;  /* jr $ra */
-
-block_800182C8:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x800182C8: 0x3C021F80 */
-    cpu->gpr[2] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[2] + 568);  /* 0x800182CC: 0x84420238 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800182D0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800182D0u);
     /* Address: 0x800182D0, Size: 132 bytes, Blocks: 7 */
 
 block_800182D0:
@@ -7813,6 +6860,7 @@ block_80018348:
 
 void func_80018354(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018354u);
     /* Address: 0x80018354, Size: 144 bytes, Blocks: 7 */
 
 block_80018354:
@@ -7914,6 +6962,7 @@ block_800183D8:
 
 void func_800183E4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800183E4u);
     /* Address: 0x800183E4, Size: 144 bytes, Blocks: 7 */
 
 block_800183E4:
@@ -8015,6 +7064,7 @@ block_80018468:
 
 void func_80018474(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018474u);
     /* Address: 0x80018474, Size: 144 bytes, Blocks: 7 */
 
 block_80018474:
@@ -8116,6 +7166,7 @@ block_800184F8:
 
 void func_80018504(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018504u);
     /* Address: 0x80018504, Size: 144 bytes, Blocks: 7 */
 
 block_80018504:
@@ -8217,6 +7268,7 @@ block_80018588:
 
 void func_80018594(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018594u);
     /* Address: 0x80018594, Size: 8 bytes, Blocks: 1 */
 
 block_80018594:
@@ -8226,12 +7278,14 @@ block_80018594:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x80018594: 0x3C021F80 */
     cpu->gpr[2] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[2] + 570);  /* 0x80018598: 0x8442023A */
+    func_8001859C(cpu); return;  /* fallthrough to split piece */
     func_8001859C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8001859C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001859Cu);
     /* Address: 0x8001859C, Size: 120 bytes, Blocks: 7 */
 
 block_8001859C:
@@ -8327,6 +7381,7 @@ block_80018608:
 
 void func_80018614(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018614u);
     /* Address: 0x80018614, Size: 8 bytes, Blocks: 1 */
 
 block_80018614:
@@ -8336,12 +7391,14 @@ block_80018614:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x80018614: 0x3C021F80 */
     cpu->gpr[2] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[2] + 572);  /* 0x80018618: 0x8442023C */
+    func_8001861C(cpu); return;  /* fallthrough to split piece */
     func_8001861C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8001861C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001861Cu);
     /* Address: 0x8001861C, Size: 120 bytes, Blocks: 7 */
 
 block_8001861C:
@@ -8437,6 +7494,7 @@ block_80018688:
 
 void func_80018694(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018694u);
     /* Address: 0x80018694, Size: 8 bytes, Blocks: 1 */
 
 block_80018694:
@@ -8446,12 +7504,14 @@ block_80018694:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x80018694: 0x3C021F80 */
     cpu->gpr[2] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[2] + 574);  /* 0x80018698: 0x8442023E */
+    func_8001869C(cpu); return;  /* fallthrough to split piece */
     func_8001869C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8001869C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001869Cu);
     /* Address: 0x8001869C, Size: 68 bytes, Blocks: 4 */
 
 block_8001869C:
@@ -8508,6 +7568,7 @@ block_800186D4:
 
 void func_800186E0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800186E0u);
     /* Address: 0x800186E0, Size: 76 bytes, Blocks: 1 */
 
 block_800186E0:
@@ -8540,6 +7601,7 @@ block_800186E0:
 
 void func_8001872C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001872Cu);
     /* Address: 0x8001872C, Size: 84 bytes, Blocks: 1 */
 
 block_8001872C:
@@ -8574,6 +7636,7 @@ block_8001872C:
 
 void func_80018780(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018780u);
     /* Address: 0x80018780, Size: 84 bytes, Blocks: 1 */
 
 block_80018780:
@@ -8608,6 +7671,7 @@ block_80018780:
 
 void func_800187D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800187D4u);
     /* Address: 0x800187D4, Size: 84 bytes, Blocks: 1 */
 
 block_800187D4:
@@ -8642,6 +7706,7 @@ block_800187D4:
 
 void func_80018828(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018828u);
     /* Address: 0x80018828, Size: 84 bytes, Blocks: 1 */
 
 block_80018828:
@@ -8676,6 +7741,7 @@ block_80018828:
 
 void func_8001887C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001887Cu);
     /* Address: 0x8001887C, Size: 84 bytes, Blocks: 1 */
 
 block_8001887C:
@@ -8710,6 +7776,7 @@ block_8001887C:
 
 void func_800188D0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800188D0u);
     /* Address: 0x800188D0, Size: 76 bytes, Blocks: 1 */
 
 block_800188D0:
@@ -8742,6 +7809,7 @@ block_800188D0:
 
 void func_8001891C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001891Cu);
     /* Address: 0x8001891C, Size: 56 bytes, Blocks: 1 */
 
 block_8001891C:
@@ -8769,6 +7837,7 @@ block_8001891C:
 
 void func_80018954(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018954u);
     /* Address: 0x80018954, Size: 628 bytes, Blocks: 10 */
 
 block_80018954:
@@ -9018,6 +8087,7 @@ block_80018BC0:
 
 void func_80018BC8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018BC8u);
     /* Address: 0x80018BC8, Size: 60 bytes, Blocks: 1 */
 
 block_80018BC8:
@@ -9046,6 +8116,7 @@ block_80018BC8:
 
 void func_80018C04(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018C04u);
     /* Address: 0x80018C04, Size: 60 bytes, Blocks: 1 */
 
 block_80018C04:
@@ -9074,6 +8145,7 @@ block_80018C04:
 
 void func_80018C40(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018C40u);
     /* Address: 0x80018C40, Size: 76 bytes, Blocks: 3 */
 
 block_80018C40:
@@ -9125,6 +8197,7 @@ block_80018C80:
 
 void func_80018C8C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018C8Cu);
     /* Address: 0x80018C8C, Size: 60 bytes, Blocks: 1 */
 
 block_80018C8C:
@@ -9153,6 +8226,7 @@ block_80018C8C:
 
 void func_80018CC8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018CC8u);
     /* Address: 0x80018CC8, Size: 60 bytes, Blocks: 1 */
 
 block_80018CC8:
@@ -9181,6 +8255,7 @@ block_80018CC8:
 
 void func_80018D04(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018D04u);
     /* Address: 0x80018D04, Size: 60 bytes, Blocks: 1 */
 
 block_80018D04:
@@ -9209,6 +8284,7 @@ block_80018D04:
 
 void func_80018D40(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018D40u);
     /* Address: 0x80018D40, Size: 60 bytes, Blocks: 1 */
 
 block_80018D40:
@@ -9237,6 +8313,7 @@ block_80018D40:
 
 void func_80018D7C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018D7Cu);
     /* Address: 0x80018D7C, Size: 220 bytes, Blocks: 7 */
 
 block_80018D7C:
@@ -9362,6 +8439,7 @@ block_80018E50:
 
 void func_80018E58(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018E58u);
     /* Address: 0x80018E58, Size: 172 bytes, Blocks: 5 */
 
 block_80018E58:
@@ -9456,6 +8534,7 @@ block_80018EFC:
 
 void func_80018F04(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80018F04u);
     /* Address: 0x80018F04, Size: 284 bytes, Blocks: 22 */
 
 block_80018F04:
@@ -9753,6 +8832,7 @@ block_8001900C:
 
 void func_80019020(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80019020u);
     /* Address: 0x80019020, Size: 448 bytes, Blocks: 22 */
 
 block_80019020:
@@ -10067,6 +9147,7 @@ block_800191D0:
 
 void func_800191E0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800191E0u);
     /* Address: 0x800191E0, Size: 1132 bytes, Blocks: 51 */
 
 block_800191E0:
@@ -10830,6 +9911,7 @@ block_80019638:
 
 void func_8001964C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001964Cu);
     /* Address: 0x8001964C, Size: 504 bytes, Blocks: 6 */
 
 block_8001964C:
@@ -11018,6 +10100,7 @@ block_80019810:
 
 void func_80019844(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80019844u);
     /* Address: 0x80019844, Size: 372 bytes, Blocks: 22 */
 
 block_80019844:
@@ -11320,6 +10403,7 @@ block_800199A0:
 
 void func_800199B8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800199B8u);
     /* Address: 0x800199B8, Size: 748 bytes, Blocks: 37 */
 
 block_800199B8:
@@ -11854,6 +10938,7 @@ block_80019C94:
 
 void func_80019CA4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80019CA4u);
     /* Address: 0x80019CA4, Size: 212 bytes, Blocks: 15 */
 
 block_80019CA4:
@@ -12051,6 +11136,7 @@ block_80019D68:
 
 void func_80019D78(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80019D78u);
     /* Address: 0x80019D78, Size: 240 bytes, Blocks: 15 */
 
 block_80019D78:
@@ -12255,6 +11341,7 @@ block_80019E58:
 
 void func_80019E68(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80019E68u);
     /* Address: 0x80019E68, Size: 1216 bytes, Blocks: 55 */
 
 block_80019E68:
@@ -13090,6 +12177,7 @@ block_8001A314:
 
 void func_8001A328(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001A328u);
     /* Address: 0x8001A328, Size: 500 bytes, Blocks: 36 */
 
 block_8001A328:
@@ -13552,6 +12640,7 @@ block_8001A50C:
 
 void func_8001A51C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001A51Cu);
     /* Address: 0x8001A51C, Size: 340 bytes, Blocks: 17 */
 
 block_8001A51C:
@@ -13794,6 +12883,7 @@ block_8001A658:
 
 void func_8001A670(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001A670u);
     /* Address: 0x8001A670, Size: 260 bytes, Blocks: 16 */
 
 block_8001A670:
@@ -14011,6 +13101,7 @@ block_8001A764:
 
 void func_8001A774(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001A774u);
     /* Address: 0x8001A774, Size: 480 bytes, Blocks: 26 */
 
 block_8001A774:
@@ -14373,6 +13464,7 @@ block_8001A944:
 
 void func_8001A954(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001A954u);
     /* Address: 0x8001A954, Size: 156 bytes, Blocks: 15 */
 
 block_8001A954:
@@ -14556,6 +13648,7 @@ block_8001A9E0:
 
 void func_8001A9F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001A9F0u);
     /* Address: 0x8001A9F0, Size: 528 bytes, Blocks: 23 */
 
 block_8001A9F0:
@@ -14914,6 +14007,7 @@ block_8001ABF0:
 
 void func_8001AC00(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001AC00u);
     /* Address: 0x8001AC00, Size: 284 bytes, Blocks: 23 */
 
 block_8001AC00:
@@ -15197,6 +14291,7 @@ block_8001AD0C:
 
 void func_8001AD1C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001AD1Cu);
     /* Address: 0x8001AD1C, Size: 60 bytes, Blocks: 2 */
 
 block_8001AD1C:
@@ -15234,6 +14329,7 @@ block_8001AD40:
 
 void func_8001AD58(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001AD58u);
     /* Address: 0x8001AD58, Size: 844 bytes, Blocks: 40 */
 
 block_8001AD58:
@@ -15842,6 +14938,7 @@ block_8001B08C:
 
 void func_8001B0A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001B0A4u);
     /* Address: 0x8001B0A4, Size: 528 bytes, Blocks: 26 */
 
 block_8001B0A4:
@@ -16220,6 +15317,7 @@ block_8001B2A4:
 
 void func_8001B2B4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001B2B4u);
     /* Address: 0x8001B2B4, Size: 756 bytes, Blocks: 33 */
 
 block_8001B2B4:
@@ -16731,6 +15829,7 @@ block_8001B598:
 
 void func_8001B5A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001B5A8u);
     /* Address: 0x8001B5A8, Size: 472 bytes, Blocks: 29 */
 
 block_8001B5A8:
@@ -17141,6 +16240,7 @@ block_8001B770:
 
 void func_8001B780(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001B780u);
     /* Address: 0x8001B780, Size: 452 bytes, Blocks: 23 */
 
 block_8001B780:
@@ -17482,6 +16582,7 @@ block_8001B930:
 
 void func_8001B944(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001B944u);
     /* Address: 0x8001B944, Size: 472 bytes, Blocks: 26 */
 
 block_8001B944:
@@ -17856,6 +16957,7 @@ block_8001BB0C:
 
 void func_8001BB1C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001BB1Cu);
     /* Address: 0x8001BB1C, Size: 1140 bytes, Blocks: 42 */
 
 block_8001BB1C:
@@ -18533,6 +17635,7 @@ block_8001BF78:
 
 void func_8001BF90(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001BF90u);
     /* Address: 0x8001BF90, Size: 372 bytes, Blocks: 24 */
 
 block_8001BF90:
@@ -18862,6 +17965,7 @@ block_8001C0F0:
 
 void func_8001C104(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001C104u);
     /* Address: 0x8001C104, Size: 484 bytes, Blocks: 25 */
 
 block_8001C104:
@@ -19227,6 +18331,7 @@ block_8001C2D0:
 
 void func_8001C2E8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001C2E8u);
     /* Address: 0x8001C2E8, Size: 332 bytes, Blocks: 21 */
 
 block_8001C2E8:
@@ -19519,6 +18624,7 @@ block_8001C424:
 
 void func_8001C434(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001C434u);
     /* Address: 0x8001C434, Size: 484 bytes, Blocks: 25 */
 
 block_8001C434:
@@ -19884,6 +18990,7 @@ block_8001C600:
 
 void func_8001C618(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001C618u);
     /* Address: 0x8001C618, Size: 324 bytes, Blocks: 20 */
 
 block_8001C618:
@@ -20165,6 +19272,7 @@ block_8001C74C:
 
 void func_8001C75C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001C75Cu);
     /* Address: 0x8001C75C, Size: 484 bytes, Blocks: 25 */
 
 block_8001C75C:
@@ -20530,6 +19638,7 @@ block_8001C928:
 
 void func_8001C940(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001C940u);
     /* Address: 0x8001C940, Size: 324 bytes, Blocks: 20 */
 
 block_8001C940:
@@ -20811,6 +19920,7 @@ block_8001CA74:
 
 void func_8001CA84(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001CA84u);
     /* Address: 0x8001CA84, Size: 208 bytes, Blocks: 9 */
 
 block_8001CA84:
@@ -20951,6 +20061,7 @@ block_8001CB44:
 
 void func_8001CB54(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001CB54u);
     /* Address: 0x8001CB54, Size: 812 bytes, Blocks: 48 */
 
 block_8001CB54:
@@ -21624,6 +20735,7 @@ block_8001CE78:
 
 void func_8001CE80(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001CE80u);
     /* Address: 0x8001CE80, Size: 252 bytes, Blocks: 9 */
 
 block_8001CE80:
@@ -21773,6 +20885,7 @@ block_8001CF60:
 
 void func_8001CF7C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001CF7Cu);
     /* Address: 0x8001CF7C, Size: 80 bytes, Blocks: 1 */
 
 block_8001CF7C:
@@ -21806,6 +20919,7 @@ block_8001CF7C:
 
 void func_8001CFCC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001CFCCu);
     /* Address: 0x8001CFCC, Size: 720 bytes, Blocks: 30 */
 
 block_8001CFCC:
@@ -22279,6 +21393,7 @@ block_8001D284:
 
 void func_8001D29C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001D29Cu);
     /* Address: 0x8001D29C, Size: 84 bytes, Blocks: 1 */
 
 block_8001D29C:
@@ -22313,6 +21428,7 @@ block_8001D29C:
 
 void func_8001D2F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001D2F0u);
     /* Address: 0x8001D2F0, Size: 400 bytes, Blocks: 24 */
 
 block_8001D2F0:
@@ -22649,6 +21765,7 @@ block_8001D470:
 
 void func_8001D480(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001D480u);
     /* Address: 0x8001D480, Size: 400 bytes, Blocks: 23 */
 
 block_8001D480:
@@ -22975,6 +22092,7 @@ block_8001D600:
 
 void func_8001D610(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001D610u);
     /* Address: 0x8001D610, Size: 88 bytes, Blocks: 1 */
 
 block_8001D610:
@@ -23010,6 +22128,7 @@ block_8001D610:
 
 void func_8001D668(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001D668u);
     /* Address: 0x8001D668, Size: 88 bytes, Blocks: 2 */
 
 block_8001D668:
@@ -23054,6 +22173,7 @@ block_8001D6B0:
 
 void func_8001D6C0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001D6C0u);
     /* Address: 0x8001D6C0, Size: 16 bytes, Blocks: 1 */
 
 block_8001D6C0:
@@ -23065,12 +22185,14 @@ block_8001D6C0:
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 974);  /* 0x8001D6C4: 0x904203CE */
     cpu->gpr[3] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x8001D6C8: 0x3C031F80 */
     cpu->gpr[3] = cpu->read_byte(cpu->gpr[3] + 460);  /* 0x8001D6CC: 0x906301CC */
+    func_8001D6D0(cpu); return;  /* fallthrough to split piece */
     func_8001D6D0(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8001D6D0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001D6D0u);
     /* Address: 0x8001D6D0, Size: 1876 bytes, Blocks: 103 */
 
 block_8001D6D0:
@@ -24569,6 +23691,7 @@ block_8001DE10:
 
 void func_8001DE24(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001DE24u);
     /* Address: 0x8001DE24, Size: 432 bytes, Blocks: 28 */
 
 block_8001DE24:
@@ -24951,6 +24074,7 @@ block_8001DFB0:
 
 void func_8001DFD4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001DFD4u);
     /* Address: 0x8001DFD4, Size: 324 bytes, Blocks: 17 */
 
 block_8001DFD4:
@@ -25194,6 +24318,7 @@ block_8001E100:
 
 void func_8001E118(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001E118u);
     /* Address: 0x8001E118, Size: 264 bytes, Blocks: 15 */
 
 block_8001E118:
@@ -25406,6 +24531,7 @@ block_8001E1FC:
 
 void func_8001E220(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001E220u);
     /* Address: 0x8001E220, Size: 252 bytes, Blocks: 12 */
 
 block_8001E220:
@@ -25589,6 +24715,7 @@ block_8001E2F8:
 
 void func_8001E31C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001E31Cu);
     /* Address: 0x8001E31C, Size: 188 bytes, Blocks: 8 */
 
 block_8001E31C:
@@ -25718,6 +24845,7 @@ block_8001E3B4:
 
 void func_8001E3D8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001E3D8u);
     /* Address: 0x8001E3D8, Size: 20 bytes, Blocks: 1 */
 
 block_8001E3D8:
@@ -25736,6 +24864,7 @@ block_8001E3D8:
 
 void func_8001E3EC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001E3ECu);
     /* Address: 0x8001E3EC, Size: 1620 bytes, Blocks: 72 */
 
 block_8001E3EC:
@@ -26837,6 +25966,7 @@ block_8001EA0C:
 
 void func_8001EA40(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001EA40u);
     /* Address: 0x8001EA40, Size: 664 bytes, Blocks: 16 */
 
 block_8001EA40:
@@ -27158,6 +26288,7 @@ block_8001ECA4:
 
 void func_8001ECD8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001ECD8u);
     /* Address: 0x8001ECD8, Size: 784 bytes, Blocks: 22 */
 
 block_8001ECD8:
@@ -27576,6 +26707,7 @@ block_8001EFBC:
 
 void func_8001EFE8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001EFE8u);
     /* Address: 0x8001EFE8, Size: 368 bytes, Blocks: 16 */
 
 block_8001EFE8:
@@ -27826,6 +26958,7 @@ block_8001F140:
 
 void func_8001F158(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001F158u);
     /* Address: 0x8001F158, Size: 104 bytes, Blocks: 4 */
 
 block_8001F158:
@@ -27895,6 +27028,7 @@ block_8001F1B0:
 
 void func_8001F1C0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001F1C0u);
     /* Address: 0x8001F1C0, Size: 788 bytes, Blocks: 38 */
 
 block_8001F1C0:
@@ -28454,6 +27588,7 @@ block_8001F4B4:
 
 void func_8001F4D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001F4D4u);
     /* Address: 0x8001F4D4, Size: 252 bytes, Blocks: 6 */
 
 block_8001F4D4:
@@ -28574,6 +27709,7 @@ block_8001F5B8:
 
 void func_8001F5D0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001F5D0u);
     /* Address: 0x8001F5D0, Size: 100 bytes, Blocks: 1 */
 
 block_8001F5D0:
@@ -28612,6 +27748,7 @@ block_8001F5D0:
 
 void func_8001F634(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001F634u);
     /* Address: 0x8001F634, Size: 160 bytes, Blocks: 12 */
 
 block_8001F634:
@@ -28766,6 +27903,7 @@ block_8001F6C0:
 
 void func_8001F6D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001F6D4u);
     /* Address: 0x8001F6D4, Size: 1040 bytes, Blocks: 56 */
 
 block_8001F6D4:
@@ -29577,6 +28715,7 @@ block_8001FAD0:
 
 void func_8001FAE4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001FAE4u);
     /* Address: 0x8001FAE4, Size: 512 bytes, Blocks: 17 */
 
 block_8001FAE4:
@@ -29864,6 +29003,7 @@ block_8001FCD0:
 
 void func_8001FCE4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001FCE4u);
     /* Address: 0x8001FCE4, Size: 60 bytes, Blocks: 1 */
 
 block_8001FCE4:
@@ -29892,6 +29032,7 @@ block_8001FCE4:
 
 void func_8001FD20(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001FD20u);
     /* Address: 0x8001FD20, Size: 96 bytes, Blocks: 5 */
 
 block_8001FD20:
@@ -29964,6 +29105,7 @@ block_8001FD70:
 
 void func_8001FD80(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001FD80u);
     /* Address: 0x8001FD80, Size: 68 bytes, Blocks: 6 */
 
 block_8001FD80:
@@ -30039,6 +29181,7 @@ block_8001FDBC:
 
 void func_8001FDC4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001FDC4u);
     /* Address: 0x8001FDC4, Size: 156 bytes, Blocks: 11 */
 
 block_8001FDC4:
@@ -30186,6 +29329,7 @@ block_8001FE58:
 
 void func_8001FE60(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001FE60u);
     /* Address: 0x8001FE60, Size: 200 bytes, Blocks: 13 */
 
 block_8001FE60:
@@ -30363,6 +29507,7 @@ block_8001FF20:
 
 void func_8001FF28(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001FF28u);
     /* Address: 0x8001FF28, Size: 192 bytes, Blocks: 9 */
 
 block_8001FF28:
@@ -30505,6 +29650,7 @@ block_8001FFE0:
 
 void func_8001FFE8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8001FFE8u);
     /* Address: 0x8001FFE8, Size: 112 bytes, Blocks: 8 */
 
 block_8001FFE8:
@@ -30609,6 +29755,7 @@ block_8002003C:
 
 void func_80020058(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80020058u);
     /* Address: 0x80020058, Size: 148 bytes, Blocks: 10 */
 
 block_80020058:
@@ -30743,6 +29890,7 @@ block_800200CC:
 
 void func_800200EC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800200ECu);
     /* Address: 0x800200EC, Size: 148 bytes, Blocks: 10 */
 
 block_800200EC:
@@ -30877,7 +30025,8 @@ block_80020160:
 
 void func_80020180(CPUState* cpu)
 {
-    /* Address: 0x80020180, Size: 236 bytes, Blocks: 17 */
+    debug_server_log_call_entry(0x80020180u);
+    /* Address: 0x80020180, Size: 228 bytes, Blocks: 16 */
 
 block_80020180:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -31090,19 +30239,12 @@ block_80020240:
     /* delay slot (always executes) */
     /* nop */  /* 0x80020260: 0x00000000 */
     return;  /* jr $ra */
-
-block_80020264:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80020264: 0x3C02800A */
-    cpu->gpr[2] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[2] + -20332);  /* 0x80020268: 0x8442B094 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8002026C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002026Cu);
     /* Address: 0x8002026C, Size: 456 bytes, Blocks: 20 */
 
 block_8002026C:
@@ -31417,6 +30559,7 @@ block_80020408:
 
 void func_80020434(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80020434u);
     /* Address: 0x80020434, Size: 172 bytes, Blocks: 3 */
 
 block_80020434:
@@ -31491,6 +30634,7 @@ block_800204C4:
 
 void func_800204E0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800204E0u);
     /* Address: 0x800204E0, Size: 188 bytes, Blocks: 3 */
 
 block_800204E0:
@@ -31569,6 +30713,7 @@ block_8002057C:
 
 void func_8002059C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002059Cu);
     /* Address: 0x8002059C, Size: 40 bytes, Blocks: 2 */
 
 block_8002059C:
@@ -31601,6 +30746,7 @@ block_800205B4:
 
 void func_800205C4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800205C4u);
     /* Address: 0x800205C4, Size: 152 bytes, Blocks: 5 */
 
 block_800205C4:
@@ -31692,6 +30838,7 @@ block_80020638:
 
 void func_8002065C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002065Cu);
     /* Address: 0x8002065C, Size: 32 bytes, Blocks: 2 */
 
 block_8002065C:
@@ -31722,6 +30869,7 @@ block_8002066C:
 
 void func_8002067C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002067Cu);
     /* Address: 0x8002067C, Size: 36 bytes, Blocks: 2 */
 
 block_8002067C:
@@ -31753,6 +30901,7 @@ block_80020690:
 
 void func_800206A0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800206A0u);
     /* Address: 0x800206A0, Size: 216 bytes, Blocks: 22 */
 
 block_800206A0:
@@ -32027,6 +31176,7 @@ block_80020770:
 
 void func_80020778(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80020778u);
     /* Address: 0x80020778, Size: 888 bytes, Blocks: 60 */
 
 block_80020778:
@@ -32826,6 +31976,7 @@ block_80020AD4:
 
 void func_80020AF0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80020AF0u);
     /* Address: 0x80020AF0, Size: 272 bytes, Blocks: 9 */
 
 block_80020AF0:
@@ -32980,6 +32131,7 @@ block_80020BE8:
 
 void func_80020C00(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80020C00u);
     /* Address: 0x80020C00, Size: 176 bytes, Blocks: 8 */
 
 block_80020C00:
@@ -33100,6 +32252,7 @@ block_80020CA0:
 
 void func_80020CB0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80020CB0u);
     /* Address: 0x80020CB0, Size: 300 bytes, Blocks: 26 */
 
 block_80020CB0:
@@ -33430,6 +32583,7 @@ block_80020DCC:
 
 void func_80020DDC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80020DDCu);
     /* Address: 0x80020DDC, Size: 272 bytes, Blocks: 15 */
 
 block_80020DDC:
@@ -33640,6 +32794,7 @@ block_80020ED0:
 
 void func_80020EEC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80020EECu);
     /* Address: 0x80020EEC, Size: 192 bytes, Blocks: 7 */
 
 block_80020EEC:
@@ -33758,6 +32913,7 @@ block_80020FA0:
 
 void func_80020FAC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80020FACu);
     /* Address: 0x80020FAC, Size: 8 bytes, Blocks: 1 */
 
 block_80020FAC:
@@ -33767,12 +32923,14 @@ block_80020FAC:
     psx_check_interrupts(cpu);
     cpu->gpr[4] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80020FAC: 0x3C04800A */
     cpu->gpr[4] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[4] + 10128);  /* 0x80020FB0: 0x84842790 */
+    func_80020FB4(cpu); return;  /* fallthrough to split piece */
     func_80020FB4(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80020FB4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80020FB4u);
     /* Address: 0x80020FB4, Size: 244 bytes, Blocks: 12 */
 
 block_80020FB4:
@@ -33949,6 +33107,7 @@ block_80021094:
 
 void func_800210A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800210A8u);
     /* Address: 0x800210A8, Size: 104 bytes, Blocks: 7 */
 
 block_800210A8:
@@ -34042,6 +33201,7 @@ block_80021100:
 
 void func_80021110(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80021110u);
     /* Address: 0x80021110, Size: 56 bytes, Blocks: 2 */
 
 block_80021110:
@@ -34078,6 +33238,7 @@ block_80021138:
 
 void func_80021148(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80021148u);
     /* Address: 0x80021148, Size: 16 bytes, Blocks: 1 */
 
 block_80021148:
@@ -34089,12 +33250,14 @@ block_80021148:
     cpu->gpr[5] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[5] + -20360);  /* 0x8002114C: 0x84A5B078 */
     cpu->gpr[4] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80021150: 0x3C04800A */
     cpu->gpr[4] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[4] + 10128);  /* 0x80021154: 0x84842790 */
+    func_80021158(cpu); return;  /* fallthrough to split piece */
     func_80021158(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80021158(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80021158u);
     /* Address: 0x80021158, Size: 40 bytes, Blocks: 2 */
 
 block_80021158:
@@ -34127,6 +33290,7 @@ block_80021170:
 
 void func_80021180(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80021180u);
     /* Address: 0x80021180, Size: 36 bytes, Blocks: 2 */
 
 block_80021180:
@@ -34158,6 +33322,7 @@ block_80021194:
 
 void func_800211A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800211A4u);
     /* Address: 0x800211A4, Size: 8 bytes, Blocks: 1 */
 
 block_800211A4:
@@ -34167,12 +33332,14 @@ block_800211A4:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x8007 << 16;  /* 0x80070000 */  /* 0x800211A4: 0x3C028007 */
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 32680);  /* 0x800211A8: 0x90427FA8 */
+    func_800211AC(cpu); return;  /* fallthrough to split piece */
     func_800211AC(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800211AC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800211ACu);
     /* Address: 0x800211AC, Size: 356 bytes, Blocks: 15 */
 
 block_800211AC:
@@ -34406,6 +33573,7 @@ block_800212E0:
 
 void func_80021310(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80021310u);
     /* Address: 0x80021310, Size: 48 bytes, Blocks: 3 */
 
 block_80021310:
@@ -34449,6 +33617,7 @@ block_80021330:
 
 void func_80021340(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80021340u);
     /* Address: 0x80021340, Size: 2108 bytes, Blocks: 90 */
 
 block_80021340:
@@ -35828,6 +34997,7 @@ block_80021B48:
 
 void func_80021B7C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80021B7Cu);
     /* Address: 0x80021B7C, Size: 8 bytes, Blocks: 1 */
 
 block_80021B7C:
@@ -35843,6 +35013,7 @@ block_80021B7C:
 
 void func_80021B84(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80021B84u);
     /* Address: 0x80021B84, Size: 64 bytes, Blocks: 1 */
 
 block_80021B84:
@@ -35872,6 +35043,7 @@ block_80021B84:
 
 void func_80021BC4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80021BC4u);
     /* Address: 0x80021BC4, Size: 48 bytes, Blocks: 2 */
 
 block_80021BC4:
@@ -35906,6 +35078,7 @@ block_80021BE4:
 
 void func_80021BF4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80021BF4u);
     /* Address: 0x80021BF4, Size: 48 bytes, Blocks: 2 */
 
 block_80021BF4:
@@ -35940,6 +35113,7 @@ block_80021C14:
 
 void func_80021C24(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80021C24u);
     /* Address: 0x80021C24, Size: 164 bytes, Blocks: 8 */
 
 block_80021C24:
@@ -36069,6 +35243,7 @@ block_80021CB8:
 
 void func_80021CC8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80021CC8u);
     /* Address: 0x80021CC8, Size: 168 bytes, Blocks: 7 */
 
 block_80021CC8:
@@ -36177,6 +35352,7 @@ block_80021D48:
 
 void func_80021D70(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80021D70u);
     /* Address: 0x80021D70, Size: 1352 bytes, Blocks: 103 */
 
 block_80021D70:
@@ -37512,6 +36688,7 @@ block_800222A8:
 
 void func_800222B8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800222B8u);
     /* Address: 0x800222B8, Size: 8 bytes, Blocks: 1 */
 
 block_800222B8:
@@ -37521,12 +36698,14 @@ block_800222B8:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x800222B8: 0x3C021F80 */
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 978);  /* 0x800222BC: 0x904203D2 */
+    func_800222C0(cpu); return;  /* fallthrough to split piece */
     func_800222C0(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800222C0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800222C0u);
     /* Address: 0x800222C0, Size: 224 bytes, Blocks: 12 */
 
 block_800222C0:
@@ -37708,6 +36887,7 @@ block_80022388:
 
 void func_800223A0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800223A0u);
     /* Address: 0x800223A0, Size: 64 bytes, Blocks: 2 */
 
 block_800223A0:
@@ -37746,6 +36926,7 @@ block_800223C0:
 
 void func_800223E0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800223E0u);
     /* Address: 0x800223E0, Size: 148 bytes, Blocks: 3 */
 
 block_800223E0:
@@ -37814,6 +36995,7 @@ block_80022460:
 
 void func_80022474(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022474u);
     /* Address: 0x80022474, Size: 60 bytes, Blocks: 4 */
 
 block_80022474:
@@ -37868,6 +37050,7 @@ block_800224A8:
 
 void func_800224B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800224B0u);
     /* Address: 0x800224B0, Size: 28 bytes, Blocks: 1 */
 
 block_800224B0:
@@ -37888,6 +37071,7 @@ block_800224B0:
 
 void func_800224CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800224CCu);
     /* Address: 0x800224CC, Size: 48 bytes, Blocks: 3 */
 
 block_800224CC:
@@ -37934,6 +37118,7 @@ block_800224EC:
 
 void func_800224FC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800224FCu);
     /* Address: 0x800224FC, Size: 116 bytes, Blocks: 4 */
 
 block_800224FC:
@@ -38004,6 +37189,7 @@ block_80022550:
 
 void func_80022570(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022570u);
     /* Address: 0x80022570, Size: 64 bytes, Blocks: 3 */
 
 block_80022570:
@@ -38052,6 +37238,7 @@ block_800225A8:
 
 void func_800225B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800225B0u);
     /* Address: 0x800225B0, Size: 64 bytes, Blocks: 1 */
 
 block_800225B0:
@@ -38081,6 +37268,7 @@ block_800225B0:
 
 void func_800225F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800225F0u);
     /* Address: 0x800225F0, Size: 40 bytes, Blocks: 1 */
 
 block_800225F0:
@@ -38104,6 +37292,7 @@ block_800225F0:
 
 void func_80022618(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022618u);
     /* Address: 0x80022618, Size: 44 bytes, Blocks: 1 */
 
 block_80022618:
@@ -38128,6 +37317,7 @@ block_80022618:
 
 void func_80022644(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022644u);
     /* Address: 0x80022644, Size: 64 bytes, Blocks: 1 */
 
 block_80022644:
@@ -38157,6 +37347,7 @@ block_80022644:
 
 void func_80022684(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022684u);
     /* Address: 0x80022684, Size: 44 bytes, Blocks: 1 */
 
 block_80022684:
@@ -38181,6 +37372,7 @@ block_80022684:
 
 void func_800226B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800226B0u);
     /* Address: 0x800226B0, Size: 40 bytes, Blocks: 1 */
 
 block_800226B0:
@@ -38204,6 +37396,7 @@ block_800226B0:
 
 void func_800226D8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800226D8u);
     /* Address: 0x800226D8, Size: 60 bytes, Blocks: 1 */
 
 block_800226D8:
@@ -38232,6 +37425,7 @@ block_800226D8:
 
 void func_80022714(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022714u);
     /* Address: 0x80022714, Size: 40 bytes, Blocks: 1 */
 
 block_80022714:
@@ -38255,6 +37449,7 @@ block_80022714:
 
 void func_8002273C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002273Cu);
     /* Address: 0x8002273C, Size: 104 bytes, Blocks: 3 */
 
 block_8002273C:
@@ -38312,6 +37507,7 @@ block_80022780:
 
 void func_800227A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800227A4u);
     /* Address: 0x800227A4, Size: 104 bytes, Blocks: 3 */
 
 block_800227A4:
@@ -38369,6 +37565,7 @@ block_800227E8:
 
 void func_8002280C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002280Cu);
     /* Address: 0x8002280C, Size: 104 bytes, Blocks: 3 */
 
 block_8002280C:
@@ -38426,6 +37623,7 @@ block_80022850:
 
 void func_80022874(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022874u);
     /* Address: 0x80022874, Size: 48 bytes, Blocks: 1 */
 
 block_80022874:
@@ -38451,6 +37649,7 @@ block_80022874:
 
 void func_800228A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800228A4u);
     /* Address: 0x800228A4, Size: 28 bytes, Blocks: 1 */
 
 block_800228A4:
@@ -38471,6 +37670,7 @@ block_800228A4:
 
 void func_800228C0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800228C0u);
     /* Address: 0x800228C0, Size: 24 bytes, Blocks: 1 */
 
 block_800228C0:
@@ -38490,6 +37690,7 @@ block_800228C0:
 
 void func_800228D8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800228D8u);
     /* Address: 0x800228D8, Size: 48 bytes, Blocks: 1 */
 
 block_800228D8:
@@ -38515,6 +37716,7 @@ block_800228D8:
 
 void func_80022908(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022908u);
     /* Address: 0x80022908, Size: 28 bytes, Blocks: 1 */
 
 block_80022908:
@@ -38535,6 +37737,7 @@ block_80022908:
 
 void func_80022924(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022924u);
     /* Address: 0x80022924, Size: 24 bytes, Blocks: 1 */
 
 block_80022924:
@@ -38554,6 +37757,7 @@ block_80022924:
 
 void func_8002293C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002293Cu);
     /* Address: 0x8002293C, Size: 48 bytes, Blocks: 1 */
 
 block_8002293C:
@@ -38579,6 +37783,7 @@ block_8002293C:
 
 void func_8002296C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002296Cu);
     /* Address: 0x8002296C, Size: 48 bytes, Blocks: 1 */
 
 block_8002296C:
@@ -38604,6 +37809,7 @@ block_8002296C:
 
 void func_8002299C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002299Cu);
     /* Address: 0x8002299C, Size: 48 bytes, Blocks: 1 */
 
 block_8002299C:
@@ -38629,6 +37835,7 @@ block_8002299C:
 
 void func_800229CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800229CCu);
     /* Address: 0x800229CC, Size: 48 bytes, Blocks: 1 */
 
 block_800229CC:
@@ -38654,6 +37861,7 @@ block_800229CC:
 
 void func_800229FC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800229FCu);
     /* Address: 0x800229FC, Size: 28 bytes, Blocks: 1 */
 
 block_800229FC:
@@ -38674,6 +37882,7 @@ block_800229FC:
 
 void func_80022A18(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022A18u);
     /* Address: 0x80022A18, Size: 12 bytes, Blocks: 1 */
 
 block_80022A18:
@@ -38690,6 +37899,7 @@ block_80022A18:
 
 void func_80022A24(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022A24u);
     /* Address: 0x80022A24, Size: 44 bytes, Blocks: 1 */
 
 block_80022A24:
@@ -38714,6 +37924,7 @@ block_80022A24:
 
 void func_80022A50(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022A50u);
     /* Address: 0x80022A50, Size: 228 bytes, Blocks: 15 */
 
 block_80022A50:
@@ -38912,6 +38123,7 @@ block_80022B2C:
 
 void func_80022B34(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022B34u);
     /* Address: 0x80022B34, Size: 212 bytes, Blocks: 15 */
 
 block_80022B34:
@@ -39106,6 +38318,7 @@ block_80022C00:
 
 void func_80022C08(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022C08u);
     /* Address: 0x80022C08, Size: 308 bytes, Blocks: 20 */
 
 block_80022C08:
@@ -39374,6 +38587,7 @@ block_80022D2C:
 
 void func_80022D3C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022D3Cu);
     /* Address: 0x80022D3C, Size: 264 bytes, Blocks: 19 */
 
 block_80022D3C:
@@ -39619,6 +38833,7 @@ block_80022E34:
 
 void func_80022E44(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022E44u);
     /* Address: 0x80022E44, Size: 296 bytes, Blocks: 21 */
 
 block_80022E44:
@@ -39891,6 +39106,7 @@ block_80022F5C:
 
 void func_80022F6C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022F6Cu);
     /* Address: 0x80022F6C, Size: 108 bytes, Blocks: 5 */
 
 block_80022F6C:
@@ -39969,6 +39185,7 @@ block_80022FD0:
 
 void func_80022FD8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80022FD8u);
     /* Address: 0x80022FD8, Size: 72 bytes, Blocks: 3 */
 
 block_80022FD8:
@@ -40019,6 +39236,7 @@ block_80023018:
 
 void func_80023020(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80023020u);
     /* Address: 0x80023020, Size: 156 bytes, Blocks: 6 */
 
 block_80023020:
@@ -40126,6 +39344,7 @@ block_800230B0:
 
 void func_800230BC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800230BCu);
     /* Address: 0x800230BC, Size: 172 bytes, Blocks: 7 */
 
 block_800230BC:
@@ -40244,6 +39463,7 @@ block_8002315C:
 
 void func_80023168(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80023168u);
     /* Address: 0x80023168, Size: 436 bytes, Blocks: 45 */
 
 block_80023168:
@@ -40804,6 +40024,7 @@ block_80023314:
 
 void func_8002331C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002331Cu);
     /* Address: 0x8002331C, Size: 96 bytes, Blocks: 4 */
 
 block_8002331C:
@@ -40874,6 +40095,7 @@ block_8002336C:
 
 void func_8002337C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002337Cu);
     /* Address: 0x8002337C, Size: 60 bytes, Blocks: 4 */
 
 block_8002337C:
@@ -40928,6 +40150,7 @@ block_800233B0:
 
 void func_800233B8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800233B8u);
     /* Address: 0x800233B8, Size: 592 bytes, Blocks: 25 */
 
 block_800233B8:
@@ -41312,6 +40535,7 @@ block_80023600:
 
 void func_80023608(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80023608u);
     /* Address: 0x80023608, Size: 116 bytes, Blocks: 7 */
 
 block_80023608:
@@ -41411,6 +40635,7 @@ block_80023650:
 
 void func_8002367C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002367Cu);
     /* Address: 0x8002367C, Size: 120 bytes, Blocks: 7 */
 
 block_8002367C:
@@ -41511,6 +40736,7 @@ block_800236C4:
 
 void func_800236F4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800236F4u);
     /* Address: 0x800236F4, Size: 160 bytes, Blocks: 8 */
 
 block_800236F4:
@@ -41633,6 +40859,7 @@ block_80023764:
 
 void func_80023794(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80023794u);
     /* Address: 0x80023794, Size: 172 bytes, Blocks: 8 */
 
 block_80023794:
@@ -41758,6 +40985,7 @@ block_80023808:
 
 void func_80023840(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80023840u);
     /* Address: 0x80023840, Size: 112 bytes, Blocks: 8 */
 
 block_80023840:
@@ -41873,6 +41101,7 @@ block_800238A8:
 
 void func_800238B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800238B0u);
     /* Address: 0x800238B0, Size: 120 bytes, Blocks: 4 */
 
 block_800238B0:
@@ -41944,6 +41173,7 @@ block_80023908:
 
 void func_80023928(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80023928u);
     /* Address: 0x80023928, Size: 276 bytes, Blocks: 13 */
 
 block_80023928:
@@ -42147,6 +41377,7 @@ block_80023A28:
 
 void func_80023A3C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80023A3Cu);
     /* Address: 0x80023A3C, Size: 104 bytes, Blocks: 1 */
 
 block_80023A3C:
@@ -42186,6 +41417,7 @@ block_80023A3C:
 
 void func_80023AA4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80023AA4u);
     /* Address: 0x80023AA4, Size: 572 bytes, Blocks: 9 */
 
 block_80023AA4:
@@ -42422,6 +41654,7 @@ block_80023CB0:
 
 void func_80023CE0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80023CE0u);
     /* Address: 0x80023CE0, Size: 356 bytes, Blocks: 15 */
 
 block_80023CE0:
@@ -42652,6 +41885,7 @@ block_80023DC8:
 
 void func_80023E44(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80023E44u);
     /* Address: 0x80023E44, Size: 140 bytes, Blocks: 8 */
 
 block_80023E44:
@@ -42767,6 +42001,7 @@ block_80023EB8:
 
 void func_80023ED0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80023ED0u);
     /* Address: 0x80023ED0, Size: 312 bytes, Blocks: 2 */
 
 block_80023ED0:
@@ -42867,6 +42102,7 @@ block_80023F9C:
 
 void func_80024008(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80024008u);
     /* Address: 0x80024008, Size: 588 bytes, Blocks: 5 */
 
 block_80024008:
@@ -43062,6 +42298,7 @@ block_800241E0:
 
 void func_80024254(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80024254u);
     /* Address: 0x80024254, Size: 88 bytes, Blocks: 1 */
 
 block_80024254:
@@ -43097,6 +42334,7 @@ block_80024254:
 
 void func_800242AC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800242ACu);
     /* Address: 0x800242AC, Size: 316 bytes, Blocks: 17 */
 
 block_800242AC:
@@ -43346,6 +42584,7 @@ block_800243E0:
 
 void func_800243E8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800243E8u);
     /* Address: 0x800243E8, Size: 572 bytes, Blocks: 13 */
 
 block_800243E8:
@@ -43618,6 +42857,7 @@ block_80024610:
 
 void func_80024624(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80024624u);
     /* Address: 0x80024624, Size: 88 bytes, Blocks: 1 */
 
 block_80024624:
@@ -43653,6 +42893,7 @@ block_80024624:
 
 void func_8002467C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002467Cu);
     /* Address: 0x8002467C, Size: 52 bytes, Blocks: 1 */
 
 block_8002467C:
@@ -43679,6 +42920,7 @@ block_8002467C:
 
 void func_800246B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800246B0u);
     /* Address: 0x800246B0, Size: 1016 bytes, Blocks: 38 */
 
 block_800246B0:
@@ -44302,6 +43544,7 @@ block_80024A40:
 
 void func_80024AA8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80024AA8u);
     /* Address: 0x80024AA8, Size: 68 bytes, Blocks: 1 */
 
 block_80024AA8:
@@ -44332,6 +43575,7 @@ block_80024AA8:
 
 void func_80024AEC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80024AECu);
     /* Address: 0x80024AEC, Size: 80 bytes, Blocks: 1 */
 
 block_80024AEC:
@@ -44365,6 +43609,7 @@ block_80024AEC:
 
 void func_80024B3C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80024B3Cu);
     /* Address: 0x80024B3C, Size: 152 bytes, Blocks: 2 */
 
 block_80024B3C:
@@ -44425,6 +43670,7 @@ block_80024BC4:
 
 void func_80024BD4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80024BD4u);
     /* Address: 0x80024BD4, Size: 272 bytes, Blocks: 8 */
 
 block_80024BD4:
@@ -44569,6 +43815,7 @@ block_80024CD0:
 
 void func_80024CE4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80024CE4u);
     /* Address: 0x80024CE4, Size: 8 bytes, Blocks: 1 */
 
 block_80024CE4:
@@ -44584,6 +43831,7 @@ block_80024CE4:
 
 void func_80024CEC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80024CECu);
     /* Address: 0x80024CEC, Size: 8 bytes, Blocks: 1 */
 
 block_80024CEC:
@@ -44599,6 +43847,7 @@ block_80024CEC:
 
 void func_80024CF4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80024CF4u);
     /* Address: 0x80024CF4, Size: 8 bytes, Blocks: 1 */
 
 block_80024CF4:
@@ -44614,6 +43863,7 @@ block_80024CF4:
 
 void func_80024CFC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80024CFCu);
     /* Address: 0x80024CFC, Size: 496 bytes, Blocks: 14 */
 
 block_80024CFC:
@@ -44897,6 +44147,7 @@ block_80024ED4:
 
 void func_80024EEC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80024EECu);
     /* Address: 0x80024EEC, Size: 724 bytes, Blocks: 22 */
 
 block_80024EEC:
@@ -45323,6 +44574,7 @@ block_800251A8:
 
 void func_800251C0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800251C0u);
     /* Address: 0x800251C0, Size: 520 bytes, Blocks: 14 */
 
 block_800251C0:
@@ -45612,6 +44864,7 @@ block_800253B0:
 
 void func_800253C8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800253C8u);
     /* Address: 0x800253C8, Size: 644 bytes, Blocks: 17 */
 
 block_800253C8:
@@ -45968,6 +45221,7 @@ block_80025634:
 
 void func_8002564C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002564Cu);
     /* Address: 0x8002564C, Size: 452 bytes, Blocks: 14 */
 
 block_8002564C:
@@ -46240,6 +45494,7 @@ block_800257F8:
 
 void func_80025810(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80025810u);
     /* Address: 0x80025810, Size: 552 bytes, Blocks: 17 */
 
 block_80025810:
@@ -46573,6 +45828,7 @@ block_80025A20:
 
 void func_80025A38(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80025A38u);
     /* Address: 0x80025A38, Size: 476 bytes, Blocks: 14 */
 
 block_80025A38:
@@ -46851,6 +46107,7 @@ block_80025BFC:
 
 void func_80025C14(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80025C14u);
     /* Address: 0x80025C14, Size: 608 bytes, Blocks: 17 */
 
 block_80025C14:
@@ -47198,6 +46455,7 @@ block_80025E5C:
 
 void func_80025E74(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80025E74u);
     /* Address: 0x80025E74, Size: 424 bytes, Blocks: 14 */
 
 block_80025E74:
@@ -47463,6 +46721,7 @@ block_80026004:
 
 void func_8002601C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002601Cu);
     /* Address: 0x8002601C, Size: 524 bytes, Blocks: 17 */
 
 block_8002601C:
@@ -47789,6 +47048,7 @@ block_80026210:
 
 void func_80026228(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80026228u);
     /* Address: 0x80026228, Size: 456 bytes, Blocks: 14 */
 
 block_80026228:
@@ -48062,6 +47322,7 @@ block_800263D8:
 
 void func_800263F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800263F0u);
     /* Address: 0x800263F0, Size: 676 bytes, Blocks: 21 */
 
 block_800263F0:
@@ -48464,6 +47725,7 @@ block_8002667C:
 
 void func_80026694(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80026694u);
     /* Address: 0x80026694, Size: 1972 bytes, Blocks: 63 */
 
 block_80026694:
@@ -49645,6 +48907,7 @@ block_80026E2C:
 
 void func_80026E48(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80026E48u);
     /* Address: 0x80026E48, Size: 1976 bytes, Blocks: 63 */
 
 block_80026E48:
@@ -50827,6 +50090,7 @@ block_800275E0:
 
 void func_80027600(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80027600u);
     /* Address: 0x80027600, Size: 1000 bytes, Blocks: 33 */
 
 block_80027600:
@@ -51436,6 +50700,7 @@ block_800279D4:
 
 void func_800279E8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800279E8u);
     /* Address: 0x800279E8, Size: 72 bytes, Blocks: 3 */
 
 block_800279E8:
@@ -51485,6 +50750,7 @@ block_80027A1C:
 
 void func_80027A30(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80027A30u);
     /* Address: 0x80027A30, Size: 3080 bytes, Blocks: 25 */
 
 block_80027A30:
@@ -52516,6 +51782,7 @@ block_80028630:
 
 void func_80028638(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80028638u);
     /* Address: 0x80028638, Size: 240 bytes, Blocks: 6 */
 
 block_80028638:
@@ -52636,6 +51903,7 @@ block_80028708:
 
 void func_80028728(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80028728u);
     /* Address: 0x80028728, Size: 108 bytes, Blocks: 3 */
 
 block_80028728:
@@ -52694,6 +51962,7 @@ block_80028784:
 
 void func_80028794(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80028794u);
     /* Address: 0x80028794, Size: 100 bytes, Blocks: 11 */
 
 block_80028794:
@@ -52822,6 +52091,7 @@ block_800287EC:
 
 void func_800287F8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800287F8u);
     /* Address: 0x800287F8, Size: 204 bytes, Blocks: 17 */
 
 block_800287F8:
@@ -53028,6 +52298,7 @@ block_800288BC:
 
 void func_800288C4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800288C4u);
     /* Address: 0x800288C4, Size: 432 bytes, Blocks: 18 */
 
 block_800288C4:
@@ -53308,6 +52579,7 @@ block_80028A18:
 
 void func_80028A74(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80028A74u);
     /* Address: 0x80028A74, Size: 192 bytes, Blocks: 6 */
 
 block_80028A74:
@@ -53421,6 +52693,7 @@ block_80028B20:
 
 void func_80028B34(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80028B34u);
     /* Address: 0x80028B34, Size: 432 bytes, Blocks: 27 */
 
 block_80028B34:
@@ -53795,6 +53068,7 @@ block_80028CD0:
 
 void func_80028CE4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80028CE4u);
     /* Address: 0x80028CE4, Size: 140 bytes, Blocks: 5 */
 
 block_80028CE4:
@@ -53882,6 +53156,7 @@ block_80028D5C:
 
 void func_80028D70(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80028D70u);
     /* Address: 0x80028D70, Size: 388 bytes, Blocks: 24 */
 
 block_80028D70:
@@ -54207,6 +53482,7 @@ block_80028EDC:
 
 void func_80028EF4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80028EF4u);
     /* Address: 0x80028EF4, Size: 276 bytes, Blocks: 6 */
 
 block_80028EF4:
@@ -54334,6 +53610,7 @@ block_80029000:
 
 void func_80029008(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80029008u);
     /* Address: 0x80029008, Size: 116 bytes, Blocks: 6 */
 
 block_80029008:
@@ -54428,6 +53705,7 @@ block_8002906C:
 
 void func_8002907C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002907Cu);
     /* Address: 0x8002907C, Size: 1228 bytes, Blocks: 65 */
 
 block_8002907C:
@@ -55379,6 +54657,7 @@ block_80029534:
 
 void func_80029548(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80029548u);
     /* Address: 0x80029548, Size: 492 bytes, Blocks: 7 */
 
 block_80029548:
@@ -55577,6 +54856,7 @@ block_800295C0:
 
 void func_80029734(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80029734u);
     /* Address: 0x80029734, Size: 84 bytes, Blocks: 4 */
 
 block_80029734:
@@ -55639,6 +54919,7 @@ block_80029774:
 
 void func_80029788(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80029788u);
     /* Address: 0x80029788, Size: 444 bytes, Blocks: 21 */
 
 block_80029788:
@@ -55959,6 +55240,7 @@ block_8002992C:
 
 void func_80029944(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80029944u);
     /* Address: 0x80029944, Size: 320 bytes, Blocks: 16 */
 
 block_80029944:
@@ -56192,6 +55474,7 @@ block_80029A78:
 
 void func_80029A84(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80029A84u);
     /* Address: 0x80029A84, Size: 156 bytes, Blocks: 6 */
 
 block_80029A84:
@@ -56294,6 +55577,7 @@ block_80029AF0:
 
 void func_80029B20(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80029B20u);
     /* Address: 0x80029B20, Size: 184 bytes, Blocks: 7 */
 
 block_80029B20:
@@ -56409,6 +55693,7 @@ block_80029BA0:
 
 void func_80029BD8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80029BD8u);
     /* Address: 0x80029BD8, Size: 112 bytes, Blocks: 5 */
 
 block_80029BD8:
@@ -56488,6 +55773,7 @@ block_80029C40:
 
 void func_80029C48(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80029C48u);
     /* Address: 0x80029C48, Size: 56 bytes, Blocks: 3 */
 
 block_80029C48:
@@ -56536,6 +55822,7 @@ block_80029C70:
 
 void func_80029C80(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80029C80u);
     /* Address: 0x80029C80, Size: 92 bytes, Blocks: 7 */
 
 block_80029C80:
@@ -56624,6 +55911,7 @@ block_80029CD4:
 
 void func_80029CDC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80029CDCu);
     /* Address: 0x80029CDC, Size: 812 bytes, Blocks: 38 */
 
 block_80029CDC:
@@ -57199,6 +56487,7 @@ block_80029FFC:
 
 void func_8002A008(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002A008u);
     /* Address: 0x8002A008, Size: 152 bytes, Blocks: 14 */
 
 block_8002A008:
@@ -57374,6 +56663,7 @@ block_8002A08C:
 
 void func_8002A0A0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002A0A0u);
     /* Address: 0x8002A0A0, Size: 416 bytes, Blocks: 5 */
 
 block_8002A0A0:
@@ -57527,6 +56817,7 @@ block_8002A1E4:
 
 void func_8002A240(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002A240u);
     /* Address: 0x8002A240, Size: 220 bytes, Blocks: 11 */
 
 block_8002A240:
@@ -57700,6 +56991,7 @@ block_8002A310:
 
 void func_8002A31C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002A31Cu);
     /* Address: 0x8002A31C, Size: 24 bytes, Blocks: 1 */
 
 block_8002A31C:
@@ -57719,6 +57011,7 @@ block_8002A31C:
 
 void func_8002A334(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002A334u);
     /* Address: 0x8002A334, Size: 332 bytes, Blocks: 14 */
 
 block_8002A334:
@@ -57956,6 +57249,7 @@ block_8002A474:
 
 void func_8002A480(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002A480u);
     /* Address: 0x8002A480, Size: 792 bytes, Blocks: 46 */
 
 block_8002A480:
@@ -58612,6 +57906,7 @@ block_8002A790:
 
 void func_8002A798(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002A798u);
     /* Address: 0x8002A798, Size: 612 bytes, Blocks: 36 */
 
 block_8002A798:
@@ -59103,6 +58398,7 @@ block_8002A9F4:
 
 void func_8002A9FC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002A9FCu);
     /* Address: 0x8002A9FC, Size: 452 bytes, Blocks: 27 */
 
 block_8002A9FC:
@@ -59471,6 +58767,7 @@ block_8002ABB8:
 
 void func_8002ABC0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002ABC0u);
     /* Address: 0x8002ABC0, Size: 436 bytes, Blocks: 25 */
 
 block_8002ABC0:
@@ -59821,6 +59118,7 @@ block_8002AD6C:
 
 void func_8002AD74(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002AD74u);
     /* Address: 0x8002AD74, Size: 464 bytes, Blocks: 22 */
 
 block_8002AD74:
@@ -60154,6 +59452,7 @@ block_8002AF30:
 
 void func_8002AF44(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002AF44u);
     /* Address: 0x8002AF44, Size: 72 bytes, Blocks: 7 */
 
 block_8002AF44:
@@ -60237,6 +59536,7 @@ block_8002AF84:
 
 void func_8002AF8C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002AF8Cu);
     /* Address: 0x8002AF8C, Size: 112 bytes, Blocks: 10 */
 
 block_8002AF8C:
@@ -60361,7 +59661,8 @@ block_8002AFF4:
 
 void func_8002AFFC(CPUState* cpu)
 {
-    /* Address: 0x8002AFFC, Size: 124 bytes, Blocks: 11 */
+    debug_server_log_call_entry(0x8002AFFCu);
+    /* Address: 0x8002AFFC, Size: 112 bytes, Blocks: 10 */
 
 block_8002AFFC:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -60480,20 +59781,12 @@ block_8002B064:
     /* delay slot (always executes) */
     /* nop */  /* 0x8002B068: 0x00000000 */
     return;  /* jr $ra */
-
-block_8002B06C:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(3u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[4] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x8002B06C: 0x3C041F80 */
-    cpu->gpr[4] = cpu->gpr[4] + 230;  /* 0x8002B070: 0x248400E6 */
-    cpu->gpr[3] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[4]);  /* 0x8002B074: 0x84830000 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8002B078(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002B078u);
     /* Address: 0x8002B078, Size: 92 bytes, Blocks: 8 */
 
 block_8002B078:
@@ -60599,6 +59892,7 @@ block_8002B0C8:
 
 void func_8002B0D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002B0D4u);
     /* Address: 0x8002B0D4, Size: 60 bytes, Blocks: 7 */
 
 block_8002B0D4:
@@ -60679,6 +59973,7 @@ block_8002B108:
 
 void func_8002B110(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002B110u);
     /* Address: 0x8002B110, Size: 360 bytes, Blocks: 18 */
 
 block_8002B110:
@@ -60941,6 +60236,7 @@ block_8002B26C:
 
 void func_8002B278(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002B278u);
     /* Address: 0x8002B278, Size: 368 bytes, Blocks: 18 */
 
 block_8002B278:
@@ -61205,6 +60501,7 @@ block_8002B3DC:
 
 void func_8002B3E8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002B3E8u);
     /* Address: 0x8002B3E8, Size: 8 bytes, Blocks: 1 */
 
 block_8002B3E8:
@@ -61214,12 +60511,14 @@ block_8002B3E8:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8002B3E8: 0x3C02800A */
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 21556);  /* 0x8002B3EC: 0x90425434 */
+    func_8002B3F0(cpu); return;  /* fallthrough to split piece */
     func_8002B3F0(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8002B3F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002B3F0u);
     /* Address: 0x8002B3F0, Size: 436 bytes, Blocks: 30 */
 
 block_8002B3F0:
@@ -61649,6 +60948,7 @@ block_8002B594:
 
 void func_8002B5A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002B5A4u);
     /* Address: 0x8002B5A4, Size: 192 bytes, Blocks: 16 */
 
 block_8002B5A4:
@@ -61850,6 +61150,7 @@ block_8002B658:
 
 void func_8002B664(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002B664u);
     /* Address: 0x8002B664, Size: 68 bytes, Blocks: 7 */
 
 block_8002B664:
@@ -61932,6 +61233,7 @@ block_8002B6A0:
 
 void func_8002B6A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002B6A8u);
     /* Address: 0x8002B6A8, Size: 92 bytes, Blocks: 4 */
 
 block_8002B6A8:
@@ -61999,6 +61301,7 @@ block_8002B6F8:
 
 void func_8002B704(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002B704u);
     /* Address: 0x8002B704, Size: 948 bytes, Blocks: 69 */
 
 block_8002B704:
@@ -62901,6 +62204,7 @@ block_8002BAB0:
 
 void func_8002BAB8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002BAB8u);
     /* Address: 0x8002BAB8, Size: 228 bytes, Blocks: 15 */
 
 block_8002BAB8:
@@ -63104,6 +62408,7 @@ block_8002BB94:
 
 void func_8002BB9C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002BB9Cu);
     /* Address: 0x8002BB9C, Size: 3132 bytes, Blocks: 208 */
 
 block_8002BB9C:
@@ -65934,6 +65239,7 @@ block_8002C7C4:
 
 void func_8002C7D8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002C7D8u);
     /* Address: 0x8002C7D8, Size: 616 bytes, Blocks: 36 */
 
 block_8002C7D8:
@@ -66454,7 +65760,8 @@ block_8002CA2C:
 
 void func_8002CA40(CPUState* cpu)
 {
-    /* Address: 0x8002CA40, Size: 288 bytes, Blocks: 23 */
+    debug_server_log_call_entry(0x8002CA40u);
+    /* Address: 0x8002CA40, Size: 280 bytes, Blocks: 22 */
 
 block_8002CA40:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -66728,19 +66035,12 @@ block_8002CB44:
     /* delay slot (always executes) */
     /* nop */  /* 0x8002CB54: 0x00000000 */
     return;  /* jr $ra */
-
-block_8002CB58:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[3] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x8002CB58: 0x3C031F80 */
-    cpu->gpr[3] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[3] + 230);  /* 0x8002CB5C: 0x846300E6 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8002CB60(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002CB60u);
     /* Address: 0x8002CB60, Size: 192 bytes, Blocks: 14 */
 
 block_8002CB60:
@@ -66927,6 +66227,7 @@ block_8002CC0C:
 
 void func_8002CC20(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002CC20u);
     /* Address: 0x8002CC20, Size: 348 bytes, Blocks: 17 */
 
 block_8002CC20:
@@ -67193,6 +66494,7 @@ block_8002CD68:
 
 void func_8002CD7C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002CD7Cu);
     /* Address: 0x8002CD7C, Size: 380 bytes, Blocks: 17 */
 
 block_8002CD7C:
@@ -67467,7 +66769,8 @@ block_8002CEE4:
 
 void func_8002CEF8(CPUState* cpu)
 {
-    /* Address: 0x8002CEF8, Size: 260 bytes, Blocks: 14 */
+    debug_server_log_call_entry(0x8002CEF8u);
+    /* Address: 0x8002CEF8, Size: 252 bytes, Blocks: 13 */
 
 block_8002CEF8:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -67661,20 +66964,13 @@ block_8002CFE0:
     /* delay slot (always executes) */
     /* nop */  /* 0x8002CFF0: 0x00000000 */
     return;  /* jr $ra */
-
-block_8002CFF4:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8002CFF4: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + -17248);  /* 0x8002CFF8: 0x9042BCA0 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8002CFFC(CPUState* cpu)
 {
-    /* Address: 0x8002CFFC, Size: 1236 bytes, Blocks: 75 */
+    debug_server_log_call_entry(0x8002CFFCu);
+    /* Address: 0x8002CFFC, Size: 1228 bytes, Blocks: 74 */
 
 block_8002CFFC:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -68689,19 +67985,12 @@ block_8002D4AC:
     /* delay slot (always executes) */
     /* nop */  /* 0x8002D4C4: 0x00000000 */
     return;  /* jr $ra */
-
-block_8002D4C8:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[3] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8002D4C8: 0x3C03800A */
-    cpu->gpr[3] = cpu->read_half(cpu->gpr[3] + -17206);  /* 0x8002D4CC: 0x9463BCCA */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8002D4D0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002D4D0u);
     /* Address: 0x8002D4D0, Size: 100 bytes, Blocks: 8 */
 
 block_8002D4D0:
@@ -68806,6 +68095,7 @@ block_8002D524:
 
 void func_8002D534(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002D534u);
     /* Address: 0x8002D534, Size: 120 bytes, Blocks: 11 */
 
 block_8002D534:
@@ -68948,7 +68238,8 @@ block_8002D59C:
 
 void func_8002D5AC(CPUState* cpu)
 {
-    /* Address: 0x8002D5AC, Size: 128 bytes, Blocks: 12 */
+    debug_server_log_call_entry(0x8002D5ACu);
+    /* Address: 0x8002D5AC, Size: 120 bytes, Blocks: 11 */
 
 block_8002D5AC:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -69085,20 +68376,13 @@ block_8002D614:
     /* delay slot (always executes) */
     /* nop */  /* 0x8002D620: 0x00000000 */
     return;  /* jr $ra */
-
-block_8002D624:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8002D624: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_half(cpu->gpr[2] + -17206);  /* 0x8002D628: 0x9442BCCA */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8002D62C(CPUState* cpu)
 {
-    /* Address: 0x8002D62C, Size: 60 bytes, Blocks: 6 */
+    debug_server_log_call_entry(0x8002D62Cu);
+    /* Address: 0x8002D62C, Size: 52 bytes, Blocks: 5 */
 
 block_8002D62C:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -69156,20 +68440,13 @@ block_8002D650:
     /* delay slot (always executes) */
     /* nop */  /* 0x8002D65C: 0x00000000 */
     return;  /* jr $ra */
-
-block_8002D660:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8002D660: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_half(cpu->gpr[2] + -17206);  /* 0x8002D664: 0x9442BCCA */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8002D668(CPUState* cpu)
 {
-    /* Address: 0x8002D668, Size: 60 bytes, Blocks: 6 */
+    debug_server_log_call_entry(0x8002D668u);
+    /* Address: 0x8002D668, Size: 52 bytes, Blocks: 5 */
 
 block_8002D668:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -69227,20 +68504,13 @@ block_8002D68C:
     /* delay slot (always executes) */
     /* nop */  /* 0x8002D698: 0x00000000 */
     return;  /* jr $ra */
-
-block_8002D69C:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8002D69C: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_half(cpu->gpr[2] + -17206);  /* 0x8002D6A0: 0x9442BCCA */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8002D6A4(CPUState* cpu)
 {
-    /* Address: 0x8002D6A4, Size: 60 bytes, Blocks: 6 */
+    debug_server_log_call_entry(0x8002D6A4u);
+    /* Address: 0x8002D6A4, Size: 52 bytes, Blocks: 5 */
 
 block_8002D6A4:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -69298,19 +68568,12 @@ block_8002D6C8:
     /* delay slot (always executes) */
     /* nop */  /* 0x8002D6D4: 0x00000000 */
     return;  /* jr $ra */
-
-block_8002D6D8:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8002D6D8: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_half(cpu->gpr[2] + -17206);  /* 0x8002D6DC: 0x9442BCCA */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8002D6E0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002D6E0u);
     /* Address: 0x8002D6E0, Size: 52 bytes, Blocks: 5 */
 
 block_8002D6E0:
@@ -69374,6 +68637,7 @@ block_8002D704:
 
 void func_8002D714(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002D714u);
     /* Address: 0x8002D714, Size: 112 bytes, Blocks: 10 */
 
 block_8002D714:
@@ -69502,6 +68766,7 @@ block_8002D774:
 
 void func_8002D784(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002D784u);
     /* Address: 0x8002D784, Size: 480 bytes, Blocks: 18 */
 
 block_8002D784:
@@ -69792,6 +69057,7 @@ block_8002D950:
 
 void func_8002D964(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002D964u);
     /* Address: 0x8002D964, Size: 112 bytes, Blocks: 4 */
 
 block_8002D964:
@@ -69859,6 +69125,7 @@ block_8002D9C8:
 
 void func_8002D9D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002D9D4u);
     /* Address: 0x8002D9D4, Size: 88 bytes, Blocks: 1 */
 
 block_8002D9D4:
@@ -69894,6 +69161,7 @@ block_8002D9D4:
 
 void func_8002DA2C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002DA2Cu);
     /* Address: 0x8002DA2C, Size: 8 bytes, Blocks: 1 */
 
 block_8002DA2C:
@@ -69903,12 +69171,14 @@ block_8002DA2C:
     psx_check_interrupts(cpu);
     cpu->gpr[3] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8002DA2C: 0x3C03800A */
     cpu->gpr[3] = cpu->read_half(cpu->gpr[3] + -17208);  /* 0x8002DA30: 0x9463BCC8 */
+    func_8002DA34(cpu); return;  /* fallthrough to split piece */
     func_8002DA34(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8002DA34(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002DA34u);
     /* Address: 0x8002DA34, Size: 256 bytes, Blocks: 14 */
 
 block_8002DA34:
@@ -70114,6 +69384,7 @@ block_8002DB24:
 
 void func_8002DB34(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002DB34u);
     /* Address: 0x8002DB34, Size: 8 bytes, Blocks: 1 */
 
 block_8002DB34:
@@ -70129,6 +69400,7 @@ block_8002DB34:
 
 void func_8002DB3C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002DB3Cu);
     /* Address: 0x8002DB3C, Size: 148 bytes, Blocks: 5 */
 
 block_8002DB3C:
@@ -70219,6 +69491,7 @@ block_8002DBB8:
 
 void func_8002DBD0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002DBD0u);
     /* Address: 0x8002DBD0, Size: 8 bytes, Blocks: 1 */
 
 block_8002DBD0:
@@ -70234,6 +69507,7 @@ block_8002DBD0:
 
 void func_8002DBD8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002DBD8u);
     /* Address: 0x8002DBD8, Size: 748 bytes, Blocks: 35 */
 
 block_8002DBD8:
@@ -70774,6 +70048,7 @@ block_8002DEA8:
 
 void func_8002DEC4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002DEC4u);
     /* Address: 0x8002DEC4, Size: 1252 bytes, Blocks: 40 */
 
 block_8002DEC4:
@@ -71474,6 +70749,7 @@ block_8002E374:
 
 void func_8002E3A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002E3A8u);
     /* Address: 0x8002E3A8, Size: 8 bytes, Blocks: 1 */
 
 block_8002E3A8:
@@ -71489,6 +70765,7 @@ block_8002E3A8:
 
 void func_8002E3B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002E3B0u);
     /* Address: 0x8002E3B0, Size: 84 bytes, Blocks: 5 */
 
 block_8002E3B0:
@@ -71563,6 +70840,7 @@ block_8002E3F0:
 
 void func_8002E404(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002E404u);
     /* Address: 0x8002E404, Size: 144 bytes, Blocks: 4 */
 
 block_8002E404:
@@ -71640,6 +70918,7 @@ block_8002E480:
 
 void func_8002E494(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002E494u);
     /* Address: 0x8002E494, Size: 1232 bytes, Blocks: 65 */
 
 block_8002E494:
@@ -72578,6 +71857,7 @@ block_8002E94C:
 
 void func_8002E964(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002E964u);
     /* Address: 0x8002E964, Size: 472 bytes, Blocks: 27 */
 
 block_8002E964:
@@ -72963,6 +72243,7 @@ block_8002EB28:
 
 void func_8002EB3C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002EB3Cu);
     /* Address: 0x8002EB3C, Size: 68 bytes, Blocks: 2 */
 
 block_8002EB3C:
@@ -73002,6 +72283,7 @@ block_8002EB5C:
 
 void func_8002EB80(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002EB80u);
     /* Address: 0x8002EB80, Size: 68 bytes, Blocks: 2 */
 
 block_8002EB80:
@@ -73041,6 +72323,7 @@ block_8002EBA0:
 
 void func_8002EBC4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002EBC4u);
     /* Address: 0x8002EBC4, Size: 344 bytes, Blocks: 22 */
 
 block_8002EBC4:
@@ -73329,6 +72612,7 @@ block_8002ED04:
 
 void func_8002ED1C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002ED1Cu);
     /* Address: 0x8002ED1C, Size: 8 bytes, Blocks: 1 */
 
 block_8002ED1C:
@@ -73338,12 +72622,14 @@ block_8002ED1C:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8002ED1C: 0x3C02800A */
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 21401);  /* 0x8002ED20: 0x90425399 */
+    func_8002ED24(cpu); return;  /* fallthrough to split piece */
     func_8002ED24(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8002ED24(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002ED24u);
     /* Address: 0x8002ED24, Size: 508 bytes, Blocks: 19 */
 
 block_8002ED24:
@@ -73666,6 +72952,7 @@ block_8002EF0C:
 
 void func_8002EF20(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002EF20u);
     /* Address: 0x8002EF20, Size: 316 bytes, Blocks: 25 */
 
 block_8002EF20:
@@ -73983,7 +73270,8 @@ block_8002F044:
 
 void func_8002F05C(CPUState* cpu)
 {
-    /* Address: 0x8002F05C, Size: 228 bytes, Blocks: 5 */
+    debug_server_log_call_entry(0x8002F05Cu);
+    /* Address: 0x8002F05C, Size: 220 bytes, Blocks: 4 */
 
 block_8002F05C:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -74074,19 +73362,12 @@ block_8002F118:
     /* delay slot (always executes) */
     /* nop */  /* 0x8002F134: 0x00000000 */
     return;  /* jr $ra */
-
-block_8002F138:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8002F138: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + -15776);  /* 0x8002F13C: 0x9042C260 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8002F140(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002F140u);
     /* Address: 0x8002F140, Size: 224 bytes, Blocks: 6 */
 
 block_8002F140:
@@ -74205,6 +73486,7 @@ block_8002F208:
 
 void func_8002F220(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002F220u);
     /* Address: 0x8002F220, Size: 484 bytes, Blocks: 26 */
 
 block_8002F220:
@@ -74585,6 +73867,7 @@ block_8002F3EC:
 
 void func_8002F404(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002F404u);
     /* Address: 0x8002F404, Size: 360 bytes, Blocks: 24 */
 
 block_8002F404:
@@ -74912,6 +74195,7 @@ block_8002F554:
 
 void func_8002F56C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002F56Cu);
     /* Address: 0x8002F56C, Size: 604 bytes, Blocks: 32 */
 
 block_8002F56C:
@@ -75365,6 +74649,7 @@ block_8002F7B0:
 
 void func_8002F7C8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002F7C8u);
     /* Address: 0x8002F7C8, Size: 60 bytes, Blocks: 2 */
 
 block_8002F7C8:
@@ -75402,6 +74687,7 @@ block_8002F7F4:
 
 void func_8002F804(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002F804u);
     /* Address: 0x8002F804, Size: 324 bytes, Blocks: 7 */
 
 block_8002F804:
@@ -75552,6 +74838,7 @@ block_8002F924:
 
 void func_8002F948(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002F948u);
     /* Address: 0x8002F948, Size: 220 bytes, Blocks: 16 */
 
 block_8002F948:
@@ -75763,6 +75050,7 @@ block_8002FA14:
 
 void func_8002FA24(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8002FA24u);
     /* Address: 0x8002FA24, Size: 3344 bytes, Blocks: 166 */
 
 block_8002FA24:
@@ -78168,6 +77456,7 @@ block_80030700:
 
 void func_80030734(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80030734u);
     /* Address: 0x80030734, Size: 56 bytes, Blocks: 2 */
 
 block_80030734:
@@ -78204,6 +77493,7 @@ block_8003075C:
 
 void func_8003076C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003076Cu);
     /* Address: 0x8003076C, Size: 64 bytes, Blocks: 2 */
 
 block_8003076C:
@@ -78242,6 +77532,7 @@ block_8003079C:
 
 void func_800307AC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800307ACu);
     /* Address: 0x800307AC, Size: 40 bytes, Blocks: 2 */
 
 block_800307AC:
@@ -78274,6 +77565,7 @@ block_800307C4:
 
 void func_800307D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800307D4u);
     /* Address: 0x800307D4, Size: 44 bytes, Blocks: 2 */
 
 block_800307D4:
@@ -78307,6 +77599,7 @@ block_800307F0:
 
 void func_80030800(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80030800u);
     /* Address: 0x80030800, Size: 596 bytes, Blocks: 18 */
 
 block_80030800:
@@ -78630,6 +77923,7 @@ block_80030A20:
 
 void func_80030A54(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80030A54u);
     /* Address: 0x80030A54, Size: 988 bytes, Blocks: 24 */
 
 block_80030A54:
@@ -79112,6 +78406,7 @@ block_80030E04:
 
 void func_80030E30(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80030E30u);
     /* Address: 0x80030E30, Size: 200 bytes, Blocks: 8 */
 
 block_80030E30:
@@ -79244,6 +78539,7 @@ block_80030EEC:
 
 void func_80030EF8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80030EF8u);
     /* Address: 0x80030EF8, Size: 556 bytes, Blocks: 24 */
 
 block_80030EF8:
@@ -79621,6 +78917,7 @@ block_80031110:
 
 void func_80031124(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80031124u);
     /* Address: 0x80031124, Size: 1284 bytes, Blocks: 56 */
 
 block_80031124:
@@ -80466,6 +79763,7 @@ block_80031600:
 
 void func_80031628(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80031628u);
     /* Address: 0x80031628, Size: 196 bytes, Blocks: 9 */
 
 block_80031628:
@@ -80606,7 +79904,8 @@ block_800316C8:
 
 void func_800316EC(CPUState* cpu)
 {
-    /* Address: 0x800316EC, Size: 388 bytes, Blocks: 9 */
+    debug_server_log_call_entry(0x800316ECu);
+    /* Address: 0x800316EC, Size: 380 bytes, Blocks: 8 */
 
 block_800316EC:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -80775,19 +80074,12 @@ block_80031848:
     /* delay slot (always executes) */
     /* nop */  /* 0x80031864: 0x00000000 */
     return;  /* jr $ra */
-
-block_80031868:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80031868: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_half(cpu->gpr[2] + -17208);  /* 0x8003186C: 0x9442BCC8 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80031870(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80031870u);
     /* Address: 0x80031870, Size: 152 bytes, Blocks: 14 */
 
 block_80031870:
@@ -80948,6 +80240,7 @@ block_800318F8:
 
 void func_80031908(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80031908u);
     /* Address: 0x80031908, Size: 528 bytes, Blocks: 24 */
 
 block_80031908:
@@ -81313,6 +80606,7 @@ block_80031B00:
 
 void func_80031B18(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80031B18u);
     /* Address: 0x80031B18, Size: 376 bytes, Blocks: 21 */
 
 block_80031B18:
@@ -81611,6 +80905,7 @@ block_80031C7C:
 
 void func_80031C90(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80031C90u);
     /* Address: 0x80031C90, Size: 624 bytes, Blocks: 25 */
 
 block_80031C90:
@@ -82015,6 +81310,7 @@ block_80031EE8:
 
 void func_80031F00(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80031F00u);
     /* Address: 0x80031F00, Size: 136 bytes, Blocks: 4 */
 
 block_80031F00:
@@ -82090,6 +81386,7 @@ block_80031F6C:
 
 void func_80031F88(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80031F88u);
     /* Address: 0x80031F88, Size: 680 bytes, Blocks: 39 */
 
 block_80031F88:
@@ -82640,6 +81937,7 @@ block_8003220C:
 
 void func_80032230(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80032230u);
     /* Address: 0x80032230, Size: 116 bytes, Blocks: 2 */
 
 block_80032230:
@@ -82691,6 +81989,7 @@ block_80032294:
 
 void func_800322A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800322A4u);
     /* Address: 0x800322A4, Size: 208 bytes, Blocks: 11 */
 
 block_800322A4:
@@ -82853,6 +82152,7 @@ block_80032354:
 
 void func_80032374(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80032374u);
     /* Address: 0x80032374, Size: 320 bytes, Blocks: 5 */
 
 block_80032374:
@@ -82981,6 +82281,7 @@ block_80032468:
 
 void func_800324B4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800324B4u);
     /* Address: 0x800324B4, Size: 268 bytes, Blocks: 13 */
 
 block_800324B4:
@@ -83174,6 +82475,7 @@ block_800325AC:
 
 void func_800325C0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800325C0u);
     /* Address: 0x800325C0, Size: 536 bytes, Blocks: 28 */
 
 block_800325C0:
@@ -83576,6 +82878,7 @@ block_800327C4:
 
 void func_800327D8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800327D8u);
     /* Address: 0x800327D8, Size: 348 bytes, Blocks: 18 */
 
 block_800327D8:
@@ -83834,6 +83137,7 @@ block_80032920:
 
 void func_80032934(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80032934u);
     /* Address: 0x80032934, Size: 1152 bytes, Blocks: 48 */
 
 block_80032934:
@@ -84543,6 +83847,7 @@ block_80032DA0:
 
 void func_80032DB4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80032DB4u);
     /* Address: 0x80032DB4, Size: 616 bytes, Blocks: 34 */
 
 block_80032DB4:
@@ -85015,6 +84320,7 @@ block_80033008:
 
 void func_8003301C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003301Cu);
     /* Address: 0x8003301C, Size: 208 bytes, Blocks: 19 */
 
 block_8003301C:
@@ -85251,6 +84557,7 @@ block_800330D8:
 
 void func_800330EC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800330ECu);
     /* Address: 0x800330EC, Size: 480 bytes, Blocks: 36 */
 
 block_800330EC:
@@ -85715,6 +85022,7 @@ block_800332B8:
 
 void func_800332CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800332CCu);
     /* Address: 0x800332CC, Size: 168 bytes, Blocks: 15 */
 
 block_800332CC:
@@ -85904,6 +85212,7 @@ block_80033364:
 
 void func_80033374(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80033374u);
     /* Address: 0x80033374, Size: 144 bytes, Blocks: 4 */
 
 block_80033374:
@@ -85981,6 +85290,7 @@ block_800333E8:
 
 void func_80033404(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80033404u);
     /* Address: 0x80033404, Size: 132 bytes, Blocks: 4 */
 
 block_80033404:
@@ -86055,6 +85365,7 @@ block_80033470:
 
 void func_80033488(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80033488u);
     /* Address: 0x80033488, Size: 976 bytes, Blocks: 41 */
 
 block_80033488:
@@ -86686,7 +85997,8 @@ block_80033840:
 
 void func_80033858(CPUState* cpu)
 {
-    /* Address: 0x80033858, Size: 16 bytes, Blocks: 2 */
+    debug_server_log_call_entry(0x80033858u);
+    /* Address: 0x80033858, Size: 8 bytes, Blocks: 1 */
 
 block_80033858:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -86696,20 +86008,13 @@ block_80033858:
     /* delay slot (always executes) */
     /* nop */  /* 0x8003385C: 0x00000000 */
     return;  /* jr $ra */
-
-block_80033860:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[3] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80033860: 0x3C03800A */
-    cpu->gpr[3] = cpu->read_half(cpu->gpr[3] + -17208);  /* 0x80033864: 0x9463BCC8 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80033868(CPUState* cpu)
 {
-    /* Address: 0x80033868, Size: 72 bytes, Blocks: 7 */
+    debug_server_log_call_entry(0x80033868u);
+    /* Address: 0x80033868, Size: 64 bytes, Blocks: 6 */
 
 block_80033868:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -86782,19 +86087,12 @@ block_80033898:
     /* delay slot (always executes) */
     /* nop */  /* 0x800338A4: 0x00000000 */
     return;  /* jr $ra */
-
-block_800338A8:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[3] = 0x800A << 16;  /* 0x800A0000 */  /* 0x800338A8: 0x3C03800A */
-    cpu->gpr[3] = cpu->read_half(cpu->gpr[3] + -17208);  /* 0x800338AC: 0x9463BCC8 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800338B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800338B0u);
     /* Address: 0x800338B0, Size: 180 bytes, Blocks: 18 */
 
 block_800338B0:
@@ -86994,7 +86292,8 @@ block_80033954:
 
 void func_80033964(CPUState* cpu)
 {
-    /* Address: 0x80033964, Size: 1524 bytes, Blocks: 86 */
+    debug_server_log_call_entry(0x80033964u);
+    /* Address: 0x80033964, Size: 1516 bytes, Blocks: 85 */
 
 block_80033964:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -88199,19 +87498,12 @@ block_80033F38:
     /* delay slot (always executes) */
     /* nop */  /* 0x80033F4C: 0x00000000 */
     return;  /* jr $ra */
-
-block_80033F50:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[3] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80033F50: 0x3C03800A */
-    cpu->gpr[3] = cpu->read_half(cpu->gpr[3] + -17208);  /* 0x80033F54: 0x9463BCC8 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80033F58(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80033F58u);
     /* Address: 0x80033F58, Size: 88 bytes, Blocks: 9 */
 
 block_80033F58:
@@ -88324,6 +87616,7 @@ block_80033FA0:
 
 void func_80033FB0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80033FB0u);
     /* Address: 0x80033FB0, Size: 64 bytes, Blocks: 5 */
 
 block_80033FB0:
@@ -88390,7 +87683,8 @@ block_80033FE0:
 
 void func_80033FF0(CPUState* cpu)
 {
-    /* Address: 0x80033FF0, Size: 276 bytes, Blocks: 12 */
+    debug_server_log_call_entry(0x80033FF0u);
+    /* Address: 0x80033FF0, Size: 268 bytes, Blocks: 11 */
 
 block_80033FF0:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -88559,19 +87853,12 @@ block_800340D4:
     /* delay slot (always executes) */
     /* nop */  /* 0x800340F8: 0x00000000 */
     return;  /* jr $ra */
-
-block_800340FC:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x800340FC: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_half(cpu->gpr[2] + -17208);  /* 0x80034100: 0x9442BCC8 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80034104(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80034104u);
     /* Address: 0x80034104, Size: 168 bytes, Blocks: 16 */
 
 block_80034104:
@@ -88752,6 +88039,7 @@ block_8003419C:
 
 void func_800341AC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800341ACu);
     /* Address: 0x800341AC, Size: 480 bytes, Blocks: 26 */
 
 block_800341AC:
@@ -89113,6 +88401,7 @@ block_8003437C:
 
 void func_8003438C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003438Cu);
     /* Address: 0x8003438C, Size: 148 bytes, Blocks: 5 */
 
 block_8003438C:
@@ -89203,6 +88492,7 @@ block_80034408:
 
 void func_80034420(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80034420u);
     /* Address: 0x80034420, Size: 260 bytes, Blocks: 15 */
 
 block_80034420:
@@ -89418,6 +88708,7 @@ block_80034514:
 
 void func_80034524(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80034524u);
     /* Address: 0x80034524, Size: 388 bytes, Blocks: 29 */
 
 block_80034524:
@@ -89818,6 +89109,7 @@ block_80034698:
 
 void func_800346A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800346A8u);
     /* Address: 0x800346A8, Size: 148 bytes, Blocks: 15 */
 
 block_800346A8:
@@ -89999,6 +89291,7 @@ block_8003472C:
 
 void func_8003473C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003473Cu);
     /* Address: 0x8003473C, Size: 224 bytes, Blocks: 15 */
 
 block_8003473C:
@@ -90193,6 +89486,7 @@ block_80034814:
 
 void func_8003481C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003481Cu);
     /* Address: 0x8003481C, Size: 224 bytes, Blocks: 15 */
 
 block_8003481C:
@@ -90387,6 +89681,7 @@ block_800348F4:
 
 void func_800348FC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800348FCu);
     /* Address: 0x800348FC, Size: 224 bytes, Blocks: 15 */
 
 block_800348FC:
@@ -90581,6 +89876,7 @@ block_800349D4:
 
 void func_800349DC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800349DCu);
     /* Address: 0x800349DC, Size: 220 bytes, Blocks: 8 */
 
 block_800349DC:
@@ -90711,6 +90007,7 @@ block_80034A84:
 
 void func_80034AB8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80034AB8u);
     /* Address: 0x80034AB8, Size: 348 bytes, Blocks: 13 */
 
 block_80034AB8:
@@ -90927,6 +90224,7 @@ block_80034BF8:
 
 void func_80034C14(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80034C14u);
     /* Address: 0x80034C14, Size: 6188 bytes, Blocks: 222 */
 
 block_80034C14:
@@ -94566,7 +93864,8 @@ block_80036424:
 
 void func_80036440(CPUState* cpu)
 {
-    /* Address: 0x80036440, Size: 92 bytes, Blocks: 8 */
+    debug_server_log_call_entry(0x80036440u);
+    /* Address: 0x80036440, Size: 84 bytes, Blocks: 7 */
 
 block_80036440:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -94659,19 +93958,12 @@ block_80036484:
     /* delay slot (always executes) */
     /* nop */  /* 0x80036490: 0x00000000 */
     return;  /* jr $ra */
-
-block_80036494:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80036494: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 21599);  /* 0x80036498: 0x9042545F */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8003649C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003649Cu);
     /* Address: 0x8003649C, Size: 320 bytes, Blocks: 24 */
 
 block_8003649C:
@@ -94989,6 +94281,7 @@ block_800365C4:
 
 void func_800365DC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800365DCu);
     /* Address: 0x800365DC, Size: 60 bytes, Blocks: 3 */
 
 block_800365DC:
@@ -95038,6 +94331,7 @@ block_80036608:
 
 void func_80036618(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80036618u);
     /* Address: 0x80036618, Size: 932 bytes, Blocks: 34 */
 
 block_80036618:
@@ -95612,6 +94906,7 @@ block_80036990:
 
 void func_800369BC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800369BCu);
     /* Address: 0x800369BC, Size: 108 bytes, Blocks: 3 */
 
 block_800369BC:
@@ -95671,6 +94966,7 @@ block_80036A20:
 
 void func_80036A28(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80036A28u);
     /* Address: 0x80036A28, Size: 100 bytes, Blocks: 2 */
 
 block_80036A28:
@@ -95718,6 +95014,7 @@ block_80036A78:
 
 void func_80036A8C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80036A8Cu);
     /* Address: 0x80036A8C, Size: 392 bytes, Blocks: 16 */
 
 block_80036A8C:
@@ -95980,6 +95277,7 @@ block_80036BF8:
 
 void func_80036C14(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80036C14u);
     /* Address: 0x80036C14, Size: 116 bytes, Blocks: 9 */
 
 block_80036C14:
@@ -96095,6 +95393,7 @@ block_80036C70:
 
 void func_80036C88(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80036C88u);
     /* Address: 0x80036C88, Size: 296 bytes, Blocks: 21 */
 
 block_80036C88:
@@ -96354,6 +95653,7 @@ block_80036D94:
 
 void func_80036DB0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80036DB0u);
     /* Address: 0x80036DB0, Size: 72 bytes, Blocks: 4 */
 
 block_80036DB0:
@@ -96412,6 +95712,7 @@ block_80036DEC:
 
 void func_80036DF8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80036DF8u);
     /* Address: 0x80036DF8, Size: 416 bytes, Blocks: 21 */
 
 block_80036DF8:
@@ -96720,6 +96021,7 @@ block_80036F90:
 
 void func_80036F98(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80036F98u);
     /* Address: 0x80036F98, Size: 5056 bytes, Blocks: 224 */
 
 block_80036F98:
@@ -100075,7 +99377,8 @@ block_8003833C:
 
 void func_80038358(CPUState* cpu)
 {
-    /* Address: 0x80038358, Size: 92 bytes, Blocks: 8 */
+    debug_server_log_call_entry(0x80038358u);
+    /* Address: 0x80038358, Size: 84 bytes, Blocks: 7 */
 
 block_80038358:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -100168,19 +99471,12 @@ block_8003839C:
     /* delay slot (always executes) */
     /* nop */  /* 0x800383A8: 0x00000000 */
     return;  /* jr $ra */
-
-block_800383AC:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x800383AC: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 21599);  /* 0x800383B0: 0x9042545F */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800383B4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800383B4u);
     /* Address: 0x800383B4, Size: 316 bytes, Blocks: 25 */
 
 block_800383B4:
@@ -100509,6 +99805,7 @@ block_800384D8:
 
 void func_800384F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800384F0u);
     /* Address: 0x800384F0, Size: 128 bytes, Blocks: 1 */
 
 block_800384F0:
@@ -100554,6 +99851,7 @@ block_800384F0:
 
 void func_80038570(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80038570u);
     /* Address: 0x80038570, Size: 124 bytes, Blocks: 6 */
 
 block_80038570:
@@ -100645,6 +99943,7 @@ block_800385D8:
 
 void func_800385EC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800385ECu);
     /* Address: 0x800385EC, Size: 348 bytes, Blocks: 13 */
 
 block_800385EC:
@@ -100861,6 +100160,7 @@ block_8003872C:
 
 void func_80038748(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80038748u);
     /* Address: 0x80038748, Size: 308 bytes, Blocks: 12 */
 
 block_80038748:
@@ -101054,6 +100354,7 @@ block_80038848:
 
 void func_8003887C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003887Cu);
     /* Address: 0x8003887C, Size: 580 bytes, Blocks: 34 */
 
 block_8003887C:
@@ -101545,6 +100846,7 @@ block_80038AA8:
 
 void func_80038AC0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80038AC0u);
     /* Address: 0x80038AC0, Size: 5708 bytes, Blocks: 213 */
 
 block_80038AC0:
@@ -104955,6 +104257,7 @@ block_8003A0F0:
 
 void func_8003A10C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003A10Cu);
     /* Address: 0x8003A10C, Size: 516 bytes, Blocks: 19 */
 
 block_8003A10C:
@@ -105263,6 +104566,7 @@ block_8003A308:
 
 void func_8003A310(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003A310u);
     /* Address: 0x8003A310, Size: 116 bytes, Blocks: 10 */
 
 block_8003A310:
@@ -105379,7 +104683,8 @@ block_8003A37C:
 
 void func_8003A384(CPUState* cpu)
 {
-    /* Address: 0x8003A384, Size: 380 bytes, Blocks: 22 */
+    debug_server_log_call_entry(0x8003A384u);
+    /* Address: 0x8003A384, Size: 372 bytes, Blocks: 21 */
 
 block_8003A384:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -105667,19 +104972,12 @@ block_8003A4E4:
     /* delay slot (always executes) */
     /* nop */  /* 0x8003A4F4: 0x00000000 */
     return;  /* jr $ra */
-
-block_8003A4F8:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8003A4F8: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 21599);  /* 0x8003A4FC: 0x9042545F */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8003A500(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003A500u);
     /* Address: 0x8003A500, Size: 260 bytes, Blocks: 19 */
 
 block_8003A500:
@@ -105927,6 +105225,7 @@ block_8003A5F0:
 
 void func_8003A604(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003A604u);
     /* Address: 0x8003A604, Size: 16 bytes, Blocks: 1 */
 
 block_8003A604:
@@ -105944,6 +105243,7 @@ block_8003A604:
 
 void func_8003A614(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003A614u);
     /* Address: 0x8003A614, Size: 660 bytes, Blocks: 37 */
 
 block_8003A614:
@@ -106440,6 +105740,7 @@ block_8003A88C:
 
 void func_8003A8A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003A8A8u);
     /* Address: 0x8003A8A8, Size: 2092 bytes, Blocks: 4 */
 
 block_8003A8A8:
@@ -107003,6 +106304,7 @@ block_8003B0CC:
 
 void func_8003B0D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003B0D4u);
     /* Address: 0x8003B0D4, Size: 320 bytes, Blocks: 10 */
 
 block_8003B0D4:
@@ -107182,6 +106484,7 @@ block_8003B1DC:
 
 void func_8003B214(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003B214u);
     /* Address: 0x8003B214, Size: 88 bytes, Blocks: 2 */
 
 block_8003B214:
@@ -107226,6 +106529,7 @@ block_8003B244:
 
 void func_8003B26C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003B26Cu);
     /* Address: 0x8003B26C, Size: 92 bytes, Blocks: 3 */
 
 block_8003B26C:
@@ -107280,6 +106584,7 @@ block_8003B2B8:
 
 void func_8003B2C8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003B2C8u);
     /* Address: 0x8003B2C8, Size: 328 bytes, Blocks: 13 */
 
 block_8003B2C8:
@@ -107486,6 +106791,7 @@ block_8003B400:
 
 void func_8003B410(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003B410u);
     /* Address: 0x8003B410, Size: 104 bytes, Blocks: 7 */
 
 block_8003B410:
@@ -107582,6 +106888,7 @@ block_8003B470:
 
 void func_8003B478(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003B478u);
     /* Address: 0x8003B478, Size: 40 bytes, Blocks: 3 */
 
 block_8003B478:
@@ -107624,6 +106931,7 @@ block_8003B494:
 
 void func_8003B4A0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003B4A0u);
     /* Address: 0x8003B4A0, Size: 56 bytes, Blocks: 3 */
 
 block_8003B4A0:
@@ -107670,6 +106978,7 @@ block_8003B4C8:
 
 void func_8003B4D8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003B4D8u);
     /* Address: 0x8003B4D8, Size: 56 bytes, Blocks: 3 */
 
 block_8003B4D8:
@@ -107716,6 +107025,7 @@ block_8003B500:
 
 void func_8003B510(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003B510u);
     /* Address: 0x8003B510, Size: 100 bytes, Blocks: 6 */
 
 block_8003B510:
@@ -107799,6 +107109,7 @@ block_8003B568:
 
 void func_8003B574(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003B574u);
     /* Address: 0x8003B574, Size: 48 bytes, Blocks: 6 */
 
 block_8003B574:
@@ -107869,7 +107180,8 @@ block_8003B59C:
 
 void func_8003B5A4(CPUState* cpu)
 {
-    /* Address: 0x8003B5A4, Size: 72 bytes, Blocks: 4 */
+    debug_server_log_call_entry(0x8003B5A4u);
+    /* Address: 0x8003B5A4, Size: 52 bytes, Blocks: 3 */
 
 block_8003B5A4:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -107909,22 +107221,12 @@ block_8003B5D0:
     /* delay slot (always executes) */
     /* nop */  /* 0x8003B5D4: 0x00000000 */
     return;  /* jr $ra */
-
-block_8003B5D8:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(5u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[7] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8003B5D8: 0x3C07800A */
-    cpu->gpr[7] = cpu->read_word(cpu->gpr[7] + -7080);  /* 0x8003B5DC: 0x8CE7E458 */
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8003B5E0: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_word(cpu->gpr[2] + -13964);  /* 0x8003B5E4: 0x8C42C974 */
-    cpu->gpr[3] = cpu->read_half(cpu->gpr[7] + 138);  /* 0x8003B5E8: 0x94E3008A */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8003B5EC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003B5ECu);
     /* Address: 0x8003B5EC, Size: 160 bytes, Blocks: 9 */
 
 block_8003B5EC:
@@ -108049,6 +107351,7 @@ block_8003B67C:
 
 void func_8003B68C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003B68Cu);
     /* Address: 0x8003B68C, Size: 88 bytes, Blocks: 1 */
 
 block_8003B68C:
@@ -108084,6 +107387,7 @@ block_8003B68C:
 
 void func_8003B6E4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003B6E4u);
     /* Address: 0x8003B6E4, Size: 108 bytes, Blocks: 2 */
 
 block_8003B6E4:
@@ -108133,6 +107437,7 @@ block_8003B71C:
 
 void func_8003B750(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003B750u);
     /* Address: 0x8003B750, Size: 272 bytes, Blocks: 15 */
 
 block_8003B750:
@@ -108347,7 +107652,8 @@ block_8003B844:
 
 void func_8003B860(CPUState* cpu)
 {
-    /* Address: 0x8003B860, Size: 312 bytes, Blocks: 18 */
+    debug_server_log_call_entry(0x8003B860u);
+    /* Address: 0x8003B860, Size: 264 bytes, Blocks: 17 */
 
 block_8003B860:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -108549,29 +107855,12 @@ block_8003B95C:
     /* delay slot (always executes) */
     /* nop */  /* 0x8003B964: 0x00000000 */
     return;  /* jr $ra */
-
-block_8003B968:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(12u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[5] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8003B968: 0x3C05800A */
-    cpu->gpr[5] = cpu->read_word(cpu->gpr[5] + -7080);  /* 0x8003B96C: 0x8CA5E458 */
-    cpu->gpr[4] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8003B970: 0x3C04800A */
-    cpu->gpr[4] = cpu->read_word(cpu->gpr[4] + -13964);  /* 0x8003B974: 0x8C84C974 */
-    cpu->gpr[2] = cpu->read_half(cpu->gpr[5] + 138);  /* 0x8003B978: 0x94A2008A */
-    /* nop */  /* 0x8003B97C: 0x00000000 */
-    cpu->gpr[2] = cpu->gpr[2] + cpu->gpr[4];  /* 0x8003B980: 0x00441021 */
-    cpu->gpr[3] = cpu->read_byte(cpu->gpr[2] + 1);  /* 0x8003B984: 0x90430001 */
-    /* nop */  /* 0x8003B988: 0x00000000 */
-    cpu->gpr[3] = cpu->gpr[3] << 2;  /* 0x8003B98C: 0x00031880 */
-    cpu->gpr[3] = cpu->gpr[3] + cpu->gpr[5];  /* 0x8003B990: 0x00651821 */
-    cpu->gpr[2] = cpu->read_word(cpu->gpr[3] + 4240);  /* 0x8003B994: 0x8C621090 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8003B998(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003B998u);
     /* Address: 0x8003B998, Size: 104 bytes, Blocks: 6 */
 
 block_8003B998:
@@ -108656,6 +107945,7 @@ block_8003B9F4:
 
 void func_8003BA00(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003BA00u);
     /* Address: 0x8003BA00, Size: 96 bytes, Blocks: 1 */
 
 block_8003BA00:
@@ -108693,6 +107983,7 @@ block_8003BA00:
 
 void func_8003BA60(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003BA60u);
     /* Address: 0x8003BA60, Size: 52 bytes, Blocks: 1 */
 
 block_8003BA60:
@@ -108719,6 +108010,7 @@ block_8003BA60:
 
 void func_8003BA94(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003BA94u);
     /* Address: 0x8003BA94, Size: 92 bytes, Blocks: 3 */
 
 block_8003BA94:
@@ -108774,6 +108066,7 @@ block_8003BADC:
 
 void func_8003BAF0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003BAF0u);
     /* Address: 0x8003BAF0, Size: 88 bytes, Blocks: 3 */
 
 block_8003BAF0:
@@ -108828,6 +108121,7 @@ block_8003BB34:
 
 void func_8003BB48(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003BB48u);
     /* Address: 0x8003BB48, Size: 32 bytes, Blocks: 1 */
 
 block_8003BB48:
@@ -108843,12 +108137,14 @@ block_8003BB48:
     /* nop */  /* 0x8003BB5C: 0x00000000 */
     cpu->gpr[2] = cpu->gpr[2] + cpu->gpr[3];  /* 0x8003BB60: 0x00431021 */
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 1);  /* 0x8003BB64: 0x90420001 */
+    func_8003BB68(cpu); return;  /* fallthrough to split piece */
     func_8003BB68(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8003BB68(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003BB68u);
     /* Address: 0x8003BB68, Size: 204 bytes, Blocks: 14 */
 
 block_8003BB68:
@@ -109029,6 +108325,7 @@ block_8003BC24:
 
 void func_8003BC34(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003BC34u);
     /* Address: 0x8003BC34, Size: 244 bytes, Blocks: 18 */
 
 block_8003BC34:
@@ -109257,6 +108554,7 @@ block_8003BD14:
 
 void func_8003BD28(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003BD28u);
     /* Address: 0x8003BD28, Size: 496 bytes, Blocks: 37 */
 
 block_8003BD28:
@@ -109718,7 +109016,8 @@ block_8003BF08:
 
 void func_8003BF18(CPUState* cpu)
 {
-    /* Address: 0x8003BF18, Size: 72 bytes, Blocks: 2 */
+    debug_server_log_call_entry(0x8003BF18u);
+    /* Address: 0x8003BF18, Size: 64 bytes, Blocks: 1 */
 
 block_8003BF18:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -109742,19 +109041,12 @@ block_8003BF18:
     /* delay slot (always executes) */
     cpu->write_word(cpu->gpr[4] + 4564, cpu->gpr[5]);  /* 0x8003BF54: 0xAC8511D4 */
     return;  /* jr $ra */
-
-block_8003BF58:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[8] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8003BF58: 0x3C08800A */
-    cpu->gpr[8] = cpu->read_word(cpu->gpr[8] + -7080);  /* 0x8003BF5C: 0x8D08E458 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8003BF60(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003BF60u);
     /* Address: 0x8003BF60, Size: 452 bytes, Blocks: 18 */
 
 block_8003BF60:
@@ -110042,7 +109334,8 @@ block_8003C114:
 
 void func_8003C124(CPUState* cpu)
 {
-    /* Address: 0x8003C124, Size: 1160 bytes, Blocks: 45 */
+    debug_server_log_call_entry(0x8003C124u);
+    /* Address: 0x8003C124, Size: 1152 bytes, Blocks: 44 */
 
 block_8003C124:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -110692,19 +109985,12 @@ block_8003C588:
     /* delay slot (always executes) */
     /* nop */  /* 0x8003C5A0: 0x00000000 */
     return;  /* jr $ra */
-
-block_8003C5A4:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[3] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8003C5A4: 0x3C03800A */
-    cpu->gpr[3] = cpu->read_word(cpu->gpr[3] + -7080);  /* 0x8003C5A8: 0x8C63E458 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8003C5AC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003C5ACu);
     /* Address: 0x8003C5AC, Size: 88 bytes, Blocks: 5 */
 
 block_8003C5AC:
@@ -110777,6 +110063,7 @@ block_8003C5F4:
 
 void func_8003C604(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003C604u);
     /* Address: 0x8003C604, Size: 188 bytes, Blocks: 12 */
 
 block_8003C604:
@@ -110943,6 +110230,7 @@ block_8003C6AC:
 
 void func_8003C6C0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003C6C0u);
     /* Address: 0x8003C6C0, Size: 204 bytes, Blocks: 12 */
 
 block_8003C6C0:
@@ -111113,6 +110401,7 @@ block_8003C778:
 
 void func_8003C78C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003C78Cu);
     /* Address: 0x8003C78C, Size: 16 bytes, Blocks: 1 */
 
 block_8003C78C:
@@ -111124,12 +110413,14 @@ block_8003C78C:
     cpu->gpr[3] = cpu->read_half(cpu->gpr[3] + -17208);  /* 0x8003C790: 0x9463BCC8 */
     cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8003C794: 0x3C02800A */
     cpu->gpr[2] = cpu->read_half(cpu->gpr[2] + -5216);  /* 0x8003C798: 0x9442EBA0 */
+    func_8003C79C(cpu); return;  /* fallthrough to split piece */
     func_8003C79C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8003C79C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003C79Cu);
     /* Address: 0x8003C79C, Size: 568 bytes, Blocks: 42 */
 
 block_8003C79C:
@@ -111662,6 +110953,7 @@ block_8003C9C0:
 
 void func_8003C9D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003C9D4u);
     /* Address: 0x8003C9D4, Size: 1092 bytes, Blocks: 60 */
 
 block_8003C9D4:
@@ -112552,6 +111844,7 @@ block_8003CE04:
 
 void func_8003CE18(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003CE18u);
     /* Address: 0x8003CE18, Size: 716 bytes, Blocks: 27 */
 
 block_8003CE18:
@@ -112985,6 +112278,7 @@ block_8003D0A4:
 
 void func_8003D0E4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D0E4u);
     /* Address: 0x8003D0E4, Size: 204 bytes, Blocks: 13 */
 
 block_8003D0E4:
@@ -113164,6 +112458,7 @@ block_8003D18C:
 
 void func_8003D1B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D1B0u);
     /* Address: 0x8003D1B0, Size: 92 bytes, Blocks: 5 */
 
 block_8003D1B0:
@@ -113238,6 +112533,7 @@ block_8003D1F8:
 
 void func_8003D20C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D20Cu);
     /* Address: 0x8003D20C, Size: 80 bytes, Blocks: 1 */
 
 block_8003D20C:
@@ -113271,6 +112567,7 @@ block_8003D20C:
 
 void func_8003D25C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D25Cu);
     /* Address: 0x8003D25C, Size: 76 bytes, Blocks: 1 */
 
 block_8003D25C:
@@ -113303,6 +112600,7 @@ block_8003D25C:
 
 void func_8003D2A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D2A8u);
     /* Address: 0x8003D2A8, Size: 848 bytes, Blocks: 32 */
 
 block_8003D2A8:
@@ -113802,6 +113100,7 @@ block_8003D5D0:
 
 void func_8003D5F8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D5F8u);
     /* Address: 0x8003D5F8, Size: 80 bytes, Blocks: 3 */
 
 block_8003D5F8:
@@ -113854,6 +113153,7 @@ block_8003D634:
 
 void func_8003D648(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D648u);
     /* Address: 0x8003D648, Size: 120 bytes, Blocks: 3 */
 
 block_8003D648:
@@ -113916,6 +113216,7 @@ block_8003D6AC:
 
 void func_8003D6C0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D6C0u);
     /* Address: 0x8003D6C0, Size: 108 bytes, Blocks: 3 */
 
 block_8003D6C0:
@@ -113975,6 +113276,7 @@ block_8003D718:
 
 void func_8003D72C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D72Cu);
     /* Address: 0x8003D72C, Size: 80 bytes, Blocks: 3 */
 
 block_8003D72C:
@@ -114027,6 +113329,7 @@ block_8003D768:
 
 void func_8003D77C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D77Cu);
     /* Address: 0x8003D77C, Size: 80 bytes, Blocks: 3 */
 
 block_8003D77C:
@@ -114079,6 +113382,7 @@ block_8003D7B8:
 
 void func_8003D7CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D7CCu);
     /* Address: 0x8003D7CC, Size: 88 bytes, Blocks: 3 */
 
 block_8003D7CC:
@@ -114133,6 +113437,7 @@ block_8003D810:
 
 void func_8003D824(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D824u);
     /* Address: 0x8003D824, Size: 80 bytes, Blocks: 3 */
 
 block_8003D824:
@@ -114185,6 +113490,7 @@ block_8003D860:
 
 void func_8003D874(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D874u);
     /* Address: 0x8003D874, Size: 120 bytes, Blocks: 4 */
 
 block_8003D874:
@@ -114256,6 +113562,7 @@ block_8003D8C4:
 
 void func_8003D8EC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D8ECu);
     /* Address: 0x8003D8EC, Size: 52 bytes, Blocks: 1 */
 
 block_8003D8EC:
@@ -114282,6 +113589,7 @@ block_8003D8EC:
 
 void func_8003D920(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D920u);
     /* Address: 0x8003D920, Size: 48 bytes, Blocks: 1 */
 
 block_8003D920:
@@ -114307,6 +113615,7 @@ block_8003D920:
 
 void func_8003D950(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D950u);
     /* Address: 0x8003D950, Size: 116 bytes, Blocks: 6 */
 
 block_8003D950:
@@ -114399,6 +113708,7 @@ block_8003D9B0:
 
 void func_8003D9C4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003D9C4u);
     /* Address: 0x8003D9C4, Size: 48 bytes, Blocks: 1 */
 
 block_8003D9C4:
@@ -114424,7 +113734,8 @@ block_8003D9C4:
 
 void func_8003D9F4(CPUState* cpu)
 {
-    /* Address: 0x8003D9F4, Size: 60 bytes, Blocks: 2 */
+    debug_server_log_call_entry(0x8003D9F4u);
+    /* Address: 0x8003D9F4, Size: 52 bytes, Blocks: 1 */
 
 block_8003D9F4:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -114445,19 +113756,12 @@ block_8003D9F4:
     /* delay slot (always executes) */
     cpu->write_half(cpu->gpr[3] + 138, (uint16_t)cpu->gpr[2]);  /* 0x8003DA24: 0xA462008A */
     return;  /* jr $ra */
-
-block_8003DA28:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8003DA28: 0x3C02800A */
-    cpu->gpr[2] = (int32_t)(int8_t)cpu->read_byte(cpu->gpr[2] + -14824);  /* 0x8003DA2C: 0x8042C618 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8003DA30(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003DA30u);
     /* Address: 0x8003DA30, Size: 108 bytes, Blocks: 3 */
 
 block_8003DA30:
@@ -114519,6 +113823,7 @@ block_8003DA70:
 
 void func_8003DA9C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003DA9Cu);
     /* Address: 0x8003DA9C, Size: 104 bytes, Blocks: 7 */
 
 block_8003DA9C:
@@ -114615,6 +113920,7 @@ block_8003DAF0:
 
 void func_8003DB04(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003DB04u);
     /* Address: 0x8003DB04, Size: 108 bytes, Blocks: 5 */
 
 block_8003DB04:
@@ -114698,6 +114004,7 @@ block_8003DB5C:
 
 void func_8003DB70(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003DB70u);
     /* Address: 0x8003DB70, Size: 200 bytes, Blocks: 14 */
 
 block_8003DB70:
@@ -114887,6 +114194,7 @@ block_8003DC24:
 
 void func_8003DC38(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003DC38u);
     /* Address: 0x8003DC38, Size: 184 bytes, Blocks: 10 */
 
 block_8003DC38:
@@ -115029,6 +114337,7 @@ block_8003DCE8:
 
 void func_8003DCF0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003DCF0u);
     /* Address: 0x8003DCF0, Size: 416 bytes, Blocks: 25 */
 
 block_8003DCF0:
@@ -115379,6 +114688,7 @@ block_8003DE88:
 
 void func_8003DE90(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003DE90u);
     /* Address: 0x8003DE90, Size: 44 bytes, Blocks: 1 */
 
 block_8003DE90:
@@ -115403,6 +114713,7 @@ block_8003DE90:
 
 void func_8003DEBC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003DEBCu);
     /* Address: 0x8003DEBC, Size: 84 bytes, Blocks: 4 */
 
 block_8003DEBC:
@@ -115465,6 +114776,7 @@ block_8003DEEC:
 
 void func_8003DF10(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003DF10u);
     /* Address: 0x8003DF10, Size: 44 bytes, Blocks: 1 */
 
 block_8003DF10:
@@ -115489,6 +114801,7 @@ block_8003DF10:
 
 void func_8003DF3C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003DF3Cu);
     /* Address: 0x8003DF3C, Size: 76 bytes, Blocks: 2 */
 
 block_8003DF3C:
@@ -115530,6 +114843,7 @@ block_8003DF64:
 
 void func_8003DF88(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003DF88u);
     /* Address: 0x8003DF88, Size: 68 bytes, Blocks: 2 */
 
 block_8003DF88:
@@ -115569,6 +114883,7 @@ block_8003DFA8:
 
 void func_8003DFCC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003DFCCu);
     /* Address: 0x8003DFCC, Size: 36 bytes, Blocks: 1 */
 
 block_8003DFCC:
@@ -115591,6 +114906,7 @@ block_8003DFCC:
 
 void func_8003DFF0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003DFF0u);
     /* Address: 0x8003DFF0, Size: 36 bytes, Blocks: 1 */
 
 block_8003DFF0:
@@ -115613,6 +114929,7 @@ block_8003DFF0:
 
 void func_8003E014(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003E014u);
     /* Address: 0x8003E014, Size: 144 bytes, Blocks: 6 */
 
 block_8003E014:
@@ -115714,6 +115031,7 @@ block_8003E080:
 
 void func_8003E0A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003E0A4u);
     /* Address: 0x8003E0A4, Size: 68 bytes, Blocks: 2 */
 
 block_8003E0A4:
@@ -115753,6 +115071,7 @@ block_8003E0C4:
 
 void func_8003E0E8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003E0E8u);
     /* Address: 0x8003E0E8, Size: 68 bytes, Blocks: 1 */
 
 block_8003E0E8:
@@ -115783,6 +115102,7 @@ block_8003E0E8:
 
 void func_8003E12C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003E12Cu);
     /* Address: 0x8003E12C, Size: 124 bytes, Blocks: 8 */
 
 block_8003E12C:
@@ -115894,6 +115214,7 @@ block_8003E184:
 
 void func_8003E1A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003E1A8u);
     /* Address: 0x8003E1A8, Size: 80 bytes, Blocks: 3 */
 
 block_8003E1A8:
@@ -115946,6 +115267,7 @@ block_8003E1E4:
 
 void func_8003E1F8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003E1F8u);
     /* Address: 0x8003E1F8, Size: 80 bytes, Blocks: 3 */
 
 block_8003E1F8:
@@ -115998,6 +115320,7 @@ block_8003E234:
 
 void func_8003E248(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003E248u);
     /* Address: 0x8003E248, Size: 80 bytes, Blocks: 3 */
 
 block_8003E248:
@@ -116050,6 +115373,7 @@ block_8003E284:
 
 void func_8003E298(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003E298u);
     /* Address: 0x8003E298, Size: 80 bytes, Blocks: 2 */
 
 block_8003E298:
@@ -116092,6 +115416,7 @@ block_8003E2C4:
 
 void func_8003E2E8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003E2E8u);
     /* Address: 0x8003E2E8, Size: 36 bytes, Blocks: 1 */
 
 block_8003E2E8:
@@ -116114,6 +115439,7 @@ block_8003E2E8:
 
 void func_8003E30C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003E30Cu);
     /* Address: 0x8003E30C, Size: 36 bytes, Blocks: 1 */
 
 block_8003E30C:
@@ -116136,6 +115462,7 @@ block_8003E30C:
 
 void func_8003E330(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003E330u);
     /* Address: 0x8003E330, Size: 148 bytes, Blocks: 6 */
 
 block_8003E330:
@@ -116231,6 +115558,7 @@ block_8003E3A8:
 
 void func_8003E3C4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003E3C4u);
     /* Address: 0x8003E3C4, Size: 36 bytes, Blocks: 1 */
 
 block_8003E3C4:
@@ -116253,6 +115581,7 @@ block_8003E3C4:
 
 void func_8003E3E8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003E3E8u);
     /* Address: 0x8003E3E8, Size: 32 bytes, Blocks: 1 */
 
 block_8003E3E8:
@@ -116274,6 +115603,7 @@ block_8003E3E8:
 
 void func_8003E408(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003E408u);
     /* Address: 0x8003E408, Size: 2888 bytes, Blocks: 135 */
 
 block_8003E408:
@@ -118209,6 +117539,7 @@ block_8003EF34:
 
 void func_8003EF50(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003EF50u);
     /* Address: 0x8003EF50, Size: 396 bytes, Blocks: 11 */
 
 block_8003EF50:
@@ -118413,7 +117744,8 @@ block_8003F0C0:
 
 void func_8003F0DC(CPUState* cpu)
 {
-    /* Address: 0x8003F0DC, Size: 80 bytes, Blocks: 4 */
+    debug_server_log_call_entry(0x8003F0DCu);
+    /* Address: 0x8003F0DC, Size: 72 bytes, Blocks: 3 */
 
 block_8003F0DC:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -118457,19 +117789,12 @@ block_8003F10C:
     /* delay slot (always executes) */
     /* nop */  /* 0x8003F120: 0x00000000 */
     return;  /* jr $ra */
-
-block_8003F124:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8003F124: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_half(cpu->gpr[2] + -17208);  /* 0x8003F128: 0x9442BCC8 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8003F12C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003F12Cu);
     /* Address: 0x8003F12C, Size: 168 bytes, Blocks: 16 */
 
 block_8003F12C:
@@ -118650,6 +117975,7 @@ block_8003F1C4:
 
 void func_8003F1D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003F1D4u);
     /* Address: 0x8003F1D4, Size: 148 bytes, Blocks: 5 */
 
 block_8003F1D4:
@@ -118740,6 +118066,7 @@ block_8003F250:
 
 void func_8003F268(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003F268u);
     /* Address: 0x8003F268, Size: 364 bytes, Blocks: 21 */
 
 block_8003F268:
@@ -119025,6 +118352,7 @@ block_8003F3B8:
 
 void func_8003F3D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003F3D4u);
     /* Address: 0x8003F3D4, Size: 952 bytes, Blocks: 47 */
 
 block_8003F3D4:
@@ -119705,6 +119033,7 @@ block_8003F778:
 
 void func_8003F78C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003F78Cu);
     /* Address: 0x8003F78C, Size: 536 bytes, Blocks: 31 */
 
 block_8003F78C:
@@ -120135,6 +119464,7 @@ block_8003F990:
 
 void func_8003F9A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003F9A4u);
     /* Address: 0x8003F9A4, Size: 628 bytes, Blocks: 34 */
 
 block_8003F9A4:
@@ -120616,6 +119946,7 @@ block_8003FC04:
 
 void func_8003FC18(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003FC18u);
     /* Address: 0x8003FC18, Size: 444 bytes, Blocks: 24 */
 
 block_8003FC18:
@@ -120944,6 +120275,7 @@ block_8003FDB0:
 
 void func_8003FDD4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8003FDD4u);
     /* Address: 0x8003FDD4, Size: 560 bytes, Blocks: 20 */
 
 block_8003FDD4:
@@ -121285,6 +120617,7 @@ block_8003FFF0:
 
 void func_80040004(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040004u);
     /* Address: 0x80040004, Size: 4 bytes, Blocks: 1 */
 
 block_80040004:
@@ -121293,12 +120626,14 @@ block_80040004:
 #endif
     psx_check_interrupts(cpu);
     cpu->gpr[3] = 1;  /* 0x80040004: 0x24030001 */
+    func_80040008(cpu); return;  /* fallthrough to split piece */
     func_80040008(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80040008(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040008u);
     /* Address: 0x80040008, Size: 12 bytes, Blocks: 1 */
 
 block_80040008:
@@ -121309,12 +120644,14 @@ block_80040008:
     cpu->gpr[5] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[17] + 10);  /* 0x80040008: 0x8625000A */
     cpu->gpr[4] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[17] + 8);  /* 0x8004000C: 0x86240008 */
     cpu->gpr[5] = cpu->gpr[5] + cpu->gpr[3];  /* 0x80040010: 0x00A32821 */
+    func_80040014(cpu); return;  /* fallthrough to split piece */
     func_80040014(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80040014(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040014u);
     /* Address: 0x80040014, Size: 4 bytes, Blocks: 1 */
 
 block_80040014:
@@ -121332,6 +120669,7 @@ block_80040014:
 
 void func_80040018(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040018u);
     /* Address: 0x80040018, Size: 4 bytes, Blocks: 1 */
 
 block_80040018:
@@ -121340,12 +120678,14 @@ block_80040018:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80040018: 0x00000000 */
+    func_8004001C(cpu); return;  /* fallthrough to split piece */
     func_8004001C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8004001C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004001Cu);
     /* Address: 0x8004001C, Size: 4 bytes, Blocks: 1 */
 
 block_8004001C:
@@ -121354,12 +120694,14 @@ block_8004001C:
 #endif
     psx_check_interrupts(cpu);
     cpu->write_half(cpu->gpr[16] + 8, (uint16_t)cpu->gpr[2]);  /* 0x8004001C: 0xA6020008 */
+    func_80040020(cpu); return;  /* fallthrough to split piece */
     func_80040020(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80040020(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040020u);
     /* Address: 0x80040020, Size: 4 bytes, Blocks: 1 */
 
 block_80040020:
@@ -121368,12 +120710,14 @@ block_80040020:
 #endif
     psx_check_interrupts(cpu);
     cpu->gpr[3] = cpu->read_byte(cpu->gpr[17] + 7);  /* 0x80040020: 0x92230007 */
+    func_80040024(cpu); return;  /* fallthrough to split piece */
     func_80040024(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80040024(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040024u);
     /* Address: 0x80040024, Size: 4 bytes, Blocks: 1 */
 
 block_80040024:
@@ -121382,12 +120726,14 @@ block_80040024:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80040024: 0x00000000 */
+    func_80040028(cpu); return;  /* fallthrough to split piece */
     func_80040028(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80040028(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040028u);
     /* Address: 0x80040028, Size: 4 bytes, Blocks: 1 */
 
 block_80040028:
@@ -121409,6 +120755,7 @@ block_80040028:
 
 void func_8004002C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004002Cu);
     /* Address: 0x8004002C, Size: 4 bytes, Blocks: 1 */
 
 block_8004002C:
@@ -121417,12 +120764,14 @@ block_8004002C:
 #endif
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 1;  /* 0x8004002C: 0x24020001 */
+    func_80040030(cpu); return;  /* fallthrough to split piece */
     func_80040030(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80040030(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040030u);
     /* Address: 0x80040030, Size: 4 bytes, Blocks: 1 */
 
 block_80040030:
@@ -121444,6 +120793,7 @@ block_80040030:
 
 void func_80040034(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040034u);
     /* Address: 0x80040034, Size: 4 bytes, Blocks: 1 */
 
 block_80040034:
@@ -121452,12 +120802,14 @@ block_80040034:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80040034: 0x00000000 */
+    func_80040038(cpu); return;  /* fallthrough to split piece */
     func_80040038(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80040038(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040038u);
     /* Address: 0x80040038, Size: 8 bytes, Blocks: 1 */
 
 block_80040038:
@@ -121474,6 +120826,7 @@ block_80040038:
 
 void func_80040040(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040040u);
     /* Address: 0x80040040, Size: 12 bytes, Blocks: 1 */
 
 block_80040040:
@@ -121491,6 +120844,7 @@ block_80040040:
 
 void func_8004004C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004004Cu);
     /* Address: 0x8004004C, Size: 20 bytes, Blocks: 1 */
 
 block_8004004C:
@@ -121503,12 +120857,14 @@ block_8004004C:
     cpu->gpr[2] = cpu->gpr[2] & 0x007F;  /* 0x80040054: 0x3042007F */
     cpu->gpr[2] = cpu->gpr[2] << 2;  /* 0x80040058: 0x00021080 */
     cpu->gpr[2] = cpu->gpr[2] + cpu->gpr[3];  /* 0x8004005C: 0x00431021 */
+    func_80040060(cpu); return;  /* fallthrough to split piece */
     func_80040060(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80040060(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040060u);
     /* Address: 0x80040060, Size: 12 bytes, Blocks: 1 */
 
 block_80040060:
@@ -121519,12 +120875,14 @@ block_80040060:
     cpu->gpr[2] = cpu->read_word(cpu->gpr[2]);  /* 0x80040060: 0x8C420000 */
     /* nop */  /* 0x80040064: 0x00000000 */
     cpu->write_word(cpu->gpr[16] + 36, cpu->gpr[2]);  /* 0x80040068: 0xAE020024 */
+    func_8004006C(cpu); return;  /* fallthrough to split piece */
     func_8004006C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8004006C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004006Cu);
     /* Address: 0x8004006C, Size: 8 bytes, Blocks: 1 */
 
 block_8004006C:
@@ -121542,6 +120900,7 @@ block_8004006C:
 
 void func_80040074(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040074u);
     /* Address: 0x80040074, Size: 24 bytes, Blocks: 1 */
 
 block_80040074:
@@ -121561,6 +120920,7 @@ block_80040074:
 
 void func_8004008C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004008Cu);
     /* Address: 0x8004008C, Size: 84 bytes, Blocks: 3 */
 
 block_8004008C:
@@ -121616,7 +120976,8 @@ block_800400BC:
 
 void func_800400E0(CPUState* cpu)
 {
-    /* Address: 0x800400E0, Size: 400 bytes, Blocks: 34 */
+    debug_server_log_call_entry(0x800400E0u);
+    /* Address: 0x800400E0, Size: 392 bytes, Blocks: 33 */
 
 block_800400E0:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -122022,19 +121383,12 @@ block_80040244:
     /* delay slot (always executes) */
     /* nop */  /* 0x80040264: 0x00000000 */
     return;  /* jr $ra */
-
-block_80040268:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80040268: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + -17248);  /* 0x8004026C: 0x9042BCA0 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80040270(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040270u);
     /* Address: 0x80040270, Size: 236 bytes, Blocks: 12 */
 
 block_80040270:
@@ -122210,6 +121564,7 @@ block_80040348:
 
 void func_8004035C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004035Cu);
     /* Address: 0x8004035C, Size: 136 bytes, Blocks: 5 */
 
 block_8004035C:
@@ -122296,6 +121651,7 @@ block_800403C0:
 
 void func_800403E4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800403E4u);
     /* Address: 0x800403E4, Size: 132 bytes, Blocks: 6 */
 
 block_800403E4:
@@ -122391,7 +121747,8 @@ block_80040444:
 
 void func_80040468(CPUState* cpu)
 {
-    /* Address: 0x80040468, Size: 136 bytes, Blocks: 6 */
+    debug_server_log_call_entry(0x80040468u);
+    /* Address: 0x80040468, Size: 128 bytes, Blocks: 5 */
 
 block_80040468:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -122470,19 +121827,12 @@ block_800404C4:
     /* delay slot (always executes) */
     /* nop */  /* 0x800404E4: 0x00000000 */
     return;  /* jr $ra */
-
-block_800404E8:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x800404E8: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + -17248);  /* 0x800404EC: 0x9042BCA0 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800404F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800404F0u);
     /* Address: 0x800404F0, Size: 116 bytes, Blocks: 8 */
 
 block_800404F0:
@@ -122592,6 +121942,7 @@ block_80040550:
 
 void func_80040564(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040564u);
     /* Address: 0x80040564, Size: 100 bytes, Blocks: 4 */
 
 block_80040564:
@@ -122660,6 +122011,7 @@ block_800405A4:
 
 void func_800405C8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800405C8u);
     /* Address: 0x800405C8, Size: 100 bytes, Blocks: 4 */
 
 block_800405C8:
@@ -122728,6 +122080,7 @@ block_80040608:
 
 void func_8004062C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004062Cu);
     /* Address: 0x8004062C, Size: 100 bytes, Blocks: 4 */
 
 block_8004062C:
@@ -122796,7 +122149,8 @@ block_8004066C:
 
 void func_80040690(CPUState* cpu)
 {
-    /* Address: 0x80040690, Size: 144 bytes, Blocks: 7 */
+    debug_server_log_call_entry(0x80040690u);
+    /* Address: 0x80040690, Size: 136 bytes, Blocks: 6 */
 
 block_80040690:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -122889,19 +122243,12 @@ block_800406F4:
     /* delay slot (always executes) */
     /* nop */  /* 0x80040714: 0x00000000 */
     return;  /* jr $ra */
-
-block_80040718:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80040718: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + -17248);  /* 0x8004071C: 0x9042BCA0 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80040720(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040720u);
     /* Address: 0x80040720, Size: 236 bytes, Blocks: 11 */
 
 block_80040720:
@@ -123070,6 +122417,7 @@ block_800407F4:
 
 void func_8004080C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004080Cu);
     /* Address: 0x8004080C, Size: 336 bytes, Blocks: 14 */
 
 block_8004080C:
@@ -123289,6 +122637,7 @@ block_80040948:
 
 void func_8004095C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004095Cu);
     /* Address: 0x8004095C, Size: 112 bytes, Blocks: 5 */
 
 block_8004095C:
@@ -123369,6 +122718,7 @@ block_800409A8:
 
 void func_800409CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800409CCu);
     /* Address: 0x800409CC, Size: 100 bytes, Blocks: 4 */
 
 block_800409CC:
@@ -123437,6 +122787,7 @@ block_80040A0C:
 
 void func_80040A30(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040A30u);
     /* Address: 0x80040A30, Size: 248 bytes, Blocks: 16 */
 
 block_80040A30:
@@ -123654,6 +123005,7 @@ block_80040B00:
 
 void func_80040B28(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040B28u);
     /* Address: 0x80040B28, Size: 112 bytes, Blocks: 5 */
 
 block_80040B28:
@@ -123734,6 +123086,7 @@ block_80040B74:
 
 void func_80040B98(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040B98u);
     /* Address: 0x80040B98, Size: 116 bytes, Blocks: 6 */
 
 block_80040B98:
@@ -123822,6 +123175,7 @@ block_80040BE8:
 
 void func_80040C0C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040C0Cu);
     /* Address: 0x80040C0C, Size: 404 bytes, Blocks: 30 */
 
 block_80040C0C:
@@ -124179,6 +123533,7 @@ block_80040D8C:
 
 void func_80040DA0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040DA0u);
     /* Address: 0x80040DA0, Size: 132 bytes, Blocks: 6 */
 
 block_80040DA0:
@@ -124279,6 +123634,7 @@ block_80040E00:
 
 void func_80040E24(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040E24u);
     /* Address: 0x80040E24, Size: 436 bytes, Blocks: 33 */
 
 block_80040E24:
@@ -124702,6 +124058,7 @@ block_80040FC4:
 
 void func_80040FD8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040FD8u);
     /* Address: 0x80040FD8, Size: 32 bytes, Blocks: 2 */
 
 block_80040FD8:
@@ -124726,11 +124083,13 @@ block_80040FF4:
 #endif
     psx_check_interrupts(cpu);
     cpu->gpr[5] = 1;  /* 0x80040FF4: 0x24050001 */
+    func_80040FF8(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80040FF8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040FF8u);
     /* Address: 0x80040FF8, Size: 4 bytes, Blocks: 1 */
 
 block_80040FF8:
@@ -124739,12 +124098,14 @@ block_80040FF8:
 #endif
     psx_check_interrupts(cpu);
     cpu->gpr[4] = cpu->read_byte(cpu->gpr[16] + 3);  /* 0x80040FF8: 0x92040003 */
+    func_80040FFC(cpu); return;  /* fallthrough to split piece */
     func_80040FFC(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80040FFC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80040FFCu);
     /* Address: 0x80040FFC, Size: 8 bytes, Blocks: 1 */
 
 block_80040FFC:
@@ -124762,6 +124123,7 @@ block_80040FFC:
 
 void func_80041004(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80041004u);
     /* Address: 0x80041004, Size: 68 bytes, Blocks: 3 */
 
 block_80041004:
@@ -124813,7 +124175,8 @@ block_80041024:
 
 void func_80041048(CPUState* cpu)
 {
-    /* Address: 0x80041048, Size: 152 bytes, Blocks: 7 */
+    debug_server_log_call_entry(0x80041048u);
+    /* Address: 0x80041048, Size: 144 bytes, Blocks: 6 */
 
 block_80041048:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -124903,19 +124266,12 @@ block_800410A4:
     /* delay slot (always executes) */
     /* nop */  /* 0x800410D4: 0x00000000 */
     return;  /* jr $ra */
-
-block_800410D8:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x800410D8: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + -15319);  /* 0x800410DC: 0x9042C429 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800410E0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800410E0u);
     /* Address: 0x800410E0, Size: 156 bytes, Blocks: 9 */
 
 block_800410E0:
@@ -125050,6 +124406,7 @@ block_80041158:
 
 void func_8004117C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004117Cu);
     /* Address: 0x8004117C, Size: 1496 bytes, Blocks: 94 */
 
 block_8004117C:
@@ -126345,6 +125702,7 @@ block_80041740:
 
 void func_80041754(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80041754u);
     /* Address: 0x80041754, Size: 60 bytes, Blocks: 2 */
 
 block_80041754:
@@ -126382,6 +125740,7 @@ block_80041780:
 
 void func_80041790(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80041790u);
     /* Address: 0x80041790, Size: 60 bytes, Blocks: 2 */
 
 block_80041790:
@@ -126419,6 +125778,7 @@ block_800417BC:
 
 void func_800417CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800417CCu);
     /* Address: 0x800417CC, Size: 84 bytes, Blocks: 2 */
 
 block_800417CC:
@@ -126462,6 +125822,7 @@ block_80041810:
 
 void func_80041820(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80041820u);
     /* Address: 0x80041820, Size: 84 bytes, Blocks: 2 */
 
 block_80041820:
@@ -126505,6 +125866,7 @@ block_80041864:
 
 void func_80041874(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80041874u);
     /* Address: 0x80041874, Size: 84 bytes, Blocks: 2 */
 
 block_80041874:
@@ -126548,6 +125910,7 @@ block_800418B8:
 
 void func_800418C8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800418C8u);
     /* Address: 0x800418C8, Size: 60 bytes, Blocks: 2 */
 
 block_800418C8:
@@ -126585,6 +125948,7 @@ block_800418F4:
 
 void func_80041904(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80041904u);
     /* Address: 0x80041904, Size: 60 bytes, Blocks: 2 */
 
 block_80041904:
@@ -126622,7 +125986,8 @@ block_80041930:
 
 void func_80041940(CPUState* cpu)
 {
-    /* Address: 0x80041940, Size: 1004 bytes, Blocks: 14 */
+    debug_server_log_call_entry(0x80041940u);
+    /* Address: 0x80041940, Size: 996 bytes, Blocks: 13 */
 
 block_80041940:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -126990,20 +126355,13 @@ block_80041CF8:
     /* delay slot (always executes) */
     /* nop */  /* 0x80041D20: 0x00000000 */
     return;  /* jr $ra */
-
-block_80041D24:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[3] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80041D24: 0x3C03800A */
-    cpu->gpr[3] = cpu->read_half(cpu->gpr[3] + -17208);  /* 0x80041D28: 0x9463BCC8 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80041D2C(CPUState* cpu)
 {
-    /* Address: 0x80041D2C, Size: 72 bytes, Blocks: 7 */
+    debug_server_log_call_entry(0x80041D2Cu);
+    /* Address: 0x80041D2C, Size: 64 bytes, Blocks: 6 */
 
 block_80041D2C:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -127076,19 +126434,12 @@ block_80041D5C:
     /* delay slot (always executes) */
     /* nop */  /* 0x80041D68: 0x00000000 */
     return;  /* jr $ra */
-
-block_80041D6C:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[3] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80041D6C: 0x3C03800A */
-    cpu->gpr[3] = cpu->read_half(cpu->gpr[3] + -17208);  /* 0x80041D70: 0x9463BCC8 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80041D74(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80041D74u);
     /* Address: 0x80041D74, Size: 64 bytes, Blocks: 6 */
 
 block_80041D74:
@@ -127167,6 +126518,7 @@ block_80041DA4:
 
 void func_80041DB4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80041DB4u);
     /* Address: 0x80041DB4, Size: 584 bytes, Blocks: 38 */
 
 block_80041DB4:
@@ -127692,11 +127044,13 @@ block_80041FF8:
 #endif
     psx_check_interrupts(cpu);
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[16] + 104);  /* 0x80041FF8: 0x92020068 */
+    func_80041FFC(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80041FFC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80041FFCu);
     /* Address: 0x80041FFC, Size: 8 bytes, Blocks: 1 */
 
 block_80041FFC:
@@ -127706,12 +127060,14 @@ block_80041FFC:
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80041FFC: 0x00000000 */
     cpu->gpr[2] = cpu->gpr[2] & 0x0001;  /* 0x80042000: 0x30420001 */
+    func_80042004(cpu); return;  /* fallthrough to split piece */
     func_80042004(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80042004(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80042004u);
     /* Address: 0x80042004, Size: 68 bytes, Blocks: 2 */
 
 block_80042004:
@@ -127748,11 +127104,13 @@ block_8004200C:
     cpu->gpr[2] = cpu->read_half(cpu->gpr[1] + -5874);  /* 0x8004203C: 0x9422E90E */
     cpu->write_byte(cpu->gpr[16] + 5, (uint8_t)cpu->gpr[0]);  /* 0x80042040: 0xA2000005 */
     cpu->write_half(cpu->gpr[16] + 130, (uint16_t)cpu->gpr[2]);  /* 0x80042044: 0xA6020082 */
+    func_80042048(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80042048(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80042048u);
     /* Address: 0x80042048, Size: 52 bytes, Blocks: 4 */
 
 block_80042048:
@@ -127812,6 +127170,7 @@ block_80042074:
 
 void func_8004207C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004207Cu);
     /* Address: 0x8004207C, Size: 104 bytes, Blocks: 5 */
 
 block_8004207C:
@@ -127888,6 +127247,7 @@ block_800420DC:
 
 void func_800420E4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800420E4u);
     /* Address: 0x800420E4, Size: 8 bytes, Blocks: 1 */
 
 block_800420E4:
@@ -127905,6 +127265,7 @@ block_800420E4:
 
 void func_800420EC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800420ECu);
     /* Address: 0x800420EC, Size: 24 bytes, Blocks: 1 */
 
 block_800420EC:
@@ -127924,6 +127285,7 @@ block_800420EC:
 
 void func_80042104(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80042104u);
     /* Address: 0x80042104, Size: 256 bytes, Blocks: 4 */
 
 block_80042104:
@@ -128029,6 +127391,7 @@ block_800421E0:
 
 void func_80042204(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80042204u);
     /* Address: 0x80042204, Size: 628 bytes, Blocks: 41 */
 
 block_80042204:
@@ -128583,7 +127946,8 @@ block_80042464:
 
 void func_80042478(CPUState* cpu)
 {
-    /* Address: 0x80042478, Size: 296 bytes, Blocks: 5 */
+    debug_server_log_call_entry(0x80042478u);
+    /* Address: 0x80042478, Size: 288 bytes, Blocks: 4 */
 
 block_80042478:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -128691,19 +128055,12 @@ block_8004256C:
     /* delay slot (always executes) */
     /* nop */  /* 0x80042594: 0x00000000 */
     return;  /* jr $ra */
-
-block_80042598:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[3] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80042598: 0x3C03800A */
-    cpu->gpr[3] = cpu->read_half(cpu->gpr[3] + -17208);  /* 0x8004259C: 0x9463BCC8 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800425A0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800425A0u);
     /* Address: 0x800425A0, Size: 112 bytes, Blocks: 12 */
 
 block_800425A0:
@@ -128850,6 +128207,7 @@ block_80042600:
 
 void func_80042610(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80042610u);
     /* Address: 0x80042610, Size: 68 bytes, Blocks: 3 */
 
 block_80042610:
@@ -128899,6 +128257,7 @@ block_8004263C:
 
 void func_80042654(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80042654u);
     /* Address: 0x80042654, Size: 804 bytes, Blocks: 37 */
 
 block_80042654:
@@ -129460,6 +128819,7 @@ block_80042970:
 
 void func_80042978(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80042978u);
     /* Address: 0x80042978, Size: 116 bytes, Blocks: 12 */
 
 block_80042978:
@@ -129604,6 +128964,7 @@ block_800429E4:
 
 void func_800429EC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800429ECu);
     /* Address: 0x800429EC, Size: 84 bytes, Blocks: 2 */
 
 block_800429EC:
@@ -129641,11 +129002,13 @@ block_80042A3C:
 #endif
     psx_check_interrupts(cpu);
     cpu->gpr[2] = cpu->gpr[2] << 16;  /* 0x80042A3C: 0x00021400 */
+    func_80042A40(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80042A40(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80042A40u);
     /* Address: 0x80042A40, Size: 480 bytes, Blocks: 43 */
 
 block_80042A40:
@@ -130182,6 +129545,7 @@ block_80042C08:
 
 void func_80042C20(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80042C20u);
     /* Address: 0x80042C20, Size: 768 bytes, Blocks: 43 */
 
 block_80042C20:
@@ -130801,6 +130165,7 @@ block_80042EF0:
 
 void func_80042F20(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80042F20u);
     /* Address: 0x80042F20, Size: 196 bytes, Blocks: 8 */
 
 block_80042F20:
@@ -130931,6 +130296,7 @@ block_80042FD0:
 
 void func_80042FE4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80042FE4u);
     /* Address: 0x80042FE4, Size: 8 bytes, Blocks: 1 */
 
 block_80042FE4:
@@ -130940,12 +130306,14 @@ block_80042FE4:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x80042FE4: 0x3C021F80 */
     cpu->gpr[2] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[2] + 638);  /* 0x80042FE8: 0x8442027E */
+    func_80042FEC(cpu); return;  /* fallthrough to split piece */
     func_80042FEC(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80042FEC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80042FECu);
     /* Address: 0x80042FEC, Size: 4 bytes, Blocks: 1 */
 
 block_80042FEC:
@@ -130954,12 +130322,14 @@ block_80042FEC:
 #endif
     psx_check_interrupts(cpu);
     cpu->gpr[29] = cpu->gpr[29] + -16;  /* 0x80042FEC: 0x27BDFFF0 */
+    func_80042FF0(cpu); return;  /* fallthrough to split piece */
     func_80042FF0(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80042FF0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80042FF0u);
     /* Address: 0x80042FF0, Size: 12 bytes, Blocks: 2 */
 
 block_80042FF0:
@@ -130982,11 +130352,13 @@ block_80042FF8:
 #endif
     psx_check_interrupts(cpu);
     cpu->gpr[3] = cpu->gpr[0] - cpu->gpr[3];  /* 0x80042FF8: 0x00031823 */
+    func_80042FFC(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80042FFC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80042FFCu);
     /* Address: 0x80042FFC, Size: 464 bytes, Blocks: 40 */
 
 block_80042FFC:
@@ -131484,6 +130856,7 @@ block_800431C0:
 
 void func_800431CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800431CCu);
     /* Address: 0x800431CC, Size: 464 bytes, Blocks: 18 */
 
 block_800431CC:
@@ -131775,6 +131148,7 @@ block_80043374:
 
 void func_8004339C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004339Cu);
     /* Address: 0x8004339C, Size: 816 bytes, Blocks: 33 */
 
 block_8004339C:
@@ -132311,6 +131685,7 @@ block_800436C0:
 
 void func_800436CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800436CCu);
     /* Address: 0x800436CC, Size: 116 bytes, Blocks: 3 */
 
 block_800436CC:
@@ -132371,6 +131746,7 @@ block_8004371C:
 
 void func_80043740(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80043740u);
     /* Address: 0x80043740, Size: 880 bytes, Blocks: 45 */
 
 block_80043740:
@@ -133034,6 +132410,7 @@ block_80043A80:
 
 void func_80043AB0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80043AB0u);
     /* Address: 0x80043AB0, Size: 140 bytes, Blocks: 3 */
 
 block_80043AB0:
@@ -133100,6 +132477,7 @@ block_80043B14:
 
 void func_80043B3C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80043B3Cu);
     /* Address: 0x80043B3C, Size: 496 bytes, Blocks: 27 */
 
 block_80043B3C:
@@ -133499,6 +132877,7 @@ block_80043D20:
 
 void func_80043D2C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80043D2Cu);
     /* Address: 0x80043D2C, Size: 116 bytes, Blocks: 3 */
 
 block_80043D2C:
@@ -133559,6 +132938,7 @@ block_80043D7C:
 
 void func_80043DA0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80043DA0u);
     /* Address: 0x80043DA0, Size: 372 bytes, Blocks: 23 */
 
 block_80043DA0:
@@ -133879,6 +133259,7 @@ block_80043F0C:
 
 void func_80043F14(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80043F14u);
     /* Address: 0x80043F14, Size: 316 bytes, Blocks: 14 */
 
 block_80043F14:
@@ -134102,6 +133483,7 @@ block_80044048:
 
 void func_80044050(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80044050u);
     /* Address: 0x80044050, Size: 308 bytes, Blocks: 14 */
 
 block_80044050:
@@ -134323,6 +133705,7 @@ block_8004417C:
 
 void func_80044184(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80044184u);
     /* Address: 0x80044184, Size: 376 bytes, Blocks: 23 */
 
 block_80044184:
@@ -134644,6 +134027,7 @@ block_800442F4:
 
 void func_800442FC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800442FCu);
     /* Address: 0x800442FC, Size: 208 bytes, Blocks: 9 */
 
 block_800442FC:
@@ -134790,6 +134174,7 @@ block_800443C4:
 
 void func_800443CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800443CCu);
     /* Address: 0x800443CC, Size: 596 bytes, Blocks: 33 */
 
 block_800443CC:
@@ -135259,6 +134644,7 @@ block_800445F8:
 
 void func_80044620(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80044620u);
     /* Address: 0x80044620, Size: 116 bytes, Blocks: 3 */
 
 block_80044620:
@@ -135319,6 +134705,7 @@ block_80044670:
 
 void func_80044694(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80044694u);
     /* Address: 0x80044694, Size: 576 bytes, Blocks: 33 */
 
 block_80044694:
@@ -135792,6 +135179,7 @@ block_800448B8:
 
 void func_800448D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800448D4u);
     /* Address: 0x800448D4, Size: 568 bytes, Blocks: 34 */
 
 block_800448D4:
@@ -136275,6 +135663,7 @@ block_80044AF0:
 
 void func_80044B0C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80044B0Cu);
     /* Address: 0x80044B0C, Size: 1520 bytes, Blocks: 74 */
 
 block_80044B0C:
@@ -137402,6 +136791,7 @@ block_800450C8:
 
 void func_800450FC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800450FCu);
     /* Address: 0x800450FC, Size: 120 bytes, Blocks: 3 */
 
 block_800450FC:
@@ -137463,6 +136853,7 @@ block_80045150:
 
 void func_80045174(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80045174u);
     /* Address: 0x80045174, Size: 412 bytes, Blocks: 19 */
 
 block_80045174:
@@ -137754,6 +137145,7 @@ block_800452F4:
 
 void func_80045310(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80045310u);
     /* Address: 0x80045310, Size: 608 bytes, Blocks: 33 */
 
 block_80045310:
@@ -138235,6 +137627,7 @@ block_80045554:
 
 void func_80045570(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80045570u);
     /* Address: 0x80045570, Size: 528 bytes, Blocks: 31 */
 
 block_80045570:
@@ -138677,6 +138070,7 @@ block_80045764:
 
 void func_80045780(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80045780u);
     /* Address: 0x80045780, Size: 304 bytes, Blocks: 12 */
 
 block_80045780:
@@ -138875,6 +138269,7 @@ block_8004589C:
 
 void func_800458B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800458B0u);
     /* Address: 0x800458B0, Size: 304 bytes, Blocks: 12 */
 
 block_800458B0:
@@ -139073,6 +138468,7 @@ block_800459CC:
 
 void func_800459E0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800459E0u);
     /* Address: 0x800459E0, Size: 280 bytes, Blocks: 9 */
 
 block_800459E0:
@@ -139231,6 +138627,7 @@ block_80045ADC:
 
 void func_80045AF8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80045AF8u);
     /* Address: 0x80045AF8, Size: 172 bytes, Blocks: 10 */
 
 block_80045AF8:
@@ -139390,6 +138787,7 @@ block_80045B9C:
 
 void func_80045BA4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80045BA4u);
     /* Address: 0x80045BA4, Size: 92 bytes, Blocks: 6 */
 
 block_80045BA4:
@@ -139471,6 +138869,7 @@ block_80045BF8:
 
 void func_80045C00(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80045C00u);
     /* Address: 0x80045C00, Size: 84 bytes, Blocks: 6 */
 
 block_80045C00:
@@ -139550,6 +138949,7 @@ block_80045C4C:
 
 void func_80045C54(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80045C54u);
     /* Address: 0x80045C54, Size: 184 bytes, Blocks: 4 */
 
 block_80045C54:
@@ -139637,6 +139037,7 @@ block_80045CF0:
 
 void func_80045D0C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80045D0Cu);
     /* Address: 0x80045D0C, Size: 496 bytes, Blocks: 34 */
 
 block_80045D0C:
@@ -140091,6 +139492,7 @@ block_80045EF4:
 
 void func_80045EFC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80045EFCu);
     /* Address: 0x80045EFC, Size: 872 bytes, Blocks: 76 */
 
 block_80045EFC:
@@ -141006,6 +140408,7 @@ block_80046250:
 
 void func_80046264(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80046264u);
     /* Address: 0x80046264, Size: 280 bytes, Blocks: 23 */
 
 block_80046264:
@@ -141287,6 +140690,7 @@ block_8004636C:
 
 void func_8004637C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004637Cu);
     /* Address: 0x8004637C, Size: 172 bytes, Blocks: 16 */
 
 block_8004637C:
@@ -141486,6 +140890,7 @@ block_80046418:
 
 void func_80046428(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80046428u);
     /* Address: 0x80046428, Size: 2228 bytes, Blocks: 35 */
 
 block_80046428:
@@ -142379,6 +141784,7 @@ block_80046CA8:
 
 void func_80046CDC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80046CDCu);
     /* Address: 0x80046CDC, Size: 8 bytes, Blocks: 1 */
 
 block_80046CDC:
@@ -142388,12 +141794,14 @@ block_80046CDC:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x80046CDC: 0x3C021F80 */
     cpu->gpr[2] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[2] + 454);  /* 0x80046CE0: 0x844201C6 */
+    func_80046CE4(cpu); return;  /* fallthrough to split piece */
     func_80046CE4(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80046CE4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80046CE4u);
     /* Address: 0x80046CE4, Size: 476 bytes, Blocks: 36 */
 
 block_80046CE4:
@@ -142867,6 +142275,7 @@ block_80046EA4:
 
 void func_80046EC0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80046EC0u);
     /* Address: 0x80046EC0, Size: 4360 bytes, Blocks: 111 */
 
 block_80046EC0:
@@ -144959,6 +144368,7 @@ block_80047F94:
 
 void func_80047FC8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80047FC8u);
     /* Address: 0x80047FC8, Size: 2012 bytes, Blocks: 31 */
 
 block_80047FC8:
@@ -145753,6 +145163,7 @@ block_80048770:
 
 void func_800487A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800487A4u);
     /* Address: 0x800487A4, Size: 1100 bytes, Blocks: 40 */
 
 block_800487A4:
@@ -146435,6 +145846,7 @@ block_80048BCC:
 
 void func_80048BF0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80048BF0u);
     /* Address: 0x80048BF0, Size: 1348 bytes, Blocks: 48 */
 
 block_80048BF0:
@@ -147250,6 +146662,7 @@ block_8004910C:
 
 void func_80049134(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80049134u);
     /* Address: 0x80049134, Size: 2144 bytes, Blocks: 40 */
 
 block_80049134:
@@ -148193,6 +147606,7 @@ block_80049960:
 
 void func_80049994(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80049994u);
     /* Address: 0x80049994, Size: 2412 bytes, Blocks: 49 */
 
 block_80049994:
@@ -149281,6 +148695,7 @@ block_8004A2CC:
 
 void func_8004A300(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004A300u);
     /* Address: 0x8004A300, Size: 928 bytes, Blocks: 27 */
 
 block_8004A300:
@@ -149776,6 +149191,7 @@ block_8004A678:
 
 void func_8004A6A0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004A6A0u);
     /* Address: 0x8004A6A0, Size: 976 bytes, Blocks: 28 */
 
 block_8004A6A0:
@@ -150292,6 +149708,7 @@ block_8004AA48:
 
 void func_8004AA70(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004AA70u);
     /* Address: 0x8004AA70, Size: 796 bytes, Blocks: 25 */
 
 block_8004AA70:
@@ -150747,6 +150164,7 @@ block_8004AD70:
 
 void func_8004AD8C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004AD8Cu);
     /* Address: 0x8004AD8C, Size: 8 bytes, Blocks: 1 */
 
 block_8004AD8C:
@@ -150756,12 +150174,14 @@ block_8004AD8C:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x8004AD8C: 0x3C021F80 */
     cpu->gpr[2] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[2] + 454);  /* 0x8004AD90: 0x844201C6 */
+    func_8004AD94(cpu); return;  /* fallthrough to split piece */
     func_8004AD94(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8004AD94(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004AD94u);
     /* Address: 0x8004AD94, Size: 536 bytes, Blocks: 42 */
 
 block_8004AD94:
@@ -151306,6 +150726,7 @@ block_8004AF94:
 
 void func_8004AFAC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004AFACu);
     /* Address: 0x8004AFAC, Size: 8 bytes, Blocks: 1 */
 
 block_8004AFAC:
@@ -151315,12 +150736,14 @@ block_8004AFAC:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x8004AFAC: 0x3C021F80 */
     cpu->gpr[2] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[2] + 454);  /* 0x8004AFB0: 0x844201C6 */
+    func_8004AFB4(cpu); return;  /* fallthrough to split piece */
     func_8004AFB4(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8004AFB4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004AFB4u);
     /* Address: 0x8004AFB4, Size: 1180 bytes, Blocks: 117 */
 
 block_8004AFB4:
@@ -152629,6 +152052,7 @@ block_8004B434:
 
 void func_8004B450(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004B450u);
     /* Address: 0x8004B450, Size: 1696 bytes, Blocks: 29 */
 
 block_8004B450:
@@ -153330,6 +152754,7 @@ block_8004BABC:
 
 void func_8004BAF0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004BAF0u);
     /* Address: 0x8004BAF0, Size: 756 bytes, Blocks: 26 */
 
 block_8004BAF0:
@@ -153784,6 +153209,7 @@ block_8004BDC0:
 
 void func_8004BDE4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004BDE4u);
     /* Address: 0x8004BDE4, Size: 1024 bytes, Blocks: 23 */
 
 block_8004BDE4:
@@ -154262,6 +153688,7 @@ block_8004C1C0:
 
 void func_8004C1E4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004C1E4u);
     /* Address: 0x8004C1E4, Size: 116 bytes, Blocks: 3 */
 
 block_8004C1E4:
@@ -154322,6 +153749,7 @@ block_8004C244:
 
 void func_8004C258(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004C258u);
     /* Address: 0x8004C258, Size: 2604 bytes, Blocks: 36 */
 
 block_8004C258:
@@ -155287,6 +154715,7 @@ block_8004CC38:
 
 void func_8004CC84(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004CC84u);
     /* Address: 0x8004CC84, Size: 860 bytes, Blocks: 18 */
 
 block_8004CC84:
@@ -155675,6 +155104,7 @@ block_8004CFC0:
 
 void func_8004CFE0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004CFE0u);
     /* Address: 0x8004CFE0, Size: 8 bytes, Blocks: 1 */
 
 block_8004CFE0:
@@ -155684,12 +155114,14 @@ block_8004CFE0:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x8004CFE0: 0x3C021F80 */
     cpu->gpr[2] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[2] + 454);  /* 0x8004CFE4: 0x844201C6 */
+    func_8004CFE8(cpu); return;  /* fallthrough to split piece */
     func_8004CFE8(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8004CFE8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004CFE8u);
     /* Address: 0x8004CFE8, Size: 216 bytes, Blocks: 9 */
 
 block_8004CFE8:
@@ -155842,6 +155274,7 @@ block_8004D0A8:
 
 void func_8004D0C0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004D0C0u);
     /* Address: 0x8004D0C0, Size: 8 bytes, Blocks: 1 */
 
 block_8004D0C0:
@@ -155851,12 +155284,14 @@ block_8004D0C0:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x8004D0C0: 0x3C021F80 */
     cpu->gpr[2] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[2] + 454);  /* 0x8004D0C4: 0x844201C6 */
+    func_8004D0C8(cpu); return;  /* fallthrough to split piece */
     func_8004D0C8(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8004D0C8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004D0C8u);
     /* Address: 0x8004D0C8, Size: 216 bytes, Blocks: 9 */
 
 block_8004D0C8:
@@ -156009,6 +155444,7 @@ block_8004D188:
 
 void func_8004D1A0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004D1A0u);
     /* Address: 0x8004D1A0, Size: 264 bytes, Blocks: 6 */
 
 block_8004D1A0:
@@ -156133,6 +155569,7 @@ block_8004D28C:
 
 void func_8004D2A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004D2A8u);
     /* Address: 0x8004D2A8, Size: 416 bytes, Blocks: 14 */
 
 block_8004D2A8:
@@ -156365,6 +155802,7 @@ block_8004D42C:
 
 void func_8004D448(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004D448u);
     /* Address: 0x8004D448, Size: 424 bytes, Blocks: 14 */
 
 block_8004D448:
@@ -156599,6 +156037,7 @@ block_8004D5D4:
 
 void func_8004D5F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004D5F0u);
     /* Address: 0x8004D5F0, Size: 496 bytes, Blocks: 17 */
 
 block_8004D5F0:
@@ -156878,6 +156317,7 @@ block_8004D7C0:
 
 void func_8004D7E0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004D7E0u);
     /* Address: 0x8004D7E0, Size: 316 bytes, Blocks: 9 */
 
 block_8004D7E0:
@@ -157042,6 +156482,7 @@ block_8004D900:
 
 void func_8004D91C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004D91Cu);
     /* Address: 0x8004D91C, Size: 268 bytes, Blocks: 6 */
 
 block_8004D91C:
@@ -157167,6 +156608,7 @@ block_8004DA0C:
 
 void func_8004DA28(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004DA28u);
     /* Address: 0x8004DA28, Size: 276 bytes, Blocks: 6 */
 
 block_8004DA28:
@@ -157294,6 +156736,7 @@ block_8004DB20:
 
 void func_8004DB3C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004DB3Cu);
     /* Address: 0x8004DB3C, Size: 248 bytes, Blocks: 13 */
 
 block_8004DB3C:
@@ -157486,6 +156929,7 @@ block_8004DC18:
 
 void func_8004DC34(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004DC34u);
     /* Address: 0x8004DC34, Size: 8 bytes, Blocks: 1 */
 
 block_8004DC34:
@@ -157495,12 +156939,14 @@ block_8004DC34:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x8004DC34: 0x3C021F80 */
     cpu->gpr[2] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[2] + 454);  /* 0x8004DC38: 0x844201C6 */
+    func_8004DC3C(cpu); return;  /* fallthrough to split piece */
     func_8004DC3C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8004DC3C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004DC3Cu);
     /* Address: 0x8004DC3C, Size: 216 bytes, Blocks: 9 */
 
 block_8004DC3C:
@@ -157653,6 +157099,7 @@ block_8004DCFC:
 
 void func_8004DD14(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004DD14u);
     /* Address: 0x8004DD14, Size: 8 bytes, Blocks: 1 */
 
 block_8004DD14:
@@ -157662,12 +157109,14 @@ block_8004DD14:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x8004DD14: 0x3C021F80 */
     cpu->gpr[2] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[2] + 454);  /* 0x8004DD18: 0x844201C6 */
+    func_8004DD1C(cpu); return;  /* fallthrough to split piece */
     func_8004DD1C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8004DD1C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004DD1Cu);
     /* Address: 0x8004DD1C, Size: 644 bytes, Blocks: 45 */
 
 block_8004DD1C:
@@ -158245,6 +157694,7 @@ block_8004DF7C:
 
 void func_8004DFA0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004DFA0u);
     /* Address: 0x8004DFA0, Size: 676 bytes, Blocks: 20 */
 
 block_8004DFA0:
@@ -158609,6 +158059,7 @@ block_8004E1FC:
 
 void func_8004E244(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004E244u);
     /* Address: 0x8004E244, Size: 424 bytes, Blocks: 10 */
 
 block_8004E244:
@@ -158813,6 +158264,7 @@ block_8004E3C8:
 
 void func_8004E3EC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004E3ECu);
     /* Address: 0x8004E3EC, Size: 124 bytes, Blocks: 7 */
 
 block_8004E3EC:
@@ -158921,6 +158373,7 @@ block_8004E458:
 
 void func_8004E468(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004E468u);
     /* Address: 0x8004E468, Size: 296 bytes, Blocks: 13 */
 
 block_8004E468:
@@ -159121,6 +158574,7 @@ block_8004E56C:
 
 void func_8004E590(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004E590u);
     /* Address: 0x8004E590, Size: 388 bytes, Blocks: 8 */
 
 block_8004E590:
@@ -159293,6 +158747,7 @@ block_8004E6E8:
 
 void func_8004E714(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004E714u);
     /* Address: 0x8004E714, Size: 492 bytes, Blocks: 16 */
 
 block_8004E714:
@@ -159574,6 +159029,7 @@ block_8004E8D4:
 
 void func_8004E900(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004E900u);
     /* Address: 0x8004E900, Size: 8 bytes, Blocks: 1 */
 
 block_8004E900:
@@ -159583,12 +159039,14 @@ block_8004E900:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8004E900: 0x3C02800A */
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + -17191);  /* 0x8004E904: 0x9042BCD9 */
+    func_8004E908(cpu); return;  /* fallthrough to split piece */
     func_8004E908(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8004E908(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004E908u);
     /* Address: 0x8004E908, Size: 520 bytes, Blocks: 18 */
 
 block_8004E908:
@@ -159893,6 +159351,7 @@ block_8004EADC:
 
 void func_8004EB10(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004EB10u);
     /* Address: 0x8004EB10, Size: 624 bytes, Blocks: 14 */
 
 block_8004EB10:
@@ -160187,6 +159646,7 @@ block_8004ED4C:
 
 void func_8004ED80(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004ED80u);
     /* Address: 0x8004ED80, Size: 8 bytes, Blocks: 1 */
 
 block_8004ED80:
@@ -160196,12 +159656,14 @@ block_8004ED80:
     psx_check_interrupts(cpu);
     cpu->gpr[3] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8004ED80: 0x3C03800A */
     cpu->gpr[3] = cpu->read_byte(cpu->gpr[3] + -14822);  /* 0x8004ED84: 0x9063C61A */
+    func_8004ED88(cpu); return;  /* fallthrough to split piece */
     func_8004ED88(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8004ED88(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004ED88u);
     /* Address: 0x8004ED88, Size: 544 bytes, Blocks: 18 */
 
 block_8004ED88:
@@ -160494,6 +159956,7 @@ block_8004EF88:
 
 void func_8004EFA8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004EFA8u);
     /* Address: 0x8004EFA8, Size: 676 bytes, Blocks: 18 */
 
 block_8004EFA8:
@@ -160832,6 +160295,7 @@ block_8004F224:
 
 void func_8004F24C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004F24Cu);
     /* Address: 0x8004F24C, Size: 128 bytes, Blocks: 3 */
 
 block_8004F24C:
@@ -160895,6 +160359,7 @@ block_8004F29C:
 
 void func_8004F2CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004F2CCu);
     /* Address: 0x8004F2CC, Size: 272 bytes, Blocks: 4 */
 
 block_8004F2CC:
@@ -161003,6 +160468,7 @@ block_8004F3A4:
 
 void func_8004F3DC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004F3DCu);
     /* Address: 0x8004F3DC, Size: 308 bytes, Blocks: 6 */
 
 block_8004F3DC:
@@ -161139,6 +160605,7 @@ block_8004F4E8:
 
 void func_8004F510(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004F510u);
     /* Address: 0x8004F510, Size: 148 bytes, Blocks: 2 */
 
 block_8004F510:
@@ -161198,6 +160665,7 @@ block_8004F57C:
 
 void func_8004F5A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004F5A4u);
     /* Address: 0x8004F5A4, Size: 1456 bytes, Blocks: 57 */
 
 block_8004F5A4:
@@ -162098,6 +161566,7 @@ block_8004FB20:
 
 void func_8004FB54(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004FB54u);
     /* Address: 0x8004FB54, Size: 468 bytes, Blocks: 22 */
 
 block_8004FB54:
@@ -162430,6 +161899,7 @@ block_8004FCF4:
 
 void func_8004FD28(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8004FD28u);
     /* Address: 0x8004FD28, Size: 252 bytes, Blocks: 7 */
 
 block_8004FD28:
@@ -162560,7 +162030,8 @@ block_8004FDCC:
 
 void func_8004FE24(CPUState* cpu)
 {
-    /* Address: 0x8004FE24, Size: 1936 bytes, Blocks: 49 */
+    debug_server_log_call_entry(0x8004FE24u);
+    /* Address: 0x8004FE24, Size: 1932 bytes, Blocks: 48 */
 
 block_8004FE24:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -163472,18 +162943,12 @@ block_80050580:
     /* delay slot (always executes) */
     /* nop */  /* 0x800505AC: 0x00000000 */
     return;  /* jr $ra */
-
-block_800505B0:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(1u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[4] + 152);  /* 0x800505B0: 0x84820098 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800505B4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800505B4u);
     /* Address: 0x800505B4, Size: 52 bytes, Blocks: 4 */
 
 block_800505B4:
@@ -163541,6 +163006,7 @@ block_800505DC:
 
 void func_800505E8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800505E8u);
     /* Address: 0x800505E8, Size: 764 bytes, Blocks: 38 */
 
 block_800505E8:
@@ -164092,6 +163558,7 @@ block_800508D8:
 
 void func_800508E4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800508E4u);
     /* Address: 0x800508E4, Size: 272 bytes, Blocks: 17 */
 
 block_800508E4:
@@ -164307,6 +163774,7 @@ block_800509D4:
 
 void func_800509F4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800509F4u);
     /* Address: 0x800509F4, Size: 220 bytes, Blocks: 13 */
 
 block_800509F4:
@@ -164471,6 +163939,7 @@ block_80050AB0:
 
 void func_80050AD0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80050AD0u);
     /* Address: 0x80050AD0, Size: 236 bytes, Blocks: 13 */
 
 block_80050AD0:
@@ -164649,6 +164118,7 @@ block_80050B9C:
 
 void func_80050BBC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80050BBCu);
     /* Address: 0x80050BBC, Size: 216 bytes, Blocks: 11 */
 
 block_80050BBC:
@@ -164802,6 +164272,7 @@ block_80050C78:
 
 void func_80050C94(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80050C94u);
     /* Address: 0x80050C94, Size: 236 bytes, Blocks: 14 */
 
 block_80050C94:
@@ -164983,6 +164454,7 @@ block_80050D64:
 
 void func_80050D80(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80050D80u);
     /* Address: 0x80050D80, Size: 288 bytes, Blocks: 17 */
 
 block_80050D80:
@@ -165210,6 +164682,7 @@ block_80050E84:
 
 void func_80050EA0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80050EA0u);
     /* Address: 0x80050EA0, Size: 320 bytes, Blocks: 20 */
 
 block_80050EA0:
@@ -165468,6 +164941,7 @@ block_80050FC4:
 
 void func_80050FE0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80050FE0u);
     /* Address: 0x80050FE0, Size: 176 bytes, Blocks: 4 */
 
 block_80050FE0:
@@ -165556,6 +165030,7 @@ block_80051088:
 
 void func_80051090(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80051090u);
     /* Address: 0x80051090, Size: 500 bytes, Blocks: 19 */
 
 block_80051090:
@@ -165865,6 +165340,7 @@ block_80051278:
 
 void func_80051284(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80051284u);
     /* Address: 0x80051284, Size: 516 bytes, Blocks: 22 */
 
 block_80051284:
@@ -166204,6 +165680,7 @@ block_8005147C:
 
 void func_80051488(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80051488u);
     /* Address: 0x80051488, Size: 380 bytes, Blocks: 15 */
 
 block_80051488:
@@ -166445,6 +165922,7 @@ block_800515F8:
 
 void func_80051604(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80051604u);
     /* Address: 0x80051604, Size: 512 bytes, Blocks: 23 */
 
 block_80051604:
@@ -166790,6 +166268,7 @@ block_800517F8:
 
 void func_80051804(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80051804u);
     /* Address: 0x80051804, Size: 532 bytes, Blocks: 24 */
 
 block_80051804:
@@ -167157,6 +166636,7 @@ block_80051A0C:
 
 void func_80051A18(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80051A18u);
     /* Address: 0x80051A18, Size: 640 bytes, Blocks: 26 */
 
 block_80051A18:
@@ -167570,6 +167050,7 @@ block_80051C8C:
 
 void func_80051C98(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80051C98u);
     /* Address: 0x80051C98, Size: 268 bytes, Blocks: 11 */
 
 block_80051C98:
@@ -167745,6 +167226,7 @@ block_80051D98:
 
 void func_80051DA4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80051DA4u);
     /* Address: 0x80051DA4, Size: 316 bytes, Blocks: 11 */
 
 block_80051DA4:
@@ -167937,6 +167419,7 @@ block_80051ED4:
 
 void func_80051EE0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80051EE0u);
     /* Address: 0x80051EE0, Size: 544 bytes, Blocks: 16 */
 
 block_80051EE0:
@@ -168236,6 +167719,7 @@ block_800520F0:
 
 void func_80052100(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80052100u);
     /* Address: 0x80052100, Size: 224 bytes, Blocks: 9 */
 
 block_80052100:
@@ -168386,6 +167870,7 @@ block_800521D8:
 
 void func_800521E0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800521E0u);
     /* Address: 0x800521E0, Size: 212 bytes, Blocks: 7 */
 
 block_800521E0:
@@ -168514,6 +167999,7 @@ block_800522AC:
 
 void func_800522B4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800522B4u);
     /* Address: 0x800522B4, Size: 32 bytes, Blocks: 2 */
 
 block_800522B4:
@@ -168544,6 +168030,7 @@ block_800522C4:
 
 void func_800522D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800522D4u);
     /* Address: 0x800522D4, Size: 124 bytes, Blocks: 6 */
 
 block_800522D4:
@@ -168640,6 +168127,7 @@ block_80052338:
 
 void func_80052350(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80052350u);
     /* Address: 0x80052350, Size: 220 bytes, Blocks: 7 */
 
 block_80052350:
@@ -168770,6 +168258,7 @@ block_80052424:
 
 void func_8005242C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005242Cu);
     /* Address: 0x8005242C, Size: 300 bytes, Blocks: 12 */
 
 block_8005242C:
@@ -168965,6 +168454,7 @@ block_80052550:
 
 void func_80052558(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80052558u);
     /* Address: 0x80052558, Size: 204 bytes, Blocks: 5 */
 
 block_80052558:
@@ -169072,6 +168562,7 @@ block_8005261C:
 
 void func_80052624(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80052624u);
     /* Address: 0x80052624, Size: 192 bytes, Blocks: 6 */
 
 block_80052624:
@@ -169183,6 +168674,7 @@ block_800526DC:
 
 void func_800526E4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800526E4u);
     /* Address: 0x800526E4, Size: 228 bytes, Blocks: 9 */
 
 block_800526E4:
@@ -169329,6 +168821,7 @@ block_800527C0:
 
 void func_800527C8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800527C8u);
     /* Address: 0x800527C8, Size: 480 bytes, Blocks: 20 */
 
 block_800527C8:
@@ -169632,6 +169125,7 @@ block_8005298C:
 
 void func_800529A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800529A8u);
     /* Address: 0x800529A8, Size: 480 bytes, Blocks: 23 */
 
 block_800529A8:
@@ -169976,6 +169470,7 @@ block_80052B68:
 
 void func_80052B88(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80052B88u);
     /* Address: 0x80052B88, Size: 468 bytes, Blocks: 20 */
 
 block_80052B88:
@@ -170293,6 +169788,7 @@ block_80052D44:
 
 void func_80052D5C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80052D5Cu);
     /* Address: 0x80052D5C, Size: 452 bytes, Blocks: 20 */
 
 block_80052D5C:
@@ -170603,6 +170099,7 @@ block_80052F04:
 
 void func_80052F20(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80052F20u);
     /* Address: 0x80052F20, Size: 464 bytes, Blocks: 22 */
 
 block_80052F20:
@@ -170926,6 +170423,7 @@ block_800530D4:
 
 void func_800530F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800530F0u);
     /* Address: 0x800530F0, Size: 452 bytes, Blocks: 22 */
 
 block_800530F0:
@@ -171241,6 +170739,7 @@ block_80053298:
 
 void func_800532B4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800532B4u);
     /* Address: 0x800532B4, Size: 152 bytes, Blocks: 15 */
 
 block_800532B4:
@@ -171423,6 +170922,7 @@ block_8005333C:
 
 void func_8005334C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005334Cu);
     /* Address: 0x8005334C, Size: 572 bytes, Blocks: 31 */
 
 block_8005334C:
@@ -171851,6 +171351,7 @@ block_80053560:
 
 void func_80053588(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80053588u);
     /* Address: 0x80053588, Size: 128 bytes, Blocks: 12 */
 
 block_80053588:
@@ -171999,6 +171500,7 @@ block_800535F8:
 
 void func_80053608(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80053608u);
     /* Address: 0x80053608, Size: 132 bytes, Blocks: 7 */
 
 block_80053608:
@@ -172104,6 +171606,7 @@ block_80053674:
 
 void func_8005368C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005368Cu);
     /* Address: 0x8005368C, Size: 380 bytes, Blocks: 15 */
 
 block_8005368C:
@@ -172359,7 +171862,8 @@ block_800537F0:
 
 void func_80053808(CPUState* cpu)
 {
-    /* Address: 0x80053808, Size: 480 bytes, Blocks: 22 */
+    debug_server_log_call_entry(0x80053808u);
+    /* Address: 0x80053808, Size: 472 bytes, Blocks: 21 */
 
 block_80053808:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -172689,20 +172193,13 @@ block_800539C8:
     /* delay slot (always executes) */
     /* nop */  /* 0x800539DC: 0x00000000 */
     return;  /* jr $ra */
-
-block_800539E0:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x800539E0: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_half(cpu->gpr[2] + -17208);  /* 0x800539E4: 0x9442BCC8 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800539E8(CPUState* cpu)
 {
-    /* Address: 0x800539E8, Size: 60 bytes, Blocks: 6 */
+    debug_server_log_call_entry(0x800539E8u);
+    /* Address: 0x800539E8, Size: 52 bytes, Blocks: 5 */
 
 block_800539E8:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -172760,19 +172257,12 @@ block_80053A0C:
     /* delay slot (always executes) */
     /* nop */  /* 0x80053A18: 0x00000000 */
     return;  /* jr $ra */
-
-block_80053A1C:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80053A1C: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_half(cpu->gpr[2] + -17208);  /* 0x80053A20: 0x9442BCC8 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80053A24(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80053A24u);
     /* Address: 0x80053A24, Size: 52 bytes, Blocks: 5 */
 
 block_80053A24:
@@ -172836,6 +172326,7 @@ block_80053A48:
 
 void func_80053A58(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80053A58u);
     /* Address: 0x80053A58, Size: 152 bytes, Blocks: 15 */
 
 block_80053A58:
@@ -173018,6 +172509,7 @@ block_80053AE0:
 
 void func_80053AF0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80053AF0u);
     /* Address: 0x80053AF0, Size: 64 bytes, Blocks: 5 */
 
 block_80053AF0:
@@ -173084,6 +172576,7 @@ block_80053B20:
 
 void func_80053B30(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80053B30u);
     /* Address: 0x80053B30, Size: 100 bytes, Blocks: 4 */
 
 block_80053B30:
@@ -173150,6 +172643,7 @@ block_80053B7C:
 
 void func_80053B94(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80053B94u);
     /* Address: 0x80053B94, Size: 32 bytes, Blocks: 2 */
 
 block_80053B94:
@@ -173180,6 +172674,7 @@ block_80053BA4:
 
 void func_80053BB4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80053BB4u);
     /* Address: 0x80053BB4, Size: 352 bytes, Blocks: 13 */
 
 block_80053BB4:
@@ -173405,6 +172900,7 @@ block_80053D08:
 
 void func_80053D14(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80053D14u);
     /* Address: 0x80053D14, Size: 140 bytes, Blocks: 11 */
 
 block_80053D14:
@@ -173549,6 +173045,7 @@ block_80053D90:
 
 void func_80053DA0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80053DA0u);
     /* Address: 0x80053DA0, Size: 360 bytes, Blocks: 19 */
 
 block_80053DA0:
@@ -173850,6 +173347,7 @@ block_80053EE4:
 
 void func_80053F08(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80053F08u);
     /* Address: 0x80053F08, Size: 1808 bytes, Blocks: 107 */
 
 block_80053F08:
@@ -175272,6 +174770,7 @@ block_800545E4:
 
 void func_80054618(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80054618u);
     /* Address: 0x80054618, Size: 1864 bytes, Blocks: 112 */
 
 block_80054618:
@@ -176752,6 +176251,7 @@ block_80054D2C:
 
 void func_80054D60(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80054D60u);
     /* Address: 0x80054D60, Size: 1836 bytes, Blocks: 126 */
 
 block_80054D60:
@@ -178329,6 +177829,7 @@ block_80055468:
 
 void func_8005548C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005548Cu);
     /* Address: 0x8005548C, Size: 8 bytes, Blocks: 1 */
 
 block_8005548C:
@@ -178338,12 +177839,14 @@ block_8005548C:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8005548C: 0x3C02800A */
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + -17246);  /* 0x80055490: 0x9042BCA2 */
+    func_80055494(cpu); return;  /* fallthrough to split piece */
     func_80055494(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80055494(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80055494u);
     /* Address: 0x80055494, Size: 1456 bytes, Blocks: 129 */
 
 block_80055494:
@@ -179812,6 +179315,7 @@ block_80055A20:
 
 void func_80055A44(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80055A44u);
     /* Address: 0x80055A44, Size: 348 bytes, Blocks: 12 */
 
 block_80055A44:
@@ -180034,6 +179538,7 @@ block_80055B98:
 
 void func_80055BA0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80055BA0u);
     /* Address: 0x80055BA0, Size: 8 bytes, Blocks: 1 */
 
 block_80055BA0:
@@ -180043,12 +179548,14 @@ block_80055BA0:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x80055BA0: 0x3C021F80 */
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 421);  /* 0x80055BA4: 0x904201A5 */
+    func_80055BA8(cpu); return;  /* fallthrough to split piece */
     func_80055BA8(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80055BA8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80055BA8u);
     /* Address: 0x80055BA8, Size: 612 bytes, Blocks: 34 */
 
 block_80055BA8:
@@ -180553,6 +180060,7 @@ block_80055DF8:
 
 void func_80055E0C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80055E0Cu);
     /* Address: 0x80055E0C, Size: 200 bytes, Blocks: 4 */
 
 block_80055E0C:
@@ -180647,6 +180155,7 @@ block_80055ECC:
 
 void func_80055ED4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80055ED4u);
     /* Address: 0x80055ED4, Size: 408 bytes, Blocks: 15 */
 
 block_80055ED4:
@@ -180895,6 +180404,7 @@ block_80056060:
 
 void func_8005606C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005606Cu);
     /* Address: 0x8005606C, Size: 536 bytes, Blocks: 21 */
 
 block_8005606C:
@@ -181237,6 +180747,7 @@ block_80056278:
 
 void func_80056284(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80056284u);
     /* Address: 0x80056284, Size: 532 bytes, Blocks: 22 */
 
 block_80056284:
@@ -181585,6 +181096,7 @@ block_8005648C:
 
 void func_80056498(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80056498u);
     /* Address: 0x80056498, Size: 588 bytes, Blocks: 25 */
 
 block_80056498:
@@ -181973,6 +181485,7 @@ block_800566D8:
 
 void func_800566E4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800566E4u);
     /* Address: 0x800566E4, Size: 288 bytes, Blocks: 11 */
 
 block_800566E4:
@@ -182153,6 +181666,7 @@ block_800567F8:
 
 void func_80056804(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80056804u);
     /* Address: 0x80056804, Size: 364 bytes, Blocks: 13 */
 
 block_80056804:
@@ -182381,6 +181895,7 @@ block_80056968:
 
 void func_80056970(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80056970u);
     /* Address: 0x80056970, Size: 588 bytes, Blocks: 26 */
 
 block_80056970:
@@ -182781,7 +182296,8 @@ block_80056BB0:
 
 void func_80056BBC(CPUState* cpu)
 {
-    /* Address: 0x80056BBC, Size: 208 bytes, Blocks: 8 */
+    debug_server_log_call_entry(0x80056BBCu);
+    /* Address: 0x80056BBC, Size: 200 bytes, Blocks: 7 */
 
 block_80056BBC:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -182906,20 +182422,13 @@ block_80056C7C:
     /* delay slot (always executes) */
     /* nop */  /* 0x80056C80: 0x00000000 */
     return;  /* jr $ra */
-
-block_80056C84:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[3] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80056C84: 0x3C03800A */
-    cpu->gpr[3] = cpu->read_half(cpu->gpr[3] + -17208);  /* 0x80056C88: 0x9463BCC8 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80056C8C(CPUState* cpu)
 {
-    /* Address: 0x80056C8C, Size: 80 bytes, Blocks: 8 */
+    debug_server_log_call_entry(0x80056C8Cu);
+    /* Address: 0x80056C8C, Size: 72 bytes, Blocks: 7 */
 
 block_80056C8C:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -183001,19 +182510,12 @@ block_80056CC4:
     /* delay slot (always executes) */
     /* nop */  /* 0x80056CD0: 0x00000000 */
     return;  /* jr $ra */
-
-block_80056CD4:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[3] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80056CD4: 0x3C03800A */
-    cpu->gpr[3] = cpu->read_half(cpu->gpr[3] + -17208);  /* 0x80056CD8: 0x9463BCC8 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80056CDC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80056CDCu);
     /* Address: 0x80056CDC, Size: 72 bytes, Blocks: 7 */
 
 block_80056CDC:
@@ -183101,6 +182603,7 @@ block_80056D14:
 
 void func_80056D24(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80056D24u);
     /* Address: 0x80056D24, Size: 220 bytes, Blocks: 7 */
 
 block_80056D24:
@@ -183231,6 +182734,7 @@ block_80056DF8:
 
 void func_80056E00(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80056E00u);
     /* Address: 0x80056E00, Size: 8 bytes, Blocks: 1 */
 
 block_80056E00:
@@ -183240,12 +182744,14 @@ block_80056E00:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x1F80 << 16;  /* 0x1F800000 */  /* 0x80056E00: 0x3C021F80 */
     cpu->gpr[2] = (int32_t)(int16_t)cpu->read_half(cpu->gpr[2] + 582);  /* 0x80056E04: 0x84420246 */
+    func_80056E08(cpu); return;  /* fallthrough to split piece */
     func_80056E08(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80056E08(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80056E08u);
     /* Address: 0x80056E08, Size: 396 bytes, Blocks: 25 */
 
 block_80056E08:
@@ -183584,6 +183090,7 @@ block_80056F70:
 
 void func_80056F94(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80056F94u);
     /* Address: 0x80056F94, Size: 176 bytes, Blocks: 4 */
 
 block_80056F94:
@@ -183672,6 +183179,7 @@ block_8005703C:
 
 void func_80057044(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80057044u);
     /* Address: 0x80057044, Size: 324 bytes, Blocks: 17 */
 
 block_80057044:
@@ -183940,6 +183448,7 @@ block_8005716C:
 
 void func_80057188(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80057188u);
     /* Address: 0x80057188, Size: 820 bytes, Blocks: 58 */
 
 block_80057188:
@@ -184676,6 +184185,7 @@ block_8005749C:
 
 void func_800574BC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800574BCu);
     /* Address: 0x800574BC, Size: 824 bytes, Blocks: 51 */
 
 block_800574BC:
@@ -185348,7 +184858,8 @@ block_800577D4:
 
 void func_800577F4(CPUState* cpu)
 {
-    /* Address: 0x800577F4, Size: 160 bytes, Blocks: 16 */
+    debug_server_log_call_entry(0x800577F4u);
+    /* Address: 0x800577F4, Size: 152 bytes, Blocks: 15 */
 
 block_800577F4:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -185525,19 +185036,12 @@ block_8005787C:
     /* delay slot (always executes) */
     /* nop */  /* 0x80057888: 0x00000000 */
     return;  /* jr $ra */
-
-block_8005788C:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8005788C: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_half(cpu->gpr[2] + -17208);  /* 0x80057890: 0x9442BCC8 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80057894(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80057894u);
     /* Address: 0x80057894, Size: 936 bytes, Blocks: 83 */
 
 block_80057894:
@@ -186525,6 +186029,7 @@ block_80057C2C:
 
 void func_80057C3C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80057C3Cu);
     /* Address: 0x80057C3C, Size: 56 bytes, Blocks: 2 */
 
 block_80057C3C:
@@ -186561,6 +186066,7 @@ block_80057C64:
 
 void func_80057C74(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80057C74u);
     /* Address: 0x80057C74, Size: 1096 bytes, Blocks: 42 */
 
 block_80057C74:
@@ -187222,6 +186728,7 @@ block_800580A4:
 
 void func_800580BC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800580BCu);
     /* Address: 0x800580BC, Size: 936 bytes, Blocks: 32 */
 
 block_800580BC:
@@ -187755,6 +187262,7 @@ block_8005844C:
 
 void func_80058464(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80058464u);
     /* Address: 0x80058464, Size: 1276 bytes, Blocks: 60 */
 
 block_80058464:
@@ -188638,6 +188146,7 @@ block_80058948:
 
 void func_80058960(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80058960u);
     /* Address: 0x80058960, Size: 1204 bytes, Blocks: 56 */
 
 block_80058960:
@@ -189464,6 +188973,7 @@ block_80058DFC:
 
 void func_80058E14(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80058E14u);
     /* Address: 0x80058E14, Size: 1496 bytes, Blocks: 112 */
 
 block_80058E14:
@@ -190853,6 +190363,7 @@ block_800593D4:
 
 void func_800593EC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800593ECu);
     /* Address: 0x800593EC, Size: 296 bytes, Blocks: 10 */
 
 block_800593EC:
@@ -191028,6 +190539,7 @@ block_80059508:
 
 void func_80059514(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80059514u);
     /* Address: 0x80059514, Size: 292 bytes, Blocks: 14 */
 
 block_80059514:
@@ -191235,6 +190747,7 @@ block_8005962C:
 
 void func_80059638(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80059638u);
     /* Address: 0x80059638, Size: 292 bytes, Blocks: 14 */
 
 block_80059638:
@@ -191442,6 +190955,7 @@ block_80059750:
 
 void func_8005975C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005975Cu);
     /* Address: 0x8005975C, Size: 740 bytes, Blocks: 37 */
 
 block_8005975C:
@@ -191978,7 +191492,8 @@ block_80059A38:
 
 void func_80059A40(CPUState* cpu)
 {
-    /* Address: 0x80059A40, Size: 228 bytes, Blocks: 9 */
+    debug_server_log_call_entry(0x80059A40u);
+    /* Address: 0x80059A40, Size: 220 bytes, Blocks: 8 */
 
 block_80059A40:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -192113,19 +191628,12 @@ block_80059AF8:
     /* delay slot (always executes) */
     /* nop */  /* 0x80059B18: 0x00000000 */
     return;  /* jr $ra */
-
-block_80059B1C:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80059B1C: 0x3C02800A */
-    cpu->gpr[2] = cpu->read_half(cpu->gpr[2] + -17208);  /* 0x80059B20: 0x9442BCC8 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80059B24(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80059B24u);
     /* Address: 0x80059B24, Size: 52 bytes, Blocks: 5 */
 
 block_80059B24:
@@ -192189,6 +191697,7 @@ block_80059B48:
 
 void func_80059B58(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80059B58u);
     /* Address: 0x80059B58, Size: 1060 bytes, Blocks: 79 */
 
 block_80059B58:
@@ -193171,6 +192680,7 @@ block_80059F60:
 
 void func_80059F7C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80059F7Cu);
     /* Address: 0x80059F7C, Size: 16 bytes, Blocks: 1 */
 
 block_80059F7C:
@@ -193182,12 +192692,14 @@ block_80059F7C:
     cpu->gpr[3] = cpu->read_half(cpu->gpr[3] + -17208);  /* 0x80059F80: 0x9463BCC8 */
     cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80059F84: 0x3C02800A */
     cpu->gpr[2] = cpu->read_half(cpu->gpr[2] + -17206);  /* 0x80059F88: 0x9442BCCA */
+    func_80059F8C(cpu); return;  /* fallthrough to split piece */
     func_80059F8C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80059F8C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80059F8Cu);
     /* Address: 0x80059F8C, Size: 232 bytes, Blocks: 8 */
 
 block_80059F8C:
@@ -193332,6 +192844,7 @@ block_8005A054:
 
 void func_8005A074(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005A074u);
     /* Address: 0x8005A074, Size: 148 bytes, Blocks: 5 */
 
 block_8005A074:
@@ -193422,6 +192935,7 @@ block_8005A0F0:
 
 void func_8005A108(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005A108u);
     /* Address: 0x8005A108, Size: 64 bytes, Blocks: 4 */
 
 block_8005A108:
@@ -193481,6 +192995,7 @@ block_8005A134:
 
 void func_8005A148(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005A148u);
     /* Address: 0x8005A148, Size: 60 bytes, Blocks: 4 */
 
 block_8005A148:
@@ -193537,6 +193052,7 @@ block_8005A170:
 
 void func_8005A184(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005A184u);
     /* Address: 0x8005A184, Size: 556 bytes, Blocks: 32 */
 
 block_8005A184:
@@ -193993,6 +193509,7 @@ block_8005A39C:
 
 void func_8005A3B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005A3B0u);
     /* Address: 0x8005A3B0, Size: 344 bytes, Blocks: 19 */
 
 block_8005A3B0:
@@ -194278,6 +193795,7 @@ block_8005A500:
 
 void func_8005A508(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005A508u);
     /* Address: 0x8005A508, Size: 16 bytes, Blocks: 1 */
 
 block_8005A508:
@@ -194289,12 +193807,14 @@ block_8005A508:
     cpu->gpr[3] = cpu->read_half(cpu->gpr[3] + -17208);  /* 0x8005A50C: 0x9463BCC8 */
     cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8005A510: 0x3C02800A */
     cpu->gpr[2] = cpu->read_half(cpu->gpr[2] + -17206);  /* 0x8005A514: 0x9442BCCA */
+    func_8005A518(cpu); return;  /* fallthrough to split piece */
     func_8005A518(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005A518(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005A518u);
     /* Address: 0x8005A518, Size: 328 bytes, Blocks: 14 */
 
 block_8005A518:
@@ -194522,6 +194042,7 @@ block_8005A644:
 
 void func_8005A660(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005A660u);
     /* Address: 0x8005A660, Size: 384 bytes, Blocks: 16 */
 
 block_8005A660:
@@ -194787,6 +194308,7 @@ block_8005A7C4:
 
 void func_8005A7E0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005A7E0u);
     /* Address: 0x8005A7E0, Size: 16 bytes, Blocks: 1 */
 
 block_8005A7E0:
@@ -194798,12 +194320,14 @@ block_8005A7E0:
     cpu->gpr[3] = cpu->read_half(cpu->gpr[3] + -17208);  /* 0x8005A7E4: 0x9463BCC8 */
     cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8005A7E8: 0x3C02800A */
     cpu->gpr[2] = cpu->read_half(cpu->gpr[2] + -17206);  /* 0x8005A7EC: 0x9442BCCA */
+    func_8005A7F0(cpu); return;  /* fallthrough to split piece */
     func_8005A7F0(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005A7F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005A7F0u);
     /* Address: 0x8005A7F0, Size: 680 bytes, Blocks: 28 */
 
 block_8005A7F0:
@@ -195268,6 +194792,7 @@ block_8005AA78:
 
 void func_8005AA98(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005AA98u);
     /* Address: 0x8005AA98, Size: 1240 bytes, Blocks: 45 */
 
 block_8005AA98:
@@ -196007,6 +195532,7 @@ block_8005AF54:
 
 void func_8005AF70(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005AF70u);
     /* Address: 0x8005AF70, Size: 564 bytes, Blocks: 21 */
 
 block_8005AF70:
@@ -196363,6 +195889,7 @@ block_8005B19C:
 
 void func_8005B1A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B1A4u);
     /* Address: 0x8005B1A4, Size: 84 bytes, Blocks: 3 */
 
 block_8005B1A4:
@@ -196418,6 +195945,7 @@ block_8005B1E8:
 
 void func_8005B1F8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B1F8u);
     /* Address: 0x8005B1F8, Size: 16 bytes, Blocks: 1 */
 
 block_8005B1F8:
@@ -196429,13 +195957,15 @@ block_8005B1F8:
     cpu->gpr[3] = cpu->read_half(cpu->gpr[3] + -17208);  /* 0x8005B1FC: 0x9463BCC8 */
     cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x8005B200: 0x3C02800A */
     cpu->gpr[2] = cpu->read_half(cpu->gpr[2] + -17206);  /* 0x8005B204: 0x9442BCCA */
+    func_8005B208(cpu); return;  /* fallthrough to split piece */
     func_8005B208(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005B208(CPUState* cpu)
 {
-    /* Address: 0x8005B208, Size: 204 bytes, Blocks: 7 */
+    debug_server_log_call_entry(0x8005B208u);
+    /* Address: 0x8005B208, Size: 328 bytes, Blocks: 14 */
 
 block_8005B208:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -196549,37 +196079,18 @@ block_8005B2A8:
     /* delay slot (always executes) */
     cpu->gpr[17] = cpu->gpr[16] + 2;  /* 0x8005B2D0: 0x26110002 */
     if (_bc_8005B2CC) {
-        func_8005B334(cpu); return;  /* taken: split piece */
+        goto block_8005B334;  /* taken */
     } else {
-        func_8005B2D4(cpu); return;  /* not taken: split piece */
+        goto block_8005B2D4;  /* not taken */
     }
-    ;  /* label compatibility: C requires a statement after the last label */
-}
-
-void func_8005B2D4(CPUState* cpu)
-{
-    /* Address: 0x8005B2D4, Size: 8 bytes, Blocks: 1 */
 
 block_8005B2D4:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
+    psx_advance_cycles(5u);
 #endif
     psx_check_interrupts(cpu);
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[17] + 13);  /* 0x8005B2D4: 0x9222000D */
     /* nop */  /* 0x8005B2D8: 0x00000000 */
-    func_8005B2DC(cpu);  /* fallthrough to next function */
-    ;  /* label compatibility: C requires a statement after the last label */
-}
-
-void func_8005B2DC(CPUState* cpu)
-{
-    /* Address: 0x8005B2DC, Size: 88 bytes, Blocks: 6 */
-
-block_8005B2DC:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(3u);
-#endif
-    psx_check_interrupts(cpu);
     cpu->gpr[18] = (uint32_t)cpu->gpr[2] >> 2;  /* 0x8005B2DC: 0x00029082 */
     /* delay slot (always executes) */
     cpu->gpr[4] = cpu->gpr[18];  /* move */  /* 0x8005B2E4: 0x02402021 */
@@ -196658,16 +196169,10 @@ block_8005B31C:
     /* delay slot (always executes) */
     cpu->gpr[16] = cpu->gpr[16] + 16;  /* 0x8005B330: 0x26100010 */
     if (_bc_8005B32C) {
-        func_8005B2D4(cpu); return;  /* taken: split piece */
+        goto block_8005B2D4;  /* taken */
     } else {
-        func_8005B334(cpu); return;  /* not taken: split piece */
+        goto block_8005B334;  /* not taken */
     }
-    ;  /* label compatibility: C requires a statement after the last label */
-}
-
-void func_8005B334(CPUState* cpu)
-{
-    /* Address: 0x8005B334, Size: 28 bytes, Blocks: 1 */
 
 block_8005B334:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -196687,6 +196192,7 @@ block_8005B334:
 
 void func_8005B350(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B350u);
     /* Address: 0x8005B350, Size: 60 bytes, Blocks: 2 */
 
 block_8005B350:
@@ -196724,6 +196230,7 @@ block_8005B37C:
 
 void func_8005B38C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B38Cu);
     /* Address: 0x8005B38C, Size: 16 bytes, Blocks: 2 */
 
 block_8005B38C:
@@ -196743,11 +196250,13 @@ block_8005B398:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005B398: 0x00000000 */
+    func_8005B39C(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005B39C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B39Cu);
     /* Address: 0x8005B39C, Size: 16 bytes, Blocks: 2 */
 
 block_8005B39C:
@@ -196767,11 +196276,13 @@ block_8005B3A8:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005B3A8: 0x00000000 */
+    func_8005B3AC(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005B3AC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B3ACu);
     /* Address: 0x8005B3AC, Size: 16 bytes, Blocks: 2 */
 
 block_8005B3AC:
@@ -196791,11 +196302,13 @@ block_8005B3B8:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005B3B8: 0x00000000 */
+    func_8005B3BC(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005B3BC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B3BCu);
     /* Address: 0x8005B3BC, Size: 16 bytes, Blocks: 2 */
 
 block_8005B3BC:
@@ -196815,11 +196328,13 @@ block_8005B3C8:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005B3C8: 0x00000000 */
+    func_8005B3CC(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005B3CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B3CCu);
     /* Address: 0x8005B3CC, Size: 16 bytes, Blocks: 2 */
 
 block_8005B3CC:
@@ -196839,11 +196354,13 @@ block_8005B3D8:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005B3D8: 0x00000000 */
+    func_8005B3DC(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005B3DC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B3DCu);
     /* Address: 0x8005B3DC, Size: 16 bytes, Blocks: 2 */
 
 block_8005B3DC:
@@ -196863,11 +196380,13 @@ block_8005B3E8:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005B3E8: 0x00000000 */
+    func_8005B3EC(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005B3EC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B3ECu);
     /* Address: 0x8005B3EC, Size: 16 bytes, Blocks: 2 */
 
 block_8005B3EC:
@@ -196887,11 +196406,13 @@ block_8005B3F8:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005B3F8: 0x00000000 */
+    func_8005B3FC(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005B3FC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B3FCu);
     /* Address: 0x8005B3FC, Size: 16 bytes, Blocks: 2 */
 
 block_8005B3FC:
@@ -196911,11 +196432,13 @@ block_8005B408:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005B408: 0x00000000 */
+    func_8005B40C(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005B40C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B40Cu);
     /* Address: 0x8005B40C, Size: 16 bytes, Blocks: 2 */
 
 block_8005B40C:
@@ -196935,11 +196458,13 @@ block_8005B418:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005B418: 0x00000000 */
+    func_8005B41C(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005B41C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B41Cu);
     /* Address: 0x8005B41C, Size: 16 bytes, Blocks: 1 */
 
 block_8005B41C:
@@ -196957,6 +196482,7 @@ block_8005B41C:
 
 void func_8005B42C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B42Cu);
     /* Address: 0x8005B42C, Size: 16 bytes, Blocks: 1 */
 
 block_8005B42C:
@@ -196974,6 +196500,7 @@ block_8005B42C:
 
 void func_8005B43C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B43Cu);
     /* Address: 0x8005B43C, Size: 48 bytes, Blocks: 4 */
 
 block_8005B43C:
@@ -197017,11 +196544,13 @@ block_8005B468:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005B468: 0x00000000 */
+    func_8005B46C(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005B46C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B46Cu);
     /* Address: 0x8005B46C, Size: 80 bytes, Blocks: 6 */
 
 block_8005B46C:
@@ -197089,11 +196618,13 @@ block_8005B4B8:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005B4B8: 0x00000000 */
+    func_8005B4BC(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005B4BC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B4BCu);
     /* Address: 0x8005B4BC, Size: 16 bytes, Blocks: 2 */
 
 block_8005B4BC:
@@ -197112,11 +196643,13 @@ block_8005B4C4:
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005B4C4: 0x00000000 */
     /* nop */  /* 0x8005B4C8: 0x00000000 */
+    func_8005B4CC(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005B4CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B4CCu);
     /* Address: 0x8005B4CC, Size: 412 bytes, Blocks: 22 */
 
 block_8005B4CC:
@@ -197441,6 +196974,7 @@ block_8005B64C:
 
 void func_8005B668(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B668u);
     /* Address: 0x8005B668, Size: 256 bytes, Blocks: 12 */
 
 block_8005B668:
@@ -197624,6 +197158,7 @@ block_8005B744:
 
 void func_8005B768(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B768u);
     /* Address: 0x8005B768, Size: 4 bytes, Blocks: 1 */
 
 block_8005B768:
@@ -197632,12 +197167,14 @@ block_8005B768:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005B768: 0x00000000 */
+    func_8005B76C(cpu); return;  /* fallthrough to split piece */
     func_8005B76C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005B76C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B76Cu);
     /* Address: 0x8005B76C, Size: 16 bytes, Blocks: 2 */
 
 block_8005B76C:
@@ -197657,11 +197194,13 @@ block_8005B778:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005B778: 0x00000000 */
+    func_8005B77C(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005B77C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B77Cu);
     /* Address: 0x8005B77C, Size: 52 bytes, Blocks: 5 */
 
 block_8005B77C:
@@ -197731,6 +197270,7 @@ block_8005B7A8:
 
 void func_8005B7B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B7B0u);
     /* Address: 0x8005B7B0, Size: 48 bytes, Blocks: 5 */
 
 block_8005B7B0:
@@ -197799,6 +197339,7 @@ block_8005B7D8:
 
 void func_8005B7E0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B7E0u);
     /* Address: 0x8005B7E0, Size: 52 bytes, Blocks: 5 */
 
 block_8005B7E0:
@@ -197868,6 +197409,7 @@ block_8005B80C:
 
 void func_8005B814(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B814u);
     /* Address: 0x8005B814, Size: 48 bytes, Blocks: 5 */
 
 block_8005B814:
@@ -197936,6 +197478,7 @@ block_8005B83C:
 
 void func_8005B844(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B844u);
     /* Address: 0x8005B844, Size: 48 bytes, Blocks: 1 */
 
 block_8005B844:
@@ -197961,6 +197504,7 @@ block_8005B844:
 
 void func_8005B874(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B874u);
     /* Address: 0x8005B874, Size: 16 bytes, Blocks: 1 */
 
 block_8005B874:
@@ -197978,6 +197522,7 @@ block_8005B874:
 
 void func_8005B884(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B884u);
     /* Address: 0x8005B884, Size: 168 bytes, Blocks: 12 */
 
 block_8005B884:
@@ -198144,6 +197689,7 @@ block_8005B910:
 
 void func_8005B92C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B92Cu);
     /* Address: 0x8005B92C, Size: 100 bytes, Blocks: 10 */
 
 block_8005B92C:
@@ -198275,6 +197821,7 @@ block_8005B988:
 
 void func_8005B990(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B990u);
     /* Address: 0x8005B990, Size: 68 bytes, Blocks: 6 */
 
 block_8005B990:
@@ -198360,6 +197907,7 @@ block_8005B9CC:
 
 void func_8005B9D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005B9D4u);
     /* Address: 0x8005B9D4, Size: 48 bytes, Blocks: 6 */
 
 block_8005B9D4:
@@ -198430,6 +197978,7 @@ block_8005B9FC:
 
 void func_8005BA04(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005BA04u);
     /* Address: 0x8005BA04, Size: 116 bytes, Blocks: 11 */
 
 block_8005BA04:
@@ -198572,6 +198121,7 @@ block_8005BA70:
 
 void func_8005BA78(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005BA78u);
     /* Address: 0x8005BA78, Size: 120 bytes, Blocks: 12 */
 
 block_8005BA78:
@@ -198722,6 +198272,7 @@ block_8005BAE4:
 
 void func_8005BAF0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005BAF0u);
     /* Address: 0x8005BAF0, Size: 116 bytes, Blocks: 9 */
 
 block_8005BAF0:
@@ -198845,6 +198396,7 @@ block_8005BB5C:
 
 void func_8005BB64(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005BB64u);
     /* Address: 0x8005BB64, Size: 60 bytes, Blocks: 2 */
 
 block_8005BB64:
@@ -198882,6 +198434,7 @@ block_8005BB90:
 
 void func_8005BBA0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005BBA0u);
     /* Address: 0x8005BBA0, Size: 1672 bytes, Blocks: 124 */
 
 block_8005BBA0:
@@ -200526,6 +200079,7 @@ block_8005C1F4:
 
 void func_8005C228(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005C228u);
     /* Address: 0x8005C228, Size: 48 bytes, Blocks: 3 */
 
 block_8005C228:
@@ -200570,6 +200124,7 @@ block_8005C250:
 
 void func_8005C258(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005C258u);
     /* Address: 0x8005C258, Size: 48 bytes, Blocks: 3 */
 
 block_8005C258:
@@ -200614,6 +200169,7 @@ block_8005C280:
 
 void func_8005C288(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005C288u);
     /* Address: 0x8005C288, Size: 80 bytes, Blocks: 9 */
 
 block_8005C288:
@@ -200728,6 +200284,7 @@ block_8005C2D0:
 
 void func_8005C2D8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005C2D8u);
     /* Address: 0x8005C2D8, Size: 180 bytes, Blocks: 11 */
 
 block_8005C2D8:
@@ -200882,6 +200439,7 @@ block_8005C37C:
 
 void func_8005C38C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005C38Cu);
     /* Address: 0x8005C38C, Size: 12 bytes, Blocks: 1 */
 
 block_8005C38C:
@@ -200892,12 +200450,14 @@ block_8005C38C:
     cpu->write_word(cpu->gpr[29] + 4, cpu->gpr[5]);  /* 0x8005C38C: 0xAFA50004 */
     cpu->write_word(cpu->gpr[29] + 8, cpu->gpr[6]);  /* 0x8005C390: 0xAFA60008 */
     cpu->write_word(cpu->gpr[29] + 12, cpu->gpr[7]);  /* 0x8005C394: 0xAFA7000C */
+    func_8005C398(cpu); return;  /* fallthrough to split piece */
     func_8005C398(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005C398(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005C398u);
     /* Address: 0x8005C398, Size: 2128 bytes, Blocks: 123 */
 
 block_8005C398:
@@ -202635,7 +202195,8 @@ block_8005CBB0:
 
 void func_8005CBE8(CPUState* cpu)
 {
-    /* Address: 0x8005CBE8, Size: 140 bytes, Blocks: 11 */
+    debug_server_log_call_entry(0x8005CBE8u);
+    /* Address: 0x8005CBE8, Size: 108 bytes, Blocks: 8 */
 
 block_8005CBE8:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -202744,41 +202305,12 @@ block_8005CC4C:
     /* delay slot (always executes) */
     cpu->gpr[2] = cpu->gpr[4];  /* move */  /* 0x8005CC50: 0x00801021 */
     return;  /* jr $ra */
-
-block_8005CC54:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(3u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[10] = 160;  /* 0x8005CC54: 0x240A00A0 */
-    /* delay slot (always executes) */
-    cpu->gpr[9] = 171;  /* 0x8005CC5C: 0x240900AB */
-    call_by_address(cpu, cpu->gpr[10]);  /* jr cpu->gpr[10] */
-    return;
-
-block_8005CC60:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(4u);
-#endif
-    psx_check_interrupts(cpu);
-    /* nop */  /* 0x8005CC60: 0x00000000 */
-    cpu->gpr[10] = 160;  /* 0x8005CC64: 0x240A00A0 */
-    /* delay slot (always executes) */
-    cpu->gpr[9] = 172;  /* 0x8005CC6C: 0x240900AC */
-    call_by_address(cpu, cpu->gpr[10]);  /* jr cpu->gpr[10] */
-    return;
-
-block_8005CC70:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(1u);
-#endif
-    psx_check_interrupts(cpu);
-    /* nop */  /* 0x8005CC70: 0x00000000 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005CC74(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CC74u);
     /* Address: 0x8005CC74, Size: 56 bytes, Blocks: 3 */
 
 block_8005CC74:
@@ -202824,6 +202356,7 @@ block_8005CC98:
 
 void func_8005CCAC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CCACu);
     /* Address: 0x8005CCAC, Size: 16 bytes, Blocks: 2 */
 
 block_8005CCAC:
@@ -202843,11 +202376,13 @@ block_8005CCB8:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005CCB8: 0x00000000 */
+    func_8005CCBC(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005CCBC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CCBCu);
     /* Address: 0x8005CCBC, Size: 16 bytes, Blocks: 2 */
 
 block_8005CCBC:
@@ -202867,11 +202402,13 @@ block_8005CCC8:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005CCC8: 0x00000000 */
+    func_8005CCCC(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005CCCC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CCCCu);
     /* Address: 0x8005CCCC, Size: 84 bytes, Blocks: 7 */
 
 block_8005CCCC:
@@ -202960,6 +202497,7 @@ block_8005CD0C:
 
 void func_8005CD20(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CD20u);
     /* Address: 0x8005CD20, Size: 56 bytes, Blocks: 5 */
 
 block_8005CD20:
@@ -203023,6 +202561,7 @@ block_8005CD48:
 
 void func_8005CD58(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CD58u);
     /* Address: 0x8005CD58, Size: 48 bytes, Blocks: 4 */
 
 block_8005CD58:
@@ -203075,6 +202614,7 @@ block_8005CD78:
 
 void func_8005CD88(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CD88u);
     /* Address: 0x8005CD88, Size: 16 bytes, Blocks: 2 */
 
 block_8005CD88:
@@ -203094,11 +202634,13 @@ block_8005CD94:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005CD94: 0x00000000 */
+    func_8005CD98(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005CD98(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CD98u);
     /* Address: 0x8005CD98, Size: 16 bytes, Blocks: 2 */
 
 block_8005CD98:
@@ -203118,11 +202660,13 @@ block_8005CDA4:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005CDA4: 0x00000000 */
+    func_8005CDA8(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005CDA8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CDA8u);
     /* Address: 0x8005CDA8, Size: 16 bytes, Blocks: 2 */
 
 block_8005CDA8:
@@ -203142,11 +202686,13 @@ block_8005CDB4:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8005CDB4: 0x00000000 */
+    func_8005CDB8(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005CDB8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CDB8u);
     /* Address: 0x8005CDB8, Size: 104 bytes, Blocks: 6 */
 
 block_8005CDB8:
@@ -203234,6 +202780,7 @@ block_8005CE18:
 
 void func_8005CE20(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CE20u);
     /* Address: 0x8005CE20, Size: 136 bytes, Blocks: 6 */
 
 block_8005CE20:
@@ -203327,6 +202874,7 @@ block_8005CE94:
 
 void func_8005CEA8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CEA8u);
     /* Address: 0x8005CEA8, Size: 48 bytes, Blocks: 4 */
 
 block_8005CEA8:
@@ -203380,6 +202928,7 @@ block_8005CED0:
 
 void func_8005CED8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CED8u);
     /* Address: 0x8005CED8, Size: 108 bytes, Blocks: 6 */
 
 block_8005CED8:
@@ -203466,6 +203015,7 @@ block_8005CF30:
 
 void func_8005CF44(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CF44u);
     /* Address: 0x8005CF44, Size: 24 bytes, Blocks: 3 */
 
 block_8005CF44:
@@ -203504,6 +203054,7 @@ block_8005CF54:
 
 void func_8005CF5C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CF5Cu);
     /* Address: 0x8005CF5C, Size: 12 bytes, Blocks: 1 */
 
 block_8005CF5C:
@@ -203514,12 +203065,14 @@ block_8005CF5C:
     /* nop */  /* 0x8005CF5C: 0x00000000 */
     /* nop */  /* 0x8005CF60: 0x00000000 */
     /* nop */  /* 0x8005CF64: 0x00000000 */
+    func_8005CF68(cpu); return;  /* fallthrough to split piece */
     func_8005CF68(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005CF68(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CF68u);
     /* Address: 0x8005CF68, Size: 128 bytes, Blocks: 8 */
 
 block_8005CF68:
@@ -203621,11 +203174,13 @@ block_8005CFD0:
     /* nop */  /* 0x8005CFDC: 0x00000000 */
     /* nop */  /* 0x8005CFE0: 0x00000000 */
     /* nop */  /* 0x8005CFE4: 0x00000000 */
+    func_8005CFE8(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005CFE8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005CFE8u);
     /* Address: 0x8005CFE8, Size: 56 bytes, Blocks: 4 */
 
 block_8005CFE8:
@@ -203683,6 +203238,7 @@ block_8005D00C:
 
 void func_8005D020(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D020u);
     /* Address: 0x8005D020, Size: 140 bytes, Blocks: 7 */
 
 block_8005D020:
@@ -203788,6 +203344,7 @@ block_8005D0A4:
 
 void func_8005D0AC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D0ACu);
     /* Address: 0x8005D0AC, Size: 156 bytes, Blocks: 7 */
 
 block_8005D0AC:
@@ -203896,6 +203453,7 @@ block_8005D130:
 
 void func_8005D148(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D148u);
     /* Address: 0x8005D148, Size: 12 bytes, Blocks: 1 */
 
 block_8005D148:
@@ -203912,6 +203470,7 @@ block_8005D148:
 
 void func_8005D154(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D154u);
     /* Address: 0x8005D154, Size: 124 bytes, Blocks: 8 */
 
 block_8005D154:
@@ -204017,6 +203576,7 @@ block_8005D1C0:
 
 void func_8005D1D0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D1D0u);
     /* Address: 0x8005D1D0, Size: 32 bytes, Blocks: 2 */
 
 block_8005D1D0:
@@ -204047,6 +203607,7 @@ block_8005D1E0:
 
 void func_8005D1F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D1F0u);
     /* Address: 0x8005D1F0, Size: 60 bytes, Blocks: 6 */
 
 block_8005D1F0:
@@ -204119,6 +203680,7 @@ block_8005D21C:
 
 void func_8005D22C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D22Cu);
     /* Address: 0x8005D22C, Size: 60 bytes, Blocks: 6 */
 
 block_8005D22C:
@@ -204191,6 +203753,7 @@ block_8005D258:
 
 void func_8005D268(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D268u);
     /* Address: 0x8005D268, Size: 36 bytes, Blocks: 2 */
 
 block_8005D268:
@@ -204222,6 +203785,7 @@ block_8005D27C:
 
 void func_8005D28C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D28Cu);
     /* Address: 0x8005D28C, Size: 36 bytes, Blocks: 2 */
 
 block_8005D28C:
@@ -204253,6 +203817,7 @@ block_8005D2A0:
 
 void func_8005D2B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D2B0u);
     /* Address: 0x8005D2B0, Size: 252 bytes, Blocks: 9 */
 
 block_8005D2B0:
@@ -204401,6 +203966,7 @@ block_8005D39C:
 
 void func_8005D3AC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D3ACu);
     /* Address: 0x8005D3AC, Size: 148 bytes, Blocks: 2 */
 
 block_8005D3AC:
@@ -204460,6 +204026,7 @@ block_8005D3C8:
 
 void func_8005D440(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D440u);
     /* Address: 0x8005D440, Size: 144 bytes, Blocks: 2 */
 
 block_8005D440:
@@ -204518,6 +204085,7 @@ block_8005D45C:
 
 void func_8005D4D0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D4D0u);
     /* Address: 0x8005D4D0, Size: 152 bytes, Blocks: 7 */
 
 block_8005D4D0:
@@ -204628,6 +204196,7 @@ block_8005D558:
 
 void func_8005D568(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D568u);
     /* Address: 0x8005D568, Size: 152 bytes, Blocks: 7 */
 
 block_8005D568:
@@ -204738,6 +204307,7 @@ block_8005D5F0:
 
 void func_8005D600(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D600u);
     /* Address: 0x8005D600, Size: 24 bytes, Blocks: 1 */
 
 block_8005D600:
@@ -204757,6 +204327,7 @@ block_8005D600:
 
 void func_8005D618(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D618u);
     /* Address: 0x8005D618, Size: 304 bytes, Blocks: 4 */
 
 block_8005D618:
@@ -204873,6 +204444,7 @@ block_8005D6E4:
 
 void func_8005D748(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D748u);
     /* Address: 0x8005D748, Size: 36 bytes, Blocks: 2 */
 
 block_8005D748:
@@ -204907,6 +204479,7 @@ block_8005D760:
 
 void func_8005D76C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D76Cu);
     /* Address: 0x8005D76C, Size: 16 bytes, Blocks: 1 */
 
 block_8005D76C:
@@ -204924,6 +204497,7 @@ block_8005D76C:
 
 void func_8005D77C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005D77Cu);
     /* Address: 0x8005D77C, Size: 780 bytes, Blocks: 47 */
 
 block_8005D77C:
@@ -205619,7 +205193,8 @@ block_8005DA6C:
 
 void func_8005DA88(CPUState* cpu)
 {
-    /* Address: 0x8005DA88, Size: 88 bytes, Blocks: 2 */
+    debug_server_log_call_entry(0x8005DA88u);
+    /* Address: 0x8005DA88, Size: 52 bytes, Blocks: 1 */
 
 block_8005DA88:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -205640,26 +205215,12 @@ block_8005DA88:
     /* delay slot (always executes) */
     cpu->gpr[2] = 1;  /* 0x8005DAB8: 0x20020001 */
     return;  /* jr $ra */
-
-block_8005DABC:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(9u);
-#endif
-    psx_check_interrupts(cpu);
-    /* nop */  /* 0x8005DABC: 0x00000000 */
-    /* nop */  /* 0x8005DAC0: 0x00000000 */
-    /* nop */  /* 0x8005DAC4: 0x00000000 */
-    /* nop */  /* 0x8005DAC8: 0x00000000 */
-    /* nop */  /* 0x8005DACC: 0x00000000 */
-    /* nop */  /* 0x8005DAD0: 0x00000000 */
-    /* nop */  /* 0x8005DAD4: 0x00000000 */
-    /* nop */  /* 0x8005DAD8: 0x00000000 */
-    /* nop */  /* 0x8005DADC: 0x00000000 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005DAE0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005DAE0u);
     /* Address: 0x8005DAE0, Size: 236 bytes, Blocks: 15 */
 
 block_8005DAE0:
@@ -205859,6 +205420,7 @@ block_8005DBA8:
 
 void func_8005DBCC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005DBCCu);
     /* Address: 0x8005DBCC, Size: 104 bytes, Blocks: 3 */
 
 block_8005DBCC:
@@ -205916,6 +205478,7 @@ block_8005DC18:
 
 void func_8005DC34(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005DC34u);
     /* Address: 0x8005DC34, Size: 104 bytes, Blocks: 3 */
 
 block_8005DC34:
@@ -205973,6 +205536,7 @@ block_8005DC80:
 
 void func_8005DC9C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005DC9Cu);
     /* Address: 0x8005DC9C, Size: 208 bytes, Blocks: 9 */
 
 block_8005DC9C:
@@ -206110,6 +205674,7 @@ block_8005DD3C:
 
 void func_8005DD6C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005DD6Cu);
     /* Address: 0x8005DD6C, Size: 60 bytes, Blocks: 1 */
 
 block_8005DD6C:
@@ -206138,6 +205703,7 @@ block_8005DD6C:
 
 void func_8005DDA8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005DDA8u);
     /* Address: 0x8005DDA8, Size: 208 bytes, Blocks: 7 */
 
 block_8005DDA8:
@@ -206259,6 +205825,7 @@ block_8005DE58:
 
 void func_8005DE78(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005DE78u);
     /* Address: 0x8005DE78, Size: 24 bytes, Blocks: 1 */
 
 block_8005DE78:
@@ -206278,6 +205845,7 @@ block_8005DE78:
 
 void func_8005DE90(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005DE90u);
     /* Address: 0x8005DE90, Size: 208 bytes, Blocks: 8 */
 
 block_8005DE90:
@@ -206410,6 +205978,7 @@ block_8005DF4C:
 
 void func_8005DF60(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005DF60u);
     /* Address: 0x8005DF60, Size: 64 bytes, Blocks: 2 */
 
 block_8005DF60:
@@ -206448,6 +206017,7 @@ block_8005DF90:
 
 void func_8005DFA0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005DFA0u);
     /* Address: 0x8005DFA0, Size: 28 bytes, Blocks: 1 */
 
 block_8005DFA0:
@@ -206468,6 +206038,7 @@ block_8005DFA0:
 
 void func_8005DFBC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005DFBCu);
     /* Address: 0x8005DFBC, Size: 28 bytes, Blocks: 1 */
 
 block_8005DFBC:
@@ -206488,6 +206059,7 @@ block_8005DFBC:
 
 void func_8005DFD8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005DFD8u);
     /* Address: 0x8005DFD8, Size: 60 bytes, Blocks: 1 */
 
 block_8005DFD8:
@@ -206516,6 +206088,7 @@ block_8005DFD8:
 
 void func_8005E014(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E014u);
     /* Address: 0x8005E014, Size: 60 bytes, Blocks: 1 */
 
 block_8005E014:
@@ -206544,6 +206117,7 @@ block_8005E014:
 
 void func_8005E050(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E050u);
     /* Address: 0x8005E050, Size: 36 bytes, Blocks: 1 */
 
 block_8005E050:
@@ -206566,6 +206140,7 @@ block_8005E050:
 
 void func_8005E074(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E074u);
     /* Address: 0x8005E074, Size: 24 bytes, Blocks: 1 */
 
 block_8005E074:
@@ -206585,6 +206160,7 @@ block_8005E074:
 
 void func_8005E08C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E08Cu);
     /* Address: 0x8005E08C, Size: 40 bytes, Blocks: 4 */
 
 block_8005E08C:
@@ -206634,6 +206210,7 @@ block_8005E0AC:
 
 void func_8005E0B4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E0B4u);
     /* Address: 0x8005E0B4, Size: 40 bytes, Blocks: 4 */
 
 block_8005E0B4:
@@ -206683,6 +206260,7 @@ block_8005E0D4:
 
 void func_8005E0DC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E0DCu);
     /* Address: 0x8005E0DC, Size: 20 bytes, Blocks: 1 */
 
 block_8005E0DC:
@@ -206701,6 +206279,7 @@ block_8005E0DC:
 
 void func_8005E0F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E0F0u);
     /* Address: 0x8005E0F0, Size: 20 bytes, Blocks: 1 */
 
 block_8005E0F0:
@@ -206719,6 +206298,7 @@ block_8005E0F0:
 
 void func_8005E104(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E104u);
     /* Address: 0x8005E104, Size: 20 bytes, Blocks: 1 */
 
 block_8005E104:
@@ -206737,6 +206317,7 @@ block_8005E104:
 
 void func_8005E118(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E118u);
     /* Address: 0x8005E118, Size: 20 bytes, Blocks: 1 */
 
 block_8005E118:
@@ -206755,6 +206336,7 @@ block_8005E118:
 
 void func_8005E12C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E12Cu);
     /* Address: 0x8005E12C, Size: 20 bytes, Blocks: 1 */
 
 block_8005E12C:
@@ -206773,6 +206355,7 @@ block_8005E12C:
 
 void func_8005E140(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E140u);
     /* Address: 0x8005E140, Size: 20 bytes, Blocks: 1 */
 
 block_8005E140:
@@ -206791,6 +206374,7 @@ block_8005E140:
 
 void func_8005E154(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E154u);
     /* Address: 0x8005E154, Size: 20 bytes, Blocks: 1 */
 
 block_8005E154:
@@ -206809,6 +206393,7 @@ block_8005E154:
 
 void func_8005E168(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E168u);
     /* Address: 0x8005E168, Size: 20 bytes, Blocks: 1 */
 
 block_8005E168:
@@ -206827,6 +206412,7 @@ block_8005E168:
 
 void func_8005E17C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E17Cu);
     /* Address: 0x8005E17C, Size: 20 bytes, Blocks: 1 */
 
 block_8005E17C:
@@ -206845,6 +206431,7 @@ block_8005E17C:
 
 void func_8005E190(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E190u);
     /* Address: 0x8005E190, Size: 20 bytes, Blocks: 1 */
 
 block_8005E190:
@@ -206863,6 +206450,7 @@ block_8005E190:
 
 void func_8005E1A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E1A4u);
     /* Address: 0x8005E1A4, Size: 20 bytes, Blocks: 1 */
 
 block_8005E1A4:
@@ -206881,6 +206469,7 @@ block_8005E1A4:
 
 void func_8005E1B8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E1B8u);
     /* Address: 0x8005E1B8, Size: 20 bytes, Blocks: 1 */
 
 block_8005E1B8:
@@ -206899,6 +206488,7 @@ block_8005E1B8:
 
 void func_8005E1CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E1CCu);
     /* Address: 0x8005E1CC, Size: 20 bytes, Blocks: 1 */
 
 block_8005E1CC:
@@ -206917,6 +206507,7 @@ block_8005E1CC:
 
 void func_8005E1E0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E1E0u);
     /* Address: 0x8005E1E0, Size: 20 bytes, Blocks: 1 */
 
 block_8005E1E0:
@@ -206935,6 +206526,7 @@ block_8005E1E0:
 
 void func_8005E1F4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E1F4u);
     /* Address: 0x8005E1F4, Size: 20 bytes, Blocks: 1 */
 
 block_8005E1F4:
@@ -206953,6 +206545,7 @@ block_8005E1F4:
 
 void func_8005E208(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E208u);
     /* Address: 0x8005E208, Size: 20 bytes, Blocks: 1 */
 
 block_8005E208:
@@ -206971,6 +206564,7 @@ block_8005E208:
 
 void func_8005E21C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E21Cu);
     /* Address: 0x8005E21C, Size: 20 bytes, Blocks: 1 */
 
 block_8005E21C:
@@ -206989,6 +206583,7 @@ block_8005E21C:
 
 void func_8005E230(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E230u);
     /* Address: 0x8005E230, Size: 32 bytes, Blocks: 1 */
 
 block_8005E230:
@@ -207010,6 +206605,7 @@ block_8005E230:
 
 void func_8005E250(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E250u);
     /* Address: 0x8005E250, Size: 32 bytes, Blocks: 1 */
 
 block_8005E250:
@@ -207031,6 +206627,7 @@ block_8005E250:
 
 void func_8005E270(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E270u);
     /* Address: 0x8005E270, Size: 32 bytes, Blocks: 1 */
 
 block_8005E270:
@@ -207052,6 +206649,7 @@ block_8005E270:
 
 void func_8005E290(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E290u);
     /* Address: 0x8005E290, Size: 32 bytes, Blocks: 1 */
 
 block_8005E290:
@@ -207073,6 +206671,7 @@ block_8005E290:
 
 void func_8005E2B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E2B0u);
     /* Address: 0x8005E2B0, Size: 180 bytes, Blocks: 15 */
 
 block_8005E2B0:
@@ -207263,6 +206862,7 @@ block_8005E340:
 
 void func_8005E364(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E364u);
     /* Address: 0x8005E364, Size: 96 bytes, Blocks: 4 */
 
 block_8005E364:
@@ -207331,6 +206931,7 @@ block_8005E390:
 
 void func_8005E3C4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E3C4u);
     /* Address: 0x8005E3C4, Size: 108 bytes, Blocks: 3 */
 
 block_8005E3C4:
@@ -207390,6 +206991,7 @@ block_8005E3FC:
 
 void func_8005E430(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E430u);
     /* Address: 0x8005E430, Size: 56 bytes, Blocks: 4 */
 
 block_8005E430:
@@ -207443,6 +207045,7 @@ block_8005E460:
 
 void func_8005E468(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E468u);
     /* Address: 0x8005E468, Size: 384 bytes, Blocks: 13 */
 
 block_8005E468:
@@ -207664,6 +207267,7 @@ block_8005E5D4:
 
 void func_8005E5E8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E5E8u);
     /* Address: 0x8005E5E8, Size: 172 bytes, Blocks: 5 */
 
 block_8005E5E8:
@@ -207756,7 +207360,8 @@ block_8005E680:
 
 void func_8005E694(CPUState* cpu)
 {
-    /* Address: 0x8005E694, Size: 396 bytes, Blocks: 19 */
+    debug_server_log_call_entry(0x8005E694u);
+    /* Address: 0x8005E694, Size: 388 bytes, Blocks: 18 */
 
 block_8005E694:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -208023,19 +207628,12 @@ block_8005E800:
     /* delay slot (always executes) */
     /* nop */  /* 0x8005E814: 0x00000000 */
     return;  /* jr $ra */
-
-block_8005E818:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x8009 << 16;  /* 0x80090000 */  /* 0x8005E818: 0x3C028009 */
-    cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 3230);  /* 0x8005E81C: 0x90420C9E */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005E820(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E820u);
     /* Address: 0x8005E820, Size: 268 bytes, Blocks: 13 */
 
 block_8005E820:
@@ -208228,7 +207826,8 @@ block_8005E910:
 
 void func_8005E92C(CPUState* cpu)
 {
-    /* Address: 0x8005E92C, Size: 108 bytes, Blocks: 4 */
+    debug_server_log_call_entry(0x8005E92Cu);
+    /* Address: 0x8005E92C, Size: 100 bytes, Blocks: 3 */
 
 block_8005E92C:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -208282,19 +207881,12 @@ block_8005E978:
     /* delay slot (always executes) */
     /* nop */  /* 0x8005E98C: 0x00000000 */
     return;  /* jr $ra */
-
-block_8005E990:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x8009 << 16;  /* 0x80090000 */  /* 0x8005E990: 0x3C028009 */
-    cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 3230);  /* 0x8005E994: 0x90420C9E */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005E998(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005E998u);
     /* Address: 0x8005E998, Size: 164 bytes, Blocks: 7 */
 
 block_8005E998:
@@ -208407,6 +207999,7 @@ block_8005EA20:
 
 void func_8005EA3C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005EA3Cu);
     /* Address: 0x8005EA3C, Size: 16 bytes, Blocks: 1 */
 
 block_8005EA3C:
@@ -208424,7 +208017,8 @@ block_8005EA3C:
 
 void func_8005EA4C(CPUState* cpu)
 {
-    /* Address: 0x8005EA4C, Size: 24 bytes, Blocks: 2 */
+    debug_server_log_call_entry(0x8005EA4Cu);
+    /* Address: 0x8005EA4C, Size: 16 bytes, Blocks: 1 */
 
 block_8005EA4C:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -208436,19 +208030,12 @@ block_8005EA4C:
     /* delay slot (always executes) */
     /* nop */  /* 0x8005EA58: 0x00000000 */
     return;  /* jr $ra */
-
-block_8005EA5C:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x8009 << 16;  /* 0x80090000 */  /* 0x8005EA5C: 0x3C028009 */
-    cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 3230);  /* 0x8005EA60: 0x90420C9E */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005EA64(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005EA64u);
     /* Address: 0x8005EA64, Size: 84 bytes, Blocks: 3 */
 
 block_8005EA64:
@@ -208504,6 +208091,7 @@ block_8005EA94:
 
 void func_8005EAB8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005EAB8u);
     /* Address: 0x8005EAB8, Size: 156 bytes, Blocks: 8 */
 
 block_8005EAB8:
@@ -208626,6 +208214,7 @@ block_8005EB3C:
 
 void func_8005EB54(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005EB54u);
     /* Address: 0x8005EB54, Size: 8 bytes, Blocks: 1 */
 
 block_8005EB54:
@@ -208635,12 +208224,14 @@ block_8005EB54:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x8009 << 16;  /* 0x80090000 */  /* 0x8005EB54: 0x3C028009 */
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 3230);  /* 0x8005EB58: 0x90420C9E */
+    func_8005EB5C(cpu); return;  /* fallthrough to split piece */
     func_8005EB5C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005EB5C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005EB5Cu);
     /* Address: 0x8005EB5C, Size: 100 bytes, Blocks: 4 */
 
 block_8005EB5C:
@@ -208709,6 +208300,7 @@ block_8005EBAC:
 
 void func_8005EBC0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005EBC0u);
     /* Address: 0x8005EBC0, Size: 296 bytes, Blocks: 16 */
 
 block_8005EBC0:
@@ -208955,6 +208547,7 @@ block_8005ECD4:
 
 void func_8005ECE8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005ECE8u);
     /* Address: 0x8005ECE8, Size: 148 bytes, Blocks: 3 */
 
 block_8005ECE8:
@@ -209023,6 +208616,7 @@ block_8005ED5C:
 
 void func_8005ED7C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005ED7Cu);
     /* Address: 0x8005ED7C, Size: 156 bytes, Blocks: 3 */
 
 block_8005ED7C:
@@ -209093,6 +208687,7 @@ block_8005EDF8:
 
 void func_8005EE18(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005EE18u);
     /* Address: 0x8005EE18, Size: 100 bytes, Blocks: 3 */
 
 block_8005EE18:
@@ -209149,6 +208744,7 @@ block_8005EE64:
 
 void func_8005EE7C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005EE7Cu);
     /* Address: 0x8005EE7C, Size: 100 bytes, Blocks: 3 */
 
 block_8005EE7C:
@@ -209205,7 +208801,8 @@ block_8005EEC8:
 
 void func_8005EEE0(CPUState* cpu)
 {
-    /* Address: 0x8005EEE0, Size: 204 bytes, Blocks: 7 */
+    debug_server_log_call_entry(0x8005EEE0u);
+    /* Address: 0x8005EEE0, Size: 196 bytes, Blocks: 6 */
 
 block_8005EEE0:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -209311,19 +208908,12 @@ block_8005EF88:
     /* delay slot (always executes) */
     /* nop */  /* 0x8005EFA0: 0x00000000 */
     return;  /* jr $ra */
-
-block_8005EFA4:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[2] = 0x8009 << 16;  /* 0x80090000 */  /* 0x8005EFA4: 0x3C028009 */
-    cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 3230);  /* 0x8005EFA8: 0x90420C9E */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005EFAC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005EFACu);
     /* Address: 0x8005EFAC, Size: 176 bytes, Blocks: 7 */
 
 block_8005EFAC:
@@ -209440,6 +209030,7 @@ block_8005F02C:
 
 void func_8005F05C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005F05Cu);
     /* Address: 0x8005F05C, Size: 8 bytes, Blocks: 1 */
 
 block_8005F05C:
@@ -209449,12 +209040,14 @@ block_8005F05C:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x8009 << 16;  /* 0x80090000 */  /* 0x8005F05C: 0x3C028009 */
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 3230);  /* 0x8005F060: 0x90420C9E */
+    func_8005F064(cpu); return;  /* fallthrough to split piece */
     func_8005F064(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005F064(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005F064u);
     /* Address: 0x8005F064, Size: 144 bytes, Blocks: 4 */
 
 block_8005F064:
@@ -209534,6 +209127,7 @@ block_8005F0C0:
 
 void func_8005F0F4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005F0F4u);
     /* Address: 0x8005F0F4, Size: 96 bytes, Blocks: 3 */
 
 block_8005F0F4:
@@ -209589,6 +209183,7 @@ block_8005F13C:
 
 void func_8005F154(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005F154u);
     /* Address: 0x8005F154, Size: 8 bytes, Blocks: 1 */
 
 block_8005F154:
@@ -209598,12 +209193,14 @@ block_8005F154:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x8009 << 16;  /* 0x80090000 */  /* 0x8005F154: 0x3C028009 */
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 3230);  /* 0x8005F158: 0x90420C9E */
+    func_8005F15C(cpu); return;  /* fallthrough to split piece */
     func_8005F15C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005F15C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005F15Cu);
     /* Address: 0x8005F15C, Size: 108 bytes, Blocks: 4 */
 
 block_8005F15C:
@@ -209674,6 +209271,7 @@ block_8005F1B4:
 
 void func_8005F1C8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005F1C8u);
     /* Address: 0x8005F1C8, Size: 260 bytes, Blocks: 7 */
 
 block_8005F1C8:
@@ -209810,6 +209408,7 @@ block_8005F294:
 
 void func_8005F2CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005F2CCu);
     /* Address: 0x8005F2CC, Size: 284 bytes, Blocks: 7 */
 
 block_8005F2CC:
@@ -209952,6 +209551,7 @@ block_8005F3B0:
 
 void func_8005F3E8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005F3E8u);
     /* Address: 0x8005F3E8, Size: 56 bytes, Blocks: 2 */
 
 block_8005F3E8:
@@ -209988,6 +209588,7 @@ block_8005F408:
 
 void func_8005F420(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005F420u);
     /* Address: 0x8005F420, Size: 8 bytes, Blocks: 1 */
 
 block_8005F420:
@@ -209997,12 +209598,14 @@ block_8005F420:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x8009 << 16;  /* 0x80090000 */  /* 0x8005F420: 0x3C028009 */
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + 3230);  /* 0x8005F424: 0x90420C9E */
+    func_8005F428(cpu); return;  /* fallthrough to split piece */
     func_8005F428(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8005F428(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005F428u);
     /* Address: 0x8005F428, Size: 1184 bytes, Blocks: 76 */
 
 block_8005F428:
@@ -211045,6 +210648,7 @@ block_8005F8A4:
 
 void func_8005F8C8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005F8C8u);
     /* Address: 0x8005F8C8, Size: 56 bytes, Blocks: 2 */
 
 block_8005F8C8:
@@ -211081,6 +210685,7 @@ block_8005F8E8:
 
 void func_8005F900(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005F900u);
     /* Address: 0x8005F900, Size: 48 bytes, Blocks: 2 */
 
 block_8005F900:
@@ -211115,6 +210720,7 @@ block_8005F920:
 
 void func_8005F930(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005F930u);
     /* Address: 0x8005F930, Size: 60 bytes, Blocks: 2 */
 
 block_8005F930:
@@ -211152,6 +210758,7 @@ block_8005F950:
 
 void func_8005F96C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005F96Cu);
     /* Address: 0x8005F96C, Size: 132 bytes, Blocks: 3 */
 
 block_8005F96C:
@@ -211216,6 +210823,7 @@ block_8005F9D4:
 
 void func_8005F9F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005F9F0u);
     /* Address: 0x8005F9F0, Size: 68 bytes, Blocks: 2 */
 
 block_8005F9F0:
@@ -211255,6 +210863,7 @@ block_8005FA18:
 
 void func_8005FA34(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005FA34u);
     /* Address: 0x8005FA34, Size: 44 bytes, Blocks: 5 */
 
 block_8005FA34:
@@ -211317,6 +210926,7 @@ block_8005FA54:
 
 void func_8005FA60(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005FA60u);
     /* Address: 0x8005FA60, Size: 88 bytes, Blocks: 3 */
 
 block_8005FA60:
@@ -211370,6 +210980,7 @@ block_8005FA9C:
 
 void func_8005FAB8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005FAB8u);
     /* Address: 0x8005FAB8, Size: 536 bytes, Blocks: 15 */
 
 block_8005FAB8:
@@ -211650,6 +211261,7 @@ block_8005FCB0:
 
 void func_8005FCD0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005FCD0u);
     /* Address: 0x8005FCD0, Size: 656 bytes, Blocks: 18 */
 
 block_8005FCD0:
@@ -211991,6 +211603,7 @@ block_8005FF40:
 
 void func_8005FF60(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005FF60u);
     /* Address: 0x8005FF60, Size: 88 bytes, Blocks: 10 */
 
 block_8005FF60:
@@ -212114,6 +211727,7 @@ block_8005FFB0:
 
 void func_8005FFB8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8005FFB8u);
     /* Address: 0x8005FFB8, Size: 204 bytes, Blocks: 12 */
 
 block_8005FFB8:
@@ -212280,6 +211894,7 @@ block_8006006C:
 
 void func_80060084(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80060084u);
     /* Address: 0x80060084, Size: 204 bytes, Blocks: 12 */
 
 block_80060084:
@@ -212446,6 +212061,7 @@ block_80060138:
 
 void func_80060150(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80060150u);
     /* Address: 0x80060150, Size: 68 bytes, Blocks: 4 */
 
 block_80060150:
@@ -212502,6 +212118,7 @@ block_80060184:
 
 void func_80060194(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80060194u);
     /* Address: 0x80060194, Size: 132 bytes, Blocks: 4 */
 
 block_80060194:
@@ -212574,6 +212191,7 @@ block_8006020C:
 
 void func_80060218(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80060218u);
     /* Address: 0x80060218, Size: 176 bytes, Blocks: 11 */
 
 block_80060218:
@@ -212721,6 +212339,7 @@ block_800602C0:
 
 void func_800602C8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800602C8u);
     /* Address: 0x800602C8, Size: 24 bytes, Blocks: 1 */
 
 block_800602C8:
@@ -212740,6 +212359,7 @@ block_800602C8:
 
 void func_800602E0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800602E0u);
     /* Address: 0x800602E0, Size: 232 bytes, Blocks: 7 */
 
 block_800602E0:
@@ -212872,6 +212492,7 @@ block_800603B0:
 
 void func_800603C8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800603C8u);
     /* Address: 0x800603C8, Size: 604 bytes, Blocks: 17 */
 
 block_800603C8:
@@ -213186,6 +212807,7 @@ block_80060608:
 
 void func_80060624(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80060624u);
     /* Address: 0x80060624, Size: 572 bytes, Blocks: 26 */
 
 block_80060624:
@@ -213581,6 +213203,7 @@ block_80060838:
 
 void func_80060860(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80060860u);
     /* Address: 0x80060860, Size: 644 bytes, Blocks: 29 */
 
 block_80060860:
@@ -214027,6 +213650,7 @@ block_80060AC0:
 
 void func_80060AE4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80060AE4u);
     /* Address: 0x80060AE4, Size: 40 bytes, Blocks: 1 */
 
 block_80060AE4:
@@ -214050,6 +213674,7 @@ block_80060AE4:
 
 void func_80060B0C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80060B0Cu);
     /* Address: 0x80060B0C, Size: 20 bytes, Blocks: 1 */
 
 block_80060B0C:
@@ -214068,6 +213693,7 @@ block_80060B0C:
 
 void func_80060B20(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80060B20u);
     /* Address: 0x80060B20, Size: 80 bytes, Blocks: 4 */
 
 block_80060B20:
@@ -214132,6 +213758,7 @@ block_80060B64:
 
 void func_80060B70(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80060B70u);
     /* Address: 0x80060B70, Size: 76 bytes, Blocks: 1 */
 
 block_80060B70:
@@ -214164,6 +213791,7 @@ block_80060B70:
 
 void func_80060BBC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80060BBCu);
     /* Address: 0x80060BBC, Size: 48 bytes, Blocks: 1 */
 
 block_80060BBC:
@@ -214189,6 +213817,7 @@ block_80060BBC:
 
 void func_80060BEC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80060BECu);
     /* Address: 0x80060BEC, Size: 36 bytes, Blocks: 2 */
 
 block_80060BEC:
@@ -214220,6 +213849,7 @@ block_80060C00:
 
 void func_80060C10(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80060C10u);
     /* Address: 0x80060C10, Size: 736 bytes, Blocks: 29 */
 
 block_80060C10:
@@ -214681,6 +214311,7 @@ block_80060ED0:
 
 void func_80060EF0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80060EF0u);
     /* Address: 0x80060EF0, Size: 748 bytes, Blocks: 22 */
 
 block_80060EF0:
@@ -215103,6 +214734,7 @@ block_800611C8:
 
 void func_800611DC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800611DCu);
     /* Address: 0x800611DC, Size: 348 bytes, Blocks: 15 */
 
 block_800611DC:
@@ -215341,6 +214973,7 @@ block_80061324:
 
 void func_80061338(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80061338u);
     /* Address: 0x80061338, Size: 328 bytes, Blocks: 21 */
 
 block_80061338:
@@ -215636,6 +215269,7 @@ block_8006146C:
 
 void func_80061480(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80061480u);
     /* Address: 0x80061480, Size: 52 bytes, Blocks: 2 */
 
 block_80061480:
@@ -215671,6 +215305,7 @@ block_80061490:
 
 void func_800614B4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800614B4u);
     /* Address: 0x800614B4, Size: 364 bytes, Blocks: 10 */
 
 block_800614B4:
@@ -215858,6 +215493,7 @@ block_80061610:
 
 void func_80061620(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80061620u);
     /* Address: 0x80061620, Size: 220 bytes, Blocks: 10 */
 
 block_80061620:
@@ -216009,6 +215645,7 @@ block_800616F4:
 
 void func_800616FC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800616FCu);
     /* Address: 0x800616FC, Size: 44 bytes, Blocks: 4 */
 
 block_800616FC:
@@ -216064,6 +215701,7 @@ block_8006171C:
 
 void func_80061728(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80061728u);
     /* Address: 0x80061728, Size: 16 bytes, Blocks: 2 */
 
 block_80061728:
@@ -216083,11 +215721,13 @@ block_80061734:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80061734: 0x00000000 */
+    func_80061738(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80061738(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80061738u);
     /* Address: 0x80061738, Size: 16 bytes, Blocks: 1 */
 
 block_80061738:
@@ -216105,6 +215745,7 @@ block_80061738:
 
 void func_80061748(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80061748u);
     /* Address: 0x80061748, Size: 104 bytes, Blocks: 5 */
 
 block_80061748:
@@ -216179,6 +215820,7 @@ block_8006179C:
 
 void func_800617B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800617B0u);
     /* Address: 0x800617B0, Size: 64 bytes, Blocks: 2 */
 
 block_800617B0:
@@ -216217,6 +215859,7 @@ block_800617D8:
 
 void func_800617F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800617F0u);
     /* Address: 0x800617F0, Size: 684 bytes, Blocks: 4 */
 
 block_800617F0:
@@ -216429,6 +216072,7 @@ block_80061A88:
 
 void func_80061A9C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80061A9Cu);
     /* Address: 0x80061A9C, Size: 288 bytes, Blocks: 16 */
 
 block_80061A9C:
@@ -216656,6 +216300,7 @@ block_80061BA0:
 
 void func_80061BBC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80061BBCu);
     /* Address: 0x80061BBC, Size: 408 bytes, Blocks: 17 */
 
 block_80061BBC:
@@ -216928,6 +216573,7 @@ block_80061CE8:
 
 void func_80061D54(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80061D54u);
     /* Address: 0x80061D54, Size: 4480 bytes, Blocks: 99 */
 
 block_80061D54:
@@ -219010,6 +218656,7 @@ block_80062EBC:
 
 void func_80062ED4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80062ED4u);
     /* Address: 0x80062ED4, Size: 60 bytes, Blocks: 6 */
 
 block_80062ED4:
@@ -219082,6 +218729,7 @@ block_80062F00:
 
 void func_80062F10(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80062F10u);
     /* Address: 0x80062F10, Size: 144 bytes, Blocks: 8 */
 
 block_80062F10:
@@ -219195,6 +218843,7 @@ block_80062F98:
 
 void func_80062FA0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80062FA0u);
     /* Address: 0x80062FA0, Size: 160 bytes, Blocks: 10 */
 
 block_80062FA0:
@@ -219331,6 +218980,7 @@ block_80063038:
 
 void func_80063040(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063040u);
     /* Address: 0x80063040, Size: 60 bytes, Blocks: 6 */
 
 block_80063040:
@@ -219403,11 +219053,13 @@ block_80063078:
 #endif
     psx_check_interrupts(cpu);
     cpu->gpr[4] = cpu->lo;  /* 0x80063078: 0x00002012 */
+    func_8006307C(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8006307C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006307Cu);
     /* Address: 0x8006307C, Size: 40 bytes, Blocks: 3 */
 
 block_8006307C:
@@ -219449,6 +219101,7 @@ block_80063094:
 
 void func_800630A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800630A4u);
     /* Address: 0x800630A4, Size: 340 bytes, Blocks: 14 */
 
 block_800630A4:
@@ -219668,6 +219321,7 @@ block_800631E8:
 
 void func_800631F8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800631F8u);
     /* Address: 0x800631F8, Size: 156 bytes, Blocks: 12 */
 
 block_800631F8:
@@ -219818,6 +219472,7 @@ block_8006327C:
 
 void func_80063294(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063294u);
     /* Address: 0x80063294, Size: 8 bytes, Blocks: 1 */
 
 block_80063294:
@@ -219835,6 +219490,7 @@ block_80063294:
 
 void func_8006329C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006329Cu);
     /* Address: 0x8006329C, Size: 128 bytes, Blocks: 2 */
 
 block_8006329C:
@@ -219889,6 +219545,7 @@ block_800632AC:
 
 void func_8006331C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006331Cu);
     /* Address: 0x8006331C, Size: 132 bytes, Blocks: 6 */
 
 block_8006331C:
@@ -219986,6 +219643,7 @@ block_80063378:
 
 void func_800633A0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800633A0u);
     /* Address: 0x800633A0, Size: 8 bytes, Blocks: 1 */
 
 block_800633A0:
@@ -220001,6 +219659,7 @@ block_800633A0:
 
 void func_800633A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800633A8u);
     /* Address: 0x800633A8, Size: 12 bytes, Blocks: 1 */
 
 block_800633A8:
@@ -220011,12 +219670,14 @@ block_800633A8:
     /* nop */  /* 0x800633A8: 0x00000000 */
     /* nop */  /* 0x800633AC: 0x00000000 */
     /* nop */  /* 0x800633B0: 0x00000000 */
+    func_800633B4(cpu); return;  /* fallthrough to split piece */
     func_800633B4(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800633B4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800633B4u);
     /* Address: 0x800633B4, Size: 268 bytes, Blocks: 1 */
 
 block_800633B4:
@@ -220097,6 +219758,7 @@ block_800633B4:
 
 void func_800634C0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800634C0u);
     /* Address: 0x800634C0, Size: 356 bytes, Blocks: 22 */
 
 block_800634C0:
@@ -220406,6 +220068,7 @@ block_800635F8:
 
 void func_80063624(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063624u);
     /* Address: 0x80063624, Size: 48 bytes, Blocks: 1 */
 
 block_80063624:
@@ -220431,6 +220094,7 @@ block_80063624:
 
 void func_80063654(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063654u);
     /* Address: 0x80063654, Size: 80 bytes, Blocks: 1 */
 
 block_80063654:
@@ -220464,6 +220128,7 @@ block_80063654:
 
 void func_800636A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800636A4u);
     /* Address: 0x800636A4, Size: 92 bytes, Blocks: 1 */
 
 block_800636A4:
@@ -220500,6 +220165,7 @@ block_800636A4:
 
 void func_80063700(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063700u);
     /* Address: 0x80063700, Size: 4 bytes, Blocks: 1 */
 
 block_80063700:
@@ -220508,12 +220174,14 @@ block_80063700:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80063700: 0x00000000 */
+    func_80063704(cpu); return;  /* fallthrough to split piece */
     func_80063704(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80063704(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063704u);
     /* Address: 0x80063704, Size: 292 bytes, Blocks: 1 */
 
 block_80063704:
@@ -220600,6 +220268,7 @@ block_80063704:
 
 void func_80063828(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063828u);
     /* Address: 0x80063828, Size: 12 bytes, Blocks: 1 */
 
 block_80063828:
@@ -220610,12 +220279,14 @@ block_80063828:
     /* nop */  /* 0x80063828: 0x00000000 */
     /* nop */  /* 0x8006382C: 0x00000000 */
     /* nop */  /* 0x80063830: 0x00000000 */
+    func_80063834(cpu); return;  /* fallthrough to split piece */
     func_80063834(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80063834(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063834u);
     /* Address: 0x80063834, Size: 48 bytes, Blocks: 1 */
 
 block_80063834:
@@ -220641,6 +220312,7 @@ block_80063834:
 
 void func_80063864(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063864u);
     /* Address: 0x80063864, Size: 48 bytes, Blocks: 1 */
 
 block_80063864:
@@ -220666,6 +220338,7 @@ block_80063864:
 
 void func_80063894(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063894u);
     /* Address: 0x80063894, Size: 48 bytes, Blocks: 1 */
 
 block_80063894:
@@ -220691,6 +220364,7 @@ block_80063894:
 
 void func_800638C4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800638C4u);
     /* Address: 0x800638C4, Size: 32 bytes, Blocks: 1 */
 
 block_800638C4:
@@ -220712,6 +220386,7 @@ block_800638C4:
 
 void func_800638E4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800638E4u);
     /* Address: 0x800638E4, Size: 16 bytes, Blocks: 1 */
 
 block_800638E4:
@@ -220729,6 +220404,7 @@ block_800638E4:
 
 void func_800638F4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800638F4u);
     /* Address: 0x800638F4, Size: 16 bytes, Blocks: 1 */
 
 block_800638F4:
@@ -220746,6 +220422,7 @@ block_800638F4:
 
 void func_80063904(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063904u);
     /* Address: 0x80063904, Size: 16 bytes, Blocks: 1 */
 
 block_80063904:
@@ -220763,6 +220440,7 @@ block_80063904:
 
 void func_80063914(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063914u);
     /* Address: 0x80063914, Size: 32 bytes, Blocks: 1 */
 
 block_80063914:
@@ -220784,6 +220462,7 @@ block_80063914:
 
 void func_80063934(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063934u);
     /* Address: 0x80063934, Size: 20 bytes, Blocks: 1 */
 
 block_80063934:
@@ -220802,6 +220481,7 @@ block_80063934:
 
 void func_80063948(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063948u);
     /* Address: 0x80063948, Size: 20 bytes, Blocks: 1 */
 
 block_80063948:
@@ -220820,6 +220500,7 @@ block_80063948:
 
 void func_8006395C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006395Cu);
     /* Address: 0x8006395C, Size: 12 bytes, Blocks: 1 */
 
 block_8006395C:
@@ -220836,6 +220517,7 @@ block_8006395C:
 
 void func_80063968(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063968u);
     /* Address: 0x80063968, Size: 20 bytes, Blocks: 1 */
 
 block_80063968:
@@ -220854,6 +220536,7 @@ block_80063968:
 
 void func_8006397C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006397Cu);
     /* Address: 0x8006397C, Size: 24 bytes, Blocks: 1 */
 
 block_8006397C:
@@ -220873,6 +220556,7 @@ block_8006397C:
 
 void func_80063994(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063994u);
     /* Address: 0x80063994, Size: 20 bytes, Blocks: 1 */
 
 block_80063994:
@@ -220891,6 +220575,7 @@ block_80063994:
 
 void func_800639A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800639A8u);
     /* Address: 0x800639A8, Size: 20 bytes, Blocks: 1 */
 
 block_800639A8:
@@ -220909,6 +220594,7 @@ block_800639A8:
 
 void func_800639BC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800639BCu);
     /* Address: 0x800639BC, Size: 20 bytes, Blocks: 1 */
 
 block_800639BC:
@@ -220927,6 +220613,7 @@ block_800639BC:
 
 void func_800639D0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800639D0u);
     /* Address: 0x800639D0, Size: 12 bytes, Blocks: 1 */
 
 block_800639D0:
@@ -220943,6 +220630,7 @@ block_800639D0:
 
 void func_800639DC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800639DCu);
     /* Address: 0x800639DC, Size: 12 bytes, Blocks: 1 */
 
 block_800639DC:
@@ -220959,6 +220647,7 @@ block_800639DC:
 
 void func_800639E8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800639E8u);
     /* Address: 0x800639E8, Size: 12 bytes, Blocks: 1 */
 
 block_800639E8:
@@ -220975,6 +220664,7 @@ block_800639E8:
 
 void func_800639F4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800639F4u);
     /* Address: 0x800639F4, Size: 32 bytes, Blocks: 1 */
 
 block_800639F4:
@@ -220996,6 +220686,7 @@ block_800639F4:
 
 void func_80063A14(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063A14u);
     /* Address: 0x80063A14, Size: 32 bytes, Blocks: 1 */
 
 block_80063A14:
@@ -221017,6 +220708,7 @@ block_80063A14:
 
 void func_80063A34(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063A34u);
     /* Address: 0x80063A34, Size: 24 bytes, Blocks: 1 */
 
 block_80063A34:
@@ -221036,6 +220728,7 @@ block_80063A34:
 
 void func_80063A4C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063A4Cu);
     /* Address: 0x80063A4C, Size: 8 bytes, Blocks: 1 */
 
 block_80063A4C:
@@ -221045,12 +220738,14 @@ block_80063A4C:
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80063A4C: 0x00000000 */
     /* nop */  /* 0x80063A50: 0x00000000 */
+    func_80063A54(cpu); return;  /* fallthrough to split piece */
     func_80063A54(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80063A54(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063A54u);
     /* Address: 0x80063A54, Size: 12 bytes, Blocks: 1 */
 
 block_80063A54:
@@ -221067,6 +220762,7 @@ block_80063A54:
 
 void func_80063A60(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063A60u);
     /* Address: 0x80063A60, Size: 44 bytes, Blocks: 1 */
 
 block_80063A60:
@@ -221091,6 +220787,7 @@ block_80063A60:
 
 void func_80063A8C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063A8Cu);
     /* Address: 0x80063A8C, Size: 40 bytes, Blocks: 1 */
 
 block_80063A8C:
@@ -221114,6 +220811,7 @@ block_80063A8C:
 
 void func_80063AB4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063AB4u);
     /* Address: 0x80063AB4, Size: 60 bytes, Blocks: 1 */
 
 block_80063AB4:
@@ -221142,6 +220840,7 @@ block_80063AB4:
 
 void func_80063AF0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063AF0u);
     /* Address: 0x80063AF0, Size: 36 bytes, Blocks: 1 */
 
 block_80063AF0:
@@ -221164,6 +220863,7 @@ block_80063AF0:
 
 void func_80063B14(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063B14u);
     /* Address: 0x80063B14, Size: 40 bytes, Blocks: 1 */
 
 block_80063B14:
@@ -221187,6 +220887,7 @@ block_80063B14:
 
 void func_80063B3C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063B3Cu);
     /* Address: 0x80063B3C, Size: 40 bytes, Blocks: 1 */
 
 block_80063B3C:
@@ -221210,6 +220911,7 @@ block_80063B3C:
 
 void func_80063B64(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063B64u);
     /* Address: 0x80063B64, Size: 32 bytes, Blocks: 1 */
 
 block_80063B64:
@@ -221231,6 +220933,7 @@ block_80063B64:
 
 void func_80063B84(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063B84u);
     /* Address: 0x80063B84, Size: 36 bytes, Blocks: 1 */
 
 block_80063B84:
@@ -221253,6 +220956,7 @@ block_80063B84:
 
 void func_80063BA8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063BA8u);
     /* Address: 0x80063BA8, Size: 88 bytes, Blocks: 1 */
 
 block_80063BA8:
@@ -221288,6 +220992,7 @@ block_80063BA8:
 
 void func_80063C00(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063C00u);
     /* Address: 0x80063C00, Size: 88 bytes, Blocks: 1 */
 
 block_80063C00:
@@ -221323,6 +221028,7 @@ block_80063C00:
 
 void func_80063C58(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063C58u);
     /* Address: 0x80063C58, Size: 24 bytes, Blocks: 1 */
 
 block_80063C58:
@@ -221342,6 +221048,7 @@ block_80063C58:
 
 void func_80063C70(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063C70u);
     /* Address: 0x80063C70, Size: 4 bytes, Blocks: 1 */
 
 block_80063C70:
@@ -221350,12 +221057,14 @@ block_80063C70:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80063C70: 0x00000000 */
+    func_80063C74(cpu); return;  /* fallthrough to split piece */
     func_80063C74(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80063C74(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063C74u);
     /* Address: 0x80063C74, Size: 44 bytes, Blocks: 1 */
 
 block_80063C74:
@@ -221380,6 +221089,7 @@ block_80063C74:
 
 void func_80063CA0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063CA0u);
     /* Address: 0x80063CA0, Size: 4 bytes, Blocks: 1 */
 
 block_80063CA0:
@@ -221388,12 +221098,14 @@ block_80063CA0:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80063CA0: 0x00000000 */
+    func_80063CA4(cpu); return;  /* fallthrough to split piece */
     func_80063CA4(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80063CA4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063CA4u);
     /* Address: 0x80063CA4, Size: 652 bytes, Blocks: 13 */
 
 block_80063CA4:
@@ -221684,6 +221396,7 @@ block_80063E04:
 
 void func_80063F30(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063F30u);
     /* Address: 0x80063F30, Size: 4 bytes, Blocks: 1 */
 
 block_80063F30:
@@ -221692,12 +221405,14 @@ block_80063F30:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80063F30: 0x00000000 */
+    func_80063F34(cpu); return;  /* fallthrough to split piece */
     func_80063F34(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80063F34(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80063F34u);
     /* Address: 0x80063F34, Size: 408 bytes, Blocks: 5 */
 
 block_80063F34:
@@ -221851,6 +221566,7 @@ block_80063F98:
 
 void func_800640CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800640CCu);
     /* Address: 0x800640CC, Size: 8 bytes, Blocks: 1 */
 
 block_800640CC:
@@ -221860,12 +221576,14 @@ block_800640CC:
     psx_check_interrupts(cpu);
     /* nop */  /* 0x800640CC: 0x00000000 */
     /* nop */  /* 0x800640D0: 0x00000000 */
+    func_800640D4(cpu); return;  /* fallthrough to split piece */
     func_800640D4(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800640D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800640D4u);
     /* Address: 0x800640D4, Size: 408 bytes, Blocks: 5 */
 
 block_800640D4:
@@ -222019,6 +221737,7 @@ block_80064138:
 
 void func_8006426C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006426Cu);
     /* Address: 0x8006426C, Size: 8 bytes, Blocks: 1 */
 
 block_8006426C:
@@ -222028,12 +221747,14 @@ block_8006426C:
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8006426C: 0x00000000 */
     /* nop */  /* 0x80064270: 0x00000000 */
+    func_80064274(cpu); return;  /* fallthrough to split piece */
     func_80064274(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80064274(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064274u);
     /* Address: 0x80064274, Size: 408 bytes, Blocks: 5 */
 
 block_80064274:
@@ -222187,6 +221908,7 @@ block_800642D8:
 
 void func_8006440C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006440Cu);
     /* Address: 0x8006440C, Size: 392 bytes, Blocks: 41 */
 
 block_8006440C:
@@ -222683,7 +222405,8 @@ block_8006458C:
 
 void func_80064594(CPUState* cpu)
 {
-    /* Address: 0x80064594, Size: 160 bytes, Blocks: 8 */
+    debug_server_log_call_entry(0x80064594u);
+    /* Address: 0x80064594, Size: 104 bytes, Blocks: 7 */
 
 block_80064594:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -222772,31 +222495,12 @@ block_800645E8:
     /* delay slot (always executes) */
     /* nop */  /* 0x800645F8: 0x00000000 */
     return;  /* jr $ra */
-
-block_800645FC:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(14u);
-#endif
-    psx_check_interrupts(cpu);
-    /* nop */  /* 0x800645FC: 0x00000000 */
-    /* nop */  /* 0x80064600: 0x00000000 */
-    cpu->gpr[26] = 256;  /* 0x80064604: 0x241A0100 */
-    cpu->gpr[26] = cpu->read_word(cpu->gpr[26] + 8);  /* 0x80064608: 0x8F5A0008 */
-    /* nop */  /* 0x8006460C: 0x00000000 */
-    cpu->gpr[26] = cpu->read_word(cpu->gpr[26]);  /* 0x80064610: 0x8F5A0000 */
-    /* nop */  /* 0x80064614: 0x00000000 */
-    cpu->gpr[26] = cpu->gpr[26] + 8;  /* 0x80064618: 0x235A0008 */
-    cpu->write_word(cpu->gpr[26] + 4, cpu->gpr[1]);  /* 0x8006461C: 0xAF410004 */
-    cpu->write_word(cpu->gpr[26] + 8, cpu->gpr[2]);  /* 0x80064620: 0xAF420008 */
-    cpu->write_word(cpu->gpr[26] + 12, cpu->gpr[3]);  /* 0x80064624: 0xAF43000C */
-    cpu->write_word(cpu->gpr[26] + 124, cpu->gpr[31]);  /* 0x80064628: 0xAF5F007C */
-    cpu->gpr[2] = cpu->cop0[13];  /* mfc0 */  /* 0x8006462C: 0x40026800 */
-    /* nop */  /* 0x80064630: 0x00000000 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80064634(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064634u);
     /* Address: 0x80064634, Size: 48 bytes, Blocks: 2 */
 
 block_80064634:
@@ -222831,6 +222535,7 @@ block_80064654:
 
 void func_80064664(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064664u);
     /* Address: 0x80064664, Size: 144 bytes, Blocks: 11 */
 
 block_80064664:
@@ -222970,6 +222675,7 @@ block_800646E0:
 
 void func_800646F4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800646F4u);
     /* Address: 0x800646F4, Size: 40 bytes, Blocks: 2 */
 
 block_800646F4:
@@ -223002,6 +222708,7 @@ block_8006470C:
 
 void func_8006471C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006471Cu);
     /* Address: 0x8006471C, Size: 40 bytes, Blocks: 2 */
 
 block_8006471C:
@@ -223034,6 +222741,7 @@ block_80064734:
 
 void func_80064744(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064744u);
     /* Address: 0x80064744, Size: 40 bytes, Blocks: 2 */
 
 block_80064744:
@@ -223066,6 +222774,7 @@ block_8006475C:
 
 void func_8006476C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006476Cu);
     /* Address: 0x8006476C, Size: 16 bytes, Blocks: 2 */
 
 block_8006476C:
@@ -223085,11 +222794,13 @@ block_80064778:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80064778: 0x00000000 */
+    func_8006477C(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8006477C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006477Cu);
     /* Address: 0x8006477C, Size: 16 bytes, Blocks: 1 */
 
 block_8006477C:
@@ -223107,6 +222818,7 @@ block_8006477C:
 
 void func_8006478C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006478Cu);
     /* Address: 0x8006478C, Size: 16 bytes, Blocks: 1 */
 
 block_8006478C:
@@ -223124,6 +222836,7 @@ block_8006478C:
 
 void func_8006479C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006479Cu);
     /* Address: 0x8006479C, Size: 16 bytes, Blocks: 1 */
 
 block_8006479C:
@@ -223141,6 +222854,7 @@ block_8006479C:
 
 void func_800647AC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800647ACu);
     /* Address: 0x800647AC, Size: 16 bytes, Blocks: 1 */
 
 block_800647AC:
@@ -223158,6 +222872,7 @@ block_800647AC:
 
 void func_800647BC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800647BCu);
     /* Address: 0x800647BC, Size: 108 bytes, Blocks: 10 */
 
 block_800647BC:
@@ -223287,6 +223002,7 @@ block_80064814:
 
 void func_80064828(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064828u);
     /* Address: 0x80064828, Size: 32 bytes, Blocks: 2 */
 
 block_80064828:
@@ -223317,6 +223033,7 @@ block_80064838:
 
 void func_80064848(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064848u);
     /* Address: 0x80064848, Size: 24 bytes, Blocks: 1 */
 
 block_80064848:
@@ -223336,6 +223053,7 @@ block_80064848:
 
 void func_80064860(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064860u);
     /* Address: 0x80064860, Size: 52 bytes, Blocks: 4 */
 
 block_80064860:
@@ -223388,6 +223106,7 @@ block_8006488C:
 
 void func_80064894(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064894u);
     /* Address: 0x80064894, Size: 52 bytes, Blocks: 4 */
 
 block_80064894:
@@ -223440,6 +223159,7 @@ block_800648C0:
 
 void func_800648C8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800648C8u);
     /* Address: 0x800648C8, Size: 32 bytes, Blocks: 2 */
 
 block_800648C8:
@@ -223470,6 +223190,7 @@ block_800648D8:
 
 void func_800648E8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800648E8u);
     /* Address: 0x800648E8, Size: 32 bytes, Blocks: 2 */
 
 block_800648E8:
@@ -223500,6 +223221,7 @@ block_800648F8:
 
 void func_80064908(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064908u);
     /* Address: 0x80064908, Size: 24 bytes, Blocks: 1 */
 
 block_80064908:
@@ -223519,6 +223241,7 @@ block_80064908:
 
 void func_80064920(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064920u);
     /* Address: 0x80064920, Size: 24 bytes, Blocks: 1 */
 
 block_80064920:
@@ -223538,6 +223261,7 @@ block_80064920:
 
 void func_80064938(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064938u);
     /* Address: 0x80064938, Size: 312 bytes, Blocks: 13 */
 
 block_80064938:
@@ -223754,6 +223478,7 @@ block_80064A40:
 
 void func_80064A70(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064A70u);
     /* Address: 0x80064A70, Size: 300 bytes, Blocks: 13 */
 
 block_80064A70:
@@ -223967,6 +223692,7 @@ block_80064B70:
 
 void func_80064B9C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064B9Cu);
     /* Address: 0x80064B9C, Size: 324 bytes, Blocks: 17 */
 
 block_80064B9C:
@@ -224221,6 +223947,7 @@ block_80064CB4:
 
 void func_80064CE0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064CE0u);
     /* Address: 0x80064CE0, Size: 32 bytes, Blocks: 2 */
 
 block_80064CE0:
@@ -224251,6 +223978,7 @@ block_80064CF0:
 
 void func_80064D00(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064D00u);
     /* Address: 0x80064D00, Size: 32 bytes, Blocks: 2 */
 
 block_80064D00:
@@ -224281,6 +224009,7 @@ block_80064D10:
 
 void func_80064D20(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064D20u);
     /* Address: 0x80064D20, Size: 36 bytes, Blocks: 2 */
 
 block_80064D20:
@@ -224312,6 +224041,7 @@ block_80064D34:
 
 void func_80064D44(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064D44u);
     /* Address: 0x80064D44, Size: 32 bytes, Blocks: 2 */
 
 block_80064D44:
@@ -224342,6 +224072,7 @@ block_80064D54:
 
 void func_80064D64(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064D64u);
     /* Address: 0x80064D64, Size: 260 bytes, Blocks: 1 */
 
 block_80064D64:
@@ -224420,6 +224151,7 @@ block_80064D64:
 
 void func_80064E68(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064E68u);
     /* Address: 0x80064E68, Size: 128 bytes, Blocks: 1 */
 
 block_80064E68:
@@ -224465,6 +224197,7 @@ block_80064E68:
 
 void func_80064EE8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80064EE8u);
     /* Address: 0x80064EE8, Size: 1416 bytes, Blocks: 71 */
 
 block_80064EE8:
@@ -225528,6 +225261,7 @@ block_80065458:
 
 void func_80065470(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80065470u);
     /* Address: 0x80065470, Size: 640 bytes, Blocks: 33 */
 
 block_80065470:
@@ -226013,6 +225747,7 @@ block_800656C4:
 
 void func_800656F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800656F0u);
     /* Address: 0x800656F0, Size: 716 bytes, Blocks: 37 */
 
 block_800656F0:
@@ -226555,6 +226290,7 @@ block_8006598C:
 
 void func_800659BC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800659BCu);
     /* Address: 0x800659BC, Size: 1052 bytes, Blocks: 52 */
 
 block_800659BC:
@@ -227332,6 +227068,7 @@ block_80065DB0:
 
 void func_80065DD8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80065DD8u);
     /* Address: 0x80065DD8, Size: 136 bytes, Blocks: 1 */
 
 block_80065DD8:
@@ -227379,6 +227116,7 @@ block_80065DD8:
 
 void func_80065E60(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80065E60u);
     /* Address: 0x80065E60, Size: 224 bytes, Blocks: 4 */
 
 block_80065E60:
@@ -227479,6 +227217,7 @@ block_80065EE4:
 
 void func_80065F40(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80065F40u);
     /* Address: 0x80065F40, Size: 244 bytes, Blocks: 5 */
 
 block_80065F40:
@@ -227591,6 +227330,7 @@ block_80065F80:
 
 void func_80066034(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066034u);
     /* Address: 0x80066034, Size: 80 bytes, Blocks: 3 */
 
 block_80066034:
@@ -227642,6 +227382,7 @@ block_80066074:
 
 void func_80066084(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066084u);
     /* Address: 0x80066084, Size: 492 bytes, Blocks: 17 */
 
 block_80066084:
@@ -227933,6 +227674,7 @@ block_80066260:
 
 void func_80066270(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066270u);
     /* Address: 0x80066270, Size: 364 bytes, Blocks: 14 */
 
 block_80066270:
@@ -228163,6 +227905,7 @@ block_800663BC:
 
 void func_800663DC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800663DCu);
     /* Address: 0x800663DC, Size: 256 bytes, Blocks: 6 */
 
 block_800663DC:
@@ -228290,6 +228033,7 @@ block_800664C4:
 
 void func_800664DC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800664DCu);
     /* Address: 0x800664DC, Size: 16 bytes, Blocks: 1 */
 
 block_800664DC:
@@ -228307,6 +228051,7 @@ block_800664DC:
 
 void func_800664EC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800664ECu);
     /* Address: 0x800664EC, Size: 228 bytes, Blocks: 12 */
 
 block_800664EC:
@@ -228485,6 +228230,7 @@ block_800665A0:
 
 void func_800665D0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800665D0u);
     /* Address: 0x800665D0, Size: 80 bytes, Blocks: 5 */
 
 block_800665D0:
@@ -228558,6 +228304,7 @@ block_8006660C:
 
 void func_80066620(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066620u);
     /* Address: 0x80066620, Size: 532 bytes, Blocks: 28 */
 
 block_80066620:
@@ -228967,7 +228714,8 @@ block_8006681C:
 
 void func_80066834(CPUState* cpu)
 {
-    /* Address: 0x80066834, Size: 468 bytes, Blocks: 33 */
+    debug_server_log_call_entry(0x80066834u);
+    /* Address: 0x80066834, Size: 460 bytes, Blocks: 32 */
 
 block_80066834:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -229380,19 +229128,12 @@ block_800669E0:
     /* delay slot (always executes) */
     /* nop */  /* 0x800669FC: 0x00000000 */
     return;  /* jr $ra */
-
-block_80066A00:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    cpu->gpr[1] = 0x8009 << 16;  /* 0x80090000 */  /* 0x80066A00: 0x3C018009 */
-    cpu->write_word(cpu->gpr[1] + 25368, cpu->gpr[0]);  /* 0x80066A04: 0xAC206318 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80066A08(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066A08u);
     /* Address: 0x80066A08, Size: 72 bytes, Blocks: 4 */
 
 block_80066A08:
@@ -229451,6 +229192,7 @@ block_80066A40:
 
 void func_80066A50(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066A50u);
     /* Address: 0x80066A50, Size: 224 bytes, Blocks: 12 */
 
 block_80066A50:
@@ -229624,6 +229366,7 @@ block_80066B20:
 
 void func_80066B30(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066B30u);
     /* Address: 0x80066B30, Size: 204 bytes, Blocks: 13 */
 
 block_80066B30:
@@ -229805,6 +229548,7 @@ block_80066BD8:
 
 void func_80066BFC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066BFCu);
     /* Address: 0x80066BFC, Size: 24 bytes, Blocks: 1 */
 
 block_80066BFC:
@@ -229824,6 +229568,7 @@ block_80066BFC:
 
 void func_80066C14(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066C14u);
     /* Address: 0x80066C14, Size: 148 bytes, Blocks: 9 */
 
 block_80066C14:
@@ -229948,6 +229693,7 @@ block_80066C94:
 
 void func_80066CA8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066CA8u);
     /* Address: 0x80066CA8, Size: 32 bytes, Blocks: 2 */
 
 block_80066CA8:
@@ -229978,6 +229724,7 @@ block_80066CB8:
 
 void func_80066CC8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066CC8u);
     /* Address: 0x80066CC8, Size: 96 bytes, Blocks: 2 */
 
 block_80066CC8:
@@ -230024,6 +229771,7 @@ block_80066D00:
 
 void func_80066D28(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066D28u);
     /* Address: 0x80066D28, Size: 88 bytes, Blocks: 5 */
 
 block_80066D28:
@@ -230095,6 +229843,7 @@ block_80066D70:
 
 void func_80066D80(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066D80u);
     /* Address: 0x80066D80, Size: 8 bytes, Blocks: 1 */
 
 block_80066D80:
@@ -230104,12 +229853,14 @@ block_80066D80:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80066D80: 0x3C02800A */
     cpu->gpr[2] = cpu->read_word(cpu->gpr[2] + 5584);  /* 0x80066D84: 0x8C4215D0 */
+    func_80066D88(cpu); return;  /* fallthrough to split piece */
     func_80066D88(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80066D88(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066D88u);
     /* Address: 0x80066D88, Size: 136 bytes, Blocks: 3 */
 
 block_80066D88:
@@ -230178,6 +229929,7 @@ block_80066DF8:
 
 void func_80066E10(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066E10u);
     /* Address: 0x80066E10, Size: 96 bytes, Blocks: 6 */
 
 block_80066E10:
@@ -230259,6 +230011,7 @@ block_80066E5C:
 
 void func_80066E70(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066E70u);
     /* Address: 0x80066E70, Size: 136 bytes, Blocks: 2 */
 
 block_80066E70:
@@ -230315,6 +230068,7 @@ block_80066E98:
 
 void func_80066EF8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066EF8u);
     /* Address: 0x80066EF8, Size: 184 bytes, Blocks: 7 */
 
 block_80066EF8:
@@ -230431,6 +230185,7 @@ block_80066FA4:
 
 void func_80066FB0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066FB0u);
     /* Address: 0x80066FB0, Size: 60 bytes, Blocks: 3 */
 
 block_80066FB0:
@@ -230483,6 +230238,7 @@ block_80066FE0:
 
 void func_80066FEC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80066FECu);
     /* Address: 0x80066FEC, Size: 196 bytes, Blocks: 7 */
 
 block_80066FEC:
@@ -230602,6 +230358,7 @@ block_800670A8:
 
 void func_800670B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800670B0u);
     /* Address: 0x800670B0, Size: 32 bytes, Blocks: 1 */
 
 block_800670B0:
@@ -230623,6 +230380,7 @@ block_800670B0:
 
 void func_800670D0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800670D0u);
     /* Address: 0x800670D0, Size: 2416 bytes, Blocks: 86 */
 
 block_800670D0:
@@ -232074,6 +231832,7 @@ block_80067A30:
 
 void func_80067A40(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067A40u);
     /* Address: 0x80067A40, Size: 52 bytes, Blocks: 3 */
 
 block_80067A40:
@@ -232124,6 +231883,7 @@ block_80067A68:
 
 void func_80067A74(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067A74u);
     /* Address: 0x80067A74, Size: 444 bytes, Blocks: 13 */
 
 block_80067A74:
@@ -232364,6 +232124,7 @@ block_80067BF8:
 
 void func_80067C30(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067C30u);
     /* Address: 0x80067C30, Size: 8 bytes, Blocks: 1 */
 
 block_80067C30:
@@ -232373,12 +232134,14 @@ block_80067C30:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x8009 << 16;  /* 0x80090000 */  /* 0x80067C30: 0x3C028009 */
     cpu->gpr[2] = cpu->read_word(cpu->gpr[2] + 25608);  /* 0x80067C34: 0x8C426408 */
+    func_80067C38(cpu); return;  /* fallthrough to split piece */
     func_80067C38(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80067C38(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067C38u);
     /* Address: 0x80067C38, Size: 320 bytes, Blocks: 16 */
 
 block_80067C38:
@@ -232616,6 +232379,7 @@ block_80067D60:
 
 void func_80067D78(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067D78u);
     /* Address: 0x80067D78, Size: 156 bytes, Blocks: 9 */
 
 block_80067D78:
@@ -232745,6 +232509,7 @@ block_80067E04:
 
 void func_80067E14(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067E14u);
     /* Address: 0x80067E14, Size: 16 bytes, Blocks: 2 */
 
 block_80067E14:
@@ -232764,11 +232529,13 @@ block_80067E20:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80067E20: 0x00000000 */
+    func_80067E24(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80067E24(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067E24u);
     /* Address: 0x80067E24, Size: 48 bytes, Blocks: 2 */
 
 block_80067E24:
@@ -232803,6 +232570,7 @@ block_80067E44:
 
 void func_80067E54(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067E54u);
     /* Address: 0x80067E54, Size: 48 bytes, Blocks: 2 */
 
 block_80067E54:
@@ -232837,6 +232605,7 @@ block_80067E74:
 
 void func_80067E84(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067E84u);
     /* Address: 0x80067E84, Size: 48 bytes, Blocks: 2 */
 
 block_80067E84:
@@ -232871,6 +232640,7 @@ block_80067EA4:
 
 void func_80067EB4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067EB4u);
     /* Address: 0x80067EB4, Size: 52 bytes, Blocks: 2 */
 
 block_80067EB4:
@@ -232906,6 +232676,7 @@ block_80067ED8:
 
 void func_80067EE8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067EE8u);
     /* Address: 0x80067EE8, Size: 48 bytes, Blocks: 2 */
 
 block_80067EE8:
@@ -232940,6 +232711,7 @@ block_80067F08:
 
 void func_80067F18(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067F18u);
     /* Address: 0x80067F18, Size: 48 bytes, Blocks: 2 */
 
 block_80067F18:
@@ -232974,6 +232746,7 @@ block_80067F38:
 
 void func_80067F48(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067F48u);
     /* Address: 0x80067F48, Size: 48 bytes, Blocks: 2 */
 
 block_80067F48:
@@ -233008,6 +232781,7 @@ block_80067F68:
 
 void func_80067F78(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067F78u);
     /* Address: 0x80067F78, Size: 16 bytes, Blocks: 1 */
 
 block_80067F78:
@@ -233025,6 +232799,7 @@ block_80067F78:
 
 void func_80067F88(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067F88u);
     /* Address: 0x80067F88, Size: 24 bytes, Blocks: 1 */
 
 block_80067F88:
@@ -233044,6 +232819,7 @@ block_80067F88:
 
 void func_80067FA0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067FA0u);
     /* Address: 0x80067FA0, Size: 28 bytes, Blocks: 1 */
 
 block_80067FA0:
@@ -233064,6 +232840,7 @@ block_80067FA0:
 
 void func_80067FBC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80067FBCu);
     /* Address: 0x80067FBC, Size: 104 bytes, Blocks: 3 */
 
 block_80067FBC:
@@ -233126,6 +232903,7 @@ block_8006801C:
 
 void func_80068024(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068024u);
     /* Address: 0x80068024, Size: 96 bytes, Blocks: 8 */
 
 block_80068024:
@@ -233223,11 +233001,13 @@ block_80068080:
 #endif
     psx_check_interrupts(cpu);
     cpu->gpr[2] = cpu->gpr[16];  /* move */  /* 0x80068080: 0x02001021 */
+    func_80068084(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80068084(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068084u);
     /* Address: 0x80068084, Size: 20 bytes, Blocks: 1 */
 
 block_80068084:
@@ -233246,6 +233026,7 @@ block_80068084:
 
 void func_80068098(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068098u);
     /* Address: 0x80068098, Size: 488 bytes, Blocks: 20 */
 
 block_80068098:
@@ -233574,6 +233355,7 @@ block_8006825C:
 
 void func_80068280(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068280u);
     /* Address: 0x80068280, Size: 340 bytes, Blocks: 19 */
 
 block_80068280:
@@ -233843,6 +233625,7 @@ block_800683B0:
 
 void func_800683D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800683D4u);
     /* Address: 0x800683D4, Size: 172 bytes, Blocks: 5 */
 
 block_800683D4:
@@ -233936,6 +233719,7 @@ block_8006846C:
 
 void func_80068480(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068480u);
     /* Address: 0x80068480, Size: 136 bytes, Blocks: 6 */
 
 block_80068480:
@@ -234027,6 +233811,7 @@ block_800684F4:
 
 void func_80068508(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068508u);
     /* Address: 0x80068508, Size: 44 bytes, Blocks: 4 */
 
 block_80068508:
@@ -234082,6 +233867,7 @@ block_80068528:
 
 void func_80068534(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068534u);
     /* Address: 0x80068534, Size: 8 bytes, Blocks: 1 */
 
 block_80068534:
@@ -234091,12 +233877,14 @@ block_80068534:
     psx_check_interrupts(cpu);
     /* nop: write to $zero */  /* 0x80068534: 0x21007350 */
     /* TODO: SPECIAL funct=0x2D */  /* 0x80068538: 0x004236AD */
+    func_8006853C(cpu); return;  /* fallthrough to split piece */
     func_8006853C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8006853C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006853Cu);
     /* Address: 0x8006853C, Size: 24 bytes, Blocks: 2 */
 
 block_8006853C:
@@ -234118,11 +233906,13 @@ block_80068548:
     /* nop */  /* 0x80068548: 0x00000000 */
     /* nop */  /* 0x8006854C: 0x00000000 */
     /* nop */  /* 0x80068550: 0x00000000 */
+    func_80068554(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80068554(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068554u);
     /* Address: 0x80068554, Size: 16 bytes, Blocks: 2 */
 
 block_80068554:
@@ -234142,11 +233932,13 @@ block_80068560:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80068560: 0x00000000 */
+    func_80068564(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80068564(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068564u);
     /* Address: 0x80068564, Size: 16 bytes, Blocks: 2 */
 
 block_80068564:
@@ -234166,11 +233958,13 @@ block_80068570:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80068570: 0x00000000 */
+    func_80068574(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80068574(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068574u);
     /* Address: 0x80068574, Size: 16 bytes, Blocks: 2 */
 
 block_80068574:
@@ -234190,11 +233984,13 @@ block_80068580:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80068580: 0x00000000 */
+    func_80068584(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80068584(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068584u);
     /* Address: 0x80068584, Size: 60 bytes, Blocks: 1 */
 
 block_80068584:
@@ -234223,7 +234019,8 @@ block_80068584:
 
 void func_800685C0(CPUState* cpu)
 {
-    /* Address: 0x800685C0, Size: 68 bytes, Blocks: 2 */
+    debug_server_log_call_entry(0x800685C0u);
+    /* Address: 0x800685C0, Size: 60 bytes, Blocks: 1 */
 
 block_800685C0:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -234246,19 +234043,12 @@ block_800685C0:
     /* delay slot (always executes) */
     /* nop */  /* 0x800685F8: 0x00000000 */
     cpu->pc = cpu->gpr[31]; psx_restore_state_escape(); return;  /* jr $ra — longjmp-return (ra loaded from non-sp) */
-
-block_800685FC:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(2u);
-#endif
-    psx_check_interrupts(cpu);
-    /* nop */  /* 0x800685FC: 0x00000000 */
-    /* nop */  /* 0x80068600: 0x00000000 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80068604(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068604u);
     /* Address: 0x80068604, Size: 88 bytes, Blocks: 3 */
 
 block_80068604:
@@ -234312,6 +234102,7 @@ block_80068644:
 
 void func_8006865C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006865Cu);
     /* Address: 0x8006865C, Size: 120 bytes, Blocks: 5 */
 
 block_8006865C:
@@ -234395,6 +234186,7 @@ block_800686BC:
 
 void func_800686D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800686D4u);
     /* Address: 0x800686D4, Size: 44 bytes, Blocks: 3 */
 
 block_800686D4:
@@ -234438,6 +234230,7 @@ block_800686F8:
 
 void func_80068700(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068700u);
     /* Address: 0x80068700, Size: 44 bytes, Blocks: 4 */
 
 block_80068700:
@@ -234493,6 +234286,7 @@ block_80068720:
 
 void func_8006872C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006872Cu);
     /* Address: 0x8006872C, Size: 80 bytes, Blocks: 3 */
 
 block_8006872C:
@@ -234544,6 +234338,7 @@ block_80068764:
 
 void func_8006877C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006877Cu);
     /* Address: 0x8006877C, Size: 388 bytes, Blocks: 16 */
 
 block_8006877C:
@@ -234815,6 +234610,7 @@ block_800688D8:
 
 void func_80068900(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068900u);
     /* Address: 0x80068900, Size: 168 bytes, Blocks: 5 */
 
 block_80068900:
@@ -234908,6 +234704,7 @@ block_800689A0:
 
 void func_800689A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800689A8u);
     /* Address: 0x800689A8, Size: 44 bytes, Blocks: 4 */
 
 block_800689A8:
@@ -234963,6 +234760,7 @@ block_800689C8:
 
 void func_800689D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800689D4u);
     /* Address: 0x800689D4, Size: 24 bytes, Blocks: 1 */
 
 block_800689D4:
@@ -234982,6 +234780,7 @@ block_800689D4:
 
 void func_800689EC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800689ECu);
     /* Address: 0x800689EC, Size: 16 bytes, Blocks: 1 */
 
 block_800689EC:
@@ -234999,6 +234798,7 @@ block_800689EC:
 
 void func_800689FC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800689FCu);
     /* Address: 0x800689FC, Size: 32 bytes, Blocks: 2 */
 
 block_800689FC:
@@ -235029,6 +234829,7 @@ block_80068A0C:
 
 void func_80068A1C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068A1Cu);
     /* Address: 0x80068A1C, Size: 32 bytes, Blocks: 2 */
 
 block_80068A1C:
@@ -235059,6 +234860,7 @@ block_80068A2C:
 
 void func_80068A3C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068A3Cu);
     /* Address: 0x80068A3C, Size: 32 bytes, Blocks: 2 */
 
 block_80068A3C:
@@ -235089,6 +234891,7 @@ block_80068A4C:
 
 void func_80068A5C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068A5Cu);
     /* Address: 0x80068A5C, Size: 76 bytes, Blocks: 4 */
 
 block_80068A5C:
@@ -235147,6 +234950,7 @@ block_80068AA0:
 
 void func_80068AA8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068AA8u);
     /* Address: 0x80068AA8, Size: 192 bytes, Blocks: 14 */
 
 block_80068AA8:
@@ -235341,6 +235145,7 @@ block_80068B58:
 
 void func_80068B68(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068B68u);
     /* Address: 0x80068B68, Size: 248 bytes, Blocks: 19 */
 
 block_80068B68:
@@ -235584,6 +235389,7 @@ block_80068C4C:
 
 void func_80068C60(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068C60u);
     /* Address: 0x80068C60, Size: 212 bytes, Blocks: 13 */
 
 block_80068C60:
@@ -235759,6 +235565,7 @@ block_80068D20:
 
 void func_80068D34(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068D34u);
     /* Address: 0x80068D34, Size: 168 bytes, Blocks: 10 */
 
 block_80068D34:
@@ -235899,6 +235706,7 @@ block_80068DC8:
 
 void func_80068DDC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068DDCu);
     /* Address: 0x80068DDC, Size: 56 bytes, Blocks: 3 */
 
 block_80068DDC:
@@ -235944,6 +235752,7 @@ block_80068E04:
 
 void func_80068E14(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068E14u);
     /* Address: 0x80068E14, Size: 72 bytes, Blocks: 3 */
 
 block_80068E14:
@@ -235993,7 +235802,8 @@ block_80068E48:
 
 void func_80068E5C(CPUState* cpu)
 {
-    /* Address: 0x80068E5C, Size: 88 bytes, Blocks: 4 */
+    debug_server_log_call_entry(0x80068E5Cu);
+    /* Address: 0x80068E5C, Size: 72 bytes, Blocks: 3 */
 
 block_80068E5C:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -236037,21 +235847,12 @@ block_80068E90:
     /* delay slot (always executes) */
     cpu->gpr[29] = cpu->gpr[29] + 32;  /* 0x80068EA0: 0x27BD0020 */
     return;  /* jr $ra */
-
-block_80068EA4:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(4u);
-#endif
-    psx_check_interrupts(cpu);
-    /* nop */  /* 0x80068EA4: 0x00000000 */
-    /* nop */  /* 0x80068EA8: 0x00000000 */
-    cpu->gpr[3] = 0x8009 << 16;  /* 0x80090000 */  /* 0x80068EAC: 0x3C038009 */
-    cpu->gpr[3] = cpu->read_word(cpu->gpr[3] + 30052);  /* 0x80068EB0: 0x8C637564 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80068EB4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068EB4u);
     /* Address: 0x80068EB4, Size: 272 bytes, Blocks: 13 */
 
 block_80068EB4:
@@ -236246,6 +236047,7 @@ block_80068FA8:
 
 void func_80068FC4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068FC4u);
     /* Address: 0x80068FC4, Size: 44 bytes, Blocks: 1 */
 
 block_80068FC4:
@@ -236270,6 +236072,7 @@ block_80068FC4:
 
 void func_80068FF0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80068FF0u);
     /* Address: 0x80068FF0, Size: 104 bytes, Blocks: 6 */
 
 block_80068FF0:
@@ -236361,6 +236164,7 @@ block_80069048:
 
 void func_80069058(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80069058u);
     /* Address: 0x80069058, Size: 364 bytes, Blocks: 16 */
 
 block_80069058:
@@ -236621,6 +236425,7 @@ block_800691B4:
 
 void func_800691C4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800691C4u);
     /* Address: 0x800691C4, Size: 8 bytes, Blocks: 1 */
 
 block_800691C4:
@@ -236630,12 +236435,14 @@ block_800691C4:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x8009 << 16;  /* 0x80090000 */  /* 0x800691C4: 0x3C028009 */
     cpu->gpr[2] = cpu->read_word(cpu->gpr[2] + 30072);  /* 0x800691C8: 0x8C427578 */
+    func_800691CC(cpu); return;  /* fallthrough to split piece */
     func_800691CC(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800691CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800691CCu);
     /* Address: 0x800691CC, Size: 8 bytes, Blocks: 1 */
 
 block_800691CC:
@@ -236652,6 +236459,7 @@ block_800691CC:
 
 void func_800691D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800691D4u);
     /* Address: 0x800691D4, Size: 4 bytes, Blocks: 1 */
 
 block_800691D4:
@@ -236660,12 +236468,14 @@ block_800691D4:
 #endif
     psx_check_interrupts(cpu);
     cpu->write_word(cpu->gpr[1] + 30072, cpu->gpr[0]);  /* 0x800691D4: 0xAC207578 */
+    func_800691D8(cpu); return;  /* fallthrough to split piece */
     func_800691D8(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800691D8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800691D8u);
     /* Address: 0x800691D8, Size: 204 bytes, Blocks: 8 */
 
 block_800691D8:
@@ -236793,6 +236603,7 @@ block_80069278:
 
 void func_800692A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800692A4u);
     /* Address: 0x800692A4, Size: 68 bytes, Blocks: 5 */
 
 block_800692A4:
@@ -236859,6 +236670,7 @@ block_800692D8:
 
 void func_800692E8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800692E8u);
     /* Address: 0x800692E8, Size: 532 bytes, Blocks: 22 */
 
 block_800692E8:
@@ -237212,6 +237024,7 @@ block_800694E8:
 
 void func_800694FC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800694FCu);
     /* Address: 0x800694FC, Size: 200 bytes, Blocks: 11 */
 
 block_800694FC:
@@ -237375,6 +237188,7 @@ block_800695B4:
 
 void func_800695C4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800695C4u);
     /* Address: 0x800695C4, Size: 472 bytes, Blocks: 18 */
 
 block_800695C4:
@@ -237684,6 +237498,7 @@ block_80069784:
 
 void func_8006979C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006979Cu);
     /* Address: 0x8006979C, Size: 564 bytes, Blocks: 29 */
 
 block_8006979C:
@@ -238120,6 +237935,7 @@ block_800699B4:
 
 void func_800699D0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800699D0u);
     /* Address: 0x800699D0, Size: 144 bytes, Blocks: 6 */
 
 block_800699D0:
@@ -238221,6 +238037,7 @@ block_80069A50:
 
 void func_80069A60(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80069A60u);
     /* Address: 0x80069A60, Size: 40 bytes, Blocks: 3 */
 
 block_80069A60:
@@ -238263,6 +238080,7 @@ block_80069A80:
 
 void func_80069A88(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80069A88u);
     /* Address: 0x80069A88, Size: 4 bytes, Blocks: 1 */
 
 block_80069A88:
@@ -238271,12 +238089,14 @@ block_80069A88:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80069A88: 0x00000000 */
+    func_80069A8C(cpu); return;  /* fallthrough to split piece */
     func_80069A8C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80069A8C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80069A8Cu);
     /* Address: 0x80069A8C, Size: 16 bytes, Blocks: 2 */
 
 block_80069A8C:
@@ -238296,11 +238116,13 @@ block_80069A98:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80069A98: 0x00000000 */
+    func_80069A9C(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80069A9C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80069A9Cu);
     /* Address: 0x80069A9C, Size: 16 bytes, Blocks: 2 */
 
 block_80069A9C:
@@ -238320,11 +238142,13 @@ block_80069AA8:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80069AA8: 0x00000000 */
+    func_80069AAC(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80069AAC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80069AACu);
     /* Address: 0x80069AAC, Size: 12 bytes, Blocks: 1 */
 
 block_80069AAC:
@@ -238341,6 +238165,7 @@ block_80069AAC:
 
 void func_80069AB8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80069AB8u);
     /* Address: 0x80069AB8, Size: 16 bytes, Blocks: 1 */
 
 block_80069AB8:
@@ -238358,6 +238183,7 @@ block_80069AB8:
 
 void func_80069AC8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80069AC8u);
     /* Address: 0x80069AC8, Size: 132 bytes, Blocks: 12 */
 
 block_80069AC8:
@@ -238507,6 +238333,7 @@ block_80069B3C:
 
 void func_80069B4C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80069B4Cu);
     /* Address: 0x80069B4C, Size: 332 bytes, Blocks: 17 */
 
 block_80069B4C:
@@ -238749,6 +238576,7 @@ block_80069C88:
 
 void func_80069C98(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80069C98u);
     /* Address: 0x80069C98, Size: 56 bytes, Blocks: 1 */
 
 block_80069C98:
@@ -238776,6 +238604,7 @@ block_80069C98:
 
 void func_80069CD0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80069CD0u);
     /* Address: 0x80069CD0, Size: 212 bytes, Blocks: 7 */
 
 block_80069CD0:
@@ -238901,6 +238730,7 @@ block_80069D90:
 
 void func_80069DA4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80069DA4u);
     /* Address: 0x80069DA4, Size: 168 bytes, Blocks: 15 */
 
 block_80069DA4:
@@ -239087,6 +238917,7 @@ block_80069E3C:
 
 void func_80069E4C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80069E4Cu);
     /* Address: 0x80069E4C, Size: 628 bytes, Blocks: 27 */
 
 block_80069E4C:
@@ -239504,6 +239335,7 @@ block_8006A0B8:
 
 void func_8006A0C0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A0C0u);
     /* Address: 0x8006A0C0, Size: 104 bytes, Blocks: 4 */
 
 block_8006A0C0:
@@ -239571,6 +239403,7 @@ block_8006A114:
 
 void func_8006A128(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A128u);
     /* Address: 0x8006A128, Size: 28 bytes, Blocks: 1 */
 
 block_8006A128:
@@ -239591,6 +239424,7 @@ block_8006A128:
 
 void func_8006A144(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A144u);
     /* Address: 0x8006A144, Size: 200 bytes, Blocks: 16 */
 
 block_8006A144:
@@ -239799,6 +239633,7 @@ block_8006A1FC:
 
 void func_8006A20C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A20Cu);
     /* Address: 0x8006A20C, Size: 152 bytes, Blocks: 4 */
 
 block_8006A20C:
@@ -239878,6 +239713,7 @@ block_8006A288:
 
 void func_8006A2A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A2A4u);
     /* Address: 0x8006A2A4, Size: 84 bytes, Blocks: 6 */
 
 block_8006A2A4:
@@ -239957,6 +239793,7 @@ block_8006A2F0:
 
 void func_8006A2F8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A2F8u);
     /* Address: 0x8006A2F8, Size: 96 bytes, Blocks: 7 */
 
 block_8006A2F8:
@@ -240048,6 +239885,7 @@ block_8006A348:
 
 void func_8006A358(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A358u);
     /* Address: 0x8006A358, Size: 32 bytes, Blocks: 1 */
 
 block_8006A358:
@@ -240069,6 +239907,7 @@ block_8006A358:
 
 void func_8006A378(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A378u);
     /* Address: 0x8006A378, Size: 20 bytes, Blocks: 1 */
 
 block_8006A378:
@@ -240087,6 +239926,7 @@ block_8006A378:
 
 void func_8006A38C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A38Cu);
     /* Address: 0x8006A38C, Size: 32 bytes, Blocks: 1 */
 
 block_8006A38C:
@@ -240108,6 +239948,7 @@ block_8006A38C:
 
 void func_8006A3AC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A3ACu);
     /* Address: 0x8006A3AC, Size: 32 bytes, Blocks: 1 */
 
 block_8006A3AC:
@@ -240129,6 +239970,7 @@ block_8006A3AC:
 
 void func_8006A3CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A3CCu);
     /* Address: 0x8006A3CC, Size: 32 bytes, Blocks: 1 */
 
 block_8006A3CC:
@@ -240150,7 +239992,8 @@ block_8006A3CC:
 
 void func_8006A3EC(CPUState* cpu)
 {
-    /* Address: 0x8006A3EC, Size: 32 bytes, Blocks: 2 */
+    debug_server_log_call_entry(0x8006A3ECu);
+    /* Address: 0x8006A3EC, Size: 20 bytes, Blocks: 1 */
 
 block_8006A3EC:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -240163,20 +240006,12 @@ block_8006A3EC:
     /* delay slot (always executes) */
     cpu->write_byte(cpu->gpr[4] + 53, (uint8_t)cpu->gpr[0]);  /* 0x8006A3FC: 0xA0800035 */
     return;  /* jr $ra */
-
-block_8006A400:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(3u);
-#endif
-    psx_check_interrupts(cpu);
-    /* nop */  /* 0x8006A400: 0x00000000 */
-    /* nop */  /* 0x8006A404: 0x00000000 */
-    /* nop */  /* 0x8006A408: 0x00000000 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8006A40C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A40Cu);
     /* Address: 0x8006A40C, Size: 64 bytes, Blocks: 3 */
 
 block_8006A40C:
@@ -240224,6 +240059,7 @@ block_8006A43C:
 
 void func_8006A44C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A44Cu);
     /* Address: 0x8006A44C, Size: 8 bytes, Blocks: 1 */
 
 block_8006A44C:
@@ -240233,12 +240069,14 @@ block_8006A44C:
     psx_check_interrupts(cpu);
     cpu->gpr[3] = 0x8009 << 16;  /* 0x80090000 */  /* 0x8006A44C: 0x3C038009 */
     cpu->gpr[3] = cpu->read_word(cpu->gpr[3] + 30032);  /* 0x8006A450: 0x8C637550 */
+    func_8006A454(cpu); return;  /* fallthrough to split piece */
     func_8006A454(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8006A454(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A454u);
     /* Address: 0x8006A454, Size: 208 bytes, Blocks: 12 */
 
 block_8006A454:
@@ -240411,6 +240249,7 @@ block_8006A514:
 
 void func_8006A524(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A524u);
     /* Address: 0x8006A524, Size: 192 bytes, Blocks: 12 */
 
 block_8006A524:
@@ -240580,6 +240419,7 @@ block_8006A5D4:
 
 void func_8006A5E4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A5E4u);
     /* Address: 0x8006A5E4, Size: 140 bytes, Blocks: 9 */
 
 block_8006A5E4:
@@ -240708,6 +240548,7 @@ block_8006A660:
 
 void func_8006A670(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A670u);
     /* Address: 0x8006A670, Size: 892 bytes, Blocks: 54 */
 
 block_8006A670:
@@ -241465,6 +241306,7 @@ block_8006A9C8:
 
 void func_8006A9EC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006A9ECu);
     /* Address: 0x8006A9EC, Size: 352 bytes, Blocks: 8 */
 
 block_8006A9EC:
@@ -241631,6 +241473,7 @@ block_8006AB28:
 
 void func_8006AB4C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006AB4Cu);
     /* Address: 0x8006AB4C, Size: 104 bytes, Blocks: 4 */
 
 block_8006AB4C:
@@ -241701,6 +241544,7 @@ block_8006ABAC:
 
 void func_8006ABB4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006ABB4u);
     /* Address: 0x8006ABB4, Size: 244 bytes, Blocks: 12 */
 
 block_8006ABB4:
@@ -241878,6 +241722,7 @@ block_8006AC8C:
 
 void func_8006ACA8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006ACA8u);
     /* Address: 0x8006ACA8, Size: 16 bytes, Blocks: 1 */
 
 block_8006ACA8:
@@ -241895,6 +241740,7 @@ block_8006ACA8:
 
 void func_8006ACB8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006ACB8u);
     /* Address: 0x8006ACB8, Size: 188 bytes, Blocks: 13 */
 
 block_8006ACB8:
@@ -242074,6 +241920,7 @@ block_8006AD6C:
 
 void func_8006AD74(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006AD74u);
     /* Address: 0x8006AD74, Size: 636 bytes, Blocks: 39 */
 
 block_8006AD74:
@@ -242644,6 +242491,7 @@ block_8006AFE0:
 
 void func_8006AFF0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006AFF0u);
     /* Address: 0x8006AFF0, Size: 56 bytes, Blocks: 5 */
 
 block_8006AFF0:
@@ -242709,6 +242557,7 @@ block_8006B020:
 
 void func_8006B028(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B028u);
     /* Address: 0x8006B028, Size: 32 bytes, Blocks: 3 */
 
 block_8006B028:
@@ -242749,6 +242598,7 @@ block_8006B040:
 
 void func_8006B048(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B048u);
     /* Address: 0x8006B048, Size: 4 bytes, Blocks: 1 */
 
 block_8006B048:
@@ -242757,12 +242607,14 @@ block_8006B048:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8006B048: 0x00000000 */
+    func_8006B04C(cpu); return;  /* fallthrough to split piece */
     func_8006B04C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8006B04C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B04Cu);
     /* Address: 0x8006B04C, Size: 52 bytes, Blocks: 1 */
 
 block_8006B04C:
@@ -242789,6 +242641,7 @@ block_8006B04C:
 
 void func_8006B080(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B080u);
     /* Address: 0x8006B080, Size: 212 bytes, Blocks: 18 */
 
 block_8006B080:
@@ -243022,6 +242875,7 @@ block_8006B144:
 
 void func_8006B154(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B154u);
     /* Address: 0x8006B154, Size: 612 bytes, Blocks: 38 */
 
 block_8006B154:
@@ -243572,6 +243426,7 @@ block_8006B3A4:
 
 void func_8006B3B8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B3B8u);
     /* Address: 0x8006B3B8, Size: 220 bytes, Blocks: 11 */
 
 block_8006B3B8:
@@ -243742,6 +243597,7 @@ block_8006B484:
 
 void func_8006B494(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B494u);
     /* Address: 0x8006B494, Size: 44 bytes, Blocks: 4 */
 
 block_8006B494:
@@ -243797,6 +243653,7 @@ block_8006B4B8:
 
 void func_8006B4C0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B4C0u);
     /* Address: 0x8006B4C0, Size: 12 bytes, Blocks: 1 */
 
 block_8006B4C0:
@@ -243807,12 +243664,14 @@ block_8006B4C0:
     /* nop */  /* 0x8006B4C0: 0x00000000 */
     /* nop */  /* 0x8006B4C4: 0x00000000 */
     /* nop */  /* 0x8006B4C8: 0x00000000 */
+    func_8006B4CC(cpu); return;  /* fallthrough to split piece */
     func_8006B4CC(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8006B4CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B4CCu);
     /* Address: 0x8006B4CC, Size: 32 bytes, Blocks: 1 */
 
 block_8006B4CC:
@@ -243834,6 +243693,7 @@ block_8006B4CC:
 
 void func_8006B4EC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B4ECu);
     /* Address: 0x8006B4EC, Size: 160 bytes, Blocks: 8 */
 
 block_8006B4EC:
@@ -243951,6 +243811,7 @@ block_8006B580:
 
 void func_8006B58C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B58Cu);
     /* Address: 0x8006B58C, Size: 168 bytes, Blocks: 5 */
 
 block_8006B58C:
@@ -244037,11 +243898,13 @@ block_8006B630:
 #endif
     psx_check_interrupts(cpu);
     /* break(1) — trap, no-op in recompiler */  /* 0x8006B630: 0x0000004D */
+    func_8006B634(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8006B634(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B634u);
     /* Address: 0x8006B634, Size: 112 bytes, Blocks: 5 */
 
 block_8006B634:
@@ -244128,6 +243991,7 @@ block_8006B68C:
 
 void func_8006B6A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B6A4u);
     /* Address: 0x8006B6A4, Size: 104 bytes, Blocks: 5 */
 
 block_8006B6A4:
@@ -244212,6 +244076,7 @@ block_8006B6F4:
 
 void func_8006B70C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B70Cu);
     /* Address: 0x8006B70C, Size: 16 bytes, Blocks: 2 */
 
 block_8006B70C:
@@ -244231,11 +244096,13 @@ block_8006B718:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x8006B718: 0x00000000 */
+    func_8006B71C(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8006B71C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B71Cu);
     /* Address: 0x8006B71C, Size: 380 bytes, Blocks: 6 */
 
 block_8006B71C:
@@ -244393,6 +244260,7 @@ block_8006B884:
 
 void func_8006B898(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B898u);
     /* Address: 0x8006B898, Size: 36 bytes, Blocks: 2 */
 
 block_8006B898:
@@ -244424,6 +244292,7 @@ block_8006B8AC:
 
 void func_8006B8BC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B8BCu);
     /* Address: 0x8006B8BC, Size: 36 bytes, Blocks: 2 */
 
 block_8006B8BC:
@@ -244455,6 +244324,7 @@ block_8006B8D0:
 
 void func_8006B8E0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B8E0u);
     /* Address: 0x8006B8E0, Size: 196 bytes, Blocks: 13 */
 
 block_8006B8E0:
@@ -244631,6 +244501,7 @@ block_8006B994:
 
 void func_8006B9A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006B9A4u);
     /* Address: 0x8006B9A4, Size: 232 bytes, Blocks: 12 */
 
 block_8006B9A4:
@@ -244806,6 +244677,7 @@ block_8006BA60:
 
 void func_8006BA8C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006BA8Cu);
     /* Address: 0x8006BA8C, Size: 48 bytes, Blocks: 4 */
 
 block_8006BA8C:
@@ -244858,6 +244730,7 @@ block_8006BAAC:
 
 void func_8006BABC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006BABCu);
     /* Address: 0x8006BABC, Size: 72 bytes, Blocks: 1 */
 
 block_8006BABC:
@@ -244889,6 +244762,7 @@ block_8006BABC:
 
 void func_8006BB04(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006BB04u);
     /* Address: 0x8006BB04, Size: 72 bytes, Blocks: 1 */
 
 block_8006BB04:
@@ -244920,6 +244794,7 @@ block_8006BB04:
 
 void func_8006BB4C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006BB4Cu);
     /* Address: 0x8006BB4C, Size: 784 bytes, Blocks: 11 */
 
 block_8006BB4C:
@@ -245223,6 +245098,7 @@ block_8006BE48:
 
 void func_8006BE5C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006BE5Cu);
     /* Address: 0x8006BE5C, Size: 128 bytes, Blocks: 2 */
 
 block_8006BE5C:
@@ -245277,6 +245153,7 @@ block_8006BEC4:
 
 void func_8006BEDC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006BEDCu);
     /* Address: 0x8006BEDC, Size: 1072 bytes, Blocks: 43 */
 
 block_8006BEDC:
@@ -245948,6 +245825,7 @@ block_8006C2D8:
 
 void func_8006C30C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006C30Cu);
     /* Address: 0x8006C30C, Size: 216 bytes, Blocks: 3 */
 
 block_8006C30C:
@@ -246033,6 +245911,7 @@ block_8006C3BC:
 
 void func_8006C3E4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006C3E4u);
     /* Address: 0x8006C3E4, Size: 208 bytes, Blocks: 3 */
 
 block_8006C3E4:
@@ -246116,6 +245995,7 @@ block_8006C48C:
 
 void func_8006C4B4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006C4B4u);
     /* Address: 0x8006C4B4, Size: 176 bytes, Blocks: 7 */
 
 block_8006C4B4:
@@ -246226,6 +246106,7 @@ block_8006C544:
 
 void func_8006C564(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006C564u);
     /* Address: 0x8006C564, Size: 144 bytes, Blocks: 3 */
 
 block_8006C564:
@@ -246293,6 +246174,7 @@ block_8006C5D4:
 
 void func_8006C5F4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006C5F4u);
     /* Address: 0x8006C5F4, Size: 312 bytes, Blocks: 14 */
 
 block_8006C5F4:
@@ -246509,6 +246391,7 @@ block_8006C70C:
 
 void func_8006C72C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006C72Cu);
     /* Address: 0x8006C72C, Size: 316 bytes, Blocks: 18 */
 
 block_8006C72C:
@@ -246753,6 +246636,7 @@ block_8006C854:
 
 void func_8006C868(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006C868u);
     /* Address: 0x8006C868, Size: 120 bytes, Blocks: 2 */
 
 block_8006C868:
@@ -246805,6 +246689,7 @@ block_8006C8C8:
 
 void func_8006C8E0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006C8E0u);
     /* Address: 0x8006C8E0, Size: 120 bytes, Blocks: 2 */
 
 block_8006C8E0:
@@ -246857,6 +246742,7 @@ block_8006C940:
 
 void func_8006C958(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006C958u);
     /* Address: 0x8006C958, Size: 196 bytes, Blocks: 4 */
 
 block_8006C958:
@@ -246946,6 +246832,7 @@ block_8006C9FC:
 
 void func_8006CA1C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006CA1Cu);
     /* Address: 0x8006CA1C, Size: 144 bytes, Blocks: 3 */
 
 block_8006CA1C:
@@ -247013,6 +246900,7 @@ block_8006CA88:
 
 void func_8006CAAC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006CAACu);
     /* Address: 0x8006CAAC, Size: 188 bytes, Blocks: 8 */
 
 block_8006CAAC:
@@ -247140,6 +247028,7 @@ block_8006CB44:
 
 void func_8006CB68(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006CB68u);
     /* Address: 0x8006CB68, Size: 144 bytes, Blocks: 3 */
 
 block_8006CB68:
@@ -247207,6 +247096,7 @@ block_8006CBD4:
 
 void func_8006CBF8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006CBF8u);
     /* Address: 0x8006CBF8, Size: 144 bytes, Blocks: 3 */
 
 block_8006CBF8:
@@ -247274,6 +247164,7 @@ block_8006CC64:
 
 void func_8006CC88(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006CC88u);
     /* Address: 0x8006CC88, Size: 180 bytes, Blocks: 5 */
 
 block_8006CC88:
@@ -247368,6 +247259,7 @@ block_8006CD18:
 
 void func_8006CD3C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006CD3Cu);
     /* Address: 0x8006CD3C, Size: 92 bytes, Blocks: 1 */
 
 block_8006CD3C:
@@ -247404,6 +247296,7 @@ block_8006CD3C:
 
 void func_8006CD98(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006CD98u);
     /* Address: 0x8006CD98, Size: 140 bytes, Blocks: 3 */
 
 block_8006CD98:
@@ -247471,6 +247364,7 @@ block_8006CDD0:
 
 void func_8006CE24(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006CE24u);
     /* Address: 0x8006CE24, Size: 184 bytes, Blocks: 5 */
 
 block_8006CE24:
@@ -247566,6 +247460,7 @@ block_8006CEB8:
 
 void func_8006CEDC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006CEDCu);
     /* Address: 0x8006CEDC, Size: 176 bytes, Blocks: 5 */
 
 block_8006CEDC:
@@ -247659,6 +247554,7 @@ block_8006CF68:
 
 void func_8006CF8C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006CF8Cu);
     /* Address: 0x8006CF8C, Size: 176 bytes, Blocks: 5 */
 
 block_8006CF8C:
@@ -247752,6 +247648,7 @@ block_8006D018:
 
 void func_8006D03C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006D03Cu);
     /* Address: 0x8006D03C, Size: 180 bytes, Blocks: 5 */
 
 block_8006D03C:
@@ -247846,6 +247743,7 @@ block_8006D0CC:
 
 void func_8006D0F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006D0F0u);
     /* Address: 0x8006D0F0, Size: 184 bytes, Blocks: 5 */
 
 block_8006D0F0:
@@ -247941,6 +247839,7 @@ block_8006D184:
 
 void func_8006D1A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006D1A8u);
     /* Address: 0x8006D1A8, Size: 180 bytes, Blocks: 5 */
 
 block_8006D1A8:
@@ -248035,6 +247934,7 @@ block_8006D238:
 
 void func_8006D25C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006D25Cu);
     /* Address: 0x8006D25C, Size: 168 bytes, Blocks: 4 */
 
 block_8006D25C:
@@ -248117,6 +248017,7 @@ block_8006D2E0:
 
 void func_8006D304(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006D304u);
     /* Address: 0x8006D304, Size: 220 bytes, Blocks: 10 */
 
 block_8006D304:
@@ -248269,6 +248170,7 @@ block_8006D3C0:
 
 void func_8006D3E0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006D3E0u);
     /* Address: 0x8006D3E0, Size: 160 bytes, Blocks: 4 */
 
 block_8006D3E0:
@@ -248349,6 +248251,7 @@ block_8006D45C:
 
 void func_8006D480(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006D480u);
     /* Address: 0x8006D480, Size: 160 bytes, Blocks: 4 */
 
 block_8006D480:
@@ -248429,6 +248332,7 @@ block_8006D4FC:
 
 void func_8006D520(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006D520u);
     /* Address: 0x8006D520, Size: 36 bytes, Blocks: 2 */
 
 block_8006D520:
@@ -248460,6 +248364,7 @@ block_8006D534:
 
 void func_8006D544(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006D544u);
     /* Address: 0x8006D544, Size: 40 bytes, Blocks: 2 */
 
 block_8006D544:
@@ -248492,6 +248397,7 @@ block_8006D55C:
 
 void func_8006D56C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006D56Cu);
     /* Address: 0x8006D56C, Size: 36 bytes, Blocks: 2 */
 
 block_8006D56C:
@@ -248523,6 +248429,7 @@ block_8006D580:
 
 void func_8006D590(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006D590u);
     /* Address: 0x8006D590, Size: 36 bytes, Blocks: 2 */
 
 block_8006D590:
@@ -248554,6 +248461,7 @@ block_8006D5A4:
 
 void func_8006D5B4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006D5B4u);
     /* Address: 0x8006D5B4, Size: 36 bytes, Blocks: 2 */
 
 block_8006D5B4:
@@ -248585,6 +248493,7 @@ block_8006D5C8:
 
 void func_8006D5D8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006D5D8u);
     /* Address: 0x8006D5D8, Size: 184 bytes, Blocks: 3 */
 
 block_8006D5D8:
@@ -248662,6 +248571,7 @@ block_8006D670:
 
 void func_8006D690(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006D690u);
     /* Address: 0x8006D690, Size: 576 bytes, Blocks: 38 */
 
 block_8006D690:
@@ -249159,6 +249069,7 @@ block_8006D8BC:
 
 void func_8006D8D0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006D8D0u);
     /* Address: 0x8006D8D0, Size: 472 bytes, Blocks: 18 */
 
 block_8006D8D0:
@@ -249451,6 +249362,7 @@ block_8006DA90:
 
 void func_8006DAA8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006DAA8u);
     /* Address: 0x8006DAA8, Size: 232 bytes, Blocks: 7 */
 
 block_8006DAA8:
@@ -249583,6 +249495,7 @@ block_8006DB80:
 
 void func_8006DB90(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006DB90u);
     /* Address: 0x8006DB90, Size: 120 bytes, Blocks: 2 */
 
 block_8006DB90:
@@ -249635,6 +249548,7 @@ block_8006DBF0:
 
 void func_8006DC08(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006DC08u);
     /* Address: 0x8006DC08, Size: 184 bytes, Blocks: 8 */
 
 block_8006DC08:
@@ -249758,6 +249672,7 @@ block_8006DCB8:
 
 void func_8006DCC0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006DCC0u);
     /* Address: 0x8006DCC0, Size: 792 bytes, Blocks: 31 */
 
 block_8006DCC0:
@@ -250250,6 +250165,7 @@ block_8006DFC4:
 
 void func_8006DFD8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006DFD8u);
     /* Address: 0x8006DFD8, Size: 56 bytes, Blocks: 2 */
 
 block_8006DFD8:
@@ -250286,6 +250202,7 @@ block_8006E000:
 
 void func_8006E010(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006E010u);
     /* Address: 0x8006E010, Size: 56 bytes, Blocks: 2 */
 
 block_8006E010:
@@ -250322,6 +250239,7 @@ block_8006E038:
 
 void func_8006E048(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006E048u);
     /* Address: 0x8006E048, Size: 32 bytes, Blocks: 2 */
 
 block_8006E048:
@@ -250352,6 +250270,7 @@ block_8006E058:
 
 void func_8006E068(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006E068u);
     /* Address: 0x8006E068, Size: 256 bytes, Blocks: 6 */
 
 block_8006E068:
@@ -250476,6 +250395,7 @@ block_8006E158:
 
 void func_8006E168(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006E168u);
     /* Address: 0x8006E168, Size: 80 bytes, Blocks: 2 */
 
 block_8006E168:
@@ -250518,6 +250438,7 @@ block_8006E1A8:
 
 void func_8006E1B8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006E1B8u);
     /* Address: 0x8006E1B8, Size: 616 bytes, Blocks: 43 */
 
 block_8006E1B8:
@@ -251085,6 +251006,7 @@ block_8006E408:
 
 void func_8006E420(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006E420u);
     /* Address: 0x8006E420, Size: 32 bytes, Blocks: 2 */
 
 block_8006E420:
@@ -251115,6 +251037,7 @@ block_8006E430:
 
 void func_8006E440(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006E440u);
     /* Address: 0x8006E440, Size: 32 bytes, Blocks: 2 */
 
 block_8006E440:
@@ -251145,6 +251068,7 @@ block_8006E450:
 
 void func_8006E460(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006E460u);
     /* Address: 0x8006E460, Size: 64 bytes, Blocks: 4 */
 
 block_8006E460:
@@ -251204,6 +251128,7 @@ block_8006E490:
 
 void func_8006E4A0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006E4A0u);
     /* Address: 0x8006E4A0, Size: 80 bytes, Blocks: 4 */
 
 block_8006E4A0:
@@ -251265,6 +251190,7 @@ block_8006E4E0:
 
 void func_8006E4F0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006E4F0u);
     /* Address: 0x8006E4F0, Size: 156 bytes, Blocks: 14 */
 
 block_8006E4F0:
@@ -251443,6 +251369,7 @@ block_8006E584:
 
 void func_8006E58C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006E58Cu);
     /* Address: 0x8006E58C, Size: 56 bytes, Blocks: 4 */
 
 block_8006E58C:
@@ -251496,6 +251423,7 @@ block_8006E5BC:
 
 void func_8006E5C4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006E5C4u);
     /* Address: 0x8006E5C4, Size: 48 bytes, Blocks: 1 */
 
 block_8006E5C4:
@@ -251521,6 +251449,7 @@ block_8006E5C4:
 
 void func_8006E5F4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006E5F4u);
     /* Address: 0x8006E5F4, Size: 52 bytes, Blocks: 1 */
 
 block_8006E5F4:
@@ -251547,7 +251476,8 @@ block_8006E5F4:
 
 void func_8006E628(CPUState* cpu)
 {
-    /* Address: 0x8006E628, Size: 56 bytes, Blocks: 5 */
+    debug_server_log_call_entry(0x8006E628u);
+    /* Address: 0x8006E628, Size: 52 bytes, Blocks: 4 */
 
 block_8006E628:
 #ifdef PSX_ENABLE_BLOCK_CYCLES
@@ -251594,18 +251524,12 @@ block_8006E654:
     /* delay slot (always executes) */
     /* nop */  /* 0x8006E658: 0x00000000 */
     return;  /* jr $ra */
-
-block_8006E65C:
-#ifdef PSX_ENABLE_BLOCK_CYCLES
-    psx_advance_cycles(1u);
-#endif
-    psx_check_interrupts(cpu);
-    /* nop */  /* 0x8006E65C: 0x00000000 */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8006E660(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006E660u);
     /* Address: 0x8006E660, Size: 628 bytes, Blocks: 28 */
 
 block_8006E660:
@@ -252053,6 +251977,7 @@ block_8006E8A0:
 
 void func_8006E8D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006E8D4u);
     /* Address: 0x8006E8D4, Size: 736 bytes, Blocks: 27 */
 
 block_8006E8D4:
@@ -252504,6 +252429,7 @@ block_8006EB90:
 
 void func_8006EBB4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006EBB4u);
     /* Address: 0x8006EBB4, Size: 672 bytes, Blocks: 27 */
 
 block_8006EBB4:
@@ -252937,6 +252863,7 @@ block_8006EE34:
 
 void func_8006EE54(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006EE54u);
     /* Address: 0x8006EE54, Size: 164 bytes, Blocks: 2 */
 
 block_8006EE54:
@@ -253000,6 +252927,7 @@ block_8006EEBC:
 
 void func_8006EEF8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006EEF8u);
     /* Address: 0x8006EEF8, Size: 44 bytes, Blocks: 2 */
 
 block_8006EEF8:
@@ -253033,6 +252961,7 @@ block_8006EF14:
 
 void func_8006EF24(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006EF24u);
     /* Address: 0x8006EF24, Size: 272 bytes, Blocks: 13 */
 
 block_8006EF24:
@@ -253230,6 +253159,7 @@ block_8006F014:
 
 void func_8006F034(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006F034u);
     /* Address: 0x8006F034, Size: 452 bytes, Blocks: 10 */
 
 block_8006F034:
@@ -253440,6 +253370,7 @@ block_8006F1DC:
 
 void func_8006F1F8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006F1F8u);
     /* Address: 0x8006F1F8, Size: 740 bytes, Blocks: 40 */
 
 block_8006F1F8:
@@ -253998,6 +253929,7 @@ block_8006F4B8:
 
 void func_8006F4DC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006F4DCu);
     /* Address: 0x8006F4DC, Size: 264 bytes, Blocks: 1 */
 
 block_8006F4DC:
@@ -254077,6 +254009,7 @@ block_8006F4DC:
 
 void func_8006F5E4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006F5E4u);
     /* Address: 0x8006F5E4, Size: 104 bytes, Blocks: 1 */
 
 block_8006F5E4:
@@ -254116,6 +254049,7 @@ block_8006F5E4:
 
 void func_8006F64C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006F64Cu);
     /* Address: 0x8006F64C, Size: 360 bytes, Blocks: 4 */
 
 block_8006F64C:
@@ -254247,6 +254181,7 @@ block_8006F794:
 
 void func_8006F7B4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006F7B4u);
     /* Address: 0x8006F7B4, Size: 40 bytes, Blocks: 2 */
 
 block_8006F7B4:
@@ -254279,6 +254214,7 @@ block_8006F7CC:
 
 void func_8006F7DC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006F7DCu);
     /* Address: 0x8006F7DC, Size: 44 bytes, Blocks: 2 */
 
 block_8006F7DC:
@@ -254312,6 +254248,7 @@ block_8006F7F8:
 
 void func_8006F808(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006F808u);
     /* Address: 0x8006F808, Size: 480 bytes, Blocks: 10 */
 
 block_8006F808:
@@ -254538,6 +254475,7 @@ block_8006F9DC:
 
 void func_8006F9E8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006F9E8u);
     /* Address: 0x8006F9E8, Size: 364 bytes, Blocks: 25 */
 
 block_8006F9E8:
@@ -254866,6 +254804,7 @@ block_8006FB40:
 
 void func_8006FB54(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006FB54u);
     /* Address: 0x8006FB54, Size: 56 bytes, Blocks: 2 */
 
 block_8006FB54:
@@ -254902,6 +254841,7 @@ block_8006FB7C:
 
 void func_8006FB8C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006FB8Cu);
     /* Address: 0x8006FB8C, Size: 48 bytes, Blocks: 2 */
 
 block_8006FB8C:
@@ -254936,6 +254876,7 @@ block_8006FBAC:
 
 void func_8006FBBC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006FBBCu);
     /* Address: 0x8006FBBC, Size: 56 bytes, Blocks: 2 */
 
 block_8006FBBC:
@@ -254972,6 +254913,7 @@ block_8006FBE4:
 
 void func_8006FBF4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006FBF4u);
     /* Address: 0x8006FBF4, Size: 52 bytes, Blocks: 2 */
 
 block_8006FBF4:
@@ -255007,6 +254949,7 @@ block_8006FC18:
 
 void func_8006FC28(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006FC28u);
     /* Address: 0x8006FC28, Size: 480 bytes, Blocks: 21 */
 
 block_8006FC28:
@@ -255340,6 +255283,7 @@ block_8006FE00:
 
 void func_8006FE08(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006FE08u);
     /* Address: 0x8006FE08, Size: 320 bytes, Blocks: 9 */
 
 block_8006FE08:
@@ -255513,6 +255457,7 @@ block_8006FF24:
 
 void func_8006FF48(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8006FF48u);
     /* Address: 0x8006FF48, Size: 264 bytes, Blocks: 5 */
 
 block_8006FF48:
@@ -255627,6 +255572,7 @@ block_80070038:
 
 void func_80070050(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80070050u);
     /* Address: 0x80070050, Size: 572 bytes, Blocks: 5 */
 
 block_80070050:
@@ -255818,6 +255764,7 @@ block_80070274:
 
 void func_8007028C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8007028Cu);
     /* Address: 0x8007028C, Size: 916 bytes, Blocks: 31 */
 
 block_8007028C:
@@ -256345,6 +256292,7 @@ block_800705EC:
 
 void func_80070620(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80070620u);
     /* Address: 0x80070620, Size: 120 bytes, Blocks: 7 */
 
 block_80070620:
@@ -256442,6 +256390,7 @@ block_80070688:
 
 void func_80070698(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80070698u);
     /* Address: 0x80070698, Size: 64 bytes, Blocks: 2 */
 
 block_80070698:
@@ -256480,6 +256429,7 @@ block_800706C8:
 
 void func_800706D8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800706D8u);
     /* Address: 0x800706D8, Size: 52 bytes, Blocks: 1 */
 
 block_800706D8:
@@ -256500,12 +256450,14 @@ block_800706D8:
     cpu->gpr[6] = cpu->gpr[5] << 15;  /* 0x80070700: 0x000533C0 */
     cpu->gpr[6] = cpu->gpr[6] - cpu->gpr[5];  /* 0x80070704: 0x00C53023 */
     { int64_t result = (int64_t)(int32_t)cpu->gpr[6] * (int64_t)(int32_t)cpu->gpr[2]; cpu->lo = (uint32_t)result; cpu->hi = (uint32_t)(result >> 32); }  /* 0x80070708: 0x00C20018 */
+    func_8007070C(cpu); return;  /* fallthrough to split piece */
     func_8007070C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8007070C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8007070Cu);
     /* Address: 0x8007070C, Size: 100 bytes, Blocks: 2 */
 
 block_8007070C:
@@ -256553,6 +256505,7 @@ block_80070760:
 
 void func_80070770(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80070770u);
     /* Address: 0x80070770, Size: 164 bytes, Blocks: 12 */
 
 block_80070770:
@@ -256708,6 +256661,7 @@ block_80070800:
 
 void func_80070814(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80070814u);
     /* Address: 0x80070814, Size: 16 bytes, Blocks: 1 */
 
 block_80070814:
@@ -256725,6 +256679,7 @@ block_80070814:
 
 void func_80070824(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80070824u);
     /* Address: 0x80070824, Size: 64 bytes, Blocks: 2 */
 
 block_80070824:
@@ -256763,6 +256718,7 @@ block_80070854:
 
 void func_80070864(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80070864u);
     /* Address: 0x80070864, Size: 32 bytes, Blocks: 2 */
 
 block_80070864:
@@ -256793,6 +256749,7 @@ block_80070874:
 
 void func_80070884(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80070884u);
     /* Address: 0x80070884, Size: 32 bytes, Blocks: 2 */
 
 block_80070884:
@@ -256823,6 +256780,7 @@ block_80070894:
 
 void func_800708A4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800708A4u);
     /* Address: 0x800708A4, Size: 456 bytes, Blocks: 5 */
 
 block_800708A4:
@@ -256985,6 +256943,7 @@ block_80070A54:
 
 void func_80070A6C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80070A6Cu);
     /* Address: 0x80070A6C, Size: 532 bytes, Blocks: 6 */
 
 block_80070A6C:
@@ -257176,6 +257135,7 @@ block_80070B8C:
 
 void func_80070C80(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80070C80u);
     /* Address: 0x80070C80, Size: 16 bytes, Blocks: 1 */
 
 block_80070C80:
@@ -257193,6 +257153,7 @@ block_80070C80:
 
 void func_80070C90(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80070C90u);
     /* Address: 0x80070C90, Size: 20 bytes, Blocks: 1 */
 
 block_80070C90:
@@ -257211,6 +257172,7 @@ block_80070C90:
 
 void func_80070CA4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80070CA4u);
     /* Address: 0x80070CA4, Size: 948 bytes, Blocks: 33 */
 
 block_80070CA4:
@@ -257776,6 +257738,7 @@ block_80070FC4:
 
 void func_80071058(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80071058u);
     /* Address: 0x80071058, Size: 784 bytes, Blocks: 17 */
 
 block_80071058:
@@ -258135,6 +258098,7 @@ block_80071350:
 
 void func_80071368(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80071368u);
     /* Address: 0x80071368, Size: 1360 bytes, Blocks: 27 */
 
 block_80071368:
@@ -258731,6 +258695,7 @@ block_80071884:
 
 void func_800718B8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800718B8u);
     /* Address: 0x800718B8, Size: 8 bytes, Blocks: 1 */
 
 block_800718B8:
@@ -258740,12 +258705,14 @@ block_800718B8:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x800718B8: 0x3C02800A */
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + -13824);  /* 0x800718BC: 0x9042CA00 */
+    func_800718C0(cpu); return;  /* fallthrough to split piece */
     func_800718C0(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800718C0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800718C0u);
     /* Address: 0x800718C0, Size: 324 bytes, Blocks: 14 */
 
 block_800718C0:
@@ -258970,6 +258937,7 @@ block_800719D8:
 
 void func_80071A04(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80071A04u);
     /* Address: 0x80071A04, Size: 236 bytes, Blocks: 17 */
 
 block_80071A04:
@@ -259196,6 +259164,7 @@ block_80071AE0:
 
 void func_80071AF0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80071AF0u);
     /* Address: 0x80071AF0, Size: 52 bytes, Blocks: 2 */
 
 block_80071AF0:
@@ -259231,6 +259200,7 @@ block_80071B14:
 
 void func_80071B24(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80071B24u);
     /* Address: 0x80071B24, Size: 8 bytes, Blocks: 1 */
 
 block_80071B24:
@@ -259246,6 +259216,7 @@ block_80071B24:
 
 void func_80071B2C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80071B2Cu);
     /* Address: 0x80071B2C, Size: 620 bytes, Blocks: 26 */
 
 block_80071B2C:
@@ -259666,6 +259637,7 @@ block_80071D84:
 
 void func_80071D98(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80071D98u);
     /* Address: 0x80071D98, Size: 196 bytes, Blocks: 9 */
 
 block_80071D98:
@@ -259804,6 +259776,7 @@ block_80071E54:
 
 void func_80071E5C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80071E5Cu);
     /* Address: 0x80071E5C, Size: 252 bytes, Blocks: 9 */
 
 block_80071E5C:
@@ -259956,6 +259929,7 @@ block_80071F50:
 
 void func_80071F58(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80071F58u);
     /* Address: 0x80071F58, Size: 232 bytes, Blocks: 1 */
 
 block_80071F58:
@@ -260021,12 +259995,14 @@ block_80071F58:
     /* nop */  /* 0x80072034: 0x00000000 */
     /* nop */  /* 0x80072038: 0x00000000 */
     { uint64_t result = (uint64_t)cpu->gpr[4] * (uint64_t)cpu->gpr[6]; cpu->lo = (uint32_t)result; cpu->hi = (uint32_t)(result >> 32); }  /* 0x8007203C: 0x00860019 */
+    func_80072040(cpu); return;  /* fallthrough to split piece */
     func_80072040(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80072040(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80072040u);
     /* Address: 0x80072040, Size: 996 bytes, Blocks: 23 */
 
 block_80072040:
@@ -260488,6 +260464,7 @@ block_80072404:
 
 void func_80072424(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80072424u);
     /* Address: 0x80072424, Size: 68 bytes, Blocks: 1 */
 
 block_80072424:
@@ -260518,6 +260495,7 @@ block_80072424:
 
 void func_80072468(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80072468u);
     /* Address: 0x80072468, Size: 208 bytes, Blocks: 4 */
 
 block_80072468:
@@ -260609,6 +260587,7 @@ block_800724A0:
 
 void func_80072538(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80072538u);
     /* Address: 0x80072538, Size: 120 bytes, Blocks: 1 */
 
 block_80072538:
@@ -260646,12 +260625,14 @@ block_80072538:
     cpu->gpr[4] = 0x040C << 16;  /* 0x040C0000 */  /* 0x800725A4: 0x3C04040C */
     cpu->gpr[4] = cpu->gpr[4] | 0x2051;  /* 0x800725A8: 0x34842051 */
     { uint64_t result = (uint64_t)cpu->gpr[2] * (uint64_t)cpu->gpr[4]; cpu->lo = (uint32_t)result; cpu->hi = (uint32_t)(result >> 32); }  /* 0x800725AC: 0x00440019 */
+    func_800725B0(cpu); return;  /* fallthrough to split piece */
     func_800725B0(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800725B0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800725B0u);
     /* Address: 0x800725B0, Size: 1132 bytes, Blocks: 22 */
 
 block_800725B0:
@@ -261135,6 +261116,7 @@ block_800729B8:
 
 void func_80072A1C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80072A1Cu);
     /* Address: 0x80072A1C, Size: 512 bytes, Blocks: 13 */
 
 block_80072A1C:
@@ -261392,6 +261374,7 @@ block_80072C08:
 
 void func_80072C1C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80072C1Cu);
     /* Address: 0x80072C1C, Size: 240 bytes, Blocks: 6 */
 
 block_80072C1C:
@@ -261514,6 +261497,7 @@ block_80072CE0:
 
 void func_80072D0C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80072D0Cu);
     /* Address: 0x80072D0C, Size: 1344 bytes, Blocks: 29 */
 
 block_80072D0C:
@@ -262124,6 +262108,7 @@ block_80073230:
 
 void func_8007324C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8007324Cu);
     /* Address: 0x8007324C, Size: 108 bytes, Blocks: 1 */
 
 block_8007324C:
@@ -262164,6 +262149,7 @@ block_8007324C:
 
 void func_800732B8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800732B8u);
     /* Address: 0x800732B8, Size: 80 bytes, Blocks: 1 */
 
 block_800732B8:
@@ -262197,6 +262183,7 @@ block_800732B8:
 
 void func_80073308(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80073308u);
     /* Address: 0x80073308, Size: 80 bytes, Blocks: 1 */
 
 block_80073308:
@@ -262230,6 +262217,7 @@ block_80073308:
 
 void func_80073358(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80073358u);
     /* Address: 0x80073358, Size: 8 bytes, Blocks: 1 */
 
 block_80073358:
@@ -262239,12 +262227,14 @@ block_80073358:
     psx_check_interrupts(cpu);
     cpu->gpr[2] = 0x800A << 16;  /* 0x800A0000 */  /* 0x80073358: 0x3C02800A */
     cpu->gpr[2] = cpu->read_byte(cpu->gpr[2] + -13824);  /* 0x8007335C: 0x9042CA00 */
+    func_80073360(cpu); return;  /* fallthrough to split piece */
     func_80073360(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80073360(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80073360u);
     /* Address: 0x80073360, Size: 148 bytes, Blocks: 6 */
 
 block_80073360:
@@ -262347,6 +262337,7 @@ block_800733DC:
 
 void func_800733F4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800733F4u);
     /* Address: 0x800733F4, Size: 180 bytes, Blocks: 7 */
 
 block_800733F4:
@@ -262467,6 +262458,7 @@ block_800734A0:
 
 void func_800734A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800734A8u);
     /* Address: 0x800734A8, Size: 1412 bytes, Blocks: 30 */
 
 block_800734A8:
@@ -263108,6 +263100,7 @@ block_800739FC:
 
 void func_80073A2C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80073A2Cu);
     /* Address: 0x80073A2C, Size: 196 bytes, Blocks: 6 */
 
 block_80073A2C:
@@ -263220,6 +263213,7 @@ block_80073AE8:
 
 void func_80073AF0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80073AF0u);
     /* Address: 0x80073AF0, Size: 16 bytes, Blocks: 1 */
 
 block_80073AF0:
@@ -263237,6 +263231,7 @@ block_80073AF0:
 
 void func_80073B00(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80073B00u);
     /* Address: 0x80073B00, Size: 20 bytes, Blocks: 1 */
 
 block_80073B00:
@@ -263255,6 +263250,7 @@ block_80073B00:
 
 void func_80073B14(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80073B14u);
     /* Address: 0x80073B14, Size: 16 bytes, Blocks: 1 */
 
 block_80073B14:
@@ -263272,6 +263268,7 @@ block_80073B14:
 
 void func_80073B24(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80073B24u);
     /* Address: 0x80073B24, Size: 48 bytes, Blocks: 5 */
 
 block_80073B24:
@@ -263335,6 +263332,7 @@ block_80073B4C:
 
 void func_80073B54(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80073B54u);
     /* Address: 0x80073B54, Size: 132 bytes, Blocks: 5 */
 
 block_80073B54:
@@ -263421,6 +263419,7 @@ block_80073BC4:
 
 void func_80073BD8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80073BD8u);
     /* Address: 0x80073BD8, Size: 112 bytes, Blocks: 6 */
 
 block_80073BD8:
@@ -263509,6 +263508,7 @@ block_80073C34:
 
 void func_80073C48(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80073C48u);
     /* Address: 0x80073C48, Size: 48 bytes, Blocks: 2 */
 
 block_80073C48:
@@ -263543,6 +263543,7 @@ block_80073C64:
 
 void func_80073C78(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80073C78u);
     /* Address: 0x80073C78, Size: 48 bytes, Blocks: 2 */
 
 block_80073C78:
@@ -263577,6 +263578,7 @@ block_80073C94:
 
 void func_80073CA8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80073CA8u);
     /* Address: 0x80073CA8, Size: 48 bytes, Blocks: 2 */
 
 block_80073CA8:
@@ -263611,6 +263613,7 @@ block_80073CC4:
 
 void func_80073CD8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80073CD8u);
     /* Address: 0x80073CD8, Size: 988 bytes, Blocks: 51 */
 
 block_80073CD8:
@@ -264346,6 +264349,7 @@ block_8007408C:
 
 void func_800740B4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800740B4u);
     /* Address: 0x800740B4, Size: 32 bytes, Blocks: 2 */
 
 block_800740B4:
@@ -264376,6 +264380,7 @@ block_800740C4:
 
 void func_800740D4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800740D4u);
     /* Address: 0x800740D4, Size: 248 bytes, Blocks: 8 */
 
 block_800740D4:
@@ -264518,6 +264523,7 @@ block_80074170:
 
 void func_800741CC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800741CCu);
     /* Address: 0x800741CC, Size: 124 bytes, Blocks: 7 */
 
 block_800741CC:
@@ -264619,6 +264625,7 @@ block_80074238:
 
 void func_80074248(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074248u);
     /* Address: 0x80074248, Size: 660 bytes, Blocks: 24 */
 
 block_80074248:
@@ -265010,6 +265017,7 @@ block_80074498:
 
 void func_800744DC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800744DCu);
     /* Address: 0x800744DC, Size: 16 bytes, Blocks: 1 */
 
 block_800744DC:
@@ -265021,12 +265029,14 @@ block_800744DC:
     cpu->gpr[2] = cpu->read_word(cpu->gpr[2] + 31816);  /* 0x800744E0: 0x8C427C48 */
     cpu->gpr[3] = 0x8009 << 16;  /* 0x80090000 */  /* 0x800744E4: 0x3C038009 */
     cpu->gpr[3] = cpu->read_half(cpu->gpr[3] + 31840);  /* 0x800744E8: 0x94637C60 */
+    func_800744EC(cpu); return;  /* fallthrough to split piece */
     func_800744EC(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800744EC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800744ECu);
     /* Address: 0x800744EC, Size: 444 bytes, Blocks: 23 */
 
 block_800744EC:
@@ -265372,6 +265382,7 @@ block_80074688:
 
 void func_800746A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800746A8u);
     /* Address: 0x800746A8, Size: 208 bytes, Blocks: 14 */
 
 block_800746A8:
@@ -265563,6 +265574,7 @@ block_80074768:
 
 void func_80074778(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074778u);
     /* Address: 0x80074778, Size: 188 bytes, Blocks: 6 */
 
 block_80074778:
@@ -265668,6 +265680,7 @@ block_800747DC:
 
 void func_80074834(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074834u);
     /* Address: 0x80074834, Size: 16 bytes, Blocks: 1 */
 
 block_80074834:
@@ -265679,12 +265692,14 @@ block_80074834:
     cpu->write_word(cpu->gpr[29] + 4, cpu->gpr[5]);  /* 0x80074838: 0xAFA50004 */
     cpu->write_word(cpu->gpr[29] + 8, cpu->gpr[6]);  /* 0x8007483C: 0xAFA60008 */
     cpu->write_word(cpu->gpr[29] + 12, cpu->gpr[7]);  /* 0x80074840: 0xAFA7000C */
+    func_80074844(cpu); return;  /* fallthrough to split piece */
     func_80074844(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80074844(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074844u);
     /* Address: 0x80074844, Size: 640 bytes, Blocks: 32 */
 
 block_80074844:
@@ -266164,6 +266179,7 @@ block_80074AB0:
 
 void func_80074AC4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074AC4u);
     /* Address: 0x80074AC4, Size: 136 bytes, Blocks: 8 */
 
 block_80074AC4:
@@ -266273,6 +266289,7 @@ block_80074B34:
 
 void func_80074B4C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074B4Cu);
     /* Address: 0x80074B4C, Size: 104 bytes, Blocks: 4 */
 
 block_80074B4C:
@@ -266339,6 +266356,7 @@ block_80074B98:
 
 void func_80074BB4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074BB4u);
     /* Address: 0x80074BB4, Size: 72 bytes, Blocks: 4 */
 
 block_80074BB4:
@@ -266396,6 +266414,7 @@ block_80074BF4:
 
 void func_80074BFC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074BFCu);
     /* Address: 0x80074BFC, Size: 164 bytes, Blocks: 11 */
 
 block_80074BFC:
@@ -266545,6 +266564,7 @@ block_80074C98:
 
 void func_80074CA0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074CA0u);
     /* Address: 0x80074CA0, Size: 60 bytes, Blocks: 4 */
 
 block_80074CA0:
@@ -266599,6 +266619,7 @@ block_80074CD4:
 
 void func_80074CDC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074CDCu);
     /* Address: 0x80074CDC, Size: 96 bytes, Blocks: 4 */
 
 block_80074CDC:
@@ -266662,6 +266683,7 @@ block_80074D2C:
 
 void func_80074D3C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074D3Cu);
     /* Address: 0x80074D3C, Size: 44 bytes, Blocks: 1 */
 
 block_80074D3C:
@@ -266686,6 +266708,7 @@ block_80074D3C:
 
 void func_80074D68(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074D68u);
     /* Address: 0x80074D68, Size: 44 bytes, Blocks: 1 */
 
 block_80074D68:
@@ -266710,6 +266733,7 @@ block_80074D68:
 
 void func_80074D94(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074D94u);
     /* Address: 0x80074D94, Size: 96 bytes, Blocks: 4 */
 
 block_80074D94:
@@ -266773,6 +266797,7 @@ block_80074DE8:
 
 void func_80074DF4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074DF4u);
     /* Address: 0x80074DF4, Size: 36 bytes, Blocks: 2 */
 
 block_80074DF4:
@@ -266804,6 +266829,7 @@ block_80074E08:
 
 void func_80074E18(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074E18u);
     /* Address: 0x80074E18, Size: 124 bytes, Blocks: 7 */
 
 block_80074E18:
@@ -266905,6 +266931,7 @@ block_80074E84:
 
 void func_80074E94(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074E94u);
     /* Address: 0x80074E94, Size: 16 bytes, Blocks: 2 */
 
 block_80074E94:
@@ -266924,11 +266951,13 @@ block_80074EA0:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x80074EA0: 0x00000000 */
+    func_80074EA4(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80074EA4(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074EA4u);
     /* Address: 0x80074EA4, Size: 84 bytes, Blocks: 4 */
 
 block_80074EA4:
@@ -266989,6 +267018,7 @@ block_80074EF0:
 
 void func_80074EF8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80074EF8u);
     /* Address: 0x80074EF8, Size: 712 bytes, Blocks: 27 */
 
 block_80074EF8:
@@ -267438,6 +267468,7 @@ block_800751A0:
 
 void func_800751C0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800751C0u);
     /* Address: 0x800751C0, Size: 776 bytes, Blocks: 38 */
 
 block_800751C0:
@@ -268019,6 +268050,7 @@ block_800754C0:
 
 void func_800754C8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800754C8u);
     /* Address: 0x800754C8, Size: 124 bytes, Blocks: 8 */
 
 block_800754C8:
@@ -268134,6 +268166,7 @@ block_80075534:
 
 void func_80075544(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80075544u);
     /* Address: 0x80075544, Size: 36 bytes, Blocks: 2 */
 
 block_80075544:
@@ -268165,6 +268198,7 @@ block_80075558:
 
 void func_80075568(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80075568u);
     /* Address: 0x80075568, Size: 520 bytes, Blocks: 15 */
 
 block_80075568:
@@ -268431,6 +268465,7 @@ block_80075764:
 
 void func_80075770(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80075770u);
     /* Address: 0x80075770, Size: 208 bytes, Blocks: 11 */
 
 block_80075770:
@@ -268588,6 +268623,7 @@ block_80075824:
 
 void func_80075840(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80075840u);
     /* Address: 0x80075840, Size: 128 bytes, Blocks: 10 */
 
 block_80075840:
@@ -268721,6 +268757,7 @@ block_800758B8:
 
 void func_800758C0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800758C0u);
     /* Address: 0x800758C0, Size: 140 bytes, Blocks: 10 */
 
 block_800758C0:
@@ -268857,6 +268894,7 @@ block_80075944:
 
 void func_8007594C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8007594Cu);
     /* Address: 0x8007594C, Size: 1272 bytes, Blocks: 59 */
 
 block_8007594C:
@@ -269767,6 +269805,7 @@ block_80075E10:
 
 void func_80075E44(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80075E44u);
     /* Address: 0x80075E44, Size: 1232 bytes, Blocks: 97 */
 
 block_80075E44:
@@ -271080,6 +271119,7 @@ block_8007630C:
 
 void func_80076314(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80076314u);
     /* Address: 0x80076314, Size: 80 bytes, Blocks: 6 */
 
 block_80076314:
@@ -271160,6 +271200,7 @@ block_80076354:
 
 void func_80076364(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80076364u);
     /* Address: 0x80076364, Size: 120 bytes, Blocks: 7 */
 
 block_80076364:
@@ -271265,6 +271306,7 @@ block_800763D4:
 
 void func_800763DC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800763DCu);
     /* Address: 0x800763DC, Size: 36 bytes, Blocks: 2 */
 
 block_800763DC:
@@ -271296,6 +271338,7 @@ block_800763F0:
 
 void func_80076400(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80076400u);
     /* Address: 0x80076400, Size: 412 bytes, Blocks: 25 */
 
 block_80076400:
@@ -271635,6 +271678,7 @@ block_80076574:
 
 void func_8007659C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8007659Cu);
     /* Address: 0x8007659C, Size: 16 bytes, Blocks: 2 */
 
 block_8007659C:
@@ -271654,11 +271698,13 @@ block_800765A8:
 #endif
     psx_check_interrupts(cpu);
     /* nop */  /* 0x800765A8: 0x00000000 */
+    func_800765AC(cpu); return;  /* fallthrough to split piece */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_800765AC(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800765ACu);
     /* Address: 0x800765AC, Size: 508 bytes, Blocks: 16 */
 
 block_800765AC:
@@ -271944,6 +271990,7 @@ block_800767A0:
 
 void func_800767A8(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x800767A8u);
     /* Address: 0x800767A8, Size: 96 bytes, Blocks: 6 */
 
 block_800767A8:
@@ -272028,6 +272075,7 @@ block_800767F4:
 
 void func_80076808(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80076808u);
     /* Address: 0x80076808, Size: 88 bytes, Blocks: 5 */
 
 block_80076808:
@@ -272098,6 +272146,7 @@ block_80076850:
 
 void func_80076860(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80076860u);
     /* Address: 0x80076860, Size: 168 bytes, Blocks: 12 */
 
 block_80076860:
@@ -272264,6 +272313,7 @@ block_800768F0:
 
 void func_80076908(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80076908u);
     /* Address: 0x80076908, Size: 44 bytes, Blocks: 4 */
 
 block_80076908:
@@ -272314,6 +272364,7 @@ block_8007692C:
 
 void func_80076934(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80076934u);
     /* Address: 0x80076934, Size: 24 bytes, Blocks: 1 */
 
 block_80076934:
@@ -272333,6 +272384,7 @@ block_80076934:
 
 void func_8007694C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8007694Cu);
     /* Address: 0x8007694C, Size: 916 bytes, Blocks: 77 */
 
 block_8007694C:
@@ -273299,6 +273351,7 @@ block_80076CD4:
 
 void func_80076CE0(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80076CE0u);
     /* Address: 0x80076CE0, Size: 208 bytes, Blocks: 20 */
 
 block_80076CE0:
@@ -273547,932 +273600,138 @@ block_80076DA8:
 
 void func_80076DB0(CPUState* cpu)
 {
-    psx_unknown_dispatch(cpu, 0x80076DB0u, 0x00076DB0u);
+    debug_server_log_call_entry(0x80076DB0u);
+    /* Address: 0x80076DB0, Size: 136 bytes, Blocks: 10 */
+
+block_80076DB0:
+#ifdef PSX_ENABLE_BLOCK_CYCLES
+    psx_advance_cycles(6u);
+#endif
+    psx_check_interrupts(cpu);
+    cpu->gpr[10] = 24;  /* 0x80076DB0: 0x240A0018 */
+    cpu->gpr[6] = cpu->gpr[0];  /* move */  /* 0x80076DB4: 0x00003021 */
+    cpu->gpr[7] = 1;  /* 0x80076DB8: 0x24070001 */
+    cpu->gpr[9] = 3;  /* 0x80076DBC: 0x24090003 */
+    cpu->gpr[8] = 2;  /* 0x80076DC0: 0x24080002 */
+    cpu->gpr[5] = cpu->gpr[4];  /* move */  /* 0x80076DC4: 0x00802821 */
+    /* fall through to block_80076DC8 */
+
+block_80076DC8:
+#ifdef PSX_ENABLE_BLOCK_CYCLES
+    psx_advance_cycles(11u);
+#endif
+    psx_check_interrupts(cpu);
+    cpu->gpr[4] = cpu->gpr[6] << 4;  /* 0x80076DC8: 0x00062100 */
+    cpu->gpr[2] = 0x8009 << 16;  /* 0x80090000 */  /* 0x80076DCC: 0x3C028009 */
+    cpu->gpr[2] = cpu->read_word(cpu->gpr[2] + 31816);  /* 0x80076DD0: 0x8C427C48 */
+    cpu->gpr[3] = 0x8009 << 16;  /* 0x80090000 */  /* 0x80076DD4: 0x3C038009 */
+    cpu->gpr[3] = cpu->read_word(cpu->gpr[3] + 30688);  /* 0x80076DD8: 0x8C6377E0 */
+    cpu->gpr[4] = cpu->gpr[4] + cpu->gpr[2];  /* 0x80076DDC: 0x00822021 */
+    cpu->gpr[2] = cpu->gpr[7] << (cpu->gpr[6] & 0x1F);  /* 0x80076DE0: 0x00C71004 */
+    cpu->gpr[3] = cpu->gpr[3] & cpu->gpr[2];  /* 0x80076DE4: 0x00621824 */
+    cpu->gpr[2] = cpu->read_half(cpu->gpr[4] + 12);  /* 0x80076DE8: 0x9482000C */
+    int _bc_80076DEC = (cpu->gpr[3] == cpu->gpr[0]);  /* save branch cond before delay slot */
+    /* delay slot (always executes) */
+    /* nop */  /* 0x80076DF0: 0x00000000 */
+    if (_bc_80076DEC) {
+        goto block_80076E0C;  /* taken */
+    } else {
+        goto block_80076DF4;  /* not taken */
+    }
+
+block_80076DF4:
+#ifdef PSX_ENABLE_BLOCK_CYCLES
+    psx_advance_cycles(2u);
+#endif
+    psx_check_interrupts(cpu);
+    int _bc_80076DF4 = (cpu->gpr[2] == cpu->gpr[0]);  /* save branch cond before delay slot */
+    /* delay slot (always executes) */
+    /* nop */  /* 0x80076DF8: 0x00000000 */
+    if (_bc_80076DF4) {
+        goto block_80076E04;  /* taken */
+    } else {
+        goto block_80076DFC;  /* not taken */
+    }
+
+block_80076DFC:
+#ifdef PSX_ENABLE_BLOCK_CYCLES
+    psx_advance_cycles(2u);
+#endif
+    psx_check_interrupts(cpu);
+    /* delay slot (always executes) */
+    cpu->write_byte(cpu->gpr[5], (uint8_t)cpu->gpr[7]);  /* 0x80076E00: 0xA0A70000 */
+    goto block_80076E20;  /* j */
+
+block_80076E04:
+#ifdef PSX_ENABLE_BLOCK_CYCLES
+    psx_advance_cycles(2u);
+#endif
+    psx_check_interrupts(cpu);
+    /* delay slot (always executes) */
+    cpu->write_byte(cpu->gpr[5], (uint8_t)cpu->gpr[9]);  /* 0x80076E08: 0xA0A90000 */
+    goto block_80076E20;  /* j */
+
+block_80076E0C:
+#ifdef PSX_ENABLE_BLOCK_CYCLES
+    psx_advance_cycles(2u);
+#endif
+    psx_check_interrupts(cpu);
+    int _bc_80076E0C = (cpu->gpr[2] == cpu->gpr[0]);  /* save branch cond before delay slot */
+    /* delay slot (always executes) */
+    /* nop */  /* 0x80076E10: 0x00000000 */
+    if (_bc_80076E0C) {
+        goto block_80076E1C;  /* taken */
+    } else {
+        goto block_80076E14;  /* not taken */
+    }
+
+block_80076E14:
+#ifdef PSX_ENABLE_BLOCK_CYCLES
+    psx_advance_cycles(2u);
+#endif
+    psx_check_interrupts(cpu);
+    /* delay slot (always executes) */
+    cpu->write_byte(cpu->gpr[5], (uint8_t)cpu->gpr[8]);  /* 0x80076E18: 0xA0A80000 */
+    goto block_80076E20;  /* j */
+
+block_80076E1C:
+#ifdef PSX_ENABLE_BLOCK_CYCLES
+    psx_advance_cycles(1u);
+#endif
+    psx_check_interrupts(cpu);
+    cpu->write_byte(cpu->gpr[5], (uint8_t)cpu->gpr[0]);  /* 0x80076E1C: 0xA0A00000 */
+    /* fall through to block_80076E20 */
+
+block_80076E20:
+#ifdef PSX_ENABLE_BLOCK_CYCLES
+    psx_advance_cycles(4u);
+#endif
+    psx_check_interrupts(cpu);
+    cpu->gpr[6] = cpu->gpr[6] + 1;  /* 0x80076E20: 0x24C60001 */
+    cpu->gpr[2] = ((int32_t)cpu->gpr[6] < (int32_t)cpu->gpr[10]) ? 1 : 0;  /* 0x80076E24: 0x00CA102A */
+    int _bc_80076E28 = (cpu->gpr[2] != cpu->gpr[0]);  /* save branch cond before delay slot */
+    /* delay slot (always executes) */
+    cpu->gpr[5] = cpu->gpr[5] + 1;  /* 0x80076E2C: 0x24A50001 */
+    if (_bc_80076E28) {
+        goto block_80076DC8;  /* taken */
+    } else {
+        goto block_80076E30;  /* not taken */
+    }
+
+block_80076E30:
+#ifdef PSX_ENABLE_BLOCK_CYCLES
+    psx_advance_cycles(2u);
+#endif
+    psx_check_interrupts(cpu);
+    /* delay slot (always executes) */
+    /* nop */  /* 0x80076E34: 0x00000000 */
+    return;  /* jr $ra */
+    ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8007D5C0(CPUState* cpu)
 {
     psx_unknown_dispatch(cpu, 0x8007D5C0u, 0x0007D5C0u);
-}
-
-void func_8007D864(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007D864u, 0x0007D864u);
-}
-
-void func_8007D880(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007D880u, 0x0007D880u);
-}
-
-void func_8007D904(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007D904u, 0x0007D904u);
-}
-
-void func_8007D918(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007D918u, 0x0007D918u);
-}
-
-void func_8007D9A4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007D9A4u, 0x0007D9A4u);
-}
-
-void func_8007D9E0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007D9E0u, 0x0007D9E0u);
-}
-
-void func_8007D9F0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007D9F0u, 0x0007D9F0u);
-}
-
-void func_8007D9F8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007D9F8u, 0x0007D9F8u);
-}
-
-void func_8007DA08(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DA08u, 0x0007DA08u);
-}
-
-void func_8007DA44(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DA44u, 0x0007DA44u);
-}
-
-void func_8007DAE4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DAE4u, 0x0007DAE4u);
-}
-
-void func_8007DB3C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DB3Cu, 0x0007DB3Cu);
-}
-
-void func_8007DB68(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DB68u, 0x0007DB68u);
-}
-
-void func_8007DB6C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DB6Cu, 0x0007DB6Cu);
-}
-
-void func_8007DB70(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DB70u, 0x0007DB70u);
-}
-
-void func_8007DBF4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DBF4u, 0x0007DBF4u);
-}
-
-void func_8007DBF8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DBF8u, 0x0007DBF8u);
-}
-
-void func_8007DBFC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DBFCu, 0x0007DBFCu);
-}
-
-void func_8007DC04(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC04u, 0x0007DC04u);
-}
-
-void func_8007DC0C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC0Cu, 0x0007DC0Cu);
-}
-
-void func_8007DC18(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC18u, 0x0007DC18u);
-}
-
-void func_8007DC20(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC20u, 0x0007DC20u);
-}
-
-void func_8007DC24(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC24u, 0x0007DC24u);
-}
-
-void func_8007DC2C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC2Cu, 0x0007DC2Cu);
-}
-
-void func_8007DC34(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC34u, 0x0007DC34u);
-}
-
-void func_8007DC3C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC3Cu, 0x0007DC3Cu);
-}
-
-void func_8007DC4C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC4Cu, 0x0007DC4Cu);
-}
-
-void func_8007DC54(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC54u, 0x0007DC54u);
-}
-
-void func_8007DC60(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC60u, 0x0007DC60u);
-}
-
-void func_8007DC64(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC64u, 0x0007DC64u);
-}
-
-void func_8007DC68(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC68u, 0x0007DC68u);
-}
-
-void func_8007DC6C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC6Cu, 0x0007DC6Cu);
-}
-
-void func_8007DC74(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC74u, 0x0007DC74u);
-}
-
-void func_8007DC7C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC7Cu, 0x0007DC7Cu);
-}
-
-void func_8007DC84(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC84u, 0x0007DC84u);
-}
-
-void func_8007DC8C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC8Cu, 0x0007DC8Cu);
-}
-
-void func_8007DC94(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC94u, 0x0007DC94u);
-}
-
-void func_8007DC9C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DC9Cu, 0x0007DC9Cu);
-}
-
-void func_8007DCA4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DCA4u, 0x0007DCA4u);
-}
-
-void func_8007DDA0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007DDA0u, 0x0007DDA0u);
-}
-
-void func_8007E11C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007E11Cu, 0x0007E11Cu);
-}
-
-void func_8007E19C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007E19Cu, 0x0007E19Cu);
-}
-
-void func_8007E1AC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007E1ACu, 0x0007E1ACu);
-}
-
-void func_8007E1B0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007E1B0u, 0x0007E1B0u);
-}
-
-void func_8007E1B4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007E1B4u, 0x0007E1B4u);
-}
-
-void func_8007E1B8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007E1B8u, 0x0007E1B8u);
-}
-
-void func_8007E1BC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007E1BCu, 0x0007E1BCu);
-}
-
-void func_8007E454(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007E454u, 0x0007E454u);
-}
-
-void func_8007E474(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007E474u, 0x0007E474u);
-}
-
-void func_8007E594(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007E594u, 0x0007E594u);
-}
-
-void func_8007E7BC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007E7BCu, 0x0007E7BCu);
-}
-
-void func_8007E7D4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007E7D4u, 0x0007E7D4u);
-}
-
-void func_8007E7E8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007E7E8u, 0x0007E7E8u);
-}
-
-void func_8007E920(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007E920u, 0x0007E920u);
-}
-
-void func_8007EA2C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007EA2Cu, 0x0007EA2Cu);
-}
-
-void func_8007EA90(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007EA90u, 0x0007EA90u);
-}
-
-void func_8007EBD4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007EBD4u, 0x0007EBD4u);
-}
-
-void func_8007EC8C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007EC8Cu, 0x0007EC8Cu);
-}
-
-void func_8007ECAC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007ECACu, 0x0007ECACu);
-}
-
-void func_8007EDD0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007EDD0u, 0x0007EDD0u);
-}
-
-void func_8007EE08(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007EE08u, 0x0007EE08u);
-}
-
-void func_8007EE80(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007EE80u, 0x0007EE80u);
-}
-
-void func_8007EE88(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007EE88u, 0x0007EE88u);
-}
-
-void func_8007EFC0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007EFC0u, 0x0007EFC0u);
-}
-
-void func_8007EFC4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007EFC4u, 0x0007EFC4u);
-}
-
-void func_8007F034(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F034u, 0x0007F034u);
-}
-
-void func_8007F038(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F038u, 0x0007F038u);
-}
-
-void func_8007F068(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F068u, 0x0007F068u);
-}
-
-void func_8007F06C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F06Cu, 0x0007F06Cu);
-}
-
-void func_8007F0FC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F0FCu, 0x0007F0FCu);
-}
-
-void func_8007F124(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F124u, 0x0007F124u);
-}
-
-void func_8007F17C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F17Cu, 0x0007F17Cu);
-}
-
-void func_8007F19C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F19Cu, 0x0007F19Cu);
-}
-
-void func_8007F23C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F23Cu, 0x0007F23Cu);
-}
-
-void func_8007F2B4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F2B4u, 0x0007F2B4u);
-}
-
-void func_8007F2F0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F2F0u, 0x0007F2F0u);
-}
-
-void func_8007F2F8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F2F8u, 0x0007F2F8u);
-}
-
-void func_8007F2FC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F2FCu, 0x0007F2FCu);
-}
-
-void func_8007F328(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F328u, 0x0007F328u);
-}
-
-void func_8007F36C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F36Cu, 0x0007F36Cu);
-}
-
-void func_8007F3E8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F3E8u, 0x0007F3E8u);
-}
-
-void func_8007F404(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F404u, 0x0007F404u);
-}
-
-void func_8007F468(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F468u, 0x0007F468u);
-}
-
-void func_8007F52C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F52Cu, 0x0007F52Cu);
-}
-
-void func_8007F5A8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F5A8u, 0x0007F5A8u);
-}
-
-void func_8007F5BC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F5BCu, 0x0007F5BCu);
-}
-
-void func_8007F60C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F60Cu, 0x0007F60Cu);
-}
-
-void func_8007F6C4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F6C4u, 0x0007F6C4u);
-}
-
-void func_8007F6DC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F6DCu, 0x0007F6DCu);
-}
-
-void func_8007F744(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F744u, 0x0007F744u);
-}
-
-void func_8007F764(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F764u, 0x0007F764u);
-}
-
-void func_8007F88C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F88Cu, 0x0007F88Cu);
-}
-
-void func_8007F8DC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F8DCu, 0x0007F8DCu);
-}
-
-void func_8007F8F8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F8F8u, 0x0007F8F8u);
-}
-
-void func_8007F908(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F908u, 0x0007F908u);
-}
-
-void func_8007F98C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007F98Cu, 0x0007F98Cu);
-}
-
-void func_8007FA0C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FA0Cu, 0x0007FA0Cu);
-}
-
-void func_8007FA34(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FA34u, 0x0007FA34u);
-}
-
-void func_8007FB5C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FB5Cu, 0x0007FB5Cu);
-}
-
-void func_8007FB60(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FB60u, 0x0007FB60u);
-}
-
-void func_8007FC44(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FC44u, 0x0007FC44u);
-}
-
-void func_8007FC48(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FC48u, 0x0007FC48u);
-}
-
-void func_8007FC60(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FC60u, 0x0007FC60u);
-}
-
-void func_8007FC6C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FC6Cu, 0x0007FC6Cu);
-}
-
-void func_8007FC74(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FC74u, 0x0007FC74u);
-}
-
-void func_8007FC78(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FC78u, 0x0007FC78u);
-}
-
-void func_8007FC80(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FC80u, 0x0007FC80u);
-}
-
-void func_8007FC88(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FC88u, 0x0007FC88u);
-}
-
-void func_8007FC8C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FC8Cu, 0x0007FC8Cu);
-}
-
-void func_8007FC94(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FC94u, 0x0007FC94u);
-}
-
-void func_8007FC9C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FC9Cu, 0x0007FC9Cu);
-}
-
-void func_8007FCA0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FCA0u, 0x0007FCA0u);
-}
-
-void func_8007FCA8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FCA8u, 0x0007FCA8u);
-}
-
-void func_8007FCB0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FCB0u, 0x0007FCB0u);
-}
-
-void func_8007FCB4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FCB4u, 0x0007FCB4u);
-}
-
-void func_8007FCBC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FCBCu, 0x0007FCBCu);
-}
-
-void func_8007FCC4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FCC4u, 0x0007FCC4u);
-}
-
-void func_8007FCC8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FCC8u, 0x0007FCC8u);
-}
-
-void func_8007FCD0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FCD0u, 0x0007FCD0u);
-}
-
-void func_8007FCD8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FCD8u, 0x0007FCD8u);
-}
-
-void func_8007FCDC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FCDCu, 0x0007FCDCu);
-}
-
-void func_8007FCE4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FCE4u, 0x0007FCE4u);
-}
-
-void func_8007FCEC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FCECu, 0x0007FCECu);
-}
-
-void func_8007FCF0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FCF0u, 0x0007FCF0u);
-}
-
-void func_8007FCF8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FCF8u, 0x0007FCF8u);
-}
-
-void func_8007FD00(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD00u, 0x0007FD00u);
-}
-
-void func_8007FD04(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD04u, 0x0007FD04u);
-}
-
-void func_8007FD0C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD0Cu, 0x0007FD0Cu);
-}
-
-void func_8007FD14(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD14u, 0x0007FD14u);
-}
-
-void func_8007FD18(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD18u, 0x0007FD18u);
-}
-
-void func_8007FD28(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD28u, 0x0007FD28u);
-}
-
-void func_8007FD2C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD2Cu, 0x0007FD2Cu);
-}
-
-void func_8007FD3C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD3Cu, 0x0007FD3Cu);
-}
-
-void func_8007FD40(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD40u, 0x0007FD40u);
-}
-
-void func_8007FD4C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD4Cu, 0x0007FD4Cu);
-}
-
-void func_8007FD50(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD50u, 0x0007FD50u);
-}
-
-void func_8007FD60(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD60u, 0x0007FD60u);
-}
-
-void func_8007FD64(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD64u, 0x0007FD64u);
-}
-
-void func_8007FD74(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD74u, 0x0007FD74u);
-}
-
-void func_8007FD78(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD78u, 0x0007FD78u);
-}
-
-void func_8007FD88(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD88u, 0x0007FD88u);
-}
-
-void func_8007FD8C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD8Cu, 0x0007FD8Cu);
-}
-
-void func_8007FD98(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD98u, 0x0007FD98u);
-}
-
-void func_8007FD9C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FD9Cu, 0x0007FD9Cu);
-}
-
-void func_8007FDA0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDA0u, 0x0007FDA0u);
-}
-
-void func_8007FDAC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDACu, 0x0007FDACu);
-}
-
-void func_8007FDB0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDB0u, 0x0007FDB0u);
-}
-
-void func_8007FDB4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDB4u, 0x0007FDB4u);
-}
-
-void func_8007FDBC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDBCu, 0x0007FDBCu);
-}
-
-void func_8007FDC0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDC0u, 0x0007FDC0u);
-}
-
-void func_8007FDC4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDC4u, 0x0007FDC4u);
-}
-
-void func_8007FDC8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDC8u, 0x0007FDC8u);
-}
-
-void func_8007FDD0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDD0u, 0x0007FDD0u);
-}
-
-void func_8007FDD4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDD4u, 0x0007FDD4u);
-}
-
-void func_8007FDD8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDD8u, 0x0007FDD8u);
-}
-
-void func_8007FDDC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDDCu, 0x0007FDDCu);
-}
-
-void func_8007FDE4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDE4u, 0x0007FDE4u);
-}
-
-void func_8007FDE8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDE8u, 0x0007FDE8u);
-}
-
-void func_8007FDEC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDECu, 0x0007FDECu);
-}
-
-void func_8007FDF0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDF0u, 0x0007FDF0u);
-}
-
-void func_8007FDF8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDF8u, 0x0007FDF8u);
-}
-
-void func_8007FDFC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FDFCu, 0x0007FDFCu);
-}
-
-void func_8007FE00(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE00u, 0x0007FE00u);
-}
-
-void func_8007FE04(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE04u, 0x0007FE04u);
-}
-
-void func_8007FE0C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE0Cu, 0x0007FE0Cu);
-}
-
-void func_8007FE10(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE10u, 0x0007FE10u);
-}
-
-void func_8007FE18(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE18u, 0x0007FE18u);
-}
-
-void func_8007FE1C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE1Cu, 0x0007FE1Cu);
-}
-
-void func_8007FE20(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE20u, 0x0007FE20u);
-}
-
-void func_8007FE24(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE24u, 0x0007FE24u);
-}
-
-void func_8007FE2C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE2Cu, 0x0007FE2Cu);
-}
-
-void func_8007FE30(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE30u, 0x0007FE30u);
-}
-
-void func_8007FE34(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE34u, 0x0007FE34u);
-}
-
-void func_8007FE38(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE38u, 0x0007FE38u);
-}
-
-void func_8007FE40(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE40u, 0x0007FE40u);
-}
-
-void func_8007FE44(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE44u, 0x0007FE44u);
-}
-
-void func_8007FE48(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE48u, 0x0007FE48u);
-}
-
-void func_8007FE54(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE54u, 0x0007FE54u);
-}
-
-void func_8007FE58(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE58u, 0x0007FE58u);
-}
-
-void func_8007FE68(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE68u, 0x0007FE68u);
-}
-
-void func_8007FE7C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE7Cu, 0x0007FE7Cu);
-}
-
-void func_8007FE90(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FE90u, 0x0007FE90u);
-}
-
-void func_8007FEA4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FEA4u, 0x0007FEA4u);
-}
-
-void func_8007FEB8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8007FEB8u, 0x0007FEB8u);
 }
 
 void func_80080020(CPUState* cpu)
@@ -274482,6 +273741,7 @@ void func_80080020(CPUState* cpu)
 
 void func_80080024(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80080024u);
     /* Address: 0x80080024, Size: 4 bytes, Blocks: 1 */
 
 block_80080024:
@@ -274490,12 +273750,14 @@ block_80080024:
 #endif
     psx_check_interrupts(cpu);
     /* TODO: SPECIAL funct=0x05 */  /* 0x80080024: 0x00060005 */
+    func_80080028(cpu); return;  /* fallthrough to split piece */
     func_80080028(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80080028(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80080028u);
     /* Address: 0x80080028, Size: 4 bytes, Blocks: 1 */
 
 block_80080028:
@@ -274504,12 +273766,14 @@ block_80080028:
 #endif
     psx_check_interrupts(cpu);
     /* TODO: SPECIAL funct=0x05 */  /* 0x80080028: 0x00060005 */
+    func_8008002C(cpu); return;  /* fallthrough to split piece */
     func_8008002C(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_8008002C(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x8008002Cu);
     /* Address: 0x8008002C, Size: 4 bytes, Blocks: 1 */
 
 block_8008002C:
@@ -274518,12 +273782,14 @@ block_8008002C:
 #endif
     psx_check_interrupts(cpu);
     /* nop: write to $zero */  /* 0x8008002C: 0x00070006 */
+    func_80080030(cpu); return;  /* fallthrough to split piece */
     func_80080030(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
 
 void func_80080030(CPUState* cpu)
 {
+    debug_server_log_call_entry(0x80080030u);
     /* Address: 0x80080030, Size: 4 bytes, Blocks: 1 */
 
 block_80080030:
@@ -274532,6 +273798,7 @@ block_80080030:
 #endif
     psx_check_interrupts(cpu);
     /* nop: write to $zero */  /* 0x80080030: 0x00070006 */
+    func_80080034(cpu); return;  /* fallthrough to split piece */
     func_80080034(cpu);  /* fallthrough to next function */
     ;  /* label compatibility: C requires a statement after the last label */
 }
@@ -274551,26 +273818,6 @@ void func_800802D0(CPUState* cpu)
     psx_unknown_dispatch(cpu, 0x800802D0u, 0x000802D0u);
 }
 
-void func_800808A0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800808A0u, 0x000808A0u);
-}
-
-void func_80080940(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80080940u, 0x00080940u);
-}
-
-void func_800809E0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800809E0u, 0x000809E0u);
-}
-
-void func_80080A80(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80080A80u, 0x00080A80u);
-}
-
 void func_80080AB8(CPUState* cpu)
 {
     psx_unknown_dispatch(cpu, 0x80080AB8u, 0x00080AB8u);
@@ -274584,11 +273831,6 @@ void func_80080ABC(CPUState* cpu)
 void func_80080AE4(CPUState* cpu)
 {
     psx_unknown_dispatch(cpu, 0x80080AE4u, 0x00080AE4u);
-}
-
-void func_80080B20(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80080B20u, 0x00080B20u);
 }
 
 void func_8008174C(CPUState* cpu)
@@ -274659,21 +273901,6 @@ void func_800817B4(CPUState* cpu)
 void func_800817BC(CPUState* cpu)
 {
     psx_unknown_dispatch(cpu, 0x800817BCu, 0x000817BCu);
-}
-
-void func_800818B4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800818B4u, 0x000818B4u);
-}
-
-void func_800818D4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800818D4u, 0x000818D4u);
-}
-
-void func_800818DC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800818DCu, 0x000818DCu);
 }
 
 void func_800818E4(CPUState* cpu)
@@ -274754,211 +273981,6 @@ void func_80081938(CPUState* cpu)
 void func_8008193C(CPUState* cpu)
 {
     psx_unknown_dispatch(cpu, 0x8008193Cu, 0x0008193Cu);
-}
-
-void func_80081954(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081954u, 0x00081954u);
-}
-
-void func_8008195C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8008195Cu, 0x0008195Cu);
-}
-
-void func_80081964(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081964u, 0x00081964u);
-}
-
-void func_80081974(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081974u, 0x00081974u);
-}
-
-void func_8008197C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8008197Cu, 0x0008197Cu);
-}
-
-void func_80081984(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081984u, 0x00081984u);
-}
-
-void func_8008198C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8008198Cu, 0x0008198Cu);
-}
-
-void func_80081994(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081994u, 0x00081994u);
-}
-
-void func_800819F4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800819F4u, 0x000819F4u);
-}
-
-void func_800819F8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800819F8u, 0x000819F8u);
-}
-
-void func_800819FC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800819FCu, 0x000819FCu);
-}
-
-void func_80081A00(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081A00u, 0x00081A00u);
-}
-
-void func_80081A04(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081A04u, 0x00081A04u);
-}
-
-void func_80081A08(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081A08u, 0x00081A08u);
-}
-
-void func_80081A0C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081A0Cu, 0x00081A0Cu);
-}
-
-void func_80081A10(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081A10u, 0x00081A10u);
-}
-
-void func_80081A14(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081A14u, 0x00081A14u);
-}
-
-void func_80081A20(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081A20u, 0x00081A20u);
-}
-
-void func_80081A24(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081A24u, 0x00081A24u);
-}
-
-void func_80081A28(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081A28u, 0x00081A28u);
-}
-
-void func_80081A34(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081A34u, 0x00081A34u);
-}
-
-void func_80081A38(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081A38u, 0x00081A38u);
-}
-
-void func_80081A3C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081A3Cu, 0x00081A3Cu);
-}
-
-void func_80081A40(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081A40u, 0x00081A40u);
-}
-
-void func_80081A48(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081A48u, 0x00081A48u);
-}
-
-void func_80081A94(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081A94u, 0x00081A94u);
-}
-
-void func_80081A9C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081A9Cu, 0x00081A9Cu);
-}
-
-void func_80081AA4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081AA4u, 0x00081AA4u);
-}
-
-void func_80081AAC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081AACu, 0x00081AACu);
-}
-
-void func_80081AB4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081AB4u, 0x00081AB4u);
-}
-
-void func_80081AD4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081AD4u, 0x00081AD4u);
-}
-
-void func_80081ADC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081ADCu, 0x00081ADCu);
-}
-
-void func_80081B34(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081B34u, 0x00081B34u);
-}
-
-void func_80081B38(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081B38u, 0x00081B38u);
-}
-
-void func_80081B3C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081B3Cu, 0x00081B3Cu);
-}
-
-void func_80081B44(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081B44u, 0x00081B44u);
-}
-
-void func_80081B54(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081B54u, 0x00081B54u);
-}
-
-void func_80081B5C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081B5Cu, 0x00081B5Cu);
-}
-
-void func_80081B64(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081B64u, 0x00081B64u);
-}
-
-void func_80081B74(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081B74u, 0x00081B74u);
-}
-
-void func_80081B7C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80081B7Cu, 0x00081B7Cu);
 }
 
 void func_80081EB4(CPUState* cpu)
@@ -275796,96 +274818,6 @@ void func_8008228C(CPUState* cpu)
     psx_unknown_dispatch(cpu, 0x8008228Cu, 0x0008228Cu);
 }
 
-void func_80082304(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082304u, 0x00082304u);
-}
-
-void func_80082308(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082308u, 0x00082308u);
-}
-
-void func_8008230C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8008230Cu, 0x0008230Cu);
-}
-
-void func_80082310(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082310u, 0x00082310u);
-}
-
-void func_80082314(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082314u, 0x00082314u);
-}
-
-void func_80082318(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082318u, 0x00082318u);
-}
-
-void func_8008231C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8008231Cu, 0x0008231Cu);
-}
-
-void func_80082320(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082320u, 0x00082320u);
-}
-
-void func_80082324(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082324u, 0x00082324u);
-}
-
-void func_80082328(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082328u, 0x00082328u);
-}
-
-void func_8008232C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8008232Cu, 0x0008232Cu);
-}
-
-void func_80082330(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082330u, 0x00082330u);
-}
-
-void func_80082334(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082334u, 0x00082334u);
-}
-
-void func_80082338(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082338u, 0x00082338u);
-}
-
-void func_8008233C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8008233Cu, 0x0008233Cu);
-}
-
-void func_80082344(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082344u, 0x00082344u);
-}
-
-void func_80082354(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082354u, 0x00082354u);
-}
-
-void func_8008235C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8008235Cu, 0x0008235Cu);
-}
-
 void func_800824D0(CPUState* cpu)
 {
     psx_unknown_dispatch(cpu, 0x800824D0u, 0x000824D0u);
@@ -275971,126 +274903,6 @@ void func_800827A8(CPUState* cpu)
     psx_unknown_dispatch(cpu, 0x800827A8u, 0x000827A8u);
 }
 
-void func_800828C8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800828C8u, 0x000828C8u);
-}
-
-void func_80082968(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082968u, 0x00082968u);
-}
-
-void func_8008296C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8008296Cu, 0x0008296Cu);
-}
-
-void func_80082974(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082974u, 0x00082974u);
-}
-
-void func_8008297C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8008297Cu, 0x0008297Cu);
-}
-
-void func_80082984(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082984u, 0x00082984u);
-}
-
-void func_8008298C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8008298Cu, 0x0008298Cu);
-}
-
-void func_80082994(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082994u, 0x00082994u);
-}
-
-void func_8008299C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8008299Cu, 0x0008299Cu);
-}
-
-void func_800829B4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800829B4u, 0x000829B4u);
-}
-
-void func_800829BC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800829BCu, 0x000829BCu);
-}
-
-void func_80082A08(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082A08u, 0x00082A08u);
-}
-
-void func_80082A0C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082A0Cu, 0x00082A0Cu);
-}
-
-void func_80082A14(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082A14u, 0x00082A14u);
-}
-
-void func_80082A1C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082A1Cu, 0x00082A1Cu);
-}
-
-void func_80082A34(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082A34u, 0x00082A34u);
-}
-
-void func_80082A3C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082A3Cu, 0x00082A3Cu);
-}
-
-void func_80082A44(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082A44u, 0x00082A44u);
-}
-
-void func_80082A4C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082A4Cu, 0x00082A4Cu);
-}
-
-void func_80082A54(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082A54u, 0x00082A54u);
-}
-
-void func_80082A60(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082A60u, 0x00082A60u);
-}
-
-void func_80082A68(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082A68u, 0x00082A68u);
-}
-
-void func_80082AA8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082AA8u, 0x00082AA8u);
-}
-
-void func_80082B48(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80082B48u, 0x00082B48u);
-}
-
 void func_80082F9C(CPUState* cpu)
 {
     psx_unknown_dispatch(cpu, 0x80082F9Cu, 0x00082F9Cu);
@@ -276104,16 +274916,6 @@ void func_80082FB0(CPUState* cpu)
 void func_8008327C(CPUState* cpu)
 {
     psx_unknown_dispatch(cpu, 0x8008327Cu, 0x0008327Cu);
-}
-
-void func_800832CC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800832CCu, 0x000832CCu);
-}
-
-void func_800832E4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800832E4u, 0x000832E4u);
 }
 
 void func_8008358C(CPUState* cpu)
@@ -276159,221 +274961,6 @@ void func_800835D4(CPUState* cpu)
 void func_800835DC(CPUState* cpu)
 {
     psx_unknown_dispatch(cpu, 0x800835DCu, 0x000835DCu);
-}
-
-void func_800838DC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800838DCu, 0x000838DCu);
-}
-
-void func_800838E4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800838E4u, 0x000838E4u);
-}
-
-void func_800838E8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800838E8u, 0x000838E8u);
-}
-
-void func_800838EC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800838ECu, 0x000838ECu);
-}
-
-void func_800838F0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800838F0u, 0x000838F0u);
-}
-
-void func_800838F4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800838F4u, 0x000838F4u);
-}
-
-void func_800838F8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800838F8u, 0x000838F8u);
-}
-
-void func_800838FC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800838FCu, 0x000838FCu);
-}
-
-void func_80083900(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083900u, 0x00083900u);
-}
-
-void func_80083920(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083920u, 0x00083920u);
-}
-
-void func_80083928(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083928u, 0x00083928u);
-}
-
-void func_8008397C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8008397Cu, 0x0008397Cu);
-}
-
-void func_80083984(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083984u, 0x00083984u);
-}
-
-void func_80083994(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083994u, 0x00083994u);
-}
-
-void func_8008399C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8008399Cu, 0x0008399Cu);
-}
-
-void func_800839A4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800839A4u, 0x000839A4u);
-}
-
-void func_800839B4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800839B4u, 0x000839B4u);
-}
-
-void func_800839BC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800839BCu, 0x000839BCu);
-}
-
-void func_800839C4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800839C4u, 0x000839C4u);
-}
-
-void func_800839D4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800839D4u, 0x000839D4u);
-}
-
-void func_80083A1C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083A1Cu, 0x00083A1Cu);
-}
-
-void func_80083A20(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083A20u, 0x00083A20u);
-}
-
-void func_80083A24(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083A24u, 0x00083A24u);
-}
-
-void func_80083A28(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083A28u, 0x00083A28u);
-}
-
-void func_80083A2C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083A2Cu, 0x00083A2Cu);
-}
-
-void func_80083A34(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083A34u, 0x00083A34u);
-}
-
-void func_80083A38(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083A38u, 0x00083A38u);
-}
-
-void func_80083A3C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083A3Cu, 0x00083A3Cu);
-}
-
-void func_80083A40(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083A40u, 0x00083A40u);
-}
-
-void func_80083A44(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083A44u, 0x00083A44u);
-}
-
-void func_80083A48(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083A48u, 0x00083A48u);
-}
-
-void func_80083A50(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083A50u, 0x00083A50u);
-}
-
-void func_80083A60(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083A60u, 0x00083A60u);
-}
-
-void func_80083A68(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083A68u, 0x00083A68u);
-}
-
-void func_80083A74(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083A74u, 0x00083A74u);
-}
-
-void func_80083ABC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083ABCu, 0x00083ABCu);
-}
-
-void func_80083AC0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083AC0u, 0x00083AC0u);
-}
-
-void func_80083AC4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083AC4u, 0x00083AC4u);
-}
-
-void func_80083AC8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083AC8u, 0x00083AC8u);
-}
-
-void func_80083ACC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083ACCu, 0x00083ACCu);
-}
-
-void func_80083AD0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083AD0u, 0x00083AD0u);
-}
-
-void func_80083AD4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083AD4u, 0x00083AD4u);
-}
-
-void func_80083AD8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083AD8u, 0x00083AD8u);
 }
 
 void func_80083ADC(CPUState* cpu)
@@ -276536,19 +275123,9 @@ void func_80083B58(CPUState* cpu)
     psx_unknown_dispatch(cpu, 0x80083B58u, 0x00083B58u);
 }
 
-void func_80083B5C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083B5Cu, 0x00083B5Cu);
-}
-
 void func_80083B60(CPUState* cpu)
 {
     psx_unknown_dispatch(cpu, 0x80083B60u, 0x00083B60u);
-}
-
-void func_80083B64(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083B64u, 0x00083B64u);
 }
 
 void func_80083B68(CPUState* cpu)
@@ -276556,39 +275133,9 @@ void func_80083B68(CPUState* cpu)
     psx_unknown_dispatch(cpu, 0x80083B68u, 0x00083B68u);
 }
 
-void func_80083B6C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083B6Cu, 0x00083B6Cu);
-}
-
 void func_80083B74(CPUState* cpu)
 {
     psx_unknown_dispatch(cpu, 0x80083B74u, 0x00083B74u);
-}
-
-void func_80083B7C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083B7Cu, 0x00083B7Cu);
-}
-
-void func_80083B84(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083B84u, 0x00083B84u);
-}
-
-void func_80083B8C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083B8Cu, 0x00083B8Cu);
-}
-
-void func_80083B94(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083B94u, 0x00083B94u);
-}
-
-void func_80083B9C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80083B9Cu, 0x00083B9Cu);
 }
 
 void func_80083D28(CPUState* cpu)
@@ -277726,11 +276273,6 @@ void func_80089BC8(CPUState* cpu)
     psx_unknown_dispatch(cpu, 0x80089BC8u, 0x00089BC8u);
 }
 
-void func_8008A85C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8008A85Cu, 0x0008A85Cu);
-}
-
 void func_8008AA08(CPUState* cpu)
 {
     psx_unknown_dispatch(cpu, 0x8008AA08u, 0x0008AA08u);
@@ -277743,3261 +276285,22 @@ void func_8008C5D4(CPUState* cpu)
 
 void func_800905DC(CPUState* cpu)
 {
-    psx_unknown_dispatch(cpu, 0x800905DCu, 0x000905DCu);
-}
-
-void func_800909E0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800909E0u, 0x000909E0u);
-}
-
-void func_800909E4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800909E4u, 0x000909E4u);
-}
-
-void func_800909E8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800909E8u, 0x000909E8u);
-}
-
-void func_800909EC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800909ECu, 0x000909ECu);
-}
-
-void func_800909F0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800909F0u, 0x000909F0u);
-}
-
-void func_800909F4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800909F4u, 0x000909F4u);
-}
-
-void func_800909F8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800909F8u, 0x000909F8u);
-}
-
-void func_800909FC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800909FCu, 0x000909FCu);
-}
-
-void func_80090A00(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090A00u, 0x00090A00u);
-}
-
-void func_80090A04(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090A04u, 0x00090A04u);
-}
-
-void func_80090A08(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090A08u, 0x00090A08u);
-}
-
-void func_80090A0C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090A0Cu, 0x00090A0Cu);
-}
-
-void func_80090A10(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090A10u, 0x00090A10u);
-}
-
-void func_80090A80(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090A80u, 0x00090A80u);
-}
-
-void func_80090A88(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090A88u, 0x00090A88u);
-}
-
-void func_80090A90(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090A90u, 0x00090A90u);
-}
-
-void func_80090B20(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090B20u, 0x00090B20u);
-}
-
-void func_80090BC0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090BC0u, 0x00090BC0u);
-}
-
-void func_80090BF8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090BF8u, 0x00090BF8u);
-}
-
-void func_80090BFC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090BFCu, 0x00090BFCu);
-}
-
-void func_80090C00(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C00u, 0x00090C00u);
-}
-
-void func_80090C04(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C04u, 0x00090C04u);
-}
-
-void func_80090C08(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C08u, 0x00090C08u);
-}
-
-void func_80090C0C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C0Cu, 0x00090C0Cu);
-}
-
-void func_80090C10(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C10u, 0x00090C10u);
-}
-
-void func_80090C14(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C14u, 0x00090C14u);
-}
-
-void func_80090C18(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C18u, 0x00090C18u);
-}
-
-void func_80090C1C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C1Cu, 0x00090C1Cu);
-}
-
-void func_80090C20(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C20u, 0x00090C20u);
-}
-
-void func_80090C24(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C24u, 0x00090C24u);
-}
-
-void func_80090C28(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C28u, 0x00090C28u);
-}
-
-void func_80090C2C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C2Cu, 0x00090C2Cu);
-}
-
-void func_80090C30(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C30u, 0x00090C30u);
-}
-
-void func_80090C34(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C34u, 0x00090C34u);
-}
-
-void func_80090C38(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C38u, 0x00090C38u);
-}
-
-void func_80090C3C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C3Cu, 0x00090C3Cu);
-}
-
-void func_80090C40(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C40u, 0x00090C40u);
-}
-
-void func_80090C44(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C44u, 0x00090C44u);
-}
-
-void func_80090C48(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C48u, 0x00090C48u);
-}
-
-void func_80090C4C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C4Cu, 0x00090C4Cu);
-}
-
-void func_80090C50(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C50u, 0x00090C50u);
-}
-
-void func_80090C54(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C54u, 0x00090C54u);
-}
-
-void func_80090C58(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C58u, 0x00090C58u);
-}
-
-void func_80090C5C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C5Cu, 0x00090C5Cu);
-}
-
-void func_80090C60(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C60u, 0x00090C60u);
-}
-
-void func_80090C64(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C64u, 0x00090C64u);
-}
-
-void func_80090C6C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C6Cu, 0x00090C6Cu);
-}
-
-void func_80090C78(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C78u, 0x00090C78u);
-}
-
-void func_80090C80(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C80u, 0x00090C80u);
-}
-
-void func_80090C8C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C8Cu, 0x00090C8Cu);
-}
-
-void func_80090C98(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090C98u, 0x00090C98u);
-}
-
-void func_80090CA4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090CA4u, 0x00090CA4u);
-}
-
-void func_80090CAC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090CACu, 0x00090CACu);
-}
-
-void func_80090CB8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090CB8u, 0x00090CB8u);
-}
-
-void func_80090CC4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090CC4u, 0x00090CC4u);
-}
-
-void func_80090CD0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090CD0u, 0x00090CD0u);
-}
-
-void func_80090CD8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090CD8u, 0x00090CD8u);
-}
-
-void func_80090CE4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090CE4u, 0x00090CE4u);
-}
-
-void func_80090CF0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090CF0u, 0x00090CF0u);
-}
-
-void func_80090CFC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090CFCu, 0x00090CFCu);
-}
-
-void func_80090D08(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D08u, 0x00090D08u);
-}
-
-void func_80090D10(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D10u, 0x00090D10u);
-}
-
-void func_80090D1C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D1Cu, 0x00090D1Cu);
-}
-
-void func_80090D28(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D28u, 0x00090D28u);
-}
-
-void func_80090D34(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D34u, 0x00090D34u);
-}
-
-void func_80090D40(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D40u, 0x00090D40u);
-}
-
-void func_80090D4C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D4Cu, 0x00090D4Cu);
-}
-
-void func_80090D54(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D54u, 0x00090D54u);
-}
-
-void func_80090D60(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D60u, 0x00090D60u);
-}
-
-void func_80090D6C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D6Cu, 0x00090D6Cu);
-}
-
-void func_80090D78(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D78u, 0x00090D78u);
-}
-
-void func_80090D7C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D7Cu, 0x00090D7Cu);
-}
-
-void func_80090D84(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D84u, 0x00090D84u);
-}
-
-void func_80090D88(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D88u, 0x00090D88u);
-}
-
-void func_80090D90(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D90u, 0x00090D90u);
-}
-
-void func_80090D94(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D94u, 0x00090D94u);
-}
-
-void func_80090D9C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090D9Cu, 0x00090D9Cu);
-}
-
-void func_80090DA8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090DA8u, 0x00090DA8u);
-}
-
-void func_80090DB4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090DB4u, 0x00090DB4u);
-}
-
-void func_80090DC0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090DC0u, 0x00090DC0u);
-}
-
-void func_80090DCC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090DCCu, 0x00090DCCu);
-}
-
-void func_80090DD8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090DD8u, 0x00090DD8u);
-}
-
-void func_80090DE4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090DE4u, 0x00090DE4u);
-}
-
-void func_80090DF0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090DF0u, 0x00090DF0u);
-}
-
-void func_80090DFC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090DFCu, 0x00090DFCu);
-}
-
-void func_80090E08(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090E08u, 0x00090E08u);
-}
-
-void func_80090E14(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090E14u, 0x00090E14u);
-}
-
-void func_80090E20(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090E20u, 0x00090E20u);
-}
-
-void func_80090E2C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090E2Cu, 0x00090E2Cu);
-}
-
-void func_80090E38(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090E38u, 0x00090E38u);
-}
-
-void func_80090E44(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090E44u, 0x00090E44u);
-}
-
-void func_80090E50(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090E50u, 0x00090E50u);
-}
-
-void func_80090E5C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090E5Cu, 0x00090E5Cu);
-}
-
-void func_80090E68(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090E68u, 0x00090E68u);
-}
-
-void func_80090E74(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090E74u, 0x00090E74u);
-}
-
-void func_80090E80(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090E80u, 0x00090E80u);
-}
-
-void func_80090E8C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090E8Cu, 0x00090E8Cu);
-}
-
-void func_80090E9C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090E9Cu, 0x00090E9Cu);
-}
-
-void func_80090EA8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090EA8u, 0x00090EA8u);
-}
-
-void func_80090EB4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090EB4u, 0x00090EB4u);
-}
-
-void func_80090EB8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090EB8u, 0x00090EB8u);
-}
-
-void func_80090EC0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090EC0u, 0x00090EC0u);
-}
-
-void func_80090EC8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090EC8u, 0x00090EC8u);
-}
-
-void func_80090ECC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090ECCu, 0x00090ECCu);
-}
-
-void func_80090ED0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090ED0u, 0x00090ED0u);
-}
-
-void func_80090ED8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090ED8u, 0x00090ED8u);
-}
-
-void func_80090EE4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090EE4u, 0x00090EE4u);
-}
-
-void func_80090EF4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090EF4u, 0x00090EF4u);
-}
-
-void func_80090F00(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F00u, 0x00090F00u);
-}
-
-void func_80090F0C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F0Cu, 0x00090F0Cu);
-}
-
-void func_80090F18(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F18u, 0x00090F18u);
-}
-
-void func_80090F1C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F1Cu, 0x00090F1Cu);
-}
-
-void func_80090F24(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F24u, 0x00090F24u);
-}
-
-void func_80090F28(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F28u, 0x00090F28u);
-}
-
-void func_80090F34(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F34u, 0x00090F34u);
-}
-
-void func_80090F38(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F38u, 0x00090F38u);
-}
-
-void func_80090F40(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F40u, 0x00090F40u);
-}
-
-void func_80090F44(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F44u, 0x00090F44u);
-}
-
-void func_80090F4C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F4Cu, 0x00090F4Cu);
-}
-
-void func_80090F50(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F50u, 0x00090F50u);
-}
-
-void func_80090F58(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F58u, 0x00090F58u);
-}
-
-void func_80090F5C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F5Cu, 0x00090F5Cu);
-}
-
-void func_80090F68(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F68u, 0x00090F68u);
-}
-
-void func_80090F6C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F6Cu, 0x00090F6Cu);
-}
-
-void func_80090F74(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F74u, 0x00090F74u);
-}
-
-void func_80090F78(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F78u, 0x00090F78u);
-}
-
-void func_80090F80(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F80u, 0x00090F80u);
-}
-
-void func_80090F84(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F84u, 0x00090F84u);
-}
-
-void func_80090F90(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F90u, 0x00090F90u);
-}
-
-void func_80090F94(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F94u, 0x00090F94u);
-}
-
-void func_80090F9C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090F9Cu, 0x00090F9Cu);
-}
-
-void func_80090FA0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090FA0u, 0x00090FA0u);
-}
-
-void func_80090FA8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090FA8u, 0x00090FA8u);
-}
-
-void func_80090FAC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090FACu, 0x00090FACu);
-}
-
-void func_80090FB8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090FB8u, 0x00090FB8u);
-}
-
-void func_80090FBC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090FBCu, 0x00090FBCu);
-}
-
-void func_80090FC4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090FC4u, 0x00090FC4u);
-}
-
-void func_80090FC8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090FC8u, 0x00090FC8u);
-}
-
-void func_80090FD0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090FD0u, 0x00090FD0u);
-}
-
-void func_80090FD4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090FD4u, 0x00090FD4u);
-}
-
-void func_80090FE0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090FE0u, 0x00090FE0u);
-}
-
-void func_80090FE4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090FE4u, 0x00090FE4u);
-}
-
-void func_80090FEC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090FECu, 0x00090FECu);
-}
-
-void func_80090FF0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090FF0u, 0x00090FF0u);
-}
-
-void func_80090FF8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090FF8u, 0x00090FF8u);
-}
-
-void func_80090FFC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80090FFCu, 0x00090FFCu);
-}
-
-void func_80091008(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091008u, 0x00091008u);
-}
-
-void func_8009100C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009100Cu, 0x0009100Cu);
-}
-
-void func_80091014(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091014u, 0x00091014u);
-}
-
-void func_80091018(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091018u, 0x00091018u);
-}
-
-void func_80091020(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091020u, 0x00091020u);
-}
-
-void func_80091024(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091024u, 0x00091024u);
-}
-
-void func_80091030(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091030u, 0x00091030u);
-}
-
-void func_80091034(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091034u, 0x00091034u);
-}
-
-void func_80091038(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091038u, 0x00091038u);
-}
-
-void func_8009103C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009103Cu, 0x0009103Cu);
-}
-
-void func_80091040(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091040u, 0x00091040u);
-}
-
-void func_8009104C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009104Cu, 0x0009104Cu);
-}
-
-void func_80091050(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091050u, 0x00091050u);
-}
-
-void func_80091058(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091058u, 0x00091058u);
-}
-
-void func_8009105C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009105Cu, 0x0009105Cu);
-}
-
-void func_80091064(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091064u, 0x00091064u);
-}
-
-void func_80091068(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091068u, 0x00091068u);
-}
-
-void func_80091074(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091074u, 0x00091074u);
-}
-
-void func_80091080(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091080u, 0x00091080u);
-}
-
-void func_80091090(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091090u, 0x00091090u);
-}
-
-void func_80091098(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091098u, 0x00091098u);
-}
-
-void func_8009109C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009109Cu, 0x0009109Cu);
-}
-
-void func_800910A0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800910A0u, 0x000910A0u);
-}
-
-void func_800910A8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800910A8u, 0x000910A8u);
-}
-
-void func_800910AC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800910ACu, 0x000910ACu);
-}
-
-void func_800910B0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800910B0u, 0x000910B0u);
-}
-
-void func_800910B8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800910B8u, 0x000910B8u);
-}
-
-void func_800910C0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800910C0u, 0x000910C0u);
-}
-
-void func_800910C8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800910C8u, 0x000910C8u);
-}
-
-void func_800910D4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800910D4u, 0x000910D4u);
-}
-
-void func_800910E4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800910E4u, 0x000910E4u);
-}
-
-void func_800910F0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800910F0u, 0x000910F0u);
-}
-
-void func_80091100(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091100u, 0x00091100u);
-}
-
-void func_8009110C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009110Cu, 0x0009110Cu);
-}
-
-void func_80091110(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091110u, 0x00091110u);
-}
-
-void func_80091118(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091118u, 0x00091118u);
-}
-
-void func_8009111C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009111Cu, 0x0009111Cu);
-}
-
-void func_80091120(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091120u, 0x00091120u);
-}
-
-void func_80091128(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091128u, 0x00091128u);
-}
-
-void func_8009112C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009112Cu, 0x0009112Cu);
-}
-
-void func_80091138(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091138u, 0x00091138u);
-}
-
-void func_80091148(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091148u, 0x00091148u);
-}
-
-void func_80091154(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091154u, 0x00091154u);
-}
-
-void func_80091164(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091164u, 0x00091164u);
-}
-
-void func_80091170(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091170u, 0x00091170u);
-}
-
-void func_80091180(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091180u, 0x00091180u);
-}
-
-void func_80091190(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091190u, 0x00091190u);
-}
-
-void func_8009119C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009119Cu, 0x0009119Cu);
-}
-
-void func_800911AC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800911ACu, 0x000911ACu);
-}
-
-void func_800911BC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800911BCu, 0x000911BCu);
-}
-
-void func_800911C8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800911C8u, 0x000911C8u);
-}
-
-void func_800911D0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800911D0u, 0x000911D0u);
-}
-
-void func_800911D8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800911D8u, 0x000911D8u);
-}
-
-void func_800911E0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800911E0u, 0x000911E0u);
-}
-
-void func_800911E8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800911E8u, 0x000911E8u);
-}
-
-void func_800911F0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800911F0u, 0x000911F0u);
-}
-
-void func_800911F4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800911F4u, 0x000911F4u);
-}
-
-void func_800911F8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800911F8u, 0x000911F8u);
-}
-
-void func_80091200(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091200u, 0x00091200u);
-}
-
-void func_80091204(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091204u, 0x00091204u);
-}
-
-void func_80091208(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091208u, 0x00091208u);
-}
-
-void func_80091210(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091210u, 0x00091210u);
-}
-
-void func_80091214(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091214u, 0x00091214u);
-}
-
-void func_80091218(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091218u, 0x00091218u);
-}
-
-void func_80091220(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091220u, 0x00091220u);
-}
-
-void func_80091228(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091228u, 0x00091228u);
-}
-
-void func_80091230(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091230u, 0x00091230u);
-}
-
-void func_80091238(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091238u, 0x00091238u);
-}
-
-void func_80091240(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091240u, 0x00091240u);
-}
-
-void func_80091248(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091248u, 0x00091248u);
-}
-
-void func_80091250(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091250u, 0x00091250u);
-}
-
-void func_8009125C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009125Cu, 0x0009125Cu);
-}
-
-void func_8009126C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009126Cu, 0x0009126Cu);
-}
-
-void func_8009127C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009127Cu, 0x0009127Cu);
-}
-
-void func_8009128C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009128Cu, 0x0009128Cu);
-}
-
-void func_80091298(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091298u, 0x00091298u);
-}
-
-void func_800912A8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800912A8u, 0x000912A8u);
-}
-
-void func_800912B0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800912B0u, 0x000912B0u);
-}
-
-void func_800912B8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800912B8u, 0x000912B8u);
-}
-
-void func_800912C8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800912C8u, 0x000912C8u);
-}
-
-void func_800912D8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800912D8u, 0x000912D8u);
-}
-
-void func_800912E4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800912E4u, 0x000912E4u);
-}
-
-void func_800912F4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800912F4u, 0x000912F4u);
-}
-
-void func_80091304(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091304u, 0x00091304u);
-}
-
-void func_80091310(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091310u, 0x00091310u);
-}
-
-void func_80091314(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091314u, 0x00091314u);
-}
-
-void func_80091318(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091318u, 0x00091318u);
-}
-
-void func_80091320(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091320u, 0x00091320u);
-}
-
-void func_80091324(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091324u, 0x00091324u);
-}
-
-void func_80091328(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091328u, 0x00091328u);
-}
-
-void func_80091330(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091330u, 0x00091330u);
-}
-
-void func_80091334(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091334u, 0x00091334u);
-}
-
-void func_80091338(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091338u, 0x00091338u);
-}
-
-void func_80091340(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091340u, 0x00091340u);
-}
-
-void func_80091348(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091348u, 0x00091348u);
-}
-
-void func_80091350(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091350u, 0x00091350u);
-}
-
-void func_80091360(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091360u, 0x00091360u);
-}
-
-void func_80091370(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091370u, 0x00091370u);
-}
-
-void func_80091380(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091380u, 0x00091380u);
-}
-
-void func_80091390(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091390u, 0x00091390u);
-}
-
-void func_800913A0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800913A0u, 0x000913A0u);
-}
-
-void func_800913B0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800913B0u, 0x000913B0u);
-}
-
-void func_800913C0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800913C0u, 0x000913C0u);
-}
-
-void func_800913D0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800913D0u, 0x000913D0u);
-}
-
-void func_800913E0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800913E0u, 0x000913E0u);
-}
-
-void func_800913F0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800913F0u, 0x000913F0u);
-}
-
-void func_80091400(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091400u, 0x00091400u);
-}
-
-void func_80091410(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091410u, 0x00091410u);
-}
-
-void func_80091420(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091420u, 0x00091420u);
-}
-
-void func_80091430(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091430u, 0x00091430u);
-}
-
-void func_80091440(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091440u, 0x00091440u);
-}
-
-void func_80091450(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091450u, 0x00091450u);
-}
-
-void func_80091460(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091460u, 0x00091460u);
-}
-
-void func_80091470(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091470u, 0x00091470u);
-}
-
-void func_80091480(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091480u, 0x00091480u);
-}
-
-void func_80091490(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091490u, 0x00091490u);
-}
-
-void func_800914A0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800914A0u, 0x000914A0u);
-}
-
-void func_800914B0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800914B0u, 0x000914B0u);
-}
-
-void func_800914C0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800914C0u, 0x000914C0u);
-}
-
-void func_800914D0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800914D0u, 0x000914D0u);
-}
-
-void func_800914E0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800914E0u, 0x000914E0u);
-}
-
-void func_800914F0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800914F0u, 0x000914F0u);
-}
-
-void func_80091500(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091500u, 0x00091500u);
-}
-
-void func_80091510(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091510u, 0x00091510u);
-}
-
-void func_80091524(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091524u, 0x00091524u);
-}
-
-void func_80091534(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091534u, 0x00091534u);
-}
-
-void func_80091544(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091544u, 0x00091544u);
-}
-
-void func_80091818(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091818u, 0x00091818u);
-}
-
-void func_80091820(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091820u, 0x00091820u);
-}
-
-void func_8009183C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009183Cu, 0x0009183Cu);
-}
-
-void func_8009185C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009185Cu, 0x0009185Cu);
-}
-
-void func_80091B00(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091B00u, 0x00091B00u);
-}
-
-void func_80091B08(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091B08u, 0x00091B08u);
-}
-
-void func_80091B88(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091B88u, 0x00091B88u);
-}
-
-void func_80091B90(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091B90u, 0x00091B90u);
-}
-
-void func_80091EF8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091EF8u, 0x00091EF8u);
-}
-
-void func_80091F60(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091F60u, 0x00091F60u);
-}
-
-void func_80091F94(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091F94u, 0x00091F94u);
-}
-
-void func_80091FB0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091FB0u, 0x00091FB0u);
-}
-
-void func_80091FB8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091FB8u, 0x00091FB8u);
-}
-
-void func_80091FC0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091FC0u, 0x00091FC0u);
-}
-
-void func_80091FC8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091FC8u, 0x00091FC8u);
-}
-
-void func_80091FFC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80091FFCu, 0x00091FFCu);
-}
-
-void func_80092030(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092030u, 0x00092030u);
-}
-
-void func_80092068(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092068u, 0x00092068u);
-}
-
-void func_8009209C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009209Cu, 0x0009209Cu);
-}
-
-void func_800920D0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800920D0u, 0x000920D0u);
-}
-
-void func_80092104(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092104u, 0x00092104u);
-}
-
-void func_80092138(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092138u, 0x00092138u);
-}
-
-void func_8009216C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009216Cu, 0x0009216Cu);
-}
-
-void func_800921A0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800921A0u, 0x000921A0u);
-}
-
-void func_800921D4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800921D4u, 0x000921D4u);
-}
-
-void func_80092208(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092208u, 0x00092208u);
-}
-
-void func_8009220C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009220Cu, 0x0009220Cu);
-}
-
-void func_8009223C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009223Cu, 0x0009223Cu);
-}
-
-void func_80092240(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092240u, 0x00092240u);
-}
-
-void func_80092270(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092270u, 0x00092270u);
-}
-
-void func_80092274(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092274u, 0x00092274u);
-}
-
-void func_800922A4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800922A4u, 0x000922A4u);
-}
-
-void func_800922A8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800922A8u, 0x000922A8u);
-}
-
-void func_800922D8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800922D8u, 0x000922D8u);
-}
-
-void func_800922DC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800922DCu, 0x000922DCu);
-}
-
-void func_8009230C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009230Cu, 0x0009230Cu);
-}
-
-void func_80092310(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092310u, 0x00092310u);
-}
-
-void func_80092340(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092340u, 0x00092340u);
-}
-
-void func_80092344(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092344u, 0x00092344u);
-}
-
-void func_80092374(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092374u, 0x00092374u);
-}
-
-void func_80092378(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092378u, 0x00092378u);
-}
-
-void func_800923A8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800923A8u, 0x000923A8u);
-}
-
-void func_800923AC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800923ACu, 0x000923ACu);
-}
-
-void func_800923DC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800923DCu, 0x000923DCu);
-}
-
-void func_800923E0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800923E0u, 0x000923E0u);
-}
-
-void func_80092410(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092410u, 0x00092410u);
-}
-
-void func_80092414(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092414u, 0x00092414u);
-}
-
-void func_80092440(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092440u, 0x00092440u);
-}
-
-void func_80092444(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092444u, 0x00092444u);
-}
-
-void func_80092474(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092474u, 0x00092474u);
-}
-
-void func_80092478(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092478u, 0x00092478u);
-}
-
-void func_800924A8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800924A8u, 0x000924A8u);
-}
-
-void func_800924AC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800924ACu, 0x000924ACu);
-}
-
-void func_800924DC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800924DCu, 0x000924DCu);
-}
-
-void func_80092510(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092510u, 0x00092510u);
-}
-
-void func_80092544(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092544u, 0x00092544u);
-}
-
-void func_80092578(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092578u, 0x00092578u);
-}
-
-void func_800925A8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800925A8u, 0x000925A8u);
-}
-
-void func_800925DC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800925DCu, 0x000925DCu);
-}
-
-void func_80092610(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092610u, 0x00092610u);
-}
-
-void func_80092644(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092644u, 0x00092644u);
-}
-
-void func_80092674(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092674u, 0x00092674u);
-}
-
-void func_800926A8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800926A8u, 0x000926A8u);
-}
-
-void func_800926DC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800926DCu, 0x000926DCu);
-}
-
-void func_80092710(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092710u, 0x00092710u);
-}
-
-void func_80092740(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092740u, 0x00092740u);
-}
-
-void func_80092774(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092774u, 0x00092774u);
-}
-
-void func_800927A8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800927A8u, 0x000927A8u);
-}
-
-void func_800927D8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800927D8u, 0x000927D8u);
-}
-
-void func_8009280C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009280Cu, 0x0009280Cu);
-}
-
-void func_8009283C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009283Cu, 0x0009283Cu);
-}
-
-void func_80092870(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092870u, 0x00092870u);
-}
-
-void func_800928A4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800928A4u, 0x000928A4u);
-}
-
-void func_800928D4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800928D4u, 0x000928D4u);
-}
-
-void func_80092908(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092908u, 0x00092908u);
-}
-
-void func_80092938(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092938u, 0x00092938u);
-}
-
-void func_8009296C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009296Cu, 0x0009296Cu);
-}
-
-void func_8009299C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009299Cu, 0x0009299Cu);
-}
-
-void func_800929D0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800929D0u, 0x000929D0u);
-}
-
-void func_80092A00(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092A00u, 0x00092A00u);
-}
-
-void func_80092A08(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092A08u, 0x00092A08u);
-}
-
-void func_80092A34(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092A34u, 0x00092A34u);
-}
-
-void func_80092A64(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092A64u, 0x00092A64u);
-}
-
-void func_80092A88(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092A88u, 0x00092A88u);
-}
-
-void func_80092A90(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092A90u, 0x00092A90u);
-}
-
-void func_80092A98(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092A98u, 0x00092A98u);
-}
-
-void func_80092AA8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092AA8u, 0x00092AA8u);
-}
-
-void func_80092AC8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092AC8u, 0x00092AC8u);
-}
-
-void func_80092AFC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092AFCu, 0x00092AFCu);
-}
-
-void func_80092B2C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092B2Cu, 0x00092B2Cu);
-}
-
-void func_80092B48(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092B48u, 0x00092B48u);
-}
-
-void func_80092B5C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092B5Cu, 0x00092B5Cu);
-}
-
-void func_80092B90(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092B90u, 0x00092B90u);
-}
-
-void func_80092BC0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092BC0u, 0x00092BC0u);
-}
-
-void func_80092BE8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092BE8u, 0x00092BE8u);
-}
-
-void func_80092BF0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092BF0u, 0x00092BF0u);
-}
-
-void func_80092C00(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092C00u, 0x00092C00u);
-}
-
-void func_80092C08(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092C08u, 0x00092C08u);
-}
-
-void func_80092C24(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092C24u, 0x00092C24u);
-}
-
-void func_80092C54(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092C54u, 0x00092C54u);
-}
-
-void func_80092C84(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092C84u, 0x00092C84u);
-}
-
-void func_80092C88(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092C88u, 0x00092C88u);
-}
-
-void func_80092CB4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092CB4u, 0x00092CB4u);
-}
-
-void func_80092CE8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092CE8u, 0x00092CE8u);
-}
-
-void func_80092D18(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092D18u, 0x00092D18u);
-}
-
-void func_80092D48(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092D48u, 0x00092D48u);
-}
-
-void func_80092D78(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092D78u, 0x00092D78u);
-}
-
-void func_80092DA8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092DA8u, 0x00092DA8u);
-}
-
-void func_80092DDC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092DDCu, 0x00092DDCu);
-}
-
-void func_80092E0C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092E0Cu, 0x00092E0Cu);
-}
-
-void func_80092E3C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092E3Cu, 0x00092E3Cu);
-}
-
-void func_80092E6C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092E6Cu, 0x00092E6Cu);
-}
-
-void func_80092E9C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092E9Cu, 0x00092E9Cu);
-}
-
-void func_80092ECC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092ECCu, 0x00092ECCu);
-}
-
-void func_80092EFC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092EFCu, 0x00092EFCu);
-}
-
-void func_80092F2C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092F2Cu, 0x00092F2Cu);
-}
-
-void func_80092F5C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092F5Cu, 0x00092F5Cu);
-}
-
-void func_80092F8C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092F8Cu, 0x00092F8Cu);
-}
-
-void func_80092FBC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092FBCu, 0x00092FBCu);
-}
-
-void func_80092FEC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80092FECu, 0x00092FECu);
-}
-
-void func_8009301C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009301Cu, 0x0009301Cu);
-}
-
-void func_8009304C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009304Cu, 0x0009304Cu);
-}
-
-void func_80093A1C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80093A1Cu, 0x00093A1Cu);
-}
-
-void func_80093ABC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80093ABCu, 0x00093ABCu);
-}
-
-void func_80093B00(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80093B00u, 0x00093B00u);
-}
-
-void func_80093B08(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80093B08u, 0x00093B08u);
-}
-
-void func_80093B5C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80093B5Cu, 0x00093B5Cu);
-}
-
-void func_80093BFC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80093BFCu, 0x00093BFCu);
-}
-
-void func_80093C9C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80093C9Cu, 0x00093C9Cu);
-}
-
-void func_80094FF8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80094FF8u, 0x00094FF8u);
-}
-
-void func_8009500C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009500Cu, 0x0009500Cu);
-}
-
-void func_80095020(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095020u, 0x00095020u);
-}
-
-void func_80095104(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095104u, 0x00095104u);
-}
-
-void func_80095118(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095118u, 0x00095118u);
-}
-
-void func_8009512C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009512Cu, 0x0009512Cu);
-}
-
-void func_80095150(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095150u, 0x00095150u);
-}
-
-void func_800955AC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800955ACu, 0x000955ACu);
-}
-
-void func_800955B0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800955B0u, 0x000955B0u);
-}
-
-void func_800955B4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800955B4u, 0x000955B4u);
-}
-
-void func_800955B8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800955B8u, 0x000955B8u);
-}
-
-void func_800955BC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800955BCu, 0x000955BCu);
-}
-
-void func_800955D4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800955D4u, 0x000955D4u);
-}
-
-void func_800957D4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800957D4u, 0x000957D4u);
-}
-
-void func_800958CC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800958CCu, 0x000958CCu);
-}
-
-void func_80095960(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095960u, 0x00095960u);
-}
-
-void func_80095970(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095970u, 0x00095970u);
-}
-
-void func_80095980(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095980u, 0x00095980u);
-}
-
-void func_80095994(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095994u, 0x00095994u);
-}
-
-void func_800959A4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800959A4u, 0x000959A4u);
-}
-
-void func_800959B4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800959B4u, 0x000959B4u);
-}
-
-void func_800959C4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800959C4u, 0x000959C4u);
-}
-
-void func_800959D4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800959D4u, 0x000959D4u);
-}
-
-void func_800959E4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800959E4u, 0x000959E4u);
-}
-
-void func_800959F4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800959F4u, 0x000959F4u);
-}
-
-void func_80095A04(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095A04u, 0x00095A04u);
-}
-
-void func_80095A14(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095A14u, 0x00095A14u);
-}
-
-void func_80095A24(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095A24u, 0x00095A24u);
-}
-
-void func_80095A34(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095A34u, 0x00095A34u);
-}
-
-void func_80095A44(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095A44u, 0x00095A44u);
-}
-
-void func_80095A54(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095A54u, 0x00095A54u);
-}
-
-void func_80095A64(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095A64u, 0x00095A64u);
-}
-
-void func_80095A74(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095A74u, 0x00095A74u);
-}
-
-void func_80095A84(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095A84u, 0x00095A84u);
-}
-
-void func_80095A94(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095A94u, 0x00095A94u);
-}
-
-void func_80095AA4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095AA4u, 0x00095AA4u);
-}
-
-void func_80095AB4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095AB4u, 0x00095AB4u);
-}
-
-void func_80095AB8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095AB8u, 0x00095AB8u);
-}
-
-void func_80095AC4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095AC4u, 0x00095AC4u);
-}
-
-void func_80095AD4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095AD4u, 0x00095AD4u);
-}
-
-void func_80095AE4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095AE4u, 0x00095AE4u);
-}
-
-void func_80095AF4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095AF4u, 0x00095AF4u);
-}
-
-void func_80095B04(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095B04u, 0x00095B04u);
-}
-
-void func_80095B14(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095B14u, 0x00095B14u);
-}
-
-void func_80095B24(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095B24u, 0x00095B24u);
-}
-
-void func_80095B34(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095B34u, 0x00095B34u);
-}
-
-void func_80095B44(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095B44u, 0x00095B44u);
-}
-
-void func_80095B54(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095B54u, 0x00095B54u);
-}
-
-void func_80095B64(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095B64u, 0x00095B64u);
-}
-
-void func_80095B70(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095B70u, 0x00095B70u);
-}
-
-void func_80095B80(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095B80u, 0x00095B80u);
-}
-
-void func_80095B90(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095B90u, 0x00095B90u);
-}
-
-void func_80095BA0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095BA0u, 0x00095BA0u);
-}
-
-void func_80095BA8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095BA8u, 0x00095BA8u);
-}
-
-void func_80095BB0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095BB0u, 0x00095BB0u);
-}
-
-void func_80095BC0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095BC0u, 0x00095BC0u);
-}
-
-void func_80095BCC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095BCCu, 0x00095BCCu);
-}
-
-void func_80095BDC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095BDCu, 0x00095BDCu);
-}
-
-void func_80095BEC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095BECu, 0x00095BECu);
-}
-
-void func_80095BFC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095BFCu, 0x00095BFCu);
-}
-
-void func_80095C0C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095C0Cu, 0x00095C0Cu);
-}
-
-void func_80095C18(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095C18u, 0x00095C18u);
-}
-
-void func_80095C28(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095C28u, 0x00095C28u);
-}
-
-void func_80095C38(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095C38u, 0x00095C38u);
-}
-
-void func_80095C48(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095C48u, 0x00095C48u);
-}
-
-void func_80095C54(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095C54u, 0x00095C54u);
-}
-
-void func_80095C64(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095C64u, 0x00095C64u);
-}
-
-void func_80095C74(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095C74u, 0x00095C74u);
-}
-
-void func_80095C84(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095C84u, 0x00095C84u);
-}
-
-void func_80095C90(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095C90u, 0x00095C90u);
-}
-
-void func_80095C94(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095C94u, 0x00095C94u);
-}
-
-void func_80095CA0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095CA0u, 0x00095CA0u);
-}
-
-void func_80095CB0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095CB0u, 0x00095CB0u);
-}
-
-void func_80095CBC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095CBCu, 0x00095CBCu);
-}
-
-void func_80095CCC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095CCCu, 0x00095CCCu);
-}
-
-void func_80095CDC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095CDCu, 0x00095CDCu);
-}
-
-void func_80095CE8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095CE8u, 0x00095CE8u);
-}
-
-void func_80095CF8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095CF8u, 0x00095CF8u);
-}
-
-void func_80095D08(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095D08u, 0x00095D08u);
-}
-
-void func_80095D14(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095D14u, 0x00095D14u);
-}
-
-void func_80095D24(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095D24u, 0x00095D24u);
-}
-
-void func_80095D34(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095D34u, 0x00095D34u);
-}
-
-void func_80095D40(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095D40u, 0x00095D40u);
-}
-
-void func_80095D50(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095D50u, 0x00095D50u);
-}
-
-void func_80095D5C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095D5Cu, 0x00095D5Cu);
-}
-
-void func_80095D6C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095D6Cu, 0x00095D6Cu);
-}
-
-void func_80095D78(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095D78u, 0x00095D78u);
-}
-
-void func_80095D80(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095D80u, 0x00095D80u);
-}
-
-void func_80095D88(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095D88u, 0x00095D88u);
-}
-
-void func_80095D98(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095D98u, 0x00095D98u);
-}
-
-void func_80095DA4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095DA4u, 0x00095DA4u);
-}
-
-void func_80095DB4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095DB4u, 0x00095DB4u);
-}
-
-void func_80095DC0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095DC0u, 0x00095DC0u);
-}
-
-void func_80095DD0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095DD0u, 0x00095DD0u);
-}
-
-void func_80095DDC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095DDCu, 0x00095DDCu);
-}
-
-void func_80095DEC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095DECu, 0x00095DECu);
-}
-
-void func_80095DF8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095DF8u, 0x00095DF8u);
-}
-
-void func_80095E08(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095E08u, 0x00095E08u);
-}
-
-void func_80095E14(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095E14u, 0x00095E14u);
-}
-
-void func_80095E24(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095E24u, 0x00095E24u);
-}
-
-void func_80095E30(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095E30u, 0x00095E30u);
-}
-
-void func_80095E40(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095E40u, 0x00095E40u);
-}
-
-void func_80095E4C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095E4Cu, 0x00095E4Cu);
-}
-
-void func_80095E58(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095E58u, 0x00095E58u);
-}
-
-void func_80095E68(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095E68u, 0x00095E68u);
-}
-
-void func_80095E74(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095E74u, 0x00095E74u);
-}
-
-void func_80095E84(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095E84u, 0x00095E84u);
-}
-
-void func_80095E90(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095E90u, 0x00095E90u);
-}
-
-void func_80095E9C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095E9Cu, 0x00095E9Cu);
-}
-
-void func_80095EAC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095EACu, 0x00095EACu);
-}
-
-void func_80095EB8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095EB8u, 0x00095EB8u);
-}
-
-void func_80095EC4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095EC4u, 0x00095EC4u);
-}
-
-void func_80095ED4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095ED4u, 0x00095ED4u);
-}
-
-void func_80095EE0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095EE0u, 0x00095EE0u);
-}
-
-void func_80095EEC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095EECu, 0x00095EECu);
-}
-
-void func_80095EFC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095EFCu, 0x00095EFCu);
-}
-
-void func_80095F08(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095F08u, 0x00095F08u);
-}
-
-void func_80095F14(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095F14u, 0x00095F14u);
-}
-
-void func_80095F24(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095F24u, 0x00095F24u);
-}
-
-void func_80095F30(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095F30u, 0x00095F30u);
-}
-
-void func_80095F3C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095F3Cu, 0x00095F3Cu);
-}
-
-void func_80095F4C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095F4Cu, 0x00095F4Cu);
-}
-
-void func_80095F58(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095F58u, 0x00095F58u);
-}
-
-void func_80095F5C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095F5Cu, 0x00095F5Cu);
-}
-
-void func_80095F64(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095F64u, 0x00095F64u);
-}
-
-void func_80095F68(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095F68u, 0x00095F68u);
-}
-
-void func_80095F70(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095F70u, 0x00095F70u);
-}
-
-void func_80095F80(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095F80u, 0x00095F80u);
-}
-
-void func_80095F8C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095F8Cu, 0x00095F8Cu);
-}
-
-void func_80095F98(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095F98u, 0x00095F98u);
-}
-
-void func_80095FA4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095FA4u, 0x00095FA4u);
-}
-
-void func_80095FB0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095FB0u, 0x00095FB0u);
-}
-
-void func_80095FC0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095FC0u, 0x00095FC0u);
-}
-
-void func_80095FCC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095FCCu, 0x00095FCCu);
-}
-
-void func_80095FD8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095FD8u, 0x00095FD8u);
-}
-
-void func_80095FE4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095FE4u, 0x00095FE4u);
-}
-
-void func_80095FF0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095FF0u, 0x00095FF0u);
-}
-
-void func_80095FFC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80095FFCu, 0x00095FFCu);
-}
-
-void func_80096008(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096008u, 0x00096008u);
-}
-
-void func_80096018(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096018u, 0x00096018u);
-}
-
-void func_80096024(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096024u, 0x00096024u);
-}
-
-void func_80096030(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096030u, 0x00096030u);
-}
-
-void func_8009603C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009603Cu, 0x0009603Cu);
-}
-
-void func_80096048(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096048u, 0x00096048u);
-}
-
-void func_80096054(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096054u, 0x00096054u);
-}
-
-void func_80096060(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096060u, 0x00096060u);
-}
-
-void func_8009606C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009606Cu, 0x0009606Cu);
-}
-
-void func_80096078(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096078u, 0x00096078u);
-}
-
-void func_80096084(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096084u, 0x00096084u);
-}
-
-void func_80096090(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096090u, 0x00096090u);
-}
-
-void func_8009609C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009609Cu, 0x0009609Cu);
-}
-
-void func_800960A8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800960A8u, 0x000960A8u);
-}
-
-void func_800960B4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800960B4u, 0x000960B4u);
-}
-
-void func_800960C0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800960C0u, 0x000960C0u);
-}
-
-void func_800960CC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800960CCu, 0x000960CCu);
-}
-
-void func_800960D8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800960D8u, 0x000960D8u);
-}
-
-void func_800960E4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800960E4u, 0x000960E4u);
-}
-
-void func_800960F0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800960F0u, 0x000960F0u);
-}
-
-void func_800960FC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800960FCu, 0x000960FCu);
-}
-
-void func_80096108(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096108u, 0x00096108u);
-}
-
-void func_8009610C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009610Cu, 0x0009610Cu);
-}
-
-void func_80096114(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096114u, 0x00096114u);
-}
-
-void func_80096120(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096120u, 0x00096120u);
-}
-
-void func_8009612C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009612Cu, 0x0009612Cu);
-}
-
-void func_80096138(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096138u, 0x00096138u);
-}
-
-void func_80096144(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096144u, 0x00096144u);
-}
-
-void func_80096150(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096150u, 0x00096150u);
-}
-
-void func_80096158(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096158u, 0x00096158u);
-}
-
-void func_80096164(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096164u, 0x00096164u);
-}
-
-void func_80096170(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096170u, 0x00096170u);
-}
-
-void func_8009617C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009617Cu, 0x0009617Cu);
-}
-
-void func_80096188(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096188u, 0x00096188u);
-}
-
-void func_80096194(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096194u, 0x00096194u);
-}
-
-void func_8009619C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009619Cu, 0x0009619Cu);
-}
-
-void func_800961A8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800961A8u, 0x000961A8u);
-}
-
-void func_800961B4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800961B4u, 0x000961B4u);
-}
-
-void func_800961C0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800961C0u, 0x000961C0u);
-}
-
-void func_800961CC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800961CCu, 0x000961CCu);
-}
-
-void func_800961D4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800961D4u, 0x000961D4u);
-}
-
-void func_800961E0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800961E0u, 0x000961E0u);
-}
-
-void func_800961EC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800961ECu, 0x000961ECu);
-}
-
-void func_800961F8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800961F8u, 0x000961F8u);
-}
-
-void func_80096200(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096200u, 0x00096200u);
-}
-
-void func_8009620C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009620Cu, 0x0009620Cu);
-}
-
-void func_80096218(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096218u, 0x00096218u);
-}
-
-void func_80096224(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096224u, 0x00096224u);
-}
-
-void func_8009622C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009622Cu, 0x0009622Cu);
-}
-
-void func_80096238(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096238u, 0x00096238u);
-}
-
-void func_80096244(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096244u, 0x00096244u);
-}
-
-void func_8009624C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009624Cu, 0x0009624Cu);
-}
-
-void func_80096258(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096258u, 0x00096258u);
-}
-
-void func_80096264(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096264u, 0x00096264u);
-}
-
-void func_8009626C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009626Cu, 0x0009626Cu);
-}
-
-void func_80096278(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096278u, 0x00096278u);
-}
-
-void func_80096284(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096284u, 0x00096284u);
-}
-
-void func_8009628C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009628Cu, 0x0009628Cu);
-}
-
-void func_80096298(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096298u, 0x00096298u);
-}
-
-void func_800962A0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800962A0u, 0x000962A0u);
-}
-
-void func_800962AC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800962ACu, 0x000962ACu);
-}
-
-void func_800962C4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800962C4u, 0x000962C4u);
-}
-
-void func_800962C8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800962C8u, 0x000962C8u);
-}
-
-void func_800963A0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800963A0u, 0x000963A0u);
-}
-
-void func_800963A4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800963A4u, 0x000963A4u);
-}
-
-void func_80096474(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096474u, 0x00096474u);
-}
-
-void func_80096548(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096548u, 0x00096548u);
-}
-
-void func_8009659C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009659Cu, 0x0009659Cu);
-}
-
-void func_800965A4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800965A4u, 0x000965A4u);
-}
-
-void func_800965A8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800965A8u, 0x000965A8u);
-}
-
-void func_8009661C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009661Cu, 0x0009661Cu);
-}
-
-void func_800966E8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800966E8u, 0x000966E8u);
-}
-
-void func_800967B8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800967B8u, 0x000967B8u);
-}
-
-void func_80096884(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096884u, 0x00096884u);
-}
-
-void func_8009694C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009694Cu, 0x0009694Cu);
-}
-
-void func_80096A14(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096A14u, 0x00096A14u);
-}
-
-void func_80096ADC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096ADCu, 0x00096ADCu);
-}
-
-void func_80096BA0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096BA0u, 0x00096BA0u);
-}
-
-void func_80096C64(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096C64u, 0x00096C64u);
-}
-
-void func_80096D24(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096D24u, 0x00096D24u);
-}
-
-void func_80096DB0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096DB0u, 0x00096DB0u);
-}
-
-void func_80096DE4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096DE4u, 0x00096DE4u);
-}
-
-void func_80096EA4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096EA4u, 0x00096EA4u);
-}
-
-void func_80096F60(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80096F60u, 0x00096F60u);
-}
-
-void func_8009701C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009701Cu, 0x0009701Cu);
-}
-
-void func_800970D4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800970D4u, 0x000970D4u);
-}
-
-void func_8009718C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x8009718Cu, 0x0009718Cu);
-}
-
-void func_80097244(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097244u, 0x00097244u);
-}
-
-void func_800972F8(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800972F8u, 0x000972F8u);
-}
-
-void func_800973AC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800973ACu, 0x000973ACu);
-}
-
-void func_80097460(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097460u, 0x00097460u);
-}
-
-void func_80097514(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097514u, 0x00097514u);
-}
-
-void func_800975C4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800975C4u, 0x000975C4u);
-}
-
-void func_80097674(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097674u, 0x00097674u);
-}
-
-void func_80097678(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097678u, 0x00097678u);
-}
-
-void func_80097720(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097720u, 0x00097720u);
-}
-
-void func_80097724(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097724u, 0x00097724u);
-}
-
-void func_800977CC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800977CCu, 0x000977CCu);
-}
-
-void func_800977D0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800977D0u, 0x000977D0u);
-}
-
-void func_80097878(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097878u, 0x00097878u);
-}
-
-void func_80097924(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097924u, 0x00097924u);
-}
-
-void func_800979CC(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x800979CCu, 0x000979CCu);
-}
-
-void func_80097A74(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097A74u, 0x00097A74u);
-}
-
-void func_80097B1C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097B1Cu, 0x00097B1Cu);
-}
-
-void func_80097BC4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097BC4u, 0x00097BC4u);
-}
-
-void func_80097C68(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097C68u, 0x00097C68u);
-}
-
-void func_80097D0C(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097D0Cu, 0x00097D0Cu);
-}
-
-void func_80097DB0(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097DB0u, 0x00097DB0u);
-}
-
-void func_80097E54(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097E54u, 0x00097E54u);
-}
-
-void func_80097EF4(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097EF4u, 0x00097EF4u);
-}
-
-void func_80097F94(CPUState* cpu)
-{
-    psx_unknown_dispatch(cpu, 0x80097F94u, 0x00097F94u);
+    debug_server_log_call_entry(0x800905DCu);
+    /* Address: 0x800905DC, Size: 4 bytes, Blocks: 1 */
+
+block_800905DC:
+#ifdef PSX_ENABLE_BLOCK_CYCLES
+    psx_advance_cycles(1u);
+#endif
+    psx_check_interrupts(cpu);
+    int _bc_800905DC = (0 /* unknown branch condition: defaults to not-taken */);  /* save branch cond before delay slot */
+    /* delay slot (always executes) */
+    /* TODO: opcode=0x01 */  /* 0x800905E0: 0x040E0008 */
+    if (_bc_800905DC) {
+        call_by_address(cpu, 0x80090600u); return;  /* taken: split (mid-func) */
+    } else {
+        call_by_address(cpu, 0x800905E4u); return;  /* not taken: split (mid-func) */
+    }
+    ;  /* label compatibility: C requires a statement after the last label */
 }
 
