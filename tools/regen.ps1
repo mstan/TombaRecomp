@@ -16,4 +16,9 @@ if (!(Test-Path $Exe)) {
 
 New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
 
-& $Tool $Exe --seeds $Seeds --strict --out-dir $OutDir
+$Args = @($Exe, '--strict', '--out-dir', $OutDir)
+if (Test-Path $Seeds) {
+    $Args += @('--seeds', $Seeds)
+}
+
+& $Tool @Args
