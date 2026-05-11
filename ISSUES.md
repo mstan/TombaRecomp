@@ -7,8 +7,9 @@ Game-specific issues. Framework-side issues live in
 
 ## Issue #1 — FMVs render at 1/4 size, anchored to upper-left
 
-**Status:** open
+**Status:** fixed in `psxrecomp-v4` `feature/fmv-followup`
 **Date opened:** 2026-05-11
+**Date fixed:** 2026-05-11
 **Affects:** Whoopee Camp intro FMV, Tomba intro FMV (and presumably
 every subsequent MDEC/STR clip)
 
@@ -44,12 +45,22 @@ display path, not the decoder.
    software renderer — confirm it actually reads the display-area
    regs rather than hardcoding 320×240 from VRAM (0,0).
 
+### Resolution
+
+The SDL presenter was updating a fixed 640×512 texture using the
+active display width as the source pitch, then rendering the entire
+texture. FMV display modes such as 320×224 therefore occupied only the
+upper-left portion of the window. `runtime/src/main.cpp` now updates
+and renders the active source rectangle (`di.width` × `di.height`)
+scaled to the 640×480 window.
+
 ---
 
 ## Issue #2 — Tomba intro FMV has no audio (Whoopee Camp FMV audio works)
 
-**Status:** open
+**Status:** fixed in `psxrecomp-v4` `feature/fmv-followup`
 **Date opened:** 2026-05-11
+**Date fixed:** 2026-05-11
 
 ### Symptom
 
@@ -84,12 +95,23 @@ clip.
 3. If SPU voices: check key-on / volume / ADSR around the FMV-2
    start.
 
+### Resolution
+
+The second FMV uses standard CD-XA sectors (`file=1`, `channel=1`,
+`coding=0x01`: 4-bit stereo, 37.8 kHz). `runtime/src/cdrom.c` now
+handles CD `SetFilter`, `Mute`, and `Demute`, demuxes matching XA
+audio sectors, decodes them to PCM, and feeds the SPU CD input bus.
+`runtime/src/spu.c` now mixes that input when SPU control bit 0 and
+the CD volume registers enable it. Live validation showed decoded
+CD frames entering SPU and nonzero output peaks during the Tomba FMV.
+
 ---
 
 ## Issue #3 — Previous FMV's last frame bleeds into the gap before the next FMV
 
-**Status:** open
+**Status:** fixed by Issue #1's presenter fix
 **Date opened:** 2026-05-11
+**Date fixed:** 2026-05-11
 
 ### Symptom
 
@@ -118,12 +140,20 @@ Likely falls out of Issue #1's fix; revisit once that lands. If it
 persists, add a wtrace on GPU command FIFO for the inter-clip frame
 window.
 
+### Resolution
+
+The stale-frame bleed was a side effect of rendering the full backing
+texture instead of the active display rectangle. After the presenter
+fix, the title/menu capture after skipping the FMV renders cleanly
+without the old lower-quadrant stale frame.
+
 ---
 
 ## Issue #4 — Cannot skip FMVs with controller input
 
-**Status:** open
+**Status:** fixed in `psxrecomp-v4` `feature/fmv-followup`
 **Date opened:** 2026-05-11
+**Date fixed:** 2026-05-11
 
 ### Symptom
 
@@ -162,3 +192,16 @@ FMV's skip handler.
    skip exists at this stage" or "skip exists but input isn't
    reaching it". A Beetle run of the same disc through the same
    frame range answers this.
+
+### Resolution
+
+Input override was reaching `sio_set_pad_state`, but the SIO device
+trace showed only the first pad-select byte completing. The subsequent
+pad access/config bytes were written by the BIOS but were killed by
+the cycle-paced shifter before the digital-pad state machine saw them.
+`runtime/src/sio.c` now completes pad transfers through the
+access-paced path while leaving memory-card traffic on the stricter
+cycle-paced path, and the digital pad model accepts the config/status
+commands Tomba sends (`0x43`, `0x45`) in addition to the normal poll
+command (`0x42`). Holding input during the intro FMV now stops CD
+streaming and advances to the Tomba title screen.
