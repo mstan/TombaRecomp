@@ -26,3 +26,9 @@
 .vscode/
 *.user
 *.log
+
+# Runtime artifacts from psx-runtime/psx-beetle launches
+psx_crash.txt
+psx_last_run_report.json
+psx_screenshot.bmp
+starvation_dump.jsonl
