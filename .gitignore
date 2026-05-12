@@ -2,6 +2,13 @@
 /build/
 /out/
 
+# Recompiler output (derivative of copyrighted game code, regenerate locally)
+/generated/
+
+# Release packaging artifacts
+release-stage/
+*.zip
+
 # Local PlayStation assets
 /tomba/
 /isos/
