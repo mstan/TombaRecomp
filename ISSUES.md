@@ -7,8 +7,28 @@ Game-specific issues. Framework-side issues live in
 
 ## Issue #4 — FMV plays at ~6.7 fps (target ≥15) — IRQ-rate limited
 
-**Status:** root-caused 2026-05-13; fix in progress on `tomba-in-game`.
+**Status:** **FIXED 2026-05-13** by psxrecomp-v4 `b486c13`. FMV now
+plays at 15.0 fps exactly (Tomba's designed rate). 2.24× speedup.
 **Branch:** `tomba-in-game`
+
+### Fix summary
+
+Root cause was NOT in MDEC, NOT in CDROM, NOT in DMA, NOT in IRQ
+handler chain. It was in `runtime/src/interrupts.c`: VBlank firing
+was gated on `dispatch_count >= 50000` (block-dispatch count), but
+each dispatch is only ~5-6 cycles. Effective ~289k cycles per
+VBlank, vs real-PSX 564480. Game-internal time ran at ~51% of
+real, so every cycle-paced flow (including Tomba's FMV state
+machine driven by MDEC-out DMA-done IRQ) decoupled at that rate.
+
+Fix: switch VBlank trigger to `cycles_since_vblank >= 564480` where
+`cycles_since_vblank` is incremented by `interrupts_advance_cycles`
+called from `psx_advance_cycles`. Subtract one period on fire
+(don't reset) so cycle overshoot from long blocks carries forward.
+
+Verified by `tools/_mdec_pace.py`:
+- Before: 0.111 decodes/VBlank (6.7 fps).
+- After:  0.250 decodes/VBlank (15.0 fps exactly).
 
 ### Symptom
 
