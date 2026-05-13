@@ -5,6 +5,47 @@ Game-specific issues. Framework-side issues live in
 
 ---
 
+## Issue #2 — Mid-function call_by_address targets not registered (2 sites)
+
+**Status:** open, audit-surfaced
+**Date opened:** 2026-05-12
+**Manifestation of:** psxrecomp-v4 ISSUES.md Issue #5 (mid-func split
+dispatch miss — platform bug class)
+
+### Symptom
+
+Phase B2 audit surfaced 2 mid-function continuations called via
+`call_by_address(cpu, 0xX); return;` from inside `func_800905DC` that
+are NOT registered in `SCUS_942.36_dispatch.c`:
+
+| Target       | Status                                                |
+|--------------|-------------------------------------------------------|
+| `0x800905E4` | mid-function continuation, missing from dispatch      |
+| `0x80090600` | mid-function continuation, missing from dispatch      |
+
+At runtime, calls to these addresses fall through dispatch-table
+binary-search → `dirty_ram_dispatch` (text isn't dirty) →
+`psx_unknown_dispatch` (log/abort).
+
+### Impact
+
+Whatever control flow `func_800905DC` produces via these mid-func
+splits never executes correctly. We don't yet know what feature this
+function is responsible for. Fix at platform level (psxrecomp-v4
+Issue #5) will close this automatically on next regen.
+
+### Tomba GTE coverage findings (also surfaced by B2)
+
+The `gte_audit` reports **8 missing `gte_execute` + 21 missing
+LWC2/SWC2 emits** in Tomba's text segment. Cluster at
+`0x8007C800..0x8007CD00` (likely a single 3D-math function) + 3
+isolated sites at `0x80077458`, `0x8007E674`, `0x800805F4`. Either
+discovery gap or emit gap. Could affect 3D rendering / gameplay
+visuals. See psxrecomp-v4 ISSUES.md Issue #4 for analogous BIOS
+findings — same investigation pattern applies.
+
+---
+
 ## Issue #1 — FMVs render at 1/4 size, anchored to upper-left
 
 **Status:** fixed in `psxrecomp-v4` `feature/fmv-followup`
