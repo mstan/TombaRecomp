@@ -115,6 +115,75 @@ underscore).
 
 ---
 
+## Issue #5 — OPTIONS → black screen is a memcard-WRITE SIO stall
+
+**Status:** root-caused 2026-05-13 on `options-and-newgame`.
+**Connects:** prior memcard memos (`phase4_card_chain_real_structure`,
+`phase4_audit_2026_04_28`).
+
+### Diagnosis chain
+
+1. In OPTIONS-black, `gpu_frame_dump frame=N` shows only **11 GP0
+   commands per frame** — all environment-setting (texpage,
+   drawarea, drawoffset, etc.) + one fill-rect + four NOPs.
+   **Zero draw primitives.** Tomba's OPTIONS state is clearing the
+   back buffer and drawing nothing.
+2. `fn_entry_dump` (8000 entries over 31 VBlanks) shows the hot
+   function is `0x8006B4EC` (2575 calls = ~83/frame). Reading it
+   in `generated/SCUS_942.36_full.c:244638`: it reads PSX Timer 1
+   value (MMIO `0x1F801120`) and Timer 2 (`0x1F801128`). This is a
+   timeout/timer poll.
+3. The caller `func_800695C4` (`generated/SCUS_942.36_full.c:238133`)
+   wraps it in a poll loop reading `halfword[mem[0x80097574]+4]`.
+   `mem[0x80097574] = 0x1F801040` — that's the **SIO0 register
+   base**, and offset +4 is `JOY_STAT`. The mask `& 0x0001` is the
+   TX-ready bit. So the OPTIONS state is doing SIO transfers and
+   waiting on TX_RDY with a timer timeout.
+4. `sio_state` confirms heavy SIO traffic (~334 TX writes/sec) but
+   no progress: `mc_max_state: 17`. State 17 in our memcard state
+   machine is **MC_WRITE_ACK1** (`runtime/src/sio.c:785`). Tomba is
+   **WRITING to memcard** — almost certainly saving OPTIONS
+   settings on entry to the OPTIONS screen.
+5. State machine advanced 0 → 1 → … → 17 then stuck. Never reached
+   MC_WRITE_ACK2 (state 18). Meanwhile sio_ctrl = 0x0000 (SIO de-
+   selected by the game). Game gave up on the WRITE after reaching
+   ACK1.
+
+### Why it stalls
+
+Our `MC_WRITE_CHK` → `MC_WRITE_ACK1` transition writes `rx = 0x00,
+SIO_STAT_ACK |= 1` (runtime/src/sio.c:769-771). Then on the next TX
+byte we'd transition to `MC_WRITE_ACK2` returning `rx = 0x5C`.
+
+But Tomba doesn't send that next TX byte. It either:
+- Reads our rx byte (0x00), interprets it as wrong, aborts;
+- Or hits its timeout (Timer 1/2 check in func_8006B4EC) and aborts;
+- Or its post-WRITE-CHK protocol expects a specific ack sequence we
+  don't deliver in the right cycle window.
+
+Same family as memo `phase4_card_chain_real_structure` (chain-reads
+stalled at byte 11/16 area for similar SIO byte-interleaving
+mismatches).
+
+### Forward path
+
+1. Read Tomba's WRITE handler (caller of `func_800695C4` that
+   eventually triggers the memcard WRITE sequence) — find the
+   post-CHK byte sequence it expects.
+2. Compare against `runtime/src/sio.c` MC_WRITE_ACK1 / ACK2 / END
+   responses. Look for byte-value mismatch, cycle-timing mismatch,
+   or missing intermediate state.
+3. Reference Mednafen / Beetle's memcard WRITE implementation in
+   `beetle-psx/mednafen/psx/sio.cpp` for the canonical response
+   sequence + timing.
+4. Fix in `runtime/src/sio.c`, verify by entering OPTIONS and
+   checking that mc_max_state advances past 17 and a draw primitive
+   eventually appears in `gpu_frame_dump`.
+
+Estimated effort: 1-3 hours of focused SIO protocol comparison.
+
+---
+
 ## Issue #3 — Title-screen cluster: attract / NEW GAME / OPTIONS / menu glyphs
 
 **Status:** open, observed 2026-05-13
