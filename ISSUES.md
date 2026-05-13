@@ -5,6 +5,96 @@ Game-specific issues. Framework-side issues live in
 
 ---
 
+## Issue #4 — FMV plays at ~6.7 fps (target ≥15) — IRQ-rate limited
+
+**Status:** root-caused 2026-05-13; fix in progress on `tomba-in-game`.
+**Branch:** `tomba-in-game`
+
+### Symptom
+
+Tomba FMVs (Sony splash, Whoopee Camp logo, intro) play with correct
+colors and audio at correct rate, but video updates at ~6.7 fps
+(measured directly — see "Diagnostic chain" below). Target for PSX
+FMV is 15-30 fps depending on game; even the most conservative
+target is more than 2× faster than what we deliver.
+
+### Diagnostic chain
+
+1. `mdec_state` shows full 280-macroblock decodes happening for each
+   FMV frame. MDEC itself is correct.
+2. `mdec_trace` cmd_begin events with command type DECODE happen
+   every **9-10 VBlanks** (= ~6.7 fps at 60Hz). Confirmed via
+   `tools/_mdec_pace.py`.
+3. `fn_entry_dump` over a 5-VBlank window shows two functions
+   dominate ~50% each (`0x80066FEC` + `0x8001EFE8`): 15,000 calls
+   each in 5 VBlanks = ~360k calls/sec total. This is a **tight
+   polling loop** in Tomba's FMV player.
+4. Reading the recompiled C: `func_8001F1C0` block_8001F2FC is a
+   classic `do { ret = func_8001EFE8(queue_ptr); } while (ret == 0);`
+   busy-wait. Each iteration consumes ~30 PSX cycles (= ~5.4ms of
+   per-VBlank cycle budget = ~32% of a VBlank).
+5. `func_80066FEC` is the inner state-machine check on a queue
+   element. Queue base = `0x800D7188`, 32-byte stride, counter at
+   `0x800A188C`, base ptr at `0x800A326C`. Element offset 0 is a
+   halfword state field. Function returns the "consumed" path only
+   when state == 1 (rare) or state == 2 (the trigger).
+6. `wtrace` on the queue range (tools/_wtrace_state.py) shows
+   state-transition histogram over 3 sec: `{3: 160, 0: 175, 2: 20,
+   4: 20}`. **State=2 writes happen 20 times in 3 sec = exactly
+   6.7 Hz, matching the FMV rate.** Each state=2 write unblocks one
+   FMV frame.
+7. The state=2 writer's RA is `0x80068824`. Reading
+   `generated/SCUS_942.36_full.c` shows this is `func_8006877C`
+   block_80068824 — return point from a `jalr cpu->gpr[2]`. The
+   function is the **BIOS interrupt dispatcher**: reads a 7-bit
+   pending-IRQ mask from `0x800974DC` and iterates handlers at
+   `0x800974E0` (4-byte stride per bit, classic IRQ chain layout).
+8. So state=2 is written by **one of the registered IRQ handlers**.
+   At 6.7 Hz, candidates are MDEC-out DMA-done (one per FMV frame)
+   or CDROM sector-batch-done. Not VBlank (60 Hz). Not raw CDROM
+   (75/150 Hz).
+
+### Suspected additional contributor: cycle pacing is at ~60% of real
+
+Measured over 5 sec wall-clock:
+- VBlanks fired: 356 (= 71 Hz, ~18% over real PSX 60 Hz)
+- PSX cycles emitted: 103 M (= 20.6 M/sec, **61% of real PSX 33.87 M/sec**)
+- Cycles per VBlank: 289 k (vs real 565 k = 51% of real)
+
+So game-internal time runs at ~60% of real-PSX rate. Cycle-paced
+events (DMA completion, MDEC decode, etc.) all proportionally slow.
+Could combine with IRQ-rate issue to amplify the slowness — needs
+disentangling.
+
+### Forward path
+
+1. Identify exactly WHICH IRQ handler in the chain at `0x800974E0`
+   writes state=2 — narrow to MDEC-DMA-done vs CDROM-done etc. by
+   reading the chain entries' function pointers and matching against
+   known PSX IRQ handlers.
+2. Find why the source IRQ fires at 6.7 Hz when it should fire
+   faster. Most-likely candidates: (a) DMA channel 1 (MDEC out)
+   completion timing in `runtime/src/dma.c`, (b) cycle-pacing
+   amplifying delay because guest cycles tick at 60% real.
+3. Fix in `runtime/src/dma.c` and/or `runtime/src/psx_cycles.c`,
+   verify with `tools/_mdec_pace.py` (target: 0.250+ decodes/VBlank
+   = 15+ fps).
+
+### Tools added this session for this issue
+
+- `tools/_mdec_pace.py` — FMV decode-rate measurement
+- `tools/_fn_dump.py` — hot-function tally over fn_entry_dump
+- `tools/_wtrace_state.py` — state-field halfword-write filter
+- `tools/_wtrace_byte.py` / `_wtrace_value.py` — value-filtered wtrace
+- `tools/_dbg.py` — generic debug-server CLI (handles string vs int
+  field encoding correctly)
+
+These are gitignored (`tools/_*.py`) — keep them under that umbrella
+unless a tool becomes critical enough to promote (drop the leading
+underscore).
+
+---
+
 ## Issue #3 — Title-screen cluster: attract / NEW GAME / OPTIONS / menu glyphs
 
 **Status:** open, observed 2026-05-13
