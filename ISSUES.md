@@ -115,11 +115,124 @@ underscore).
 
 ---
 
-## Issue #5 — OPTIONS → black screen is a memcard-WRITE SIO stall
+## Issue #5 — OPTIONS → black screen
 
-**Status:** root-caused 2026-05-13 on `options-and-newgame`.
-**Connects:** prior memcard memos (`phase4_card_chain_real_structure`,
-`phase4_audit_2026_04_28`).
+**Status:** first divergence located 2026-05-13 on `options-and-newgame`.
+Initial memcard-WRITE theory below is **WRONG** (left as a cautionary
+record; see "Reset: state-comparison with beetle" at the bottom).
+
+### First-divergence finding (2026-05-13, late session)
+
+Per `F:\Projects\recomp-template\NES\PRINCIPLES.md` #3 (first-divergence
+debugging): extended `psx-beetle.exe` to accept `--disc <cue>` so it
+can boot Tomba alongside our runtime. Navigated both to OPTIONS.
+Beetle: renders the OPTIONS UI (MESSAGE FAST, SOUND STEREO, ADJUST
+SCREEN, CONFIG MENU). Our runtime: black screen.
+
+Diffed RAM 0x80090000..0x801F0000 (1.44 MB of game state) between
+the two via `tools/_first_divergence.py`. **First diverging byte:**
+
+| address      | runtime | beetle |
+|--------------|---------|--------|
+| `0x80090C9C` | `0x00`  | `0x03` |
+
+All bytes before differ in 0; total differing bytes downstream: 122k.
+
+### Trace of the writer in static code: NOT FOUND
+
+The address is read at offset `+0xC9C` (= 3228) from a 0x80090000
+base by many static functions (grep `read_byte(... + 3228)` finds 13
+sites in `generated/SCUS_942.36_full.c`). **No corresponding writes
+in static generated C** — grep for `write_byte/half/word(... + 3228)`
+returns zero. Wtrace on the runtime over a 3-second window with
+range narrowed to `0x80090C9C..0x80090CA0` also captured zero writes.
+
+Implication: the writer is either
+- **In overlay code** (RAM-installed, run by `dirty_ram_interp`), OR
+- A pointer-chain store where the effective address resolves to
+  `0x80090C9C` but the static C uses a base register that we can't
+  easily grep for.
+
+Either way the OPTIONS state never gets its bit-3 set in `*0x80090C9C`,
+and the OPTIONS draw code (reading +0xC9C) sees 0 and takes the
+"don't draw" branch. Black screen.
+
+### Reset: state-comparison with beetle (process-of-record)
+
+The work above followed the right method (state comparison, first
+divergence, no theorizing). Earlier in the session I went off on
+multiple wrong theories (MDEC IDCT, stuck animation, memcard WRITE).
+Those notes are removed/struck below to keep the record clean. The
+finding above stands and is the correct starting point.
+
+### Forward path next session
+
+1. Relaunch both runtimes cleanly, navigate both to title screen,
+   arm wtrace on `0x80090C9C..0x80090CA0` in our runtime BEFORE
+   pressing the OPTIONS-entry input.
+2. Press OPTIONS-entry. Even though our path ends black, the writer
+   for `0x80090C9C` may still be invoked once at state-transition
+   time before failing. Capture its PC + RA.
+3. If no write captured on our side, the divergence is upstream of
+   the writer — a CONDITION that's true on beetle but false here.
+   Trace that condition by reading `mem_words` at the test address
+   from each reader's compare.
+4. Beetle as cross-reference is useful but FRAGILE — minimize debug
+   queries against it (it appears to crash or wedge under heavy
+   tooling). Use it for one-shot snapshots, not sustained probing.
+
+### (Original — INCORRECT — memcard-WRITE theory below, kept for record)
+
+---
+
+## Issue #6 — Runtime hard-freezes ("Not Responding") under heavy debug queries
+
+**Status:** root-cause hypothesized 2026-05-13. Independent of any
+game bug — affects both `psx-runtime.exe` AND `psx-beetle.exe`.
+
+### Symptom
+
+Both binaries' SDL windows enter Windows-level "Not Responding" state
+after extended sessions, with partial framebuffer corruption visible
+(top half = last rendered scene, bottom half = garbage from
+uninitialised memory). Reproducible by issuing repeated heavy debug
+queries.
+
+### Root-cause hypothesis
+
+Debug server runs on the **main thread** — called from
+`sdl_vblank_present` in `runtime/src/main.cpp` via
+`debug_server_poll()`. Heavy queries (e.g. `wtrace_dump count=200000`
+allocates ~100 MB JSON buffer + sends over TCP; `fn_entry_dump
+count=16384` similar; `gpu_frame_dump count=8192` smaller but still
+non-trivial) block the main thread for seconds. During that block:
+- SDL event pump doesn't run → Windows marks the window non-responsive
+- Audio buffer underruns or queues up
+- VRAM presentation stalls — only the top half of the framebuffer
+  may have been updated when the stall hit
+
+Beetle has the same architecture (`beetle_main.cpp` calls
+`beetle_debug_server_poll` per frame).
+
+### Forward path (when next addressed)
+
+Three options, in increasing order of correctness:
+1. **Cap query sizes on the SERVER side.** wtrace_dump count default
+   200000 is too high; cap at ~1024 and require explicit
+   pagination. Easy patch.
+2. **Stream large dumps across frames.** Server splits a big dump
+   into per-frame chunks, returns "continue" tokens. Medium effort.
+3. **Move debug server to its own thread.** Correct fix; SDL thread
+   never blocks on debug work. Requires read-side synchronisation
+   on ring buffers (currently single-writer/single-reader assumed).
+   Larger refactor.
+
+### Workaround (today)
+
+Avoid bulk queries: prefer `count<=2000` for wtrace_dump /
+fn_entry_dump, query small RAM windows (≤16 KB) one at a time
+instead of `read_ram len=0x200000`.
+
 
 ### Diagnosis chain
 
