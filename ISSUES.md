@@ -68,6 +68,50 @@ threshold, then wire a config-gated override
 (`game.toml [debug] disable_attract = true` → framework hooks the
 incrementer to pin to 0).
 
+### Fuzzy-glyph investigation progress (2026-05-13)
+
+Repro screenshot: `audit_notes/title_fuzzy_repro_2026_05_13.png`.
+"NEW GAME → LOAD" renders with visible **vertical stripes** (every
+other pixel column in wrong palette/color). "PRESS [START] or X
+BUTTON" (blinks on/off — animation, not a bug) and the static
+"© 1997 WHOOPEE CAMP" line render clean using the same font.
+
+GP0 opcode totals at title (lifetime; ~6 min uptime):
+
+| Opcode | Count | Meaning                                  |
+|--------|-------|------------------------------------------|
+| 0x00   | 52195 | NOP                                      |
+| 0x01   | 8945  | clear cache                              |
+| 0x02   | 2471  | fill rect (back-buffer clears)           |
+| 0x28   | 296   | mono quad opaque                         |
+| 0x2C   | 13613 | **textured quad opaque blended**         |
+| 0x30   | 360   | shaded tri opaque                        |
+| 0x38   | 180   | shaded quad opaque (Gouraud)             |
+| 0x64   | 36944 | **textured rect var-size opaque blended**|
+| 0x65   | 4367  | textured rect 16×16                      |
+| 0xA0   | 8632  | CPU→VRAM copy (texture/CLUT uploads)     |
+| 0xE1-6 | ~2799 | state-setting (texpage, twindow, etc.)   |
+
+`capture_quads` on a stepped frame returned 0 entries — menu text
+is **not** drawn via shaded quads (0x38). It's almost certainly
+0x64 (textured rects) since that's the dominant primitive.
+
+**Blocker for further investigation:** no per-frame GP0 command
+ring buffer in the runtime. Lifetime opcode counts don't tell us
+which `0x64` calls draw the menu vs the press-start blink vs the
+copyright text. Two paths:
+
+1. **Add a per-frame GP0 capture ring** to `runtime/src/gpu.c` —
+   captures last N frames of (opcode, header, payload) plus the
+   per-primitive draw position. Then `gpu_frame_dump frame=N`
+   returns the stream. Real framework work (~1-2 hours). Persistent
+   and reusable across all future GPU bugs.
+2. **Build `psx-beetle` for TombaRecomp** so a side-by-side title
+   capture shows what NEW GAME / LOAD should look like. Framework
+   already supports the target via `runtime/runtime.cmake`; need to
+   add a `psx-beetle` invocation in `TombaRecomp/CMakeLists.txt`.
+   Faster (~30m) but doesn't help future per-frame GPU debugging.
+
 ---
 
 ## Issue #2 — Mid-function call_by_address targets not registered (2 sites)
