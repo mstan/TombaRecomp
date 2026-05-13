@@ -1,24 +1,26 @@
 $ErrorActionPreference = 'Stop'
 
-$Root = Split-Path -Parent $PSScriptRoot
+$Root      = Split-Path -Parent $PSScriptRoot
 $Framework = Join-Path $Root 'psxrecomp-v4'
-$Tool = Join-Path $Framework 'recompiler/build/psxrecomp-game.exe'
-$Exe = Join-Path $Root 'tomba/SCUS_942.36'
-$Seeds = Join-Path $Root 'seeds/ghidra_funcs.txt'
-$OutDir = Join-Path $Root 'generated'
+$Tool      = Join-Path $Framework 'recompiler/build/psxrecomp-game.exe'
+$Config    = Join-Path $Root 'game.toml'
 
 if (!(Test-Path $Tool)) {
     throw "psxrecomp-game not built: $Tool"
 }
-if (!(Test-Path $Exe)) {
-    throw "Tomba EXE not found: $Exe"
+if (!(Test-Path $Config)) {
+    throw "game.toml not found: $Config"
 }
 
-New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
-
-$Args = @($Exe, '--strict', '--out-dir', $OutDir)
-if (Test-Path $Seeds) {
-    $Args += @('--seeds', $Seeds)
+# Going-forward: config-driven invocation. The TOML describes exe, seeds,
+# out_dir — see psxrecomp-v4/docs/config_schema.md.
+Push-Location $Root
+try {
+    & $Tool --config $Config
+    if ($LASTEXITCODE -ne 0) {
+        throw "psxrecomp-game exited with code $LASTEXITCODE"
+    }
 }
-
-& $Tool @Args
+finally {
+    Pop-Location
+}

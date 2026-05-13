@@ -81,10 +81,11 @@ pwsh tools/regen.ps1
 
 # Build the runtime with Tomba's recompiled code linked in.
 cmake -S . -B build -G "Unix Makefiles"
-cmake --build build --target tomba-runtime
+cmake --build build --target psx-runtime
 
-# Run.
-./build/tomba-runtime.exe
+# Run. --game game.toml is required to boot Tomba; without it the binary
+# falls back to a discless BIOS boot.
+./build/psx-runtime.exe --game game.toml
 ```
 
 The runtime is built from the framework's shared runtime sources plus the freshly-generated `SCUS_942.36_*.c`. The result is a native binary that boots SCPH1001 BIOS → loads Tomba from your disc image → runs the game's MIPS-translated-to-C natively.

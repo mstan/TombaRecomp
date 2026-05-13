@@ -18,3 +18,26 @@ strict = true
 debug_port = 4470
 window_title = "TombaRecomp"
 memcard_dir = "saves"
+
+# ── Audit-specific config (consumed by psxrecomp-v4/tools/*.py and tests) ──
+#
+# Schema mirrors psxrecomp-v4/bios/SCPH1001.toml. Paths are relative to the
+# TombaRecomp project root.
+
+[audit]
+# Dynamic discovery — no Ghidra function-starts file for Tomba; the
+# recompiler discovers functions by walking control flow from entry_pc.
+# function_starts left absent on purpose.
+
+# Code region: Tomba's text segment is contiguous from load_address for
+# text_size bytes. Single region keeps L1/coverage audits scoped to code.
+[[audit.regions]]
+name        = "Text"
+rom_start   = "0x800"          # offset within the PS-X EXE file (skip header)
+rom_end     = "0x88800"        # rom_start + text_size
+vaddr_base  = "0x80010000"
+
+# Address normalization: just KSEG masking. No remaps (game loads
+# contiguously at vaddr_base; no kernel-style relocation).
+[audit.normalize]
+kseg_mask = "0x1FFFFFFF"

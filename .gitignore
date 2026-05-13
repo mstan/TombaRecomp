@@ -45,3 +45,7 @@ starvation_dump.jsonl
 /*.json
 /*.bmp
 /*.bin
+/*.png
+
+# Python caches
+__pycache__/

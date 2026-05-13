@@ -1,4 +1,4 @@
-"""Pause tomba-runtime when the current display matches a reference BMP.
+"""Pause psx-runtime when the current display matches a reference BMP.
 
 This is a development guard for menu testing. It does not write guest RAM and
 does not alter game control flow; it only uses screenshot_file + pause through
