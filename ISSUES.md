@@ -166,6 +166,58 @@ proportions.
 4. Fix in `recompiler/src/code_generator.cpp` (if recompiler bug),
    regen Tomba, rebuild, verify with the same per-frame dump.
 
+### Root cause UPGRADE — stuck menu animation, not a draw bug (2026-05-13)
+
+Trace completed. Writer is at **RAM 0x800E91A0** (overlay code in
+Tomba's heap, beyond the 0x80098000 text-end, run by the dirty-RAM
+interpreter, NOT statically recompiled). It's just a POLY_FT4
+packet builder — it copies `$s2`→packet.x0, `$s1`→packet.x1 and
+writes `code=0x2C`. The writer itself is correct.
+
+The CALLER at `0x800E9000+` does the actual setup. Sequence:
+
+1. Reads the glyph-width-table at 0x800E9348 (5-byte stride; the
+   width byte at offset 2 is **uniformly 0x08** — all glyphs are
+   8 px wide).
+2. Calls `func_800229CC` (a statically-recompiled Tomba helper at
+   `generated/SCUS_942.36_full.c:38775`) TWICE per glyph:
+   `func_800229CC($a0=glyph_index_or_phase, $a1=0x5A)` → returns
+   `($v0)` = `(int16_t)mem[0x8007DB88 + (a0<<1)] * 0x5A * 16) >> 16`.
+   That's a sin/cos × scale-factor lookup — a **2D-transform**
+   computation.
+3. Negates the return: `$s2 = -$v0` (first call), `$s1 = -$v0`
+   (second call).
+
+So `$s1` and `$s2` come from a LUT-driven transform. With a
+non-trivial scale they'd produce a full 8-pixel character width;
+with the scale at near-zero they collapse. **We observe widths
+{0, 1, 3, 4, 5, 5} stable across 12 consecutive captured frames**
+(see `tools/_2c_track.py`) — confirming a roll-in/zoom animation
+**stuck at near-collapsed**, not a recompiler bug in the writer or
+the packet copy.
+
+**This is the same family as Issue #3.A, .B, .C** — the title-screen
+menu state machine is wedged. The attract counter doesn't advance,
+NEW GAME goes black (next FMV not triggered), OPTIONS goes black +
+soft stall, and the menu-text roll-in is pinned at frame 0. All
+four symptoms likely have a single upstream cause: a menu-tick or
+state-advance that should fire every frame but doesn't.
+
+**Next-session path:**
+
+1. Find the writer of the LUT input at `0x8007DB88` (or whatever
+   index drives this animation). `wtrace_range` over a window that
+   includes it during a stepped frame; the writer's PC will sit in
+   the menu state-machine.
+2. Cross-reference with what's NOT advancing on title (the attract
+   counter family — Issue #3.E). Likely the same uncalled function.
+3. Fix the missing call site (recompiler dispatch miss / dirty-RAM
+   interpreter gap / unsupported opcode in the menu-tick path).
+
+The framework piece is done — `gpu_frame_dump` will let us verify
+the fix immediately (widths should go {0,8,8,8,8,8} once animation
+runs through frame 1).
+
 ---
 
 ## Issue #2 — Mid-function call_by_address targets not registered (2 sites)
