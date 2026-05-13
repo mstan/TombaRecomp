@@ -112,6 +112,60 @@ copyright text. Two paths:
    add a `psx-beetle` invocation in `TombaRecomp/CMakeLists.txt`.
    Faster (~30m) but doesn't help future per-frame GPU debugging.
 
+### Fuzzy-glyph root-cause shape established (2026-05-13, post-3cfcdab)
+
+Path 1 above shipped as commit `3cfcdab` in psxrecomp-v4
+`tomba-in-game`. Ring captures every GP0 command with frame stamp;
+`gpu_frame_dump frame=N` returns the per-frame stream.
+
+Using the new tool on a paused title frame (frame 3413, decoded by
+`tools/_2c_track.py`), the fuzzy menu text is **6 GP0(0x2C)
+textured-quad commands at Y=168** with **degenerate top-right
+vertices**. Pattern across 12 consecutive captured frames is
+**identical** (NOT animation):
+
+| Glyph | v1 (top-left) | v2 (top-right) | v3 (bot-left) | top_dx |
+|-------|---------------|----------------|---------------|--------|
+| 1     | (250, 168)    | (250, 168)     | (250, 184)    | 0      |
+| 2     | (249, 168)    | (250, 168)     | (249, 184)    | 1      |
+| 3     | (244, 168)    | (247, 168)     | (244, 184)    | 3      |
+| 4     | (240, 168)    | (244, 168)     | (240, 184)    | 4      |
+| 5     | (235, 168)    | (240, 168)     | (235, 184)    | 5      |
+| 6     | (230, 168)    | (235, 168)     | (230, 184)    | 5      |
+
+The texture U coords inside the same commands (e.g. U1=0x08, U2=0x10
+on glyph 1) are correct 8-pixel-wide character strides — texture
+math is right. **Only the vertex X-coords are wrong**: every
+glyph's `v2.x` equals the PREVIOUS glyph's `v1.x` (right edge of
+glyph N = left edge of glyph N-1), and the rightmost glyph has
+`v2 == v1` (zero-width top). Result: each quad collapses to a
+right-triangle covering the bottom-left half of the character box,
+adjacent characters' empty triangles abut → visible as the
+"vertical stripes" the user sees.
+
+Left-group quads (X=121-185, same frame, also GP0(0x2C)) render
+normal 8×16 rectangles. So the bug only affects the right
+sub-section — six characters fitting "LOAD!" / "NEW GAME"
+proportions.
+
+**Forward path to fix:**
+
+1. `wtrace_range` over the linked-list-packet RAM region while
+   stepping a single title-screen frame to capture the GP0(0x2C)
+   write site. (Find by reading the DMA ch.2 OTC linked-list head
+   in `dma.c` state.)
+2. From the writer PC, identify the function in
+   `generated/SCUS_942.36_full.c` that constructs the menu-text
+   GP0 packet.
+3. Compare its v2.x computation against the v1.x / v4.x ones. The
+   bug is either:
+   - A recompiler mis-translation (a register that should hold W
+     instead holds 0/wrong value at the v2.x store).
+   - A Tomba quirk relying on real-PSX edge behavior we don't
+     replicate (less likely; would have manifested broadly).
+4. Fix in `recompiler/src/code_generator.cpp` (if recompiler bug),
+   regen Tomba, rebuild, verify with the same per-frame dump.
+
 ---
 
 ## Issue #2 — Mid-function call_by_address targets not registered (2 sites)
