@@ -5,6 +5,71 @@ Game-specific issues. Framework-side issues live in
 
 ---
 
+## Issue #3 — Title-screen cluster: attract / NEW GAME / OPTIONS / menu glyphs
+
+**Status:** open, observed 2026-05-13
+**Branch:** `tomba-in-game`
+
+### Symptoms (user-confirmed on `psx-runtime` port 4470, Tomba boot)
+
+- **A.** Title menu navigation between NEW GAME ⇄ LOAD works (D-pad
+  reaches and returns from the LOAD GAME screen cleanly).
+- **B.** **NEW GAME → black screen.** Expected: another FMV
+  (game-intro / story setup). Suspected related to FMV pipeline
+  (see Issue #1) or a missing CDROM seek for the post-title cinematic.
+- **C.** **OPTIONS → black screen + soft stall.** Game appears alive
+  (frame counter advances) but never renders the OPTIONS UI.
+- **D.** **Title menu glyph text ("NEW GAME / LOAD") renders fuzzy /
+  garbled** while surrounding logo + "© 1997 WHOOPEE CAMP" text
+  render clean. Same family as `psxrecomp-v4/ISSUES.md` #3
+  (BIOS-shell glyph corruption) — likely shared discovery-gap for
+  no-prologue GTE/COP2 leaves used by the menu's glyph upload path.
+- **E.** **Attract demo returns to play after the title screen sits
+  idle.** Disables debugging because every multi-minute investigation
+  loses the menu state. Prior sessions had an `extras.c`-shaped
+  override to suppress this for development; the override is gone
+  (not present in either repo's working tree or git history).
+
+### Investigation progress (2026-05-13, no fix yet)
+
+Two-snapshot RAM diff against full Tomba RAM while idle on title
+identified four frame-rate-tick state words in BSS:
+
+| Address      | Writer RA    | Pattern                       |
+|--------------|--------------|-------------------------------|
+| `0x80090DB4` | `0x80061490` | counter; `func_80061480` sets it to `func_80067C30()+240` every frame → *deadline-in-future* refresh, never fires (not the attract trigger) |
+| `0x80090D08` | `0x8005F8A4` | toggles `0x80↔0xC0` per frame → display double-buffer flag |
+| `0x800974D4` | `0x8006E47C` | per-frame counter, doesn't reset on pad input |
+| `0x8009B4DC` | `0x8006AC20` | per-frame counter, doesn't reset on pad input |
+
+None of these is the attract-idle trigger. Cross and Right pad
+presses via debug-server `press buttons=...` did not reset any of
+them. **Suspected real attract counter is byte/halfword-sized
+(missed by 32-bit word diff) or in a region not yet diffed.**
+
+### Side observation worth verifying
+
+`press buttons=0xBFFF` (Cross) and `buttons=0xFFDF` (Right) issued
+from the debug server wedged the runtime to a black screen even
+from a stable title — but the same keys typed at the SDL window
+navigate menus cleanly. Either the inverted-bit convention is
+wrong for this debug server build, or `handle_press` is not
+asserting the buttons on enough consecutive frames. Worth fixing
+before more input-driven probing — every investigation that needs
+to drive menus depends on it.
+
+### Recommended next-session approach (per `feedback_use_ring_buffer`)
+
+Do **not** poll + diff. Free-run on title, let attract fire
+naturally, then query the always-on `fn_entry` ring backwards from
+the attract-transition frame to find the trigger callsite. From
+there read the generated C to find the idle-counter address +
+threshold, then wire a config-gated override
+(`game.toml [debug] disable_attract = true` → framework hooks the
+incrementer to pin to 0).
+
+---
+
 ## Issue #2 — Mid-function call_by_address targets not registered (2 sites)
 
 **Status:** open, audit-surfaced
