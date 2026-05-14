@@ -117,9 +117,80 @@ underscore).
 
 ## Issue #5 — OPTIONS → black screen
 
-**Status:** first divergence located 2026-05-13 on `options-and-newgame`.
-Initial memcard-WRITE theory below is **WRONG** (left as a cautionary
-record; see "Reset: state-comparison with beetle" at the bottom).
+**Status:** **PARTIAL FIX 2026-05-13.** One root-cause fixed (GP1(0x10)
+param 7). User confirms OPTIONS still black after the fix — at least
+one more divergence remains downstream. Multi-bug issue.
+
+### Fix #1 (applied, kept in tree): GP1(0x10) subcommand 7
+
+`FUN_8005E694` (Tomba's `ResetGraph`) calls `FUN_80061620` to detect
+the GPU video mode. `FUN_80061620` writes `GP1(0x10000007)` ("Get GPU
+Info", subcommand 7 = GPU version) and reads back GPUREAD; if the low
+24 bits equal 2 it returns 3 (the byte stored at `0x80090C9C`).
+
+Our `gp1_get_info` treated case 7 as "leave latch unchanged" (a
+mistaken DuckStation-derived note in the source) so the check failed
+and `0x80090C9C` was set to 0 instead of 3. Mednafen-psx
+(`beetle-psx/mednafen/psx/gpu.cpp:1212`) returns `2` hardcoded for
+subcommand 7 — the GPU-version constant real hardware returns. We
+now do the same, plus subcommand 8 = 0 (also matches mednafen), and
+mask the subcommand with `& 0x0F` instead of `& 0x07` to match
+mednafen's decode.
+
+Verified on fresh boot:
+
+| address      | runtime before | runtime after | beetle |
+|--------------|----------------|---------------|--------|
+| `0x80090C9C` | `0x00`         | `0x03`        | `0x03` |
+
+### Attempted Fix #2 (REVERTED): MC_WRITE 3-byte tail
+
+Theory: the MC_WRITE state machine sends an extra byte after the
+checksum compared to mednafen's 3-byte tail, causing Tomba to abort.
+Tried changing `MC_WRITE_CHK` to reply 0x5C and collapsing the 4
+post-CHK states into 3.
+
+**Result: regressed the protocol.** Pre-fix `mc_max_state = 17` =
+`MC_WRITE_END` (write was completing). Post-attempt `mc_max_state =
+15` = `MC_WRITE_ACK1` (write stalls earlier). Reverted to original
+4-state tail (0x00 / 0x5C / 0x5D / result). The original protocol
+shape is correct; OPTIONS-black is NOT a memcard-write bug. The
+earlier handoff's "stuck at MC_WRITE_ACK1" was a state-index
+miscount — write actually completes at state 17 = `MC_WRITE_END`.
+
+### Remaining divergences at OPTIONS state (post-Fix #1)
+
+Side-by-side diff with both runtimes at OPTIONS:
+
+| address      | runtime | beetle | meaning                              |
+|--------------|---------|--------|--------------------------------------|
+| `0x80090CAC` | `0x80`  | `0xC0` | first divergence at OPTIONS state   |
+| `0x80090DA0` | `0x00`  | `0x02` | libgs GPU-command-queue write index  |
+
+`0x80090CAC` is INPUT to `PutDrawEnv` (Tomba's libgs draw-env config,
+function `FUN_8005F1C8`). The 5C-byte DRAWENV structure is memcpy'd
+from a caller-supplied source. The fact that the source differs means
+Tomba is constructing a DIFFERENT DRAWENV on our runtime than on
+beetle — a divergence even further upstream.
+
+`0x80090DA0` is the WRITE index of a circular GPU-command queue at
+`0x80090DA0`/`DA4`. Beetle queued 2 entries (then consumed both); ours
+queued 0 — confirming Tomba's OPTIONS UI never runs the queue.
+
+### Forward path
+
+1. Find what gates Tomba's OPTIONS draw routine entry. The runtime's
+   hot function during OPTIONS-black is `0x8006B4EC` (Timer 1/2 poll
+   loop) — Tomba is poll-waiting on something via `func_800695C4`.
+2. Identify what flag/condition Tomba reads to decide "OK to draw
+   OPTIONS UI". Trace that flag back to its writer; find why our
+   runtime doesn't set it.
+3. Possible candidates: a sound-init state, a specific GPU-state
+   completion, an IRQ delivery, a controller-state condition. Use
+   Ghidra to find the readers of `0x80090DA0` and walk back to the
+   gating condition.
+
+### Original first-divergence finding (2026-05-13, late session) — KEPT FOR HISTORY
 
 ### First-divergence finding (2026-05-13, late session)
 
@@ -185,10 +256,108 @@ finding above stands and is the correct starting point.
 
 ---
 
-## Issue #6 — Runtime hard-freezes ("Not Responding") under heavy debug queries
+## Issue #6 — Runtime hard-freezes ("Not Responding")
 
-**Status:** root-cause hypothesized 2026-05-13. Independent of any
-game bug — affects both `psx-runtime.exe` AND `psx-beetle.exe`.
+**Status:** **FIXED 2026-05-13.** Root cause was the SDL accelerated
+renderer (`SDL_RENDERER_ACCELERATED`) hanging on the GPU-driver side
+during/after heavy main-thread stalls. Both `runtime/src/main.cpp`
+and `runtime/src/beetle_main.cpp` now use `SDL_RENDERER_SOFTWARE`
+exclusively. Verified under stress: 5× consecutive
+`wtrace_dump count=200000` (≈6.2s each, 31s total of cumulative
+main-thread block) without a single freeze. Previously the same
+query would wedge the SDL main thread mid-frame.
+
+### Root cause (2026-05-13)
+
+Two pieces of evidence eliminated the memory-pressure hypothesis:
+1. Beetle froze on plain title-screen idle while its RSS stayed at
+   exactly 90 MB (no growth at all). Process alive, socket dead.
+2. The frozen-window screenshot showed top half = current frame's
+   render, bottom half = stale/garbage pixels — a mid-frame tear,
+   consistent with `SDL_RenderPresent` hanging in the GPU driver
+   partway through the present.
+
+Both binaries share the SDL+TCP scaffolding. The accelerated
+renderer is the only shared component that can hang on driver-side
+operations. Switching both to the software path eliminates the
+driver dependency. CPU cost is a few percent; well worth eliminating
+the freeze.
+
+### Note on the runtime memory growth
+
+`psx-runtime.exe` does grow from ~245 MB to ~400 MB over ~15 minutes
+of idle. This is NOT a malloc/free leak — it's Windows committing
+pages of the always-on diagnostic ring buffers as they're written
+for the first time (BSS-reserved arrays in `gpu.c::gp0_ring[1<<20]`,
+`spu.c::s_events[1<<20]`, `debug_server.c::s_wtrace/s_fn_entry/
+s_fn_exit/s_mmio_trace[1<<18]`, plus the dirty_ram_interp logs).
+Demand-paging not a leak; plateaus once every ring has wrapped at
+least once. Independent of the freeze.
+
+If memory footprint becomes an issue, cut ring caps by 4x — would
+save ~150 MB of always-on committed memory without losing too much
+trace history. Not necessary for the freeze fix.
+
+### Original freeze observation (2026-05-13 17:14:04)
+
+### Reproduction this session
+
+Both psx-runtime and psx-beetle launched 16:41:55 (Tomba via `--game
+game.toml`). User navigated to OPTIONS. Both runtimes sat idle in
+their respective OPTIONS states (beetle UI rendered, runtime black)
+for ~35 minutes. At 17:14:04 the `freeze_check` poll TimedOut
+(connect succeeded but read of response never returned). Subsequent
+polls (every 30s) showed `ConnectionRefusedError` — the listening
+socket itself went down.
+
+**Process state at freeze:**
+- Process alive (PID 10584), `353,776 K` resident memory (had been
+  `267 MB` at 16:30, so grew `~86 MB` over ~30 min of OPTIONS-black
+  idle).
+- Last responsive poll (17:13:34): frame=23451 (60 Hz steady),
+  hot=`0x8006B4EC` (Tomba's SIO timeout-poll loop),
+  `mc_max_state=15`, `tx_writes` had been growing constantly into the
+  hundreds of thousands.
+- SDL window title showed "Not Responding" per user. Classic
+  main-thread block.
+
+### Strong correlation: OPTIONS-black state → freeze
+
+User comment: "I notice [freezes] far more when we go into something
+like a bad state. Your large queries seem probable to me." This
+session's reproduction confirms it: the freeze hit during sustained
+idle in the OPTIONS-black state with the runtime poll-flooding SIO
+retries. Not during any heavy debug query.
+
+Likely classes of root cause (state evidence still missing):
+1. **Memory growth from an unbounded structure.** 86 MB over 30 min
+   = 2.9 MB/min. Could be the card_txn ring, the wtrace mmio_trace
+   pre-ring tail, or some other accumulating diagnostic structure.
+2. **Some retry-loop side effect** — Tomba's tight SIO retry path
+   may accumulate state (e.g. queued IRQs, dirty_ram blocks).
+3. **Specific path inside the SIO IRQ delivery / chain walker** that
+   eventually overflows or wedges.
+
+### Forward path
+
+Practical action: fix Issue #5 (OPTIONS-black) first. The freeze is
+strongly correlated with sitting in that bad state. If OPTIONS renders
+properly, the runtime never enters the freeze-prone retry loop.
+
+Independently, identify the memory growth: at fresh boot, capture
+process memory and a snapshot of each ring's depth. Repeat at 5 min,
+10 min, 20 min while idle on title (NOT in OPTIONS-black). If memory
+grows on plain idle too, it's a leak; if only OPTIONS-black grows it,
+it's specific to the retry path.
+
+### Previous (handoff-era) hypothesis: heavy debug queries
+
+The earlier ISSUE notes hypothesized that bulk `wtrace_dump count=200000`
+or similar (allocating ~100 MB JSON envelopes) blocked the main
+thread. **This session's reproduction had NO heavy query active when
+the freeze hit** — only 30-second `freeze_check` polls (small ~8KB
+responses). So heavy queries can ALSO trigger freezes (separate
+manifestation) but are NOT the only path.
 
 ### Symptom
 
