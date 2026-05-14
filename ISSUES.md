@@ -258,14 +258,69 @@ finding above stands and is the correct starting point.
 
 ## Issue #6 — Runtime hard-freezes ("Not Responding")
 
-**Status:** **FIXED 2026-05-13.** Root cause was the SDL accelerated
-renderer (`SDL_RENDERER_ACCELERATED`) hanging on the GPU-driver side
-during/after heavy main-thread stalls. Both `runtime/src/main.cpp`
-and `runtime/src/beetle_main.cpp` now use `SDL_RENDERER_SOFTWARE`
-exclusively. Verified under stress: 5× consecutive
-`wtrace_dump count=200000` (≈6.2s each, 31s total of cumulative
-main-thread block) without a single freeze. Previously the same
-query would wedge the SDL main thread mid-frame.
+**Status:** **TENTATIVELY FIXED 2026-05-13** by switching the SDL
+renderer to OpenGL. Both `runtime/src/main.cpp` and
+`runtime/src/beetle_main.cpp` now call
+`SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl")` and create the
+renderer with `SDL_RENDERER_ACCELERATED`. Verified by running
+psx-runtime at idle for 11+ minutes / 40k+ frames without a stall
+— previously every freeze hit within ~90 seconds.
+
+### Investigation chain (be wary of re-running it the wrong way)
+
+This took multiple wrong turns before landing on the fix.
+
+1. **First hypothesis: GPU-driver hang in accelerated path.**
+   Original code was `SDL_RENDERER_ACCELERATED` with software
+   fallback. Switched to software-only — **DID NOT FIX**, freezes
+   continued. (Earlier commit `9eb4ab3` claimed this fixed it
+   based on a too-short stress test; that claim was wrong.)
+2. **Second hypothesis: memory pressure / leak.** Process grew
+   from ~245 MB to 400+ MB over time. Investigated — turned out
+   to be demand-paging of always-on diagnostic ring buffers
+   (~150 MB of static arrays committing pages as they fill).
+   Bounded, not a true leak. NOT the freeze cause.
+3. **Third hypothesis: exception storm / OPTIONS bad state.**
+   Captured 3.5 billion `exception_reentry_blocks` in one freeze
+   — real observation, was the symptom under the OPTIONS retry
+   loop. But beetle also froze without an exception storm
+   (different game engine), so the exception storm is a SYMPTOM
+   not the universal cause.
+4. **Fourth hypothesis: debug tooling itself.** Built with
+   `-DPSX_DEBUG_TOOLS=OFF` (no TCP server, no per-block recording,
+   no heartbeat thread). **Still froze.** Tooling is innocent.
+5. **The breakthrough — heartbeat thread in a separate thread**
+   (independent of the SDL main thread, so it survives stalls)
+   showed `psx_cycle_count`, `exc_reentry_blocks`, `dirty_ram_insns`
+   ALL stuck during a freeze. Not just frame_count — every guest-
+   side counter. That meant the recompiled CPU loop wasn't
+   running at all. **The freeze is in HOST code, not guest code.**
+6. **Bisection of host code.** Disabling SDL audio: still froze.
+   Disabling renderer entirely: didn't freeze BUT the game never
+   progressed past BIOS boot because libgs depends on the
+   renderer being live. So the no-render result didn't prove the
+   renderer; it just bypassed the workload.
+7. **The actual fix.** Switched renderer driver from software (GDI
+   backend) to OpenGL via `SDL_HINT_RENDER_DRIVER`. Game progresses
+   normally AND no freeze. Confirmed by running 11+ min past every
+   prior freeze point.
+
+### Why this had been intermittent and "got worse after the FMV fix"
+
+The FMV-speed fix (commit `b486c13`, switched VBlank pacing to
+cycle-based) raised guest cycle throughput from ~60% real-PSX
+rate to PSX-native. That increased the workload through MDEC, DMA,
+SPU, and the GPU command stream. The increased GDI present rate
+in the software renderer crossed a threshold that exposes a
+Windows-side GDI hang under load. Pre-fix the FMV ran slow enough
+to stay below the threshold.
+
+### Earlier-claimed software-renderer fix (commit 9eb4ab3) — superseded
+
+That commit's claim was based on a short stress test where freezes
+hadn't yet manifested. It's incorrect. The actual fix is the
+OpenGL switch, this commit. Leaving 9eb4ab3 in history; the
+narrative is corrected here and in the OpenGL commit.
 
 ### Root cause (2026-05-13)
 
