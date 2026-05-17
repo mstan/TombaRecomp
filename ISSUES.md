@@ -117,9 +117,31 @@ underscore).
 
 ## Issue #5 — OPTIONS → black screen
 
-**Status:** **PARTIAL FIX 2026-05-13.** One root-cause fixed (GP1(0x10)
-param 7). User confirms OPTIONS still black after the fix — at least
-one more divergence remains downstream. Multi-bug issue.
+**Status:** **FIXED 2026-05-17.** OPTIONS now renders and stays live.
+The final blocking issue was the runtime pad model answering DualShock
+configuration commands (`0x43`, `0x45`, `0x46`, `0x47`, `0x4C`, `0x4D`)
+as a plain digital pad (`0x41`). Tomba's SIO driver expects `0xF3`
+configuration replies so it can complete its controller object init.
+Fixed in psxrecomp-v4 `bd582d8` (`runtime: emulate DualShock config pad replies`).
+User confirmed OPTIONS, NEW GAME, save, and load all work after the fix.
+
+### Final fix (2026-05-17): DualShock configuration replies
+
+The always-on SIO and object-state rings showed OPTIONS-black and
+NEW GAME-black were the same failure class: Tomba's controller object
+at `0x8009B3A0` kept cycling through early states (`+0x46=1/2`,
+`+0x49=1`) instead of reaching the initialized terminal state. The
+runtime replied to configuration probes with a digital-pad ID
+(`0x41 0x5A ...`), so Tomba reset and retried forever. Returning
+DualShock-style `0xF3 0x5A ...` responses for config commands lets the
+object initialize and the game-state renderer proceed.
+
+Verification:
+
+- OPTIONS renders the full option menu.
+- NEW GAME plays the post-title FMV, reaches the save prompt, then
+  reaches gameplay.
+- SAVE and LOAD are user-confirmed working.
 
 ### Fix #1 (applied, kept in tree): GP1(0x10) subcommand 7
 
@@ -236,21 +258,11 @@ multiple wrong theories (MDEC IDCT, stuck animation, memcard WRITE).
 Those notes are removed/struck below to keep the record clean. The
 finding above stands and is the correct starting point.
 
-### Forward path next session
+### Historical note
 
-1. Relaunch both runtimes cleanly, navigate both to title screen,
-   arm wtrace on `0x80090C9C..0x80090CA0` in our runtime BEFORE
-   pressing the OPTIONS-entry input.
-2. Press OPTIONS-entry. Even though our path ends black, the writer
-   for `0x80090C9C` may still be invoked once at state-transition
-   time before failing. Capture its PC + RA.
-3. If no write captured on our side, the divergence is upstream of
-   the writer — a CONDITION that's true on beetle but false here.
-   Trace that condition by reading `mem_words` at the test address
-   from each reader's compare.
-4. Beetle as cross-reference is useful but FRAGILE — minimize debug
-   queries against it (it appears to crash or wedge under heavy
-   tooling). Use it for one-shot snapshots, not sustained probing.
+The forward path below was superseded on 2026-05-17 by the DualShock
+configuration-reply fix in psxrecomp-v4 `bd582d8`. OPTIONS now renders
+and stays live.
 
 ### (Original — INCORRECT — memcard-WRITE theory below, kept for record)
 
@@ -258,13 +270,17 @@ finding above stands and is the correct starting point.
 
 ## Issue #6 — Runtime hard-freezes ("Not Responding")
 
-**Status:** **TENTATIVELY FIXED 2026-05-13** by switching the SDL
-renderer to OpenGL. Both `runtime/src/main.cpp` and
+**Status:** **MITIGATED / WATCH LIST 2026-05-17.** The original
+OPTIONS retry-storm workload is gone after psxrecomp-v4 `bd582d8`.
+The earlier host-side freeze was partially mitigated on 2026-05-13
+by switching the SDL renderer to OpenGL. Both `runtime/src/main.cpp` and
 `runtime/src/beetle_main.cpp` now call
 `SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl")` and create the
-renderer with `SDL_RENDERER_ACCELERATED`. Verified by running
-psx-runtime at idle for 11+ minutes / 40k+ frames without a stall
-— previously every freeze hit within ~90 seconds.
+renderer with `SDL_RENDERER_ACCELERATED`. Time-to-freeze improved
+~10× (software renderer froze in ~90s, OpenGL lasts ~15 min) but
+longer in-game soak testing is still needed. Treat any future
+Windows "Not Responding" event as a fresh host-stall investigation
+and capture the live heartbeat/ring state before restarting.
 
 ### Investigation chain (be wary of re-running it the wrong way)
 
@@ -523,28 +539,34 @@ Estimated effort: 1-3 hours of focused SIO protocol comparison.
 
 ## Issue #3 — Title-screen cluster: attract / NEW GAME / OPTIONS / menu glyphs
 
-**Status:** open, observed 2026-05-13
-**Branch:** `tomba-in-game`
+**Status:** partially fixed. NEW GAME and OPTIONS black screens are fixed
+as of 2026-05-17 by psxrecomp-v4 `bd582d8`; fuzzy title glyphs remain open.
+**Branch:** `options-and-newgame` / psxrecomp-v4 `codex/options-new-game`
 
 ### Symptoms (user-confirmed on `psx-runtime` port 4470, Tomba boot)
 
-- **A.** Title menu navigation between NEW GAME ⇄ LOAD works (D-pad
-  reaches and returns from the LOAD GAME screen cleanly).
-- **B.** **NEW GAME → black screen.** Expected: another FMV
-  (game-intro / story setup). Suspected related to FMV pipeline
-  (see Issue #1) or a missing CDROM seek for the post-title cinematic.
-- **C.** **OPTIONS → black screen + soft stall.** Game appears alive
-  (frame counter advances) but never renders the OPTIONS UI.
-- **D.** **Title menu glyph text ("NEW GAME / LOAD") renders fuzzy /
+- **A. FIXED.** Title menu navigation between NEW GAME / LOAD works.
+- **B. FIXED.** NEW GAME now plays the post-title FMV, reaches the
+  memory-card save prompt, then reaches gameplay.
+- **C. FIXED.** OPTIONS now renders the full option menu instead of
+  black-screening.
+- **D. OPEN.** Title menu glyph text ("NEW GAME / LOAD / OPTIONS") renders fuzzy /
   garbled** while surrounding logo + "© 1997 WHOOPEE CAMP" text
   render clean. Same family as `psxrecomp-v4/ISSUES.md` #3
   (BIOS-shell glyph corruption) — likely shared discovery-gap for
   no-prologue GTE/COP2 leaves used by the menu's glyph upload path.
-- **E.** **Attract demo returns to play after the title screen sits
-  idle.** Disables debugging because every multi-minute investigation
-  loses the menu state. Prior sessions had an `extras.c`-shaped
-  override to suppress this for development; the override is gone
-  (not present in either repo's working tree or git history).
+- **E. EXPECTED GAME BEHAVIOR.** Attract/demo playback returns after
+  title-menu idle. It remains annoying for debugging but is not itself
+  a bug.
+
+### Resolution update (2026-05-17)
+
+The NEW GAME and OPTIONS black screens were not renderer failures.
+Always-on rings showed Tomba's SIO/controller object stuck in a retry
+loop because runtime controller config probes returned a digital-pad ID
+instead of DualShock-style config responses. psxrecomp-v4 `bd582d8`
+adds those replies in `runtime/src/sio.c`. User confirmed OPTIONS,
+NEW GAME, SAVE, and LOAD all work after the fix.
 
 ### Investigation progress (2026-05-13, no fix yet)
 

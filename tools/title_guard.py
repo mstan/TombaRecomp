@@ -128,12 +128,6 @@ def main():
 
     while time.monotonic() < deadline:
         now = time.monotonic()
-        if press_buttons is not None and now >= next_press:
-            request(args.port, "press",
-                    buttons=press_buttons,
-                    frames=args.press_frames)
-            next_press = now + args.press_interval
-
         request(args.port, "screenshot_file")
         shot = workdir / "psx_screenshot.bmp"
         if not shot.exists():
@@ -146,6 +140,13 @@ def main():
             shutil.copyfile(shot, workdir / args.copy_to)
             print(json.dumps({"matched": True, "mse": mse, "best": best}))
             return 0
+
+        if press_buttons is not None and now >= next_press:
+            request(args.port, "press",
+                    buttons=press_buttons,
+                    frames=args.press_frames)
+            request(args.port, "clear_input")
+            next_press = now + args.press_interval
         time.sleep(args.interval)
 
     request(args.port, "pause")
