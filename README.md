@@ -1,7 +1,7 @@
 # TombaRecomp
 
 Tomba! (USA, SCUS-94236) running on
-[PSXRecomp](https://github.com/mstan/psxrecomp) v4.
+[PSXRecomp](https://github.com/mstan/psxrecomp)
 
 [![PSXRecomp demo](https://img.youtube.com/vi/CID9oVhgCyY/maxresdefault.jpg)](https://www.youtube.com/watch?v=CID9oVhgCyY)
 
