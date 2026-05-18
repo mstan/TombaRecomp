@@ -7,8 +7,8 @@ Game-specific issues. Framework-side issues live in
 
 ## Issue #7 - Visual correctness burn-down
 
-**Status:** open, captured 2026-05-17/18 after OPTIONS, NEW GAME,
-save, load, and first gameplay became functional.
+**Status:** closed. User confirmed 2026-05-17/18 that the observed visual
+issues in this group are fixed.
 **Branch:** `codex/visual-fixes`
 
 These are renderer/runtime visual defects, not progression blockers.
