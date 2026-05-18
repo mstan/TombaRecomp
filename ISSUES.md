@@ -53,8 +53,11 @@ On the LOAD GAME "Now Checking..." dialog, a line cuts through the text box
 and text. Pause menu text also shows patterned/hatched corruption. Repro:
 enter LOAD GAME from title or press START in gameplay.
 
-**Status:** LOAD GAME dialogs are fixed/improved in `codex/visual-fixes`;
-pause panel hatching remains open under 7F.
+**Status:** fixed in `codex/visual-fixes`. User confirmed 2026-05-17.
+
+Follow-up fix: stretched axis-aligned textured dialog/panel quads now use a
+single scaled rectangle path instead of a two-triangle split, removing the
+visible diagonal seam through text boxes.
 
 Verified captures:
 - `codex_after_rect_fastpath_load_menu4.bmp`
@@ -93,13 +96,11 @@ shaded-textured primitive path and the GTE `RGBC` fix.
 The START pause menu has weird patterning/striping in the translucent panel
 and text region. Repro is easy from gameplay by pressing START.
 
-**Status:** open/needs oracle comparison. Debug captures
-`codex_after_rect_fastpath_pause.bmp` and `codex_pause_current_for_gp0.bmp`
-still show the hatched pause panel. The GP0 frame dump shows the panel is
-drawn from textured menu sprites plus a semi-transparent selection rectangle,
-so the hatch may be game-authored styling rather than corruption. Compare
-against DuckStation/reference before changing blending or texture-window
-behavior.
+**Status:** fixed in `codex/visual-fixes`. User confirmed 2026-05-17.
+
+The remaining top-edge triangle artifact was the same stretched textured-quad
+seam class as 7C. The scaled rectangle path now handles the pause panel
+without splitting it into two textured triangles.
 
 ### 7G - LOAD GAME screen background/glyph sanity check
 
@@ -109,6 +110,20 @@ artifacts because it can be reached from the title without deep navigation.
 **Status:** used as the primary validation path for 7B/7C. The title and load
 screens are safe repeatable repros as long as the attract timer is accounted
 for.
+
+### 7H - Left-facing character sprites vanish
+
+**Status:** closed as not reproduced. User confirmed 2026-05-17 that the bug
+is gone.
+
+Tomba and some other characters, including Charles during intro animation,
+vanish when facing left. They still exist and reappear when facing right.
+This regressed after the visual renderer changes, so the likely area is
+textured sprite/quad handling for mirrored X coordinates or reversed UVs.
+
+The renderer keeps mirrored/reversed textured quads on the general polygon
+path unless they can be safely rendered as rectangles, so left-facing sprites
+should not be culled by the UI fast path.
 
 Initial triage priority:
 
