@@ -5,6 +5,120 @@ Game-specific issues. Framework-side issues live in
 
 ---
 
+## Issue #7 - Visual correctness burn-down
+
+**Status:** open, captured 2026-05-17/18 after OPTIONS, NEW GAME,
+save, load, and first gameplay became functional.
+**Branch:** `codex/visual-fixes`
+
+These are renderer/runtime visual defects, not progression blockers.
+User provided screenshots and a YouTube reference frame for the branch prop.
+
+### 7A - BIOS license screen missing PS logo
+
+**Status:** fixed in `codex/visual-fixes`. User confirmed 2026-05-17.
+
+Root cause: GTE data register 6 (`RGBC`) was incorrectly aliased with the
+RGB FIFO. The BIOS license-logo helper wrote polygon opcode/color through
+`RGBC`, then later GTE lighting pushed RGB output and overwrote the command
+byte before the GPU consumed the packet. Separating `RGBC` from `RGB0..2`
+preserves the `0x20` flat-triangle command bytes.
+
+Verified captures/data:
+- `codex_rgbc_bios_target430.bmp` shows the colored PS symbol.
+- `gpu_frame_dump` for the BIOS logo frame now contains hundreds of `0x20`
+  logo triangles instead of `0x00` no-ops.
+
+### 7B - Title menu NEW GAME / LOAD GAME / OPTIONS text is fuzzy
+
+The Tomba logo, background, and copyright text look good, but the selectable
+title menu glyphs are vertically striped/fuzzy. Existing Issue #3 notes this
+started before the OPTIONS/NEW GAME black-screen fix and remains open.
+
+**Status:** fixed in `codex/visual-fixes`. User confirmed 2026-05-17.
+
+Fix: exact axis-aligned textured quads with matching UV dimensions now use the
+same rectangle path as sprite commands instead of the generic two-triangle
+path. The title menu packets for `NEW GAME` / `LOAD GAME` are 8x16-ish glyph
+quads, and the triangle split was introducing visible sampling seams.
+
+Verified captures:
+- `codex_after_rect_fastpath_title.bmp`
+- `codex_after_rect_fastpath_load_selected2.bmp`
+- `codex_rgbc_title_press_match.bmp`
+
+### 7C - Text boxes and menu text have a horizontal/diagonal line artifact
+
+On the LOAD GAME "Now Checking..." dialog, a line cuts through the text box
+and text. Pause menu text also shows patterned/hatched corruption. Repro:
+enter LOAD GAME from title or press START in gameplay.
+
+**Status:** LOAD GAME dialogs are fixed/improved in `codex/visual-fixes`;
+pause panel hatching remains open under 7F.
+
+Verified captures:
+- `codex_after_rect_fastpath_load_menu4.bmp`
+- `codex_after_rect_fastpath_load_slots.bmp`
+
+### 7D - In-game terrain lighting is blocky
+
+Ground/tree terrain in the first area has chunky lighting or shading
+artifacts. The scene is otherwise recognizable and interactive. Likely GPU
+Gouraud textured polygon interpolation, color modulation, dithering, or
+semi-transparency.
+
+**Status:** improved in `codex/visual-fixes` pending user validation.
+
+Fix: shaded textured primitives now interpolate per-vertex color and apply
+that modulation per pixel instead of using a single flat modulation color.
+Debug captures `codex_after_rect_fastpath_gameplay2.bmp` and
+`codex_rgbc_gameplay_frame3655.bmp` show the first village scene with
+smoother tree/terrain lighting.
+
+### 7E - Swinging branch prop is partially missing
+
+In the first area, the swinging branch/tree limb has a green rectangular
+portion at the end that should render as textured/transparent foliage. The
+user has the release build paused with Tomba safely on rocks and the branch in
+view for validation. Reference YouTube frame shows the branch end correctly.
+
+**Status:** fixed in `codex/visual-fixes`. User confirmed 2026-05-17.
+
+The live debug capture `codex_after_start_from_gameplay.bmp` shows the green
+end cap rendering in the branch scene. This appears to be covered by the
+shaded-textured primitive path and the GTE `RGBC` fix.
+
+### 7F - Pause menu patterning
+
+The START pause menu has weird patterning/striping in the translucent panel
+and text region. Repro is easy from gameplay by pressing START.
+
+**Status:** open/needs oracle comparison. Debug captures
+`codex_after_rect_fastpath_pause.bmp` and `codex_pause_current_for_gp0.bmp`
+still show the hatched pause panel. The GP0 frame dump shows the panel is
+drawn from textured menu sprites plus a semi-transparent selection rectangle,
+so the hatch may be game-authored styling rather than corruption. Compare
+against DuckStation/reference before changing blending or texture-window
+behavior.
+
+### 7G - LOAD GAME screen background/glyph sanity check
+
+LOAD GAME now functions, but it is a good repeatable repro for text/panel
+artifacts because it can be reached from the title without deep navigation.
+
+**Status:** used as the primary validation path for 7B/7C. The title and load
+screens are safe repeatable repros as long as the attract timer is accounted
+for.
+
+Initial triage priority:
+
+1. Query/debug easy repeated states: BIOS screen, title menu, LOAD GAME.
+2. Inspect common GPU paths first: textured rectangle/sprite CLUT, texture
+   window, mask bit, semi-transparency, and shaded textured primitives.
+3. Use the paused branch scene for user validation after likely GPU fixes.
+
+---
+
 ## Issue #4 — FMV plays at ~6.7 fps (target ≥15) — IRQ-rate limited
 
 **Status:** **FIXED 2026-05-13** by psxrecomp-v4 `b486c13`. FMV now
