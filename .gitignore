@@ -1,6 +1,8 @@
 # Build outputs
 /build/
+/build-*/
 /out/
+/.happypath/
 
 # Recompiler output (derivative of copyrighted game code, regenerate locally)
 /generated/

@@ -20,4 +20,5 @@ psxrecomp_v4_add_runtime_target(psx-runtime
     DEBUG_PORT 4470
     WINDOW_TITLE "TombaRecomp"
     DEFAULT_BIOS_PATH "${PSXRECOMP_V4_ROOT}/bios/SCPH1001.BIN"
+    DEFAULT_GAME_CONFIG_PATH "game.toml"
 )
