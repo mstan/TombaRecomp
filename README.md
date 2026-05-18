@@ -50,10 +50,29 @@ Known follow-up work:
 
 ## Setup
 
+### Release Package
+
+1. Download `TombaRecomp-v*-windows-x64.zip` from Releases.
+2. Extract it and run `TombaRecomp.exe`.
+3. Select your legally obtained `SCPH1001.BIN` BIOS when prompted.
+4. Select your legally obtained Tomba! (USA, SCUS-94236) disc image when
+   prompted.
+
+Accepted disc formats are `.cue` + `.bin`, direct `.bin`, and `.iso`. The
+launcher validates the ISO9660 header and expected `SCUS_942.36` game ID when
+possible. If the header is missing or the ID does not match, it warns and tries
+to run the image anyway.
+
+The selected paths are saved next to the executable as `bios.cfg` and
+`disc.cfg`. Delete those files to pick different files.
+
+### Building From Source
+
 Requirements:
 
 - Windows 10/11 x64.
-- Tomba! (USA, SCUS-94236) disc image (`.cue` + `.bin`). Not included.
+- Tomba! (USA, SCUS-94236) disc image (`.cue` + `.bin`, `.bin`, or `.iso`).
+  Not included.
 - Sony SCPH1001 BIOS ROM (`SCPH1001.BIN`). Not included.
 - MSYS2 with the `mingw-w64-x86_64` toolchain, CMake 3.20+, and SDL2.
 
@@ -73,7 +92,7 @@ Build and run:
 cd F:/Projects/TombaRecomp
 cmake -S . -B build -G "Unix Makefiles"
 cmake --build build -j16
-./build/psx-runtime.exe --game game.toml
+./build/psx-runtime.exe
 ```
 
 If generated game output is missing or stale, regenerate first:
