@@ -29,7 +29,7 @@ Current milestone as of 2026-05-17:
 | Area | State |
 |---|---|
 | PS1 BIOS boot | Works |
-| Disc-detected / license screen | Works, with a known missing PS-logo glyph |
+| Disc-detected / license screen | Works |
 | Whoopee Camp FMV | Works |
 | Intro FMV | Works and is skippable |
 | Title menu | Works |
@@ -41,8 +41,10 @@ Current milestone as of 2026-05-17:
 
 Known follow-up work:
 
-- `NEW GAME / LOAD / OPTIONS` title text is still fuzzy.
-- In-game rendering still needs visual correctness work.
+- Visual correctness is actively improving; BIOS logo, title/menu text seams,
+  and shaded textured branch rendering are fixed on `codex/visual-fixes`.
+- Pause menu panel hatching still needs oracle comparison before changing
+  blending or texture-window behavior.
 - Some audio/SPU behavior is partial.
 - The title menu intentionally returns to the attract/demo flow after idling.
 - The historical Windows "Not Responding" hang is mitigated but should remain
