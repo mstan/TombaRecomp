@@ -24,7 +24,7 @@ Important files:
 
 ## Status
 
-Current milestone as of 2026-05-17:
+Current milestone as of 2026-05-18:
 
 | Area | State |
 |---|---|
@@ -37,14 +37,15 @@ Current milestone as of 2026-05-17:
 | NEW GAME | Works |
 | Save prompt / memory-card save | Works |
 | LOAD GAME / memory-card load | Works |
-| Gameplay | Reaches the first in-game area |
+| Gameplay | First area is believed playable |
 
 Known follow-up work:
 
-- Visual correctness is actively improving; BIOS logo, title/menu text seams,
+- No currently observed visual or progression blockers in the first area.
+- BIOS logo, title/menu text seams, dialog/pause panel seams, terrain shading,
   and shaded textured branch rendering are fixed on `codex/visual-fixes`.
-- Pause menu panel hatching still needs oracle comparison before changing
-  blending or texture-window behavior.
+- Xbox-style controllers are supported through SDL/XInput and configurable via
+  `input.ini`.
 - Some audio/SPU behavior is partial.
 - The title menu intentionally returns to the attract/demo flow after idling.
 - The historical Windows "Not Responding" hang is mitigated but should remain
@@ -118,6 +119,23 @@ cmake --build build -j16
 | Start | Enter |
 | Select | Right Shift |
 | Turbo | Tab (hold) |
+
+Xbox-style controller defaults are enabled when a controller is connected:
+
+| PSX button | Xbox controller |
+|---|---|
+| D-Pad Up / Down / Left / Right | D-pad or left stick |
+| Cross | A |
+| Circle | B |
+| Square | X |
+| Triangle | Y |
+| L1 / R1 | LB / RB |
+| L2 / R2 | LT / RT |
+| Start | Menu |
+| Select | View / Back |
+
+Release builds include `input.ini` next to `TombaRecomp.exe`. Edit that file
+to change controller device index, deadzone, or button mapping.
 
 ## Memory Cards
 

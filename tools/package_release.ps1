@@ -1,5 +1,5 @@
 param(
-    [string]$Version = "v0.1.1-alpha",
+    [string]$Version = "v0.1.2-alpha",
     [string]$BuildDir = "build-release"
 )
 
@@ -27,6 +27,9 @@ Copy-Item (Join-Path $BuildPath "psx-runtime.exe") (Join-Path $Stage "TombaRecom
 Copy-Item (Join-Path $Root "game.toml") $Stage
 Copy-Item (Join-Path $Root "README.md") $Stage
 Copy-Item (Join-Path $Root "LICENSE") $Stage
+if (Test-Path (Join-Path $Root "RELEASE_NOTES.md")) {
+    Copy-Item (Join-Path $Root "RELEASE_NOTES.md") $Stage
+}
 
 foreach ($Dll in @("SDL2.dll", "libgcc_s_seh-1.dll", "libstdc++-6.dll")) {
     $Source = Join-Path $MingwBin $Dll
@@ -35,6 +38,33 @@ foreach ($Dll in @("SDL2.dll", "libgcc_s_seh-1.dll", "libstdc++-6.dll")) {
     }
     Copy-Item $Source $Stage
 }
+
+@"
+; PSXRecomp input mapping. PSX buttons are active when any listed source is pressed.
+; Sources use SDL/Xbox names: a,b,x,y,back,start,leftshoulder,rightshoulder,
+; lefttrigger,righttrigger,dpup,dpdown,dpleft,dpright,leftx-/leftx+/lefty-/lefty+.
+
+[controller]
+enabled = true
+device = 0
+deadzone = 12000
+
+[mapping]
+up = dpup,lefty-
+down = dpdown,lefty+
+left = dpleft,leftx-
+right = dpright,leftx+
+cross = a
+circle = b
+square = x
+triangle = y
+l1 = leftshoulder
+r1 = rightshoulder
+l2 = lefttrigger
+r2 = righttrigger
+start = start
+select = back
+"@ | Set-Content -Encoding ASCII (Join-Path $Stage "input.ini")
 
 @"
 TombaRecomp $Version
@@ -60,6 +90,9 @@ different files later.
 If the disc header or game ID does not match SCUS-94236, TombaRecomp will show
 a warning and try to run the image anyway. Boot may fail if the image is the
 wrong game, the wrong region, or corrupt.
+
+Keyboard and Xbox-style controller defaults are documented in README.md.
+Controller mappings are configurable in input.ini.
 
 Memory cards are stored in the saves directory.
 "@ | Set-Content -Encoding ASCII (Join-Path $Stage "START_HERE.txt")
