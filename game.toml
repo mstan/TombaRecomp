@@ -19,6 +19,7 @@ debug_port = 4470
 window_title = "TombaRecomp"
 memcard_dir = "saves"
 disc_speed = "4x"
+fast_boot  = true   # set false to watch BIOS logos
 
 # ── Audit-specific config (consumed by psxrecomp/tools/*.py and tests) ──
 #
