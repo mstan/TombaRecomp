@@ -1,1 +1,4 @@
 0x8006A44C
+0x8002D4C8  # Ghidra-verified function start; covers dirty_ram misses D4C8/D4E0/D4FC/D504/D524
+0x8004DD14  # Ghidra-verified function start; called directly
+0x8004DF00  # Ghidra-verified call target via function pointer table at 0x80013F24 (jr v0 at DEC8); covers misses DF00/DF28/DF30/DF68/DF7C
