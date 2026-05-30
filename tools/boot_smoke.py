@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """TombaRecomp phase-0 smoke preflight.
 
 This verifies the local asset layout before the runtime milestone runner is
@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 EXPECTED = [
     ROOT / "tomba" / "SCUS_942.36",
     ROOT / "tomba" / "tomba.cue",
-    ROOT / "psxrecomp-v4",
+    ROOT / "psxrecomp",
 ]
 
 

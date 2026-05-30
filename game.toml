@@ -1,4 +1,4 @@
-[game]
+﻿[game]
 name = "Tomba!"
 id = "SCUS-94236"
 exe = "tomba/SCUS_942.36"
@@ -19,9 +19,9 @@ debug_port = 4470
 window_title = "TombaRecomp"
 memcard_dir = "saves"
 
-# ── Audit-specific config (consumed by psxrecomp-v4/tools/*.py and tests) ──
+# ── Audit-specific config (consumed by psxrecomp/tools/*.py and tests) ──
 #
-# Schema mirrors psxrecomp-v4/bios/SCPH1001.toml. Paths are relative to the
+# Schema mirrors psxrecomp/bios/SCPH1001.toml. Paths are relative to the
 # TombaRecomp project root.
 
 [audit]
