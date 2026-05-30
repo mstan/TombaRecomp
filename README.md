@@ -151,25 +151,6 @@ Runtime memory-card files are local artifacts and must not be committed. The
 current runtime uses raw PS1 memory-card images compatible with DuckStation,
 PCSX-Redux, Mednafen, ePSXe, and similar emulators.
 
-## Disc Speed
-
-The `[runtime]` block in `game.toml` accepts a `disc_speed` setting that compresses
-CD-ROM seek and read timing:
-
-| Value | Effect |
-|---|---|
-| `"1x"` | Authentic PSX timing (~150 KB/s, seek delays up to 500ms). Default for all games. |
-| `"2x"` | 2× faster. |
-| `"4x"` | 4× faster. **Current Tomba setting.** Loading screens are noticeably shorter. |
-| `"instant"` | Collapses all delays to a minimum floor. **Known to hang Tomba** during early game initialization; root cause not yet identified. Do not use until resolved. |
-
-FMV playback is always protected from speed-up: the CD-ROM layer reverts to 1× timing
-automatically whenever XA audio streaming is active, regardless of `disc_speed`.
-
-The speed switch activates only after the BIOS has handed off to the game EXE; BIOS
-boot and the license/logo sequence always run at authentic 1× to avoid initialization
-failures.
-
 ## Development Rules
 
 - Use the real recompiled BIOS and real hardware simulation in PSXRecomp v4.
