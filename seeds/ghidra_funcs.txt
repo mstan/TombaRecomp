@@ -1,2 +1,4 @@
 0x8006A44C
+0x8002D4C8  # verified clean: follows jr ra/nop, addiu sp,-0x18
+0x8004DD14  # verified clean: follows jr ra/nop, addiu sp,-0x28
 0x8002D4C8
