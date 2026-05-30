@@ -1,4 +1,4 @@
-# TombaRecomp
+﻿# TombaRecomp
 
 Tomba! (USA, SCUS-94236) running on
 [PSXRecomp](https://github.com/mstan/psxrecomp)
@@ -19,7 +19,7 @@ Important files:
 - `game.toml`: Tomba runtime/recompiler configuration.
 - `seeds/`: Ghidra-derived function starts and game-specific seed data.
 - `tools/regen.ps1`: regenerates the Tomba recompiled C output.
-- `psxrecomp-v4.pin`: framework commit this project is known against.
+- `psxrecomp.pin`: framework commit this project is known against.
 - `ISSUES.md`: game-specific issue log.
 
 ## Status
@@ -79,13 +79,13 @@ Requirements:
 - Tomba! (USA, SCUS-94236) disc image (`.cue` + `.bin`, `.bin`, or `.iso`). Not included.
 - Sony SCPH1001 BIOS ROM (`SCPH1001.BIN`). Not included.
 - SDL2: bundled on Windows (MSYS2 `mingw-w64-x86_64` toolchain); `brew install sdl2 pkg-config ninja` on macOS; `libsdl2-dev` + `ninja` on Linux.
-- The `psxrecomp` framework cloned in as a sibling subdir `psxrecomp-v4/` at the pinned SHA (gitignored from this repo), plus a recompiled BIOS in `psxrecomp-v4/generated/` (see the framework README).
+- The `psxrecomp` framework cloned in as a sibling subdir `psxrecomp/` at the pinned SHA (gitignored from this repo), plus a recompiled BIOS in `psxrecomp/generated/` (see the framework README).
 
 Example local layout:
 
 ```sh
-TombaRecomp/psxrecomp-v4/            # framework, at psxrecomp-v4.pin SHA
-TombaRecomp/psxrecomp-v4/bios/SCPH1001.BIN
+TombaRecomp/psxrecomp/            # framework, at psxrecomp.pin SHA
+TombaRecomp/psxrecomp/bios/SCPH1001.BIN
 TombaRecomp/tomba/tomba.cue
 TombaRecomp/tomba/tomba.bin
 ```
@@ -102,7 +102,7 @@ Generate the recompiled C, then build and run:
 ```sh
 # Regenerate generated/SCUS_942.36_{full,dispatch}.c from the disc/EXE
 #   Windows:       pwsh tools/regen.ps1
-#   macOS / Linux: ../psxrecomp-v4/recompiler/build/psxrecomp-game --config game.toml
+#   macOS / Linux: ../psxrecomp/recompiler/build/psxrecomp-game --config game.toml
 
 # Windows (MSYS2/MinGW)
 cmake -S . -B build -G "Unix Makefiles" && cmake --build build -j16 && ./build/psx-runtime.exe

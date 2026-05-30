@@ -1,6 +1,6 @@
-# TombaRecomp Rules
+﻿# TombaRecomp Rules
 
-This project inherits `F:/Projects/psxrecomp-v4/CLAUDE.md`.
+This project inherits `F:/Projects/psxrecomp/CLAUDE.md`.
 
 Additional project rules:
 
