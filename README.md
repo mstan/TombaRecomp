@@ -71,38 +71,45 @@ The selected paths are saved next to the executable as `bios.cfg` and
 
 ### Building From Source
 
+Builds on **Windows (MSVC/MinGW)**, **macOS (Apple Silicon & Intel)**, and **Linux**.
+
 Requirements:
 
-- Windows 10/11 x64.
-- Tomba! (USA, SCUS-94236) disc image (`.cue` + `.bin`, `.bin`, or `.iso`).
-  Not included.
+- A C/C++ toolchain (MSVC/MinGW, Apple Clang, or Clang/GCC) and CMake 3.20+.
+- Tomba! (USA, SCUS-94236) disc image (`.cue` + `.bin`, `.bin`, or `.iso`). Not included.
 - Sony SCPH1001 BIOS ROM (`SCPH1001.BIN`). Not included.
-- MSYS2 with the `mingw-w64-x86_64` toolchain, CMake 3.20+, and SDL2.
+- SDL2: bundled on Windows (MSYS2 `mingw-w64-x86_64` toolchain); `brew install sdl2 pkg-config ninja` on macOS; `libsdl2-dev` + `ninja` on Linux.
+- The `psxrecomp` framework cloned in as a sibling subdir `psxrecomp-v4/` at the pinned SHA (gitignored from this repo), plus a recompiled BIOS in `psxrecomp-v4/generated/` (see the framework README).
 
 Example local layout:
 
 ```sh
-F:/Projects/psxrecomp-v4
-F:/Projects/TombaRecomp
-F:/Projects/TombaRecomp/tomba/tomba.cue
-F:/Projects/TombaRecomp/tomba/tomba.bin
-F:/Projects/TombaRecomp/bios/SCPH1001.BIN
+TombaRecomp/psxrecomp-v4/            # framework, at psxrecomp-v4.pin SHA
+TombaRecomp/psxrecomp-v4/bios/SCPH1001.BIN
+TombaRecomp/tomba/tomba.cue
+TombaRecomp/tomba/tomba.bin
 ```
 
-Build and run:
+The recompiler needs the game's PS-X EXE extracted from the disc. A
+cross-platform helper is included:
 
 ```sh
-cd F:/Projects/TombaRecomp
-cmake -S . -B build -G "Unix Makefiles"
-cmake --build build -j16
-./build/psx-runtime.exe
+python3 tools/extract_psx_exe.py tomba/tomba.bin SCUS_942.36 tomba/SCUS_942.36
 ```
 
-If generated game output is missing or stale, regenerate first:
+Generate the recompiled C, then build and run:
 
 ```sh
-pwsh tools/regen.ps1
-cmake --build build -j16
+# Regenerate generated/SCUS_942.36_{full,dispatch}.c from the disc/EXE
+#   Windows:       pwsh tools/regen.ps1
+#   macOS / Linux: ../psxrecomp-v4/recompiler/build/psxrecomp-game --config game.toml
+
+# Windows (MSYS2/MinGW)
+cmake -S . -B build -G "Unix Makefiles" && cmake --build build -j16 && ./build/psx-runtime.exe
+
+# macOS / Linux (Ninja)
+cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release && ninja -C build psx-runtime
+./build/psx-runtime --game game.toml --disc tomba/tomba.cue
 ```
 
 ## Controls
@@ -119,8 +126,9 @@ cmake --build build -j16
 | Start | Enter |
 | Select | Right Shift |
 | Turbo | Tab (hold) |
+| Fullscreen | F11 / Alt+Enter / Cmd+F |
 
-Xbox-style controller defaults are enabled when a controller is connected:
+A game controller (Xbox, PlayStation, or any SDL-recognized pad) is supported on all platforms via SDL when connected:
 
 | PSX button | Xbox controller |
 |---|---|
