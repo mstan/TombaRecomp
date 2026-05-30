@@ -18,6 +18,7 @@ strict = true
 debug_port = 4470
 window_title = "TombaRecomp"
 memcard_dir = "saves"
+disc_speed = "4x"
 
 # ── Audit-specific config (consumed by psxrecomp/tools/*.py and tests) ──
 #

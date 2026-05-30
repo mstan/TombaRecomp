@@ -1,0 +1,16 @@
+0x8004DF00  # dirty_ram miss: 38837 hits, 194185 insns
+0x8002D504  # dirty_ram miss: 38837 hits, 38837 insns
+0x8004DF7C  # dirty_ram miss: 38837 hits, 310696 insns
+0x8002D4C8  # dirty_ram miss: 38837 hits, 194185 insns
+0x8002D4E0  # dirty_ram miss: 38837 hits, 233022 insns
+0x8002D524  # dirty_ram miss: 38837 hits, 116511 insns
+0x8004DF28  # dirty_ram miss: 38837 hits, 38837 insns
+0x8004DF68  # dirty_ram miss: 38837 hits, 155348 insns
+0x8004DF30  # dirty_ram miss: 38837 hits, 38837 insns
+0x8002D4FC  # dirty_ram miss: 38837 hits, 38837 insns
+0x8005CC54  # dirty_ram miss: 6 hits, 12 insns
+0x8005B44C  # dirty_ram miss: 3 hits, 6 insns
+0x8005B45C  # dirty_ram miss: 3 hits, 6 insns
+0x8005B47C  # dirty_ram miss: 3 hits, 6 insns
+0x8005B49C  # dirty_ram miss: 2 hits, 4 insns
+0x8005CC64  # dirty_ram miss: 2 hits, 4 insns
