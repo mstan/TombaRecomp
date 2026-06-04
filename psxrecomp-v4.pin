@@ -1,2 +1,11 @@
-branch=release-build
-sha=5c87ee2aa8c7e0a39e89b0b00afcd4ee25eefec5
+# Pinned commit of github.com/mstan/psxrecomp (the shared framework) used to
+# build this repo. Bumping this is a deliberate, reviewable change — psxrecomp
+# is a separate repo evolving on its own cadence. Update via:
+#   git -C ../psxrecomp rev-parse master > /tmp/sha && \
+#     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
+branch=master
+sha=ec4306fbb32dcfd738ab05ddc84a34ef0002d329
+# Bumped 2026-06-04: points at psxrecomp master = the mmx6 framework
+# (CD/DMA/MDEC + codegen fixes, commit ec4306f). Tomba regen-builds and plays
+# against this commit — verified to the title screen with a working menu, 0
+# dispatch misses. Supersedes the stale release-build pin (5c87ee2).
