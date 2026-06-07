@@ -3,9 +3,13 @@
 # is a separate repo evolving on its own cadence. Update via:
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
-branch=master
+branch=feat/overlay-jit-cache
 sha=d22c9cec4284c9a72ac742ed6a3548722c9abba2
 # Bumped 2026-06-06: points at psxrecomp master = mmx6 framework + additive
 # diagnostic tooling (A0/B0/C0 bioscall ring + psx_check_interrupts_at shim,
 # commit d22c9ce). Tomba regen-builds and renders the title + LOAD memory-card
 # slot list, 0 dispatch misses (verified 2026-06-06). Supersedes ec4306f.
+# 2026-06-07: re-pointed branch -> feat/overlay-jit-cache (forked from psxrecomp
+# master @ d22c9ce; same commit, no codegen/runtime change). This game branch
+# tracks the matching psxrecomp feat/overlay-jit-cache branch for the Option-B
+# overlay JIT-cache work (docs/dynamic_handler_install.md). No ape-escape content.
