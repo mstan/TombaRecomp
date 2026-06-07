@@ -20,7 +20,7 @@ window_title = "TombaRecomp"
 memcard_dir = "saves"
 disc_speed = "4x"
 fast_boot  = false   # set false to watch BIOS logos
-overlay_cache = true  # enable overlay DLL cache + capture (stage-2 repro)
+overlay_cache = true  # overlay DLL cache (Inc1-D write-invalidation under test)
 
 # ── Audit-specific config (consumed by psxrecomp/tools/*.py and tests) ──
 #
