@@ -4,8 +4,8 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=ec4306fbb32dcfd738ab05ddc84a34ef0002d329
-# Bumped 2026-06-04: points at psxrecomp master = the mmx6 framework
-# (CD/DMA/MDEC + codegen fixes, commit ec4306f). Tomba regen-builds and plays
-# against this commit — verified to the title screen with a working menu, 0
-# dispatch misses. Supersedes the stale release-build pin (5c87ee2).
+sha=d22c9cec4284c9a72ac742ed6a3548722c9abba2
+# Bumped 2026-06-06: points at psxrecomp master = mmx6 framework + additive
+# diagnostic tooling (A0/B0/C0 bioscall ring + psx_check_interrupts_at shim,
+# commit d22c9ce). Tomba regen-builds and renders the title + LOAD memory-card
+# slot list, 0 dispatch misses (verified 2026-06-06). Supersedes ec4306f.
