@@ -2,3 +2,4 @@
 0x8002D4C8  # verified clean: follows jr ra/nop, addiu sp,-0x18
 0x8004DD14  # verified clean: follows jr ra/nop, addiu sp,-0x28
 0x8002D4C8
+0x800338A8  # TRUE entry of field-mode dispatcher F (discovery had 0x338B0, 2 insns late — Bug A epicenter; entry = lui/lhu before the addiu sp,-0x18 prologue; called via entity-handler data table)
