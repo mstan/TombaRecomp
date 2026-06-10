@@ -1,65 +1,46 @@
-# TombaRecomp v0.1.5-alpha
+# TombaRecomp v0.1.6-alpha
 
-The "smoother, faster, doesn't freeze" release.
+The "pigs are safe to throw" release.
 
 ## Highlights
 
-**The random freeze is fixed.** Some players (and our own long play
-sessions) hit a freeze where the game window would suddenly stop dead —
-picture frozen, no input, had to kill it from Task Manager. It could strike
-at any time, even while idle, and faster loading made it strike more often.
-We finally caught it in the act: a one-in-a-million timing accident in the
-code that paces the game to TV speed could put the program to sleep for —
-literally — about 24 days. That code has been rebuilt so the accident is
-impossible, and an automated test now guards it. (High-level technical: a
-race between two clock reads could underflow an unsigned sleep duration;
-frame pacing now reads the clock once per decision and caps every sleep at
-one frame.)
+**The new-game crash is fixed.** Right after starting a new game, throwing
+one pig into another pig (and certain other early collisions) could kill
+the game — sometimes a solid blue screen with the music still playing,
+sometimes the window closing outright. Thanks to a player crash report
+(issue #1 — the attached diagnostic files were exactly what we needed),
+we caught the crash live and traced it to the seam between the two ways
+TombaRecomp runs game code: areas already converted to fast native code
+and areas still running in compatibility mode. When a native-code function
+called into a compatibility-mode function, the return trip could sail past
+its caller and re-run part of the frame with a stale stack, quietly
+corrupting the game's main loop. The return path now stops exactly where
+it should, and the original crash no longer reproduces. (High-level
+technical: the interpreter's block-chaining fast path ignored the dispatch
+loop's return-address contract, so suspended native frames double-executed
+their tails; the contract is now enforced at every chain boundary.)
 
-**Loading screens are now fast — on by default.** TombaRecomp now runs the
-console at full host speed during loading screens (the screen that used to
-sit there for seconds now flashes past, typically 3-5x faster). This was
-ready earlier but shipped disabled because it made the freeze above more
-likely; with the freeze fixed it's on for everyone. If you ever want
-authentic load times back, set `turbo_loads = false` in `game.toml` — no
-rebuild needed, options are plain text now.
-
-**The game gets faster the more the community plays — and this release
-ships everyone's progress so far.** Tomba streams chunks of its code off
-the disc as you reach new areas. Chunks we've seen get converted into fast
-native code; chunks nobody has visited yet run in a slower compatibility
-mode. This release bundles a `cache` folder with native code for all areas
-contributed so far, so those areas are fast from your very first visit.
-And while you play, newly visited areas are recorded into
-`overlay_captures.json` next to the executable — share that file on a
-GitHub issue and the next release makes *your* areas fast for everyone,
-permanently. It's a snowball: every player session can make the game
-faster for all players. (See "Help make your game faster" in README.md.)
-
-**Smoother on stubborn graphics drivers.** If the graphics driver starts
-stalling the picture (seen on some NVIDIA setups: the game crawls at less
-than one frame per second for minutes), TombaRecomp now detects it and
-switches itself to its own internal frame timing. The game keeps running
-at full speed instead of slideshow-ing.
-
-**Clearer first-run setup.** The two files you supply — your PlayStation
-BIOS (SCPH1001.BIN) and your Tomba! disc image — are now asked for with
-step-by-step dialogs that say exactly which file is wanted, what it's
-called, and what it is NOT, so there's no guessing which picker you're
-looking at.
+**Better black-box recorder for crash reports.** When a fatal error does
+happen, development builds now preserve the entire diagnostic state for
+inspection instead of exiting, and every build writes a fuller crash
+report. Player bug reports with the `psx_crash.txt` /
+`psx_last_run_report.json` / `psx_freeze_dump_*.json` files next to the
+executable remain the single most useful thing you can attach to an issue
+— this release exists because someone did exactly that.
 
 ## Also in this release
 
-- Production builds run without a console window and with the development
-  instrumentation compiled out — measurably less overhead per frame.
-- If something does go wrong, the runtime still writes a diagnostic
-  `psx_freeze_dump_*.json` next to the executable; attaching that file to
-  a bug report tells us almost everything we need.
-- Player options (`turbo_loads`, `disc_speed`, BIOS-logo skip) live in
-  `game.toml` and can be changed with a text editor — no rebuild.
+- Display-control activity is now recorded continuously in development
+  builds (groundwork for fixing the boot-logo flicker some players have
+  noticed).
+- Same bundled community overlay cache as v0.1.5; newly visited areas are
+  still recorded into `overlay_captures.json` for contribution (see "Help
+  make your game faster" in README.md).
 
 ## Known limitations
 
+- Leaving the game unattended for a long time (10+ minutes idle on
+  menus/attract screens) can still wedge it; under investigation.
 - Some audio/SPU behavior remains partial.
 - Areas no one has contributed yet still run in compatibility mode until
   someone visits them (see above — that someone could be you).
