@@ -1,5 +1,5 @@
 param(
-    [string]$Version = "v0.1.4-alpha",
+    [string]$Version = "v0.1.5-alpha",
     [string]$BuildDir = "build-release"
 )
 
@@ -24,11 +24,60 @@ New-Item -ItemType Directory -Force $Stage | Out-Null
 New-Item -ItemType Directory -Force (Join-Path $Stage "saves") | Out-Null
 
 Copy-Item (Join-Path $BuildPath "psx-runtime.exe") (Join-Path $Stage "TombaRecomp.exe")
-Copy-Item (Join-Path $Root "game.toml") $Stage
 Copy-Item (Join-Path $Root "README.md") $Stage
 Copy-Item (Join-Path $Root "LICENSE") $Stage
 if (Test-Path (Join-Path $Root "RELEASE_NOTES.md")) {
     Copy-Item (Join-Path $Root "RELEASE_NOTES.md") $Stage
+}
+
+# Player-facing game.toml: same effective runtime settings as the dev config,
+# minus dev-only sections ([recompiler]/[audit] inputs, the overlay
+# autocompile command that needs a local python+gcc toolchain). Players can
+# edit the [runtime] section post-install; the comments document the knobs.
+@"
+[game]
+name = "Tomba!"
+id = "SCUS-94236"
+exe = "tomba/SCUS_942.36"
+disc = "tomba/tomba.cue"
+load_address = "0x80010000"
+entry_pc = "0x8006B58C"
+text_size = "0x00088000"
+stack_base = "0x801FFFF0"
+
+# ---- Player-adjustable options ------------------------------------------
+# Edit, save, and restart TombaRecomp.exe to apply.
+[runtime]
+window_title = "TombaRecomp"
+memcard_dir = "saves"
+
+# Disc read speed: "1x" (authentic), "2x", "4x", or "instant" (fastest).
+disc_speed = "instant"
+
+# Skip the PlayStation BIOS boot logos (true) or watch them (false).
+fast_boot  = false
+
+# Speed through in-game loading screens at full host speed (recommended).
+turbo_loads = true
+
+# Overlay cache: keeps converted native code for game areas in the cache
+# folder, and records newly visited areas into overlay_captures.json so you
+# can contribute them back to the project (see README).
+overlay_cache = true
+"@ | Set-Content -Encoding ASCII (Join-Path $Stage "game.toml")
+
+# Prebuilt overlay cache: native code for the game areas contributed so far.
+# Ships .dll + .ranges only (the _patched.c intermediates are build artifacts).
+$CacheSrc = Join-Path $Root "build-stable/cache/SCUS-94236"
+if (Test-Path $CacheSrc) {
+    $CacheDst = Join-Path $Stage "cache/SCUS-94236"
+    New-Item -ItemType Directory -Force $CacheDst | Out-Null
+    Copy-Item (Join-Path $CacheSrc "*.dll")    $CacheDst
+    Copy-Item (Join-Path $CacheSrc "*.ranges") $CacheDst
+    $dllCount = (Get-ChildItem $CacheDst -Filter *.dll).Count
+    Write-Host "Bundled overlay cache: $dllCount native overlay DLL(s)"
+} else {
+    Write-Warning "No overlay cache found at $CacheSrc - releasing without bundled cache"
 }
 
 # The Release build is statically linked (PSX_STATIC_RUNTIME defaults ON for
@@ -81,16 +130,19 @@ select = back
 TombaRecomp $Version
 
 This package does not include Tomba, the PlayStation BIOS, generated game
-source, save data, or any copyrighted Sony/Whoopee Camp assets.
+source, save data, or any copyrighted Sony/Whoopee Camp assets. You supply
+two files from your own collection; TombaRecomp asks for them one at a time
+and each dialog says which one it wants.
 
 First launch:
 1. Run TombaRecomp.exe.
-2. Select your legally obtained SCPH1001.BIN BIOS when prompted.
-3. Select your legally obtained Tomba! (USA, SCUS-94236) disc image when
-   prompted.
+2. Step 1 of 2 - PlayStation BIOS: select your legally obtained SCPH1001.BIN
+   (a 512 KB file dumped from your own console).
+3. Step 2 of 2 - game disc: select your legally obtained Tomba!
+   (USA, SCUS-94236) disc image.
 
 Disc image formats:
-- .cue + .bin
+- .cue + .bin (preferred - pick the .cue)
 - .bin
 - .iso
 
@@ -101,6 +153,15 @@ different files later.
 If the disc header or game ID does not match SCUS-94236, TombaRecomp will show
 a warning and try to run the image anyway. Boot may fail if the image is the
 wrong game, the wrong region, or corrupt.
+
+Options such as loading-screen turbo and disc speed can be changed in
+game.toml (the [runtime] section) with any text editor.
+
+The cache folder contains pre-converted native code for game areas players
+have already contributed. As you play, newly visited areas are recorded into
+overlay_captures.json - share that file with the project (a GitHub issue is
+fine) and the next release runs those areas at full speed for everyone.
+See README.md ("Help make your game faster") for details.
 
 Keyboard and Xbox-style controller defaults are documented in README.md.
 Controller mappings are configurable in input.ini.

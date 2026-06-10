@@ -151,6 +151,35 @@ Runtime memory-card files are local artifacts and must not be committed. The
 current runtime uses raw PS1 memory-card images compatible with DuckStation,
 PCSX-Redux, Mednafen, ePSXe, and similar emulators.
 
+## Help make your game faster — just by playing
+
+**Why isn't the game already at full speed everywhere?** Most of Tomba's
+code is converted ("recompiled") into a fast native program ahead of time.
+But PlayStation games don't keep all of their code in memory at once — they
+stream extra chunks of code off the disc as you reach new areas (these
+chunks are called *overlays*). We can't convert a chunk we've never seen,
+and the only way to see it is for someone to actually visit that area.
+Until then, that area's code runs in a slower compatibility mode.
+
+**Releases ship a head start.** The `cache` folder next to the executable
+contains pre-converted native code for every area players have contributed
+so far. Those areas run at full speed from the first moment you arrive.
+
+**You can grow it, just by playing.** While you play, TombaRecomp quietly
+notices which areas are still running in the slow mode and records them
+into a small file next to the executable called `overlay_captures.json`.
+After a play session — especially if you visited somewhere nobody has
+explored yet — share that file with the project (attach it to a GitHub
+issue on this repository). We fold it into the next release, and every
+player gets your areas at full speed forever. No technical knowledge
+needed: play, find the file, share it.
+
+What's safe to know:
+- The file contains only game code snapshots and addresses — no personal
+  data, no save files, no settings.
+- Sharing is optional. Re-visiting an area someone already contributed is
+  harmless — duplicates are detected and skipped.
+
 ## Development Rules
 
 - Use the real recompiled BIOS and real hardware simulation in PSXRecomp v4.
