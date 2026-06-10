@@ -4,7 +4,7 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=feat/overlay-jit-cache
-sha=d22c9cec4284c9a72ac742ed6a3548722c9abba2
+sha=2d6a75d9a2af2c8d3ad19189c7dfce57745f7957
 # Bumped 2026-06-06: points at psxrecomp master = mmx6 framework + additive
 # diagnostic tooling (A0/B0/C0 bioscall ring + psx_check_interrupts_at shim,
 # commit d22c9ce). Tomba regen-builds and renders the title + LOAD memory-card
