@@ -30,6 +30,10 @@ executable remain the single most useful thing you can attach to an issue
 
 ## Also in this release
 
+- **No more audio stutter during fast loads.** While turbo-loads is
+  compressing a loading screen, audio is now muted instead of playing
+  sped-up garble; the music picks up right where it left off when the
+  load finishes.
 - Display-control activity is now recorded continuously in development
   builds (groundwork for fixing the boot-logo flicker some players have
   noticed).
