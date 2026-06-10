@@ -21,10 +21,11 @@ memcard_dir = "saves"
 disc_speed = "instant"
 fast_boot  = false   # set false to watch BIOS logos
 overlay_cache = true  # overlay DLL cache (Inc1-D write-invalidation under test)
-# Step 4 turbo-through-loads: verified working (3-5x load compression) but it
-# raises the incidence of the Bug B VBLANK-ACK reentry freeze (hard freeze at
-# frame 6347, 2026-06-09 dumps). OFF until Bug B is root-caused; re-enable after.
-turbo_loads = false
+# Step 4 turbo-through-loads: 3-5x load compression. ON by default since Bug B
+# was root-caused + fixed (psxrecomp ffc1521: the "turbo raises freeze
+# incidence" was the frame-pacing TOCTOU underflow, not an interrupt race;
+# turbo merely added the CPU load that widened the preemption window).
+turbo_loads = true
 # Step 2.8: auto capture+compile of uncovered overlay variants (background;
 # run via cmd.exe /C with cwd = project root; needs python + gcc on PATH).
 overlay_autocompile_cmd = "python ../psxrecomp/tools/compile_overlays.py --captures build-stable/overlay_captures.json --game-toml game.toml --recompiler ../psxrecomp/recompiler/build/psxrecomp-game.exe --runtime-include ../psxrecomp/runtime/include --out-dir build-stable/cache"
