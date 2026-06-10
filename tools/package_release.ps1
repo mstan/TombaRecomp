@@ -45,6 +45,12 @@ entry_pc = "0x8006B58C"
 text_size = "0x00088000"
 stack_base = "0x801FFFF0"
 
+# Required block; used only by the developer recompiler tool, not at runtime.
+[recompiler]
+seeds = "seeds/ghidra_funcs.txt"
+bios_thunks = "seeds/tomba_bios_thunks.txt"
+out_dir = "generated"
+
 # ---- Player-adjustable options ------------------------------------------
 # Edit, save, and restart TombaRecomp.exe to apply.
 [runtime]
@@ -82,7 +88,7 @@ if (Test-Path $CacheSrc) {
 
 # The Release build is statically linked (PSX_STATIC_RUNTIME defaults ON for
 # MinGW Release in psxrecomp/runtime/runtime.cmake), so TombaRecomp.exe imports
-# ONLY Windows system DLLs — no SDL2.dll / libgcc_s_seh-1.dll / libstdc++-6.dll
+# ONLY Windows system DLLs -- no SDL2.dll / libgcc_s_seh-1.dll / libstdc++-6.dll
 # to bundle. Shipping those side-by-side was the cause of the 0xc000007b launch
 # crash (issue #1) on machines with a mismatched copy earlier on the DLL search
 # path. Assert self-containment rather than trust it.
@@ -95,7 +101,7 @@ $systemDlls = @("kernel32.dll","user32.dll","gdi32.dll","shell32.dll","msvcrt.dl
                 "dinput8.dll","rpcrt4.dll","hid.dll","cfgmgr32.dll")
 $nonSystem = $imports | Where-Object { $systemDlls -notcontains $_.ToLower() }
 if ($nonSystem) {
-    throw "Release exe is NOT self-contained — imports non-system DLL(s): $($nonSystem -join ', ')"
+    throw "Release exe is NOT self-contained -- imports non-system DLL(s): $($nonSystem -join ', ')"
 }
 Write-Host "Verified self-contained: imports only system DLLs ($($imports.Count) total)"
 
