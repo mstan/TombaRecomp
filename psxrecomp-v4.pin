@@ -3,13 +3,16 @@
 # is a separate repo evolving on its own cadence. Update via:
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
-branch=feat/overlay-jit-cache
-sha=724912338c979b53ae9fb57274d238a7e8a3115f
-# Bumped 2026-06-06: points at psxrecomp master = mmx6 framework + additive
-# diagnostic tooling (A0/B0/C0 bioscall ring + psx_check_interrupts_at shim,
-# commit d22c9ce). Tomba regen-builds and renders the title + LOAD memory-card
-# slot list, 0 dispatch misses (verified 2026-06-06). Supersedes ec4306f.
-# 2026-06-07: re-pointed branch -> feat/overlay-jit-cache (forked from psxrecomp
-# master @ d22c9ce; same commit, no codegen/runtime change). This game branch
-# tracks the matching psxrecomp feat/overlay-jit-cache branch for the Option-B
-# overlay JIT-cache work (docs/dynamic_handler_install.md). No ape-escape content.
+branch=master
+sha=34561b541887d84dd43023b12fb52c14b1868b4a
+# Bumped 2026-06-11 for the v0.1.7-alpha release: re-pointed to psxrecomp master
+# (34561b5). master is a strict superset of the old feat/overlay-jit-cache pin
+# (7249123) — it contains the entire overlay-jit-cache campaign (steps 2.7/2.8,
+# Bug A fix, DISPATCH_INTERIOR) PLUS the Bug D dispatch call-contract (2439d4d),
+# DMA hardening, the SSAA/AA + optional-bilinear video commits, and the Bug B
+# freeze fix. feat/overlay-jit-cache was fully merged into master and deleted.
+# NOTE: 2439d4d is an emitter change, so the overlay ABI bumped to v2; rebuild
+# the overlay cache under this framework (the v2 loader rejects/deletes v1 DLLs).
+# ---- history ----
+# 2026-06-06 (d22c9ce / 7249123): mmx6 framework + diagnostic tooling.
+# 2026-06-07: re-pointed branch -> feat/overlay-jit-cache (same commit then).
