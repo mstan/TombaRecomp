@@ -30,6 +30,17 @@ turbo_loads = true
 # run via cmd.exe /C with cwd = project root; needs python + gcc on PATH).
 overlay_autocompile_cmd = "python ../psxrecomp/tools/compile_overlays.py --captures build-stable/overlay_captures.json --game-toml game.toml --recompiler ../psxrecomp/recompiler/build/psxrecomp-game.exe --runtime-include ../psxrecomp/runtime/include --out-dir build-stable/cache"
 
+[video]
+# Visual enhancement options.
+# supersampling: internal-resolution SSAA factor (1 = native PSX, 2..4 render
+#   the scene at N* the resolution and downsample on present -> true
+#   supersampling + edge anti-aliasing). 2 is a good quality/perf default;
+#   raise to 3 or 4 for sharper edges if your CPU holds 59.94 fps.
+# antialiasing: linear present filtering (smooths the downscale and any window
+#   resize). Set false for sharp, unfiltered pixels.
+supersampling = 2
+antialiasing  = true
+
 # ── Audit-specific config (consumed by psxrecomp/tools/*.py and tests) ──
 #
 # Schema mirrors psxrecomp/bios/SCPH1001.toml. Paths are relative to the
