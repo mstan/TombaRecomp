@@ -67,8 +67,9 @@ fast_boot  = false
 turbo_loads = true
 
 # Overlay cache: keeps converted native code for game areas in the cache
-# folder, and records newly visited areas into overlay_captures.json so you
-# can contribute them back to the project (see README).
+# folder, and records newly visited areas into overlay_captures.json so
+# your own cache grows as you play. Keep that file private - it contains
+# game code from your disc (see README).
 overlay_cache = true
 "@ | Set-Content -Encoding ASCII (Join-Path $Stage "game.toml")
 
@@ -135,10 +136,12 @@ select = back
 @"
 TombaRecomp $Version
 
-This package does not include Tomba, the PlayStation BIOS, generated game
-source, save data, or any copyrighted Sony/Whoopee Camp assets. You supply
-two files from your own collection; TombaRecomp asks for them one at a time
-and each dialog says which one it wants.
+This package does not include the Tomba disc, the PlayStation BIOS, save
+data, or any game assets - you supply those from your own collection, and
+TombaRecomp asks for them one at a time (each dialog says which one it
+wants). The executable and the cache folder contain statically recompiled
+(machine-translated) builds of the game's code, the same distribution model
+used by other static recompilation projects such as N64: Recompiled.
 
 First launch:
 1. Run TombaRecomp.exe.
@@ -163,11 +166,12 @@ wrong game, the wrong region, or corrupt.
 Options such as loading-screen turbo and disc speed can be changed in
 game.toml (the [runtime] section) with any text editor.
 
-The cache folder contains pre-converted native code for game areas players
-have already contributed. As you play, newly visited areas are recorded into
-overlay_captures.json - share that file with the project (a GitHub issue is
-fine) and the next release runs those areas at full speed for everyone.
-See README.md ("Help make your game faster") for details.
+The cache folder contains pre-converted native code for game areas covered
+so far; those run at full speed from your first visit. As you play, newly
+visited areas are recorded into overlay_captures.json and your local cache
+grows automatically. Do NOT post overlay_captures.json publicly - it
+contains snapshots of the game's own code read from your disc. See
+README.md ("Help make your game faster") for details.
 
 Keyboard and Xbox-style controller defaults are documented in README.md.
 Controller mappings are configurable in input.ini.

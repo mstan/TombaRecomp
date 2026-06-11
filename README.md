@@ -165,20 +165,17 @@ Until then, that area's code runs in a slower compatibility mode.
 contains pre-converted native code for every area players have contributed
 so far. Those areas run at full speed from the first moment you arrive.
 
-**You can grow it, just by playing.** While you play, TombaRecomp quietly
-notices which areas are still running in the slow mode and records them
-into a small file next to the executable called `overlay_captures.json`.
-After a play session — especially if you visited somewhere nobody has
-explored yet — share that file with the project (attach it to a GitHub
-issue on this repository). We fold it into the next release, and every
-player gets your areas at full speed forever. No technical knowledge
-needed: play, find the file, share it.
+**It grows on its own, just by playing.** While you play, TombaRecomp
+quietly notices which areas are still running in the slow mode and records
+them into a file next to the executable called `overlay_captures.json`.
+Your own cache is built from it automatically, so areas you visit get
+faster for you without doing anything.
 
-What's safe to know:
-- The file contains only game code snapshots and addresses — no personal
-  data, no save files, no settings.
-- Sharing is optional. Re-visiting an area someone already contributed is
-  harmless — duplicates are detected and skipped.
+**Please do not post `overlay_captures.json` publicly.** The file contains
+verbatim snapshots of the game's code read from your disc, which is
+copyrighted material — keep it on your own machine, alongside your disc
+image. A metadata-only contribution format (addresses and checksums, no
+game code) is planned so discoveries can be shared safely in the future.
 
 ## Development Rules
 
@@ -194,4 +191,9 @@ What's safe to know:
 PolyForm Noncommercial 1.0.0. See `LICENSE`.
 
 Tomba! is copyright Whoopee Camp / Sony Computer Entertainment. This
-repository contains none of Tomba's copyrighted content.
+repository contains none of Tomba's original binaries or assets. Release
+packages contain no game assets, no disc data, and no BIOS image — those
+are always read from files you supply. The release executable and the
+bundled `cache` folder do contain statically recompiled (machine-translated)
+builds of the game's code, the same distribution model used by other static
+recompilation projects such as N64: Recompiled.
