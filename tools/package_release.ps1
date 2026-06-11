@@ -80,6 +80,9 @@ overlay_cache = true
 supersampling = 2
 # antialiasing: smooth (linear) scaling to the window. false = sharp pixels.
 antialiasing  = true
+# texture_filtering: "nearest" = native PSX look; "bilinear" = smooths
+# textures and 2D backgrounds.
+texture_filtering = "nearest"
 "@ | Set-Content -Encoding ASCII (Join-Path $Stage "game.toml")
 
 # Prebuilt overlay cache: native code for the game areas contributed so far.

@@ -38,8 +38,11 @@ overlay_autocompile_cmd = "python ../psxrecomp/tools/compile_overlays.py --captu
 #   raise to 3 or 4 for sharper edges if your CPU holds 59.94 fps.
 # antialiasing: linear present filtering (smooths the downscale and any window
 #   resize). Set false for sharp, unfiltered pixels.
-supersampling = 2
-antialiasing  = true
+# texture_filtering: "nearest" (native PSX look) or "bilinear" (smooths
+#   textures and 2D backgrounds). Off by default.
+supersampling     = 2
+antialiasing      = true
+texture_filtering = "nearest"
 
 # ── Audit-specific config (consumed by psxrecomp/tools/*.py and tests) ──
 #
