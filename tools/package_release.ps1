@@ -71,6 +71,15 @@ turbo_loads = true
 # your own cache grows as you play. Keep that file private - it contains
 # game code from your disc (see README).
 overlay_cache = true
+
+# ---- Visual quality -----------------------------------------------------
+[video]
+# supersampling: render the game at this multiple of native resolution and
+# downsample, for higher detail and anti-aliased edges. 1 = native PSX look,
+# 2 = recommended, 3-4 = sharper (needs a faster CPU to hold full speed).
+supersampling = 2
+# antialiasing: smooth (linear) scaling to the window. false = sharp pixels.
+antialiasing  = true
 "@ | Set-Content -Encoding ASCII (Join-Path $Stage "game.toml")
 
 # Prebuilt overlay cache: native code for the game areas contributed so far.
