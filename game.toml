@@ -40,9 +40,14 @@ overlay_autocompile_cmd = "python ../psxrecomp/tools/compile_overlays.py --captu
 #   resize). Set false for sharp, unfiltered pixels.
 # texture_filtering: "nearest" (native PSX look) or "bilinear" (smooths
 #   textures and 2D backgrounds). Off by default.
+# renderer: "software" (CPU rasterizer) or "opengl" (GPU-authoritative VRAM
+#   FBO backend). OpenGL moves rasterization + supersampling onto the GPU, so
+#   fill-heavy scenes (e.g. the mushroom forest) hold 59.94 fps even at
+#   supersampling 2..4. Falls back to software automatically if GL init fails.
 supersampling     = 2
 antialiasing      = true
 texture_filtering = "nearest"
+renderer          = "opengl"
 
 # ── Audit-specific config (consumed by psxrecomp/tools/*.py and tests) ──
 #

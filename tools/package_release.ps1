@@ -1,5 +1,5 @@
 param(
-    [string]$Version = "v0.1.5-alpha",
+    [string]$Version = "v0.1.8-alpha",
     [string]$BuildDir = "build-release"
 )
 
@@ -14,7 +14,7 @@ $MingwBin = "C:\msys64\mingw64\bin"
 
 $env:PATH = "$MingwBin;$env:PATH"
 
-cmake -S $Root -B $BuildPath -G Ninja -DCMAKE_BUILD_TYPE=Release -DPSX_DEBUG_TOOLS=OFF
+cmake -S $Root -B $BuildPath -G Ninja -DCMAKE_BUILD_TYPE=Release -DPSX_DEBUG_TOOLS=OFF -DPSX_LAUNCHER=ON
 cmake --build $BuildPath -j $env:NUMBER_OF_PROCESSORS
 
 if (Test-Path $StageRoot) {
@@ -29,6 +29,25 @@ Copy-Item (Join-Path $Root "LICENSE") $Stage
 if (Test-Path (Join-Path $Root "RELEASE_NOTES.md")) {
     Copy-Item (Join-Path $Root "RELEASE_NOTES.md") $Stage
 }
+
+# Launcher assets (RML + fonts + images). The PSX_LAUNCHER build stages these
+# next to the exe via a cmake POST_BUILD copy_directory of
+# psxrecomp/runtime/launcher/assets, so they live flat under $BuildPath
+# (launcher.rml, fonts/, img/). The launcher loads them relative to the exe
+# dir; a release without them shows a blank/broken launcher. Assert + copy.
+$LauncherRml = Join-Path $BuildPath "launcher.rml"
+if (-not (Test-Path $LauncherRml)) {
+    throw "Launcher assets missing at $BuildPath (no launcher.rml) -- was the build configured with -DPSX_LAUNCHER=ON?"
+}
+Copy-Item $LauncherRml $Stage
+foreach ($dir in @("fonts","img")) {
+    $src = Join-Path $BuildPath $dir
+    if (-not (Test-Path $src)) { throw "Launcher asset dir missing: $src" }
+    Copy-Item -Recurse -Force $src (Join-Path $Stage $dir)
+}
+$fontCount = (Get-ChildItem (Join-Path $Stage "fonts") -Filter *.ttf -ErrorAction SilentlyContinue).Count
+$imgCount  = (Get-ChildItem (Join-Path $Stage "img") -Filter *.png -ErrorAction SilentlyContinue).Count
+Write-Host "Bundled launcher assets: launcher.rml + $fontCount font(s) + $imgCount image(s)"
 
 # Player-facing game.toml: same effective runtime settings as the dev config,
 # minus dev-only sections ([recompiler]/[audit] inputs, the overlay
@@ -83,6 +102,10 @@ antialiasing  = true
 # texture_filtering: "nearest" = native PSX look; "bilinear" = smooths
 # textures and 2D backgrounds.
 texture_filtering = "nearest"
+# renderer: "opengl" = hardware GPU renderer (default; keeps heavy areas at
+# full speed). "software" = CPU renderer (automatic fallback if the GPU
+# renderer can't start). You can also change this in the launcher.
+renderer = "opengl"
 "@ | Set-Content -Encoding ASCII (Join-Path $Stage "game.toml")
 
 # Prebuilt overlay cache: native code for the game areas contributed so far.
@@ -156,11 +179,13 @@ wants). The executable and the cache folder contain statically recompiled
 used by other static recompilation projects such as N64: Recompiled.
 
 First launch:
-1. Run TombaRecomp.exe.
-2. Step 1 of 2 - PlayStation BIOS: select your legally obtained SCPH1001.BIN
-   (a 512 KB file dumped from your own console).
-3. Step 2 of 2 - game disc: select your legally obtained Tomba!
-   (USA, SCUS-94236) disc image.
+1. Run TombaRecomp.exe. A launcher window opens.
+2. In the launcher, set your PlayStation BIOS: select your legally obtained
+   SCPH1001.BIN (a 512 KB file dumped from your own console).
+3. Set the game disc: select your legally obtained Tomba! (USA, SCUS-94236)
+   disc image.
+4. Adjust any options you like (renderer, supersampling, screen look,
+   controller), then press Launch. Your choices are remembered next time.
 
 Disc image formats:
 - .cue + .bin (preferred - pick the .cue)
