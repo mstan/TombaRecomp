@@ -1,29 +1,30 @@
-# TombaRecomp v0.1.7-alpha
+# TombaRecomp v0.1.8-alpha
 
-The "sharper picture" release.
+The "launcher + hardware rendering" release.
 
 ## New
 
-**The game looks sharper.** It now renders at 2x the original resolution
-with anti-aliasing, so edges and characters are cleaner and less blocky.
-This is on by default. If you want to change it, open `game.toml` and look
-for the `[video]` section: set `supersampling = 1` for the original PSX
-look, or `3`/`4` for even sharper edges if your PC can keep up (higher
-settings cost more, so drop back down if the game slows).
+**A startup launcher.** TombaRecomp now opens to a settings screen before
+the game boots. From there you pick your PlayStation BIOS and Tomba disc,
+choose the renderer, supersampling, anti-aliasing and screen-colour look,
+set up your controller, and check your memory cards — all in one place,
+with your choices remembered for next time. (Your previously saved BIOS and
+disc are picked up automatically, so you won't have to re-select them.)
 
-**Optional texture smoothing.** A new `texture_filtering = "bilinear"`
-setting in `[video]` softens textures and 2D backgrounds. It's off by
-default so the original look is kept; turn it on if you prefer a smoother
-picture.
+**Hardware OpenGL rendering.** A new GPU-accelerated renderer is now the
+default. It moves the heavy drawing work off the CPU and onto your graphics
+card, so detail-heavy areas — like the mushroom forest — stay at full speed
+even with 2x supersampling turned on. You'll need a GPU with OpenGL 3.3 or
+newer (effectively any machine from the last decade); if the GPU renderer
+can't start for any reason, TombaRecomp automatically falls back to the
+software renderer, so it always runs.
 
-## Fixed
-
-**A freeze during play.** Following on from the crash fix in the last
-release, this catches a related case where the game could still lock up
-after certain object interactions. It should no longer happen.
+You can switch back to the software renderer in the launcher, or in
+`game.toml` under `[video]` with `renderer = "software"`.
 
 ## Notes
 
-The graphics settings live in `game.toml` under `[video]` — edit the file
-and restart to apply. As before, this package does not include the PS1
-BIOS or the Tomba disc; you supply your own.
+Graphics and gameplay settings still live in `game.toml` under `[video]`
+and `[runtime]` — edit and restart to apply, or use the launcher. As
+before, this package does not include the PS1 BIOS or the Tomba disc; you
+supply your own (the launcher asks for each one and remembers them).

@@ -4,15 +4,21 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=34561b541887d84dd43023b12fb52c14b1868b4a
-# Bumped 2026-06-11 for the v0.1.7-alpha release: re-pointed to psxrecomp master
-# (34561b5). master is a strict superset of the old feat/overlay-jit-cache pin
-# (7249123) — it contains the entire overlay-jit-cache campaign (steps 2.7/2.8,
-# Bug A fix, DISPATCH_INTERIOR) PLUS the Bug D dispatch call-contract (2439d4d),
-# DMA hardening, the SSAA/AA + optional-bilinear video commits, and the Bug B
-# freeze fix. feat/overlay-jit-cache was fully merged into master and deleted.
-# NOTE: 2439d4d is an emitter change, so the overlay ABI bumped to v2; rebuild
-# the overlay cache under this framework (the v2 loader rejects/deletes v1 DLLs).
+sha=4ea9ecd2a2d9db60d23e39091a53f12a2b2e751b
+# Bumped 2026-06-12 for v0.1.8-alpha (GL default + launcher): re-pointed to
+# psxrecomp master (4ea9ecd, pushed to origin). master already contains the GL
+# renderer v2 merge (7ef6415), the SPU/CRT verified-enhancement shadow
+# (8a4ac4e, default OFF), and the full RmlUi launcher (Phases 1-5). Tomba now
+# defaults to the GPU renderer (game.toml renderer = "opengl") to fix the
+# fill-bound software-rasterizer lag in heavy scenes (mushroom forest).
+# Runtime-only; no emitter/regen impact, overlay ABI stays v2 (the v1->v2 cache
+# rebuild already happened for v0.1.7-alpha).
 # ---- history ----
+# 2026-06-12 (bba973d, feat/gl-renderer): GL renderer v2 pin (now superseded —
+#   the GL merge landed in master, so we base off master instead of that branch).
+# 2026-06-11 (34561b5, master): v0.1.7-alpha release pin. master superset of the
+#   old feat/overlay-jit-cache pin (7249123): overlay-jit-cache campaign + Bug D
+#   dispatch contract (2439d4d, ABI v2) + DMA hardening + SSAA/AA video + Bug B
+#   freeze fix. feat/overlay-jit-cache was fully merged into master and deleted.
 # 2026-06-06 (d22c9ce / 7249123): mmx6 framework + diagnostic tooling.
 # 2026-06-07: re-pointed branch -> feat/overlay-jit-cache (same commit then).
