@@ -114,14 +114,62 @@ WRONG system. Diagnosis (runtime instrumentation, no regen):
   SEPARATE, still-unlocated system — and being overlay-resident, its cull is
   likely NOT in the main-EXE Ghidra DB (explains zero main-EXE camX-reader
   hits).
-  NEXT: locate the backdrop renderer/spawner (parallax routine or 2nd object
-  table). Options: (a) load the overlay images into Ghidra and analyze there;
-  (b) runtime-instrument the overlay handlers (census object tables / writer-
-  trace the ocean prim via wtrace on the OT buffer). Then widen each backdrop
-  piece's spawn window + clip rect for 16:9 (psx_ws_x_margin family) via the
-  ENHANCEMENTS.md build-time injector; if overlay-resident, propagate the widen
-  into tools/compile_overlays.py. The configured `[widescreen.cull]` sites stay
-  (correct, 4:3-identity) but are not 8C's cause.
+  → **ROOT CAUSE FOUND: backdrop renderer `FUN_801216bc` (overlay).** Extracted
+  the scene overlay (`build-stable/overlay_captures.json`, load 0x800E7000) and
+  imported it into Ghidra; the type-0 actor handler (table 0x800A3D08 slots
+  0-1, upper-screen parallax pieces) is the backdrop. Disassembly:
+    `lh camX,0x176; slti 0x71A` (area gate)
+    `screenX[+0x12] = sign16(worldX[+0x30] - camX) >> 3`   (1/8 parallax)
+    `screenY[+0x16] = (worldY-_DAT_1f80017a)>>1 - (_DAT_800a38d8>>6)`
+    `jal 0x80018d40` (OT-append — BYPASSES the foreground classifier).
+  It computes screenX in PURE 2D and never touches the GTE, so the widescreen
+  X-squash (gte_set_display_aspect, 3D-only) doesn't apply. At 16:9 the squashed
+  3D world reveals a wider FOV but the un-squashed backdrop stays at native 4:3
+  screen positions → far pieces (e.g. slot 1 worldX 3260: screenX=(3260-camX)>>3
+  ≈370 at camX 293) sit past the 320px framebuffer edge and are GPU-clipped →
+  the blue void / half-rectangles at the edges (user images 1&3). Explains why
+  ws_margin never moved it (not through FUN_80022e44) and why the main-EXE camX
+  scan missed it (camX read is in the overlay).
+  **FIX (designed): squash the backdrop screenX around screen-centre 160 by the
+  SAME ws factor the GTE uses** — `screenX' = 160 + (screenX-160)*ws_xnum/ws_xden`
+  (4:3 ⇒ identity). This pulls the off-screen far pieces in: slot1 370 →
+  160+(370-160)*3/4 = 317, on-screen. Implement as a recompiler emit at the
+  +0x12 store in FUN_801216bc (overlay code), gated by a new [widescreen]
+  backdrop_funcs list; propagate to tools/compile_overlays.py + the overlay-
+  cache ABI discriminator; regen. CAUTIONS (ENHANCEMENTS Rule 5): verify the
+  16-bit sign-extend/wrap on (worldX-camX); the prim from +0x12 may be a quad
+  whose WIDTH should scale too (tiling); confirm +0x12 has no other consumer.
+  The configured `[widescreen.cull]` sites stay (correct, 4:3-identity) but are
+  not 8C's cause.
+  → **BUILT 2026-06-13 (screenX squash, both paths) — PARTIAL: culling persists.**
+  Implemented `psx_ws_backdrop_x()` (gpu.c: squash screenX around screen-centre
+  by ws factor, identity at 4:3) and applied it on BOTH execution paths:
+    • Native: recompiler emit at `[widescreen.backdrop] x_sites` (config_loader,
+      code_generator, main_psx `--ws-config`), forwarded into overlay DLLs via
+      OverlayCallbacks `ws_backdrop_x` (overlay ABI bumped v2→v3 as the cache
+      discriminator), propagated through tools/compile_overlays.py.
+    • Interp: dirty_ram_interp SH hook keyed by `psx_ws_is_backdrop_site(pc)`
+      (runtime registers the x_sites from game.toml). THIS is the path that
+      actually runs — see 8G: overlay runs 100% interpreted in dev (native=0).
+  VERIFIED IN DATA: at camX 290, backdrop slot 1 (worldX 3260) screenX reads
+  318 = the squashed value (raw 371, off the 320px edge). So the hook fires and
+  the mountain is pulled on-screen. BUT the user still sees "lots of culling".
+  → **REMAINING CAUSE (hypothesis): spawn/despawn, not screenX clip.** screenX
+  squash only helps pieces that are ACTIVE. The user's "bounce L/R to see
+  culling and spawning" means backdrop pieces are DESPAWNED (object +4 state →
+  inactive) on a 4:3 camera window before screenX matters. Need to find + widen
+  the backdrop SPAWN window (what flips slots active/type in the 0x800A3D08
+  table — a spawner keyed to camera position). The screenX squash stays (it's
+  correct + necessary), but spawn-widening is the missing half.
+  Also unresolved: only handler 0x801216BC (type0) is enabled; type1 0x80121810
+  (slots 2-5, evenly-spaced midground row — NOT the dialogue box as first
+  thought; see 8F) and type2 0x80121A74 likely also need the squash once
+  verified backdrop-vs-UI. And the squash moves the prim ANCHOR only, not its
+  WIDTH (a wide quad still clips at the edge) — may need width scaling too.
+  Tools built (committed psxrecomp c51b3b9 / earlier; interp-hook UNCOMMITTED):
+  ws_census draw ring, ws_margin, gpu_state ws fields, tools/_press.py,
+  tools/_objtab.py (decodes the 0x800A3D08 actor table: +0 active, +2 type,
+  +0x12 screenX, +0x16 screenY, +0x30 worldX, stride 0x6C, 10 slots).
 
 **8D — World-edge left exposure (lower priority).** 16:9 can reveal past the
 authored left edge of an area's geometry. Camera clamps at `0x80057D94` /
@@ -129,6 +177,32 @@ authored left edge of an area's geometry. Camera clamps at `0x80057D94` /
 
 **8E — 21:9 untested.** Launcher offers it; math generalizes; not playtested.
 Worsens 8C until culling is solved.
+
+**8F — Dialogue box broken in 16:9 (PRE-EXISTING, not the backdrop work).** The
+in-game dialogue/text box renders split apart in widescreen (text in 3 offset
+chunks with gaps). PROVEN independent of the 8C backdrop fix: when observed,
+the overlay was running 100% interpreted (native dispatch = 0, so the backdrop
+recompiler emit never executed) AND the interp hook didn't exist yet — nothing
+from the 8C work touched it. Cause is earlier widescreen work (GTE squash /
+sprite-tag / HUD `hud_sprt_squash`) mis-handling the dialogue's composite tiled
+prim. The dialogue box must be treated as 4:3 (unmodified screen-space UI), like
+the full-2D menus. NEXT: identify the dialogue-box draw path (it's a tiled
+composite — cap/middle pieces) and exempt it from the squash, OR confirm which
+existing squash (sprite-tag vs hud_sprt) is splitting it and gate that off for
+this prim class.
+
+**8G — Overlay autocompile produces no DLLs in dev → 100% interpreted.** This
+session: `overlay_loader_status` shows dispatch_native=0, interp_fallback=21M+,
+loads=0. The cache dir holds only intermediate `*_patched.c`, no `.dll`. The
+runtime's background autocompile (`overlay_autocompile_cmd` → compile_overlays.py
+→ gcc) isn't producing DLLs — most likely gcc isn't on the spawned cmd.exe PATH
+when psx-runtime is launched from a shell without mingw64 on PATH. Manual
+compile_overlays.py (from a mingw64 shell) DOES produce DLLs. Impact: overlay
+code runs interpreted (slower; and the native-only widescreen emit never fires —
+which is why the 8C interp hook was necessary). Not a correctness bug for the
+game, but native should work in dev. Fix: ensure the autocompile child sees gcc
+(bake mingw64 bin into the autocompile cmd, or PATH-inject in autocompile.c), or
+pre-build + bundle the cache. Independent of the widescreen fixes.
 
 ### Verify / rebuild
 
