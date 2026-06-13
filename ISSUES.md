@@ -5,6 +5,102 @@ Game-specific issues. Framework-side issues live in
 
 ---
 
+## Issue #8 — Widescreen (16:9) support
+
+**Status:** IN PROGRESS on branch `feat/widescreen` (both repos). Core works
+and is user-validated; three items open (HUD positioning, in-game pause
+overlay centering, world-space culling). Framework design + the culling
+patch set are documented in `psxrecomp/WIDESCREEN.md`.
+
+**How it works (recap):** DuckStation-style hack — squash the GTE projection
+horizontally, present the 4:3 frame stretched to the wide aspect = wider FOV.
+Implemented in our GTE/GPU so it covers generated code, interpreter, and
+overlays. Opt-in via `[video] aspect_ratio` + `[widescreen]` block in
+`game.toml`; launcher **Settings → Aspect ratio** toggles it at runtime
+(one build does 4:3 and 16:9). `aspect_ratio = "4:3"` (default) is a
+byte-identical identity. Squash applies IFF the frame is stretched
+(`gpu_ws_present_native_43()` is the shared predicate).
+
+### Done / user-validated ✓
+
+- **World geometry** correct proportions, wider FOV (GTE X-squash). `f8a29e8`
+- **Launcher aspect toggle**, single build. `970670b`
+- **Character/billboard sprites** not stretched — recompiler tags the shared
+  per-prim helper (`0x8005E08C`, `$a0`=prim) and the GPU re-squashes each
+  tagged prim around its projected anchor. `cad8c96`
+- **FMV** presented pillarboxed 4:3 (24-bit OR streamed 15-bit MDEC video,
+  `mdec_recently_active`). `0792086`
+- **Authentic 4:3 BIOS boot** — Sony/PS logos + shell render 4:3; widescreen
+  engages at game entry. `5151e5b`
+- **Full-2D menu screens** (Item/inventory, save-list, title): zero squash +
+  4:3 pillarbox = pixel-native. User: "Pause menu [Item screen] looks good!"
+  `3d04f19`
+- **Menu garble fixed** — per-prim center-squash was mangling composite dialog
+  boxes (tiled cap/middle/cap SPRTs). Root cause: squash ran while the frame
+  presented 4:3. Now squash is coupled to present (squash IFF stretch); full-2D
+  screens get zero squash. User: "Menus look good again." `3d04f19`
+
+### Open
+
+**8A — In-game HUD positioning wrong.** The persistent HUD (AP counter, clock,
+item count) drawn during gameplay is squashed to native proportions (good) but
+mis-positioned. Center-pivot pulls corner elements too far inward (user: "AP is
+too far to the left"); the current thirds-anchor heuristic (`ws_hud_pivot` in
+`gpu.c` — outer-third elements → screen edge, middle → centre) still doesn't
+place them where the user wants ("16:9 positioning, 4:3 look" = native size at
+the true corners). Generic pivot heuristics can't reliably tell corner-HUD from
+other 2D elements. Likely needs per-element identification (which draw calls are
+the persistent HUD) via Ghidra, or a per-game HUD-anchor table.
+
+**8B — In-game pause overlay not centered.** The small "Pause / Exit Game /
+Load Game" popup that appears *over live gameplay* (world still rendering
+behind) is treated as gameplay HUD (`ws_game_mode()` true because character
+billboards are still drawn), so its SPRTs get the thirds-anchor and land
+off-centre. User wants it centred. Distinct from the full-screen Item menu
+(8A/full-2D path handles that correctly). Hard to distinguish a centered popup
+from corner-HUD generically during game_mode — same root difficulty as 8A.
+Candidate fixes: identify the pause-overlay draw calls specifically, or detect
+"2D popup box during gameplay" and pivot it to centre.
+
+**8C — World-space culling pop-in NOT resolved.** Objects still pop in/out near
+the wide-screen edges. The recompiler cull-widen feature shipped (`3d04f19`):
+`[widescreen.cull]` emits the draw-classifier immediates (family `0x80022E44`
+etc., 11 sites) with `+ psx_ws_x_margin()` (~53px at 16:9, 0 at 4:3). It
+regen'd and emits correctly, but the pop persists. Suspects, in priority order:
+  1. **Stale overlay cache** — if the classifier (or a copy) is overlay-
+     resident, the cached DLLs in `build-stable/cache/SCUS-94236/` were compiled
+     *before* the cull-widen and carry the old window. Test: delete the cache
+     (or `overlay_cache = false` in game.toml) and re-run; if pop reduces, the
+     cull lives in overlays and `compile_overlays.py` must propagate the
+     `[widescreen.cull]` config to the overlay recompiler invocations.
+  2. **Wrong/incomplete classifier** — the Ghidra agent flagged a residual:
+     the level-data spawner does NOT read camX (`0x1F800176`) and is likely
+     overlay-resident; it may be the real pop source, not the patched
+     main-EXE draw classifier.
+  3. **`psx_ws_x_margin()` returning 0 in gameplay** — verify at runtime: it's
+     gated on `ws_active()` (= configured && stretching). If `mdec_recently_
+     active(30)` false-positives during gameplay, or game_mode flickers, the
+     margin would be suppressed. Add a debug readout / sanity check.
+  4. **Margin insufficient** — unlikely (matches the Ghidra-derived 54px), but
+     could be bumped if 1–3 are cleared and pop persists at the very edge.
+
+**8D — World-edge left exposure (lower priority).** 16:9 can reveal past the
+authored left edge of an area's geometry. Camera clamps at `0x80057D94` /
+`0x80058580` pin objects to the 4:3 right edge; widening is a separate decision.
+
+**8E — 21:9 untested.** Launcher offers it; math generalizes; not playtested.
+Worsens 8C until culling is solved.
+
+### Verify / rebuild
+
+Runtime-only edits: `cmake --build build-stable --target psx-runtime -j16`.
+Cull-widen / sprite-tags emit into generated C → regen first:
+`psxrecomp-game.exe --config game.toml`. Dev instance runs 16:9 via
+`build-stable/settings.toml`; `game.toml` ships 4:3. Always taskkill the
+running exe before relaunching.
+
+---
+
 ## Issue #7 - Visual correctness burn-down
 
 **Status:** closed. User confirmed 2026-05-17/18 that the observed visual
