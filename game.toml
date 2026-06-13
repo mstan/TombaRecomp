@@ -106,14 +106,21 @@ a1_sites    = ["0x80022C34", "0x80022D68", "0x800230FC"]
 # backdrop (NOT UI) before enabling — a parallax+camera signature ALSO matches
 # screen-space UI positioned relative to the camera:
 #   0x801216BC type0  store 0x801217B4  (>>3, single prim)   = far backdrop ✓
-#   0x80121810 type1  store 0x8012196C  (>>1 + TILING loop)  = DIALOGUE BOX ✗
-#       tiling loop (a3 ±0x40) + clut munge = composite UI; squashing it splits
-#       the dialogue text apart — must stay 4:3. DO NOT enable.
+#   0x80121810 type1  store 0x8012196C  (>>1, animated tex)  = midground row ✓
+#       Draws a row of 4 evenly-spaced parallax pieces (worldX 540/680/820/960,
+#       fixed screenY 130) that stay active with NO dialogue on screen — proven
+#       backdrop, not the dialogue box. The a3 ±0x40 "tiling loop" only CYCLES the
+#       texpage/CLUT word at +0x8 (animated-texture shimmer), it does not lay out
+#       text tiles. 8C right-edge culling (slots 4/5) is this row clipping while
+#       unsquashed; enabling the squash pulls them in (slot4 410→316 on-screen).
+#       NB: 8F's dialogue-split is the SEPARATE sprite_tag/hud_sprt_squash path,
+#       NOT this handler — an earlier session mis-blamed 0x80121810 for it.
+#       (Data-confirmed firing; live in-scene dialogue smoke-check still pending.)
 #   0x80121A74 type2  store 0x80121BAC  (>>3 + clamps)       = UNVERIFIED
 #       far-right area gate (camX>=0x719, not active in start area); left out
 #       until confirmed backdrop vs UI.
 [widescreen.backdrop]
-x_sites = ["0x801217B4"]
+x_sites = ["0x801217B4", "0x8012196C"]
 
 # ── Audit-specific config (consumed by psxrecomp/tools/*.py and tests) ──
 #
