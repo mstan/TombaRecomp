@@ -62,27 +62,66 @@ from corner-HUD generically during game_mode — same root difficulty as 8A.
 Candidate fixes: identify the pause-overlay draw calls specifically, or detect
 "2D popup box during gameplay" and pivot it to centre.
 
-**8C — World-space culling pop-in NOT resolved.** Objects still pop in/out near
-the wide-screen edges. The recompiler cull-widen feature shipped (`3d04f19`):
-`[widescreen.cull]` emits the draw-classifier immediates (family `0x80022E44`
-etc., 11 sites) with `+ psx_ws_x_margin()` (~53px at 16:9, 0 at 4:3). It
-regen'd and emits correctly, but the pop persists. Suspects, in priority order:
-  1. **Stale overlay cache** — if the classifier (or a copy) is overlay-
-     resident, the cached DLLs in `build-stable/cache/SCUS-94236/` were compiled
-     *before* the cull-widen and carry the old window. Test: delete the cache
-     (or `overlay_cache = false` in game.toml) and re-run; if pop reduces, the
-     cull lives in overlays and `compile_overlays.py` must propagate the
-     `[widescreen.cull]` config to the overlay recompiler invocations.
-  2. **Wrong/incomplete classifier** — the Ghidra agent flagged a residual:
-     the level-data spawner does NOT read camX (`0x1F800176`) and is likely
-     overlay-resident; it may be the real pop source, not the patched
-     main-EXE draw classifier.
-  3. **`psx_ws_x_margin()` returning 0 in gameplay** — verify at runtime: it's
-     gated on `ws_active()` (= configured && stretching). If `mdec_recently_
-     active(30)` false-positives during gameplay, or game_mode flickers, the
-     margin would be suppressed. Add a debug readout / sanity check.
-  4. **Margin insufficient** — unlikely (matches the Ghidra-derived 54px), but
-     could be bumped if 1–3 are cleared and pop persists at the very edge.
+**8C — World-space culling pop-in: configured cull sites DIAGNOSED as a no-op
+(2026-06-12).** The shipped `[widescreen.cull]` fix (`3d04f19`) targets the
+WRONG system. Diagnosis (runtime instrumentation, no regen):
+  - Added a live widescreen readout to the TCP `gpu_state` command
+    (`ws.{configured,active,game_mode,present_native_43,x_margin,squash,...}`)
+    and a `ws_margin <v|-1>` command (`gpu_ws_set_margin_override`) that forces
+    `psx_ws_x_margin()` to any value for a live cull sweep at a fixed camera.
+    Both in `runtime/src/{gpu.c,debug_server.c}` + `gpu.h` (uncommitted).
+  - **Refuted suspect 3:** during gameplay `x_margin` = **53**, stable across
+    frames, `active`=1, `game_mode`=1, `present_native_43`=0. No flicker, no
+    mdec false-positive. The margin is engaged correctly.
+  - **Emission verified:** `generated/SCUS_942.36_full.c` has all 12 sites
+    (`gpr += (64 + psx_ws_x_margin())`, `< (449 + 2*psx_ws_x_margin())`, etc).
+  - **Eliminated suspect 1 for these sites:** the classifier family is at
+    `0x80022xxx` = **main EXE**; overlays load at `0x800E7000+`, so these sites
+    can NEVER be overlaid → the cache cannot carry a stale copy of them.
+  - **Geometry proof + empirical confirmation = these sites don't gate the
+    16:9 view.** `FUN_80022e44` tests `(objX - camX + 0x40) <u 0x1C1`, i.e.
+    cull window `objX-camX ∈ [-64, +385]` (449 wide, 4:3 screen 320 + 64/65px
+    margins). The 16:9 squash (×3/4) shows ~427 world-px centered on the 4:3
+    center → visible range `objX-camX ∈ [-53, +373]`. The margin=0 window
+    **already fully contains** the 16:9 visible range (left −64 ≤ −53, right
+    +385 ≥ +373). The original 4:3 off-screen margin (64/65px) is LARGER than
+    the 16:9 widening (53px), so this classifier never culls anything visible
+    at 16:9 — the `+ psx_ws_x_margin()` widening is a no-op here. Confirmed by
+    sweeping `ws_margin` 0 → 250 standing still in both a static and a
+    scrolling area with edge objects (pink creatures at the very edge): the
+    presented frame is byte-for-byte unchanged at every margin.
+  → **The real pop-in source is a different system** (suspect 2): one whose
+    native off-screen margin is < 53px, or the overlay-resident level-data
+    spawner that doesn't key off camX. The configured sites were correct
+    Ghidra-identified classifiers but their margins already covered 16:9.
+  → **REFINED: 8C is a BACKDROP-LAYER problem, not a foreground-object cull**
+  (user screenshots, 2026-06-12). The far backdrop = ocean + cloud + brown
+  mountain + grassy mountain-top, drawn as SEPARATE pieces, each with its own
+  camera spawn window sized for 4:3 (+ a hard rectangular sky clip). Walking
+  right they "load" one at a time (ocean → +cloud → +mountain → +grass) as the
+  camera brings each into the 4:3 window; at 16:9 the view is wider than those
+  windows, so far pieces are absent/clipped at the edge. ("mountain culls
+  walking left; grass left of mansion culls walking right.")
+  Observability built this session (all UNCOMMITTED, runtime-only): `gpu_state`
+  ws fields, `ws_margin`, always-on per-prim `ws_census` draw ring (gpu.c, TCP
+  dump→CSV), tools/_press.py (TCP pad), tools/_objtab.py (actor-table decoder),
+  _shots/_census_an.py/_region2.py/_edge.py. Per-prim census localizes camX
+  but can't isolate one piece (display-list slots recycle; ~585 prims/frame).
+  Found the foreground/midground actor dispatcher FUN_8003438c → array
+  0x800A3D08, stride 0x6C, 10 slots, +2 type → handler table 0x8007D57C
+  (handlers mostly OVERLAY-resident 0x8011xxxx/0x8012xxxx). But that table is
+  actors (e.g. the 4 striped bushes), NOT the backdrop. The BACKDROP is a
+  SEPARATE, still-unlocated system — and being overlay-resident, its cull is
+  likely NOT in the main-EXE Ghidra DB (explains zero main-EXE camX-reader
+  hits).
+  NEXT: locate the backdrop renderer/spawner (parallax routine or 2nd object
+  table). Options: (a) load the overlay images into Ghidra and analyze there;
+  (b) runtime-instrument the overlay handlers (census object tables / writer-
+  trace the ocean prim via wtrace on the OT buffer). Then widen each backdrop
+  piece's spawn window + clip rect for 16:9 (psx_ws_x_margin family) via the
+  ENHANCEMENTS.md build-time injector; if overlay-resident, propagate the widen
+  into tools/compile_overlays.py. The configured `[widescreen.cull]` sites stay
+  (correct, 4:3-identity) but are not 8C's cause.
 
 **8D — World-edge left exposure (lower priority).** 16:9 can reveal past the
 authored left edge of an area's geometry. Camera clamps at `0x80057D94` /
