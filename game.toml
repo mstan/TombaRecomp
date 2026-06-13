@@ -92,6 +92,29 @@ range_sites = ["0x80022E80", "0x80022F9C", "0x80022FF0", "0x80023070"]
 # nop (delay slot) → a1 += margin  (caller-supplied-margin classifier variants)
 a1_sites    = ["0x80022C34", "0x80022D68", "0x800230FC"]
 
+# Parallax 2D backdrop layer (ocean / cloud / mountain / grassy-top). These
+# OVERLAY actor handlers compute screenX = (worldX - camX) >> parallax in pure
+# integer math and store it to the object's screen-X field (+0x12) WITHOUT the
+# GTE, so the GTE X-squash that gives 3D the wider 16:9 FOV never reaches them:
+# far pieces sit past the 320px framebuffer edge and are clipped, showing as the
+# blue void / half-drawn rectangles at the screen edges (Issue #8C). Each site
+# is the FINAL `sh rt,0x12(base)` store in a backdrop handler; the recompiler
+# emits it as write_half(.., psx_ws_backdrop_x(rt)) to squash screenX around the
+# screen centre by the same factor as the GTE (identity at 4:3). Overlay code,
+# so compile_overlays.py forwards this via --ws-config; changing it needs a
+# regen + overlay-cache rebuild. Each handler must be VERIFIED to draw far
+# backdrop (NOT UI) before enabling — a parallax+camera signature ALSO matches
+# screen-space UI positioned relative to the camera:
+#   0x801216BC type0  store 0x801217B4  (>>3, single prim)   = far backdrop ✓
+#   0x80121810 type1  store 0x8012196C  (>>1 + TILING loop)  = DIALOGUE BOX ✗
+#       tiling loop (a3 ±0x40) + clut munge = composite UI; squashing it splits
+#       the dialogue text apart — must stay 4:3. DO NOT enable.
+#   0x80121A74 type2  store 0x80121BAC  (>>3 + clamps)       = UNVERIFIED
+#       far-right area gate (camX>=0x719, not active in start area); left out
+#       until confirmed backdrop vs UI.
+[widescreen.backdrop]
+x_sites = ["0x801217B4"]
+
 # ── Audit-specific config (consumed by psxrecomp/tools/*.py and tests) ──
 #
 # Schema mirrors psxrecomp/bios/SCPH1001.toml. Paths are relative to the
