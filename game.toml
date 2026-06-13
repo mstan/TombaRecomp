@@ -65,6 +65,18 @@ renderer          = "opengl"
 auto_skip_fmv     = false
 aspect_ratio      = "4:3"
 
+# Widescreen proportion hooks (inert at 4:3; engaged when aspect_ratio is
+# wide). Evidence: Ghidra pass 2026-06-12 — every character/billboard render
+# function (RTPS cluster 0x800459E0-0x8004FB54, both the rotatable-POLY_FT4
+# and multi-part-SPRT patterns) calls the shared per-prim helper 0x8005E08C
+# with the prim pointer in $a0, after the RTPS preamble stores the projected
+# anchor SXY to scratchpad 0x1F800070. Sprite sizes are fixed pixels (never
+# depth-scaled). The HUD/menus build SPRT prims with no GTE involvement.
+[widescreen]
+sprite_tag_funcs   = ["0x8005E08C"]
+sprite_anchor_addr = "0x1F800070"
+hud_sprt_squash    = true
+
 # ── Audit-specific config (consumed by psxrecomp/tools/*.py and tests) ──
 #
 # Schema mirrors psxrecomp/bios/SCPH1001.toml. Paths are relative to the
