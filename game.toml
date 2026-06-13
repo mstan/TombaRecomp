@@ -77,6 +77,21 @@ sprite_tag_funcs   = ["0x8005E08C"]
 sprite_anchor_addr = "0x1F800070"
 hud_sprt_squash    = true
 
+# World-space draw-cull widening. The per-object classifier family tests
+# (objX - camX + BIAS) <u RANGE, where BIAS/RANGE are sized for the 4:3 screen
+# (320 + 64px margins). The GTE squash shows ~33% more world, collapsing the
+# effective margin to ~11px so objects pop near the wide-screen edges. The
+# recompiler emits these immediates with + psx_ws_x_margin() (bias) / + 2x
+# (range), which is 0 at 4:3 so the original cull is byte-identical. Sites are
+# Ghidra-evidenced (classifier family 0x80022C08-0x80023164; camX=0x1F800176).
+[widescreen.cull]
+# addiu rT,rS,imm  → rT = rS + (imm + margin)
+bias_sites  = ["0x80022E78", "0x80022F94", "0x80022FE8", "0x80023068"]
+# sltiu rT,rS,imm  → rT = rS <u (imm + 2*margin)
+range_sites = ["0x80022E80", "0x80022F9C", "0x80022FF0", "0x80023070"]
+# nop (delay slot) → a1 += margin  (caller-supplied-margin classifier variants)
+a1_sites    = ["0x80022C34", "0x80022D68", "0x800230FC"]
+
 # ── Audit-specific config (consumed by psxrecomp/tools/*.py and tests) ──
 #
 # Schema mirrors psxrecomp/bios/SCPH1001.toml. Paths are relative to the
