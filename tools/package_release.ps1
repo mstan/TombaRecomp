@@ -106,6 +106,10 @@ texture_filtering = "nearest"
 # full speed). "software" = CPU renderer (automatic fallback if the GPU
 # renderer can't start). You can also change this in the launcher.
 renderer = "opengl"
+# auto_skip_fmv: skip full-motion videos (e.g. the opening movie). When on, a
+# video is skipped the instant it starts, jumping straight to the next screen.
+# Off by default; also toggleable in the launcher (Settings -> "Skip FMVs").
+auto_skip_fmv = false
 "@ | Set-Content -Encoding ASCII (Join-Path $Stage "game.toml")
 
 # Prebuilt overlay cache: native code for the game areas contributed so far.
