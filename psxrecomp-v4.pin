@@ -4,11 +4,13 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=46a653aa63271653a62ce645fe2d73473523757d
-# Bumped 2026-06-14 for FMV auto-skip: psxrecomp master 46a653a adds the opt-in
-# FMV auto-skip feature (triggers the game's own START-skip when a streaming
-# FMV is detected) + its launcher "Skip FMVs" toggle. Strict superset of 4ea9ecd
-# (one feature commit on top). Runtime-only; no emitter/regen impact.
+sha=1010c58
+# Bumped 2026-06-14 for v0.1.9-alpha: psxrecomp master 1010c58 = FMV auto-skip
+# (46a653a) + overlay-cache flavor tag (1010c58). The flavor tag is behaviour-
+# neutral for base/master (tag == ABI v2) — it lets a variant build (e.g.
+# widescreen, PSX_OVERLAY_FLAVOR=1) keep a SEPARATE overlay cache that a base
+# runtime auto-rejects, so the two never cross-contaminate. Strict superset of
+# 4ea9ecd. Runtime/overlay-only; no game emitter/regen impact.
 # Bumped 2026-06-12 for v0.1.8-alpha (GL default + launcher): re-pointed to
 # psxrecomp master (4ea9ecd, pushed to origin). master already contains the GL
 # renderer v2 merge (7ef6415), the SPU/CRT verified-enhancement shadow
