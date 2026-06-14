@@ -8,9 +8,13 @@ Game-specific issues. Framework-side issues live in
 ## Issue #8 — Widescreen (16:9) support
 
 **Status:** IN PROGRESS on branch `feat/widescreen` (both repos). Core works
-and is user-validated; three items open (HUD positioning, in-game pause
-overlay centering, world-space culling). Framework design + the culling
-patch set are documented in `psxrecomp/WIDESCREEN.md`.
+and is user-validated. Latest checkpoint (2026-06-13): the far-backdrop void
+(8C) is largely fixed by a depth-gated GTE un-squash (psxrecomp `1e28a94` /
+TombaRecomp `66e13e5`); one residual (mountain grass-top flicker). A
+**native-wide** rewrite (render un-squashed instead of squashing) was spiked,
+proven viable, and **shelved** for later — see 8C. Open items: HUD positioning
+(8A), pause-overlay centering (8B), the 8C grass-top residual, dialogue split
+(8F), overlay autocompile (8G). Framework design in `psxrecomp/WIDESCREEN.md`.
 
 **How it works (recap):** DuckStation-style hack — squash the GTE projection
 horizontally, present the 4:3 frame stretched to the wide aspect = wider FOV.
@@ -39,6 +43,11 @@ byte-identical identity. Squash applies IFF the frame is stretched
   boxes (tiled cap/middle/cap SPRTs). Root cause: squash ran while the frame
   presented 4:3. Now squash is coupled to present (squash IFF stretch); full-2D
   screens get zero squash. User: "Menus look good again." `3d04f19`
+- **Far-backdrop void (8C) largely fixed** — depth-gated GTE un-squash of the
+  GTE-3D backdrop driver FUN_8004db3c (near props stay squashed/aligned, far
+  backdrop un-squashes to fill). User-validated: void filled, door + scenery
+  aligned. Residual grass-top flicker tracked in 8C. psxrecomp `1e28a94` /
+  TombaRecomp `66e13e5`.
 
 ### Open
 
@@ -154,22 +163,59 @@ WRONG system. Diagnosis (runtime instrumentation, no regen):
   VERIFIED IN DATA: at camX 290, backdrop slot 1 (worldX 3260) screenX reads
   318 = the squashed value (raw 371, off the 320px edge). So the hook fires and
   the mountain is pulled on-screen. BUT the user still sees "lots of culling".
-  → **REMAINING CAUSE (hypothesis): spawn/despawn, not screenX clip.** screenX
-  squash only helps pieces that are ACTIVE. The user's "bounce L/R to see
-  culling and spawning" means backdrop pieces are DESPAWNED (object +4 state →
-  inactive) on a 4:3 camera window before screenX matters. Need to find + widen
-  the backdrop SPAWN window (what flips slots active/type in the 0x800A3D08
-  table — a spawner keyed to camera position). The screenX squash stays (it's
-  correct + necessary), but spawn-widening is the missing half.
-  Also unresolved: only handler 0x801216BC (type0) is enabled; type1 0x80121810
-  (slots 2-5, evenly-spaced midground row — NOT the dialogue box as first
-  thought; see 8F) and type2 0x80121A74 likely also need the squash once
-  verified backdrop-vs-UI. And the squash moves the prim ANCHOR only, not its
-  WIDTH (a wide quad still clips at the edge) — may need width scaling too.
-  Tools built (committed psxrecomp c51b3b9 / earlier; interp-hook UNCOMMITTED):
-  ws_census draw ring, ws_margin, gpu_state ws fields, tools/_press.py,
-  tools/_objtab.py (decodes the 0x800A3D08 actor table: +0 active, +2 type,
-  +0x12 screenX, +0x16 screenY, +0x30 worldX, stride 0x6C, 10 slots).
+  → **DESPAWN HYPOTHESIS REFUTED + TYPE-1 ENABLED (2026-06-13).** Read the
+  0x800A3D08 actor table at BOTH corridor camera clamps (camX 109 left / 293
+  right) via _objtab.py: slots 0-5 stay `active=1` at both extremes, 6-9 never
+  activate → NO despawn anywhere; there is no spawn-window to widen. The type-0
+  squash works (slot1 raw 3016>>3=377 → squashed 323, matches at every camX).
+  The clipping that remained on the actor-table layer was the **type-1 midground
+  row** (handler 0x80121810, store 0x8012196C, >>1 parallax), never squashed.
+  Enabled it (TombaRecomp 6564c9c: `x_sites += 0x8012196C`). Confirmed type-1 is
+  a 4-piece midground row (worldX 540/680/820/960), NOT the dialogue box (the
+  git comment's "DIALOGUE BOX ✗" was a mis-blame; 8F is the sprite_tag path).
+  type2 0x80121A74 (store 0x80121BAC) left out (far-area gate camX≥0x719).
+
+  → **REAL REMAINING CULLING = the FAR backdrop is GTE-3D in the MAIN EXE, not
+  the overlay sprite layer (2026-06-13).** The ocean/cloud/distant-mountain that
+  "pops in with blue void behind" is NOT FUN_801216bc's 2D sprites — it is
+  GTE-projected 3D drawn by main-EXE **FUN_8004db3c** (sole caller of the GTE
+  quad emitter **FUN_80027600**: per-prim RTPT + trivial-reject `SX>=0x140 ||
+  SY>=0xe0` + OT link). Found via wtrace on the OT region (0x800B5000/0x800C5000)
+  → backdrop vertex writes attribute to main-EXE 0x80026/0x80027. The global
+  widescreen GTE X-squash compresses this backdrop toward centre, so its
+  geometry falls short of the revealed 16:9 edges → the void.
+
+  → **FIX SHIPPED: depth-gated far-backdrop GTE un-squash (committed psxrecomp
+  1e28a94 / TombaRecomp 66e13e5).** Bracket FUN_8004db3c with
+  gte_ws_set_suppress(1)/(0) via `[widescreen.backdrop] unsquash_funcs` (a new
+  recompiler emit: entry + before every jr-$ra; main-EXE → regen-class). The
+  driver draws a MIX (far backdrop + near props/scenery), so the suppress is
+  DEPTH-GATED in gte_rtps_internal: only verts with projected SZ >=
+  s_ws_far_threshold (default **900**, live-tunable via the `ws_far_threshold`
+  TCP cmd) un-squash; nearer props stay squashed/aligned. User-validated at 900:
+  void filled, foreground door fixed, background scenery (path/tree) stable.
+  **RESIDUAL: the mountain grass-top straddles the depth band** (its body is far,
+  its grass-top sits at ~the scenery depth) so a per-vertex threshold can't keep
+  the whole object together → the grass-top flickers when the camera dips. The
+  scenery and the grass overlap in depth, so no single threshold separates them;
+  the proper fix is a per-OBJECT decision (the 9-object backdrop list lives at
+  0x800B00F8, count at +3).
+
+  → **NATIVE-WIDE explored + SHELVED (2026-06-13).** The squash is the root of
+  the whole artifact class (void, drift, grass-top). Spiked the proper fix —
+  render the wider FOV UN-squashed into a widened buffer instead of squashing
+  into 320 (runtime toggle `ws_native_wide`: drop the GTE squash, widen the GPU
+  draw-area + display by 106px, shift via draw_offset +53 so 3D and 2D move
+  together). PoC confirmed the un-squash renders clean + aligned, BUT the right
+  reveal showed garbage (the game's trivial-reject still culls it AND the 320-wide
+  framebuffer doesn't cover the widened display → stale VRAM). Needs: widen
+  FUN_80027600's SX>=0x140 reject (over-render — free on native HW), paint/clear
+  the widened buffer region, and re-anchor the 2D HUD. **Reverted** the spike;
+  back at the depth-gated-squash checkpoint. Native-wide is the documented future
+  direction (deletes the artifact class + likely fixes 8F dialogue too).
+  Tools/diagnostics (committed 1e28a94): `ws_aspect` (live squash on/off),
+  `ws_far_threshold` (set SZ split + read SZ stats), plus earlier ws_census,
+  ws_margin, gpu_state ws fields, tools/_press.py, tools/_objtab.py.
 
 **8D — World-edge left exposure (lower priority).** 16:9 can reveal past the
 authored left edge of an area's geometry. Camera clamps at `0x80057D94` /
