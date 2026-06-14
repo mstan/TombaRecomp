@@ -48,6 +48,10 @@ supersampling     = 2
 antialiasing      = true
 texture_filtering = "nearest"
 renderer          = "opengl"
+# auto_skip_fmv: auto-skip full-motion videos (the game's own skip is triggered
+# the instant a streaming FMV is detected). Ships OFF; the launcher's
+# Settings → "Skip FMVs" toggle turns it on (persisted to settings.toml).
+auto_skip_fmv     = false
 
 # ── Audit-specific config (consumed by psxrecomp/tools/*.py and tests) ──
 #
