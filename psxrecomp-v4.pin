@@ -4,7 +4,11 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=4ea9ecd2a2d9db60d23e39091a53f12a2b2e751b
+sha=46a653aa63271653a62ce645fe2d73473523757d
+# Bumped 2026-06-14 for FMV auto-skip: psxrecomp master 46a653a adds the opt-in
+# FMV auto-skip feature (triggers the game's own START-skip when a streaming
+# FMV is detected) + its launcher "Skip FMVs" toggle. Strict superset of 4ea9ecd
+# (one feature commit on top). Runtime-only; no emitter/regen impact.
 # Bumped 2026-06-12 for v0.1.8-alpha (GL default + launcher): re-pointed to
 # psxrecomp master (4ea9ecd, pushed to origin). master already contains the GL
 # renderer v2 merge (7ef6415), the SPU/CRT verified-enhancement shadow
