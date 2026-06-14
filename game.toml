@@ -122,6 +122,18 @@ a1_sites    = ["0x80022C34", "0x80022D68", "0x800230FC"]
 [widescreen.backdrop]
 x_sites = ["0x801217B4", "0x8012196C"]
 
+# Far-backdrop GTE un-squash (8C). The far parallax backdrop (ocean / cloud /
+# distant mountain) is GTE-projected 3D drawn by FUN_8004db3c (sole caller of
+# the GTE emitter FUN_80027600). The global widescreen GTE X-squash repositions
+# it toward centre, so its 4:3-extent geometry falls short of the revealed 16:9
+# edges -> dark-blue void that "pops" as you walk (each layer crosses its 4:3
+# coverage threshold). A/B (ws_aspect 16/9 vs 1/1, same camX) confirmed: squash
+# OFF fills the frame, squash ON reveals beyond the backdrop's extent. Fix:
+# bracket the driver with gte_ws_set_suppress(1)/(0) so the far backdrop draws
+# UN-squashed (fills the stretched frame, skybox-style) while the near 3D world
+# keeps the wider FOV. Main-EXE address -> regen-class (native emit fires in dev).
+unsquash_funcs = ["0x8004DB3C"]
+
 # ── Audit-specific config (consumed by psxrecomp/tools/*.py and tests) ──
 #
 # Schema mirrors psxrecomp/bios/SCPH1001.toml. Paths are relative to the
