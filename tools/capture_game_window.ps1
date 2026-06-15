@@ -23,7 +23,7 @@ public class TgwCap {
 [TgwCap]::EnumWindows({ param($h, $l)
     $sb = New-Object System.Text.StringBuilder 256
     [TgwCap]::GetWindowText($h, $sb, 256) | Out-Null
-    if ($sb.ToString() -like "TombaRecomp*") { [TgwCap]::Found = $h; return $false }
+    if ($sb.ToString() -like "*Tomba*") { [TgwCap]::Found = $h; return $false }
     $true
 }, [IntPtr]::Zero) | Out-Null
 $h = [TgwCap]::Found

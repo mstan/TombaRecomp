@@ -92,6 +92,20 @@ range_sites = ["0x80022E80", "0x80022F9C", "0x80022FF0", "0x80023070"]
 # nop (delay slot) → a1 += margin  (caller-supplied-margin classifier variants)
 a1_sites    = ["0x80022C34", "0x80022D68", "0x800230FC"]
 
+# Automatic horizontal-FOV cull widening (the dominant fix for native-wide /
+# Issue #8). The GTE render funnel (RTPT tri/quad emitters ~0x80024CFC.. and
+# RTPS billboard emitters ~0x800487A4..) rejects a primitive only when ALL its
+# vertices fall off the 4:3 frame: a per-vertex `sltiu vN, SX, 0x140` (right
+# edge) paired with `sltiu vN, SY, 0xE0` (bottom edge) in the same function.
+# That hard 320 clip — not the world-space classifier above (which already
+# carries a ±64px margin and is a proven no-op for 16:9) — is what leaves the
+# revealed right margin empty. Rather than list all ~100 identical sites, the
+# recompiler auto-detects that signature and emits every width compare with
+# + 2*psx_ws_x_margin(), so geometry out to the wide-surface edge is submitted
+# instead of culled at 320. Generic to any PSX GTE title; 0 at 4:3 ⇒ the build
+# is byte-identical with widescreen off. Changing this requires a regen.
+auto_screen_x = true
+
 # Parallax 2D backdrop layer (ocean / cloud / mountain / grassy-top). These
 # OVERLAY actor handlers compute screenX = (worldX - camX) >> parallax in pure
 # integer math and store it to the object's screen-X field (+0x12) WITHOUT the

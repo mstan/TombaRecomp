@@ -4,7 +4,18 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=feat/native-wide
-sha=8490d8b
+sha=676ac99
+# Bumped 2026-06-15 (native-wide FOV complete): psxrecomp feat/native-wide adds
+# [widescreen.cull] auto_screen_x — a gen-time pass that auto-detects the GTE
+# render-funnel screen-extent reject (sltiu 0x140/0x141 width paired with a
+# sltiu 0xE0 height) and routes every WIDTH cull through psx_ws_x_margin(),
+# sign-extended + shifted so BOTH 16:9 margins reveal. 4:3 byte-identical
+# (margin 0). USER-VALIDATED: with game.toml auto_screen_x = true the revealed
+# left+right margins fill with real geometry (no more 320-edge cull). One opt-in
+# flag, ~106 sites auto-widened, generic to any PSX GTE title — supersedes the
+# WIP "wtrace OT writers" plan in the checkpoint note below. Remaining polish
+# (separate, non-blocking): load-in fade + pause gray-filter still drawn at 4:3.
+# ---- prior pin (compositor checkpoint) ----
 # Bumped 2026-06-15 (compositor checkpoint): psxrecomp feat/native-wide now
 # carries the native-wide render-pipeline rewrite — a separate per-framebuffer
 # WIDE COMPOSITOR surface (software renderer), canonical PSX VRAM left faithful
