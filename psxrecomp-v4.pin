@@ -3,8 +3,14 @@
 # is a separate repo evolving on its own cadence. Update via:
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
-branch=feat/widescreen
-sha=b1b7d6bab7222fd87f1c16a80f12d5ceb2d31697
+branch=feat/native-wide
+sha=5348f48e45b718a031c35860dfae79608f5ad75e
+# Bumped 2026-06-15: native-wide branch forked from feat/widescreen. psxrecomp
+# feat/native-wide currently == feat/widescreen + NATIVE_WIDE_PLAN.md (the
+# render-pipeline rewrite is not started yet — see that doc). Build against the
+# psxrecomp feat/native-wide checkout in ../psxrecomp (tools/build-linux.sh
+# --nopin, or check it out so HEAD matches this sha).
+# ---- prior pin (feat/widescreen line) ----
 # Bumped 2026-06-15: re-pinned to psxrecomp feat/widescreen (b1b7d6b) after
 # rebasing both this branch and psxrecomp/feat/widescreen onto current master.
 # The psxrecomp side carries the framework widescreen work (GTE X-squash,
