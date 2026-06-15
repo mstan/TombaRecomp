@@ -10,11 +10,15 @@ Game-specific issues. Framework-side issues live in
 **Status:** IN PROGRESS on branch `feat/widescreen` (both repos). Core works
 and is user-validated. Latest checkpoint (2026-06-13): the far-backdrop void
 (8C) is largely fixed by a depth-gated GTE un-squash (psxrecomp `1e28a94` /
-TombaRecomp `66e13e5`); one residual (mountain grass-top flicker). A
+TombaRecomp `66e13e5`). The mountain grass-top residual is **CLOSED as a
+non-issue** (2026-06-14): it also occurs in 4:3, so it's original game behavior,
+not a 16:9 regression. Remaining 8C items are the **water/sky not rendering
+entirely** at the widened edges and the **HUD/AP alignment** (8A). A
 **native-wide** rewrite (render un-squashed instead of squashing) was spiked,
-proven viable, and **shelved** for later — see 8C. Open items: HUD positioning
-(8A), pause-overlay centering (8B), the 8C grass-top residual, dialogue split
-(8F), overlay autocompile (8G). Framework design in `psxrecomp/WIDESCREEN.md`.
+proven viable, and **shelved** for later — see 8C; it's expected to close the
+water/sky fill. Open items: HUD positioning (8A), pause-overlay centering (8B),
+8C water/sky fill, dialogue split (8F), overlay autocompile (8G). Framework
+design in `psxrecomp/WIDESCREEN.md`.
 
 **How it works (recap):** DuckStation-style hack — squash the GTE projection
 horizontally, present the 4:3 frame stretched to the wide aspect = wider FOV.
@@ -46,7 +50,8 @@ byte-identical identity. Squash applies IFF the frame is stretched
 - **Far-backdrop void (8C) largely fixed** — depth-gated GTE un-squash of the
   GTE-3D backdrop driver FUN_8004db3c (near props stay squashed/aligned, far
   backdrop un-squashes to fill). User-validated: void filled, door + scenery
-  aligned. Residual grass-top flicker tracked in 8C. psxrecomp `1e28a94` /
+  aligned. (Grass-top residual since CLOSED as a non-issue — also present in 4:3;
+  remaining 8C gap is water/sky edge fill.) psxrecomp `1e28a94` /
   TombaRecomp `66e13e5`.
 
 ### Open
@@ -194,12 +199,23 @@ WRONG system. Diagnosis (runtime instrumentation, no regen):
   s_ws_far_threshold (default **900**, live-tunable via the `ws_far_threshold`
   TCP cmd) un-squash; nearer props stay squashed/aligned. User-validated at 900:
   void filled, foreground door fixed, background scenery (path/tree) stable.
-  **RESIDUAL: the mountain grass-top straddles the depth band** (its body is far,
-  its grass-top sits at ~the scenery depth) so a per-vertex threshold can't keep
-  the whole object together → the grass-top flickers when the camera dips. The
-  scenery and the grass overlap in depth, so no single threshold separates them;
-  the proper fix is a per-OBJECT decision (the 9-object backdrop list lives at
-  0x800B00F8, count at +3).
+  **RESOLVED — grass-top is NOT a widescreen bug (2026-06-14).** The mountain
+  grass-top failing to render in a narrow camera band was confirmed by the user
+  to ALSO occur in the **4:3** version of the game (a narrow spot shows the same
+  missing grass-top). It is original PSX behavior, not a 16:9 regression — this
+  part is closed; no per-object depth fix is needed for it. (For reference, the
+  earlier depth-straddle theory: grass-top body is far, its top sits at ~scenery
+  depth, so a per-vertex threshold couldn't hold the object together; the 9-object
+  backdrop list is at 0x800B00F8, count at +3 — kept only as a pointer if the
+  native-wide rewrite later wants per-object handling.)
+
+  **OUTSTANDING (real open 8C items):**
+  - **Water and sky don't render entirely** — the far backdrop water/sky pieces
+    are still clipped/absent toward the widened 16:9 edges (the spawn windows +
+    sky clip are sized for 4:3). This is the remaining backdrop-fill gap that the
+    native-wide rewrite is expected to close.
+  - **HUD mis-aligned** — the AP counter isn't pushed all the way to the right
+    corner (see 8A: "AP too far to the left" / "16:9 positioning, 4:3 look").
 
   → **NATIVE-WIDE explored + SHELVED (2026-06-13).** The squash is the root of
   the whole artifact class (void, drift, grass-top). Spiked the proper fix —
