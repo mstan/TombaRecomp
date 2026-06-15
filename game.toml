@@ -16,7 +16,7 @@ strict = true
 
 [runtime]
 debug_port = 4470
-window_title = "TombaRecomp"
+window_title = "Tomba! Recompiled"
 memcard_dir = "saves"
 disc_speed = "instant"
 fast_boot  = false   # set false to watch BIOS logos

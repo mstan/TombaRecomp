@@ -18,7 +18,7 @@ psxrecomp_add_runtime_target(psx-runtime
     GAME_GENERATED_FULL_C "${TOMBA_GENERATED_FULL}"
     GAME_GENERATED_DISPATCH_C "${TOMBA_GENERATED_DISPATCH}"
     DEBUG_PORT 4470
-    WINDOW_TITLE "TombaRecomp"
+    WINDOW_TITLE "Tomba! Recompiled"
     DEFAULT_BIOS_PATH "${PSXRECOMP_ROOT}/bios/SCPH1001.BIN"
     DEFAULT_GAME_CONFIG_PATH "game.toml"
 )
