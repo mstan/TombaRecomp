@@ -3,8 +3,15 @@
 # is a separate repo evolving on its own cadence. Update via:
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
-branch=master
-sha=1010c58
+branch=feat/widescreen
+sha=b1b7d6bab7222fd87f1c16a80f12d5ceb2d31697
+# Bumped 2026-06-15: re-pinned to psxrecomp feat/widescreen (b1b7d6b) after
+# rebasing both this branch and psxrecomp/feat/widescreen onto current master.
+# The psxrecomp side carries the framework widescreen work (GTE X-squash,
+# depth-gated backdrop un-squash, launcher Aspect toggle); this branch carries
+# the game-side hooks. Build against that branch checked out in ../psxrecomp
+# (use tools/build-linux.sh --nopin, or check it out so HEAD matches this sha).
+# ---- prior pin (master line) ----
 # Bumped 2026-06-14 for v0.1.9-alpha: psxrecomp master 1010c58 = FMV auto-skip
 # (46a653a) + overlay-cache flavor tag (1010c58). The flavor tag is behaviour-
 # neutral for base/master (tag == ABI v2) — it lets a variant build (e.g.
