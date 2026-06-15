@@ -73,7 +73,7 @@ out_dir = "generated"
 # ---- Player-adjustable options ------------------------------------------
 # Edit, save, and restart TombaRecomp.exe to apply.
 [runtime]
-window_title = "TombaRecomp"
+window_title = "Tomba! Recompiled"
 memcard_dir = "saves"
 
 # Disc read speed: "1x" (authentic), "2x", "4x", or "instant" (fastest).
