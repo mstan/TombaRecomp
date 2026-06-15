@@ -28,7 +28,10 @@ overlay_cache = true  # overlay DLL cache (Inc1-D write-invalidation under test)
 turbo_loads = true
 # Step 2.8: auto capture+compile of uncovered overlay variants (background;
 # run via cmd.exe /C with cwd = project root; needs python + gcc on PATH).
-overlay_autocompile_cmd = "python ../psxrecomp/tools/compile_overlays.py --captures build-stable/overlay_captures.json --game-toml game.toml --recompiler ../psxrecomp/recompiler/build/psxrecomp-game.exe --runtime-include ../psxrecomp/runtime/include --out-dir build-stable/cache"
+# Chained: after each compile, additively back up captures + cache into the
+# clean-proof coverage vault (../_coverage_vault, outside any build dir) so a
+# cmake clean / fresh worktree never costs accumulated coverage.
+overlay_autocompile_cmd = "python ../psxrecomp/tools/compile_overlays.py --captures build-stable/overlay_captures.json --game-toml game.toml --recompiler ../psxrecomp/recompiler/build/psxrecomp-game.exe --runtime-include ../psxrecomp/runtime/include --out-dir build-stable/cache && python ../psxrecomp/tools/coverage_vault.py merge --vault ../_coverage_vault/SCUS-94236 --captures build-stable/overlay_captures.json --cache build-stable/cache/SCUS-94236"
 
 [video]
 # Visual enhancement options.
