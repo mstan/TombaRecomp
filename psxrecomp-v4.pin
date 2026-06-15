@@ -4,12 +4,19 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=feat/native-wide
-sha=5348f48e45b718a031c35860dfae79608f5ad75e
-# Bumped 2026-06-15: native-wide branch forked from feat/widescreen. psxrecomp
-# feat/native-wide currently == feat/widescreen + NATIVE_WIDE_PLAN.md (the
-# render-pipeline rewrite is not started yet — see that doc). Build against the
-# psxrecomp feat/native-wide checkout in ../psxrecomp (tools/build-linux.sh
+sha=8490d8b
+# Bumped 2026-06-15 (compositor checkpoint): psxrecomp feat/native-wide now
+# carries the native-wide render-pipeline rewrite — a separate per-framebuffer
+# WIDE COMPOSITOR surface (software renderer), canonical PSX VRAM left faithful
+# (4:3 / non-opted = byte-identical). SW path works: 16:9 flicker fixed, faithful,
+# terrain platform fills. WIP: discrete foreground objects + parallax backdrop
+# still culled at the 4:3 edge (separate spawn path — wtrace OT writers next);
+# GL compositor port pending. See psxrecomp/NATIVE_WIDE_PLAN.md + session handoff.
+# Build against the psxrecomp feat/native-wide checkout (tools/build-linux.sh
 # --nopin, or check it out so HEAD matches this sha).
+# ---- prior pin (plan-doc only) ----
+# 2026-06-15: 5348f48 — native-wide branch forked from feat/widescreen; at that
+# point == feat/widescreen + NATIVE_WIDE_PLAN.md (rewrite not yet started).
 # ---- prior pin (feat/widescreen line) ----
 # Bumped 2026-06-15: re-pinned to psxrecomp feat/widescreen (b1b7d6b) after
 # rebasing both this branch and psxrecomp/feat/widescreen onto current master.
