@@ -1,22 +1,33 @@
-# TombaRecomp v0.1.9-alpha
+# Tomba! Recompiled — v0.2.0-alpha
 
-The "skip the movies" release.
+The biggest update yet: **widescreen**, a much better **controller** experience, and the game now **remembers your settings**.
 
-## New
+## ✨ What's new
 
-**Skip FMVs.** A new optional setting fast-forwards Tomba's full-motion
-videos (like the opening movie) so you can get straight to playing. When
-it's on, a streaming video is skipped the instant it starts — the game
-jumps cleanly to whatever comes next, exactly as if you'd pressed the skip
-button yourself, with nothing shown and nothing left out.
+### Widescreen (experimental 16:9)
+Play in 16:9 with a genuinely **wider field of view** — you see more of the world to the sides, not a stretched-out picture. Turn it on in the launcher under **Settings → Widescreen** (it works on both the OpenGL and software renderers).
 
-Turn it on in the launcher under **Settings → Video → "Skip FMVs"** (it's
-**off** by default), or in `game.toml` under `[video]` with
-`auto_skip_fmv = true`. Your choice is remembered between sessions.
+It's experimental, so expect rough edges: some menus/HUD elements and the occasional background seam can look a little off, and ultrawide (21:9) isn't ready yet. Leave it at 4:3 for the most faithful look.
 
-## Notes
+### Better controller support
+- **Analog stick and D-pad both work at the same time** — no controller mode to toggle. Push the stick gently to walk and harder to run (true variable speed); the D-pad keeps working too.
+- **DualShock / analog is on by default** now (both player slots).
+- New **analog stick deadzone** slider in the launcher (**Settings → Controller**) if your stick drifts or feels too touchy.
 
-Graphics and gameplay settings still live in `game.toml` under `[video]`
-and `[runtime]` — edit and restart to apply, or use the launcher. As
-before, this package does not include the PS1 BIOS or the Tomba disc; you
-supply your own (the launcher asks for each one and remembers them).
+### Remembers your settings
+Your in-game **OPTION** choices — **text speed, sound, vibration, screen adjust** — now **stick between launches**. Set text speed to Auto and turn vibration off once, and that's how it'll be every time you boot. No more re-doing it on every launch.
+
+### Smoother performance
+- The OpenGL renderer is more efficient now, clearing up slowdown in busy areas (and in widescreen).
+- The game converts more of itself into fast native code as you play **and reuses that work on later launches** — so spots that hitched the first time run smoothly afterward.
+
+### Even better crash reports
+Building on the last release's crash safety net: reports now **name the exact function** involved in the rare runaway-recursion crash, and a new guard catches a class of stack-overflow crashes **gracefully** (writing a report) instead of just closing. If you hit the rare Underground Maze / seesaw crash (issue #1), the report now has what's needed to fix it — please attach `psx_last_run_report.json`.
+
+### Launcher polish
+- The two **Player cards stay an even 50/50 size** when you pick a controller (they no longer go lopsided).
+
+## 📝 Notes
+- As always, **bring your own** PlayStation BIOS and Tomba! (USA, SCUS-94236) disc image — the launcher asks for each.
+- Widescreen is **opt-in and experimental**.
+- The overlay cache grows as you play; please keep `overlay_captures.json` private — it contains game code read from your disc (see README).

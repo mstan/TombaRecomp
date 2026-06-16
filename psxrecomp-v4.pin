@@ -4,7 +4,15 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=12e0977
+sha=2cd5d22
+# Bumped 2026-06-16 (v0.2.0-alpha release cut): psxrecomp master 2cd5d22 = 12e0977
+# + a Release-build link fix (the synth_recurse debug self-test call is now
+# guarded so PSX_DEBUG_TOOLS=OFF links). This is the exact pin the v0.2.0-alpha
+# release was built from. v0.2.0-alpha bundles: experimental 16:9 widescreen,
+# seamless analog/d-pad + DualShock-default + deadzone, native OPTION settings
+# persistence, the persisted sljit shard cache, GL draw-batching perf, and the
+# launcher 50/50 card fix. Supersedes 12e0977.
+# ---- prior pin (launcher 50/50 cards) ----
 # Bumped 2026-06-16 (launcher 50/50 cards): psxrecomp master 12e0977 = 9ed788f +
 # the launcher fix so the two Player cards always split the row evenly (flex-basis
 # 0 / min-width 0) instead of Player 1 widening when a controller is selected.
