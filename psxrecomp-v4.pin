@@ -3,8 +3,17 @@
 # is a separate repo evolving on its own cadence. Update via:
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
-branch=feat/native-wide
-sha=676ac99
+branch=master
+sha=d0d1993
+# Bumped 2026-06-15 (native-wide 16:9 LANDED ON MASTER): feat/native-wide merged
+# to psxrecomp master (fast-forward) = native-wide compositor + auto-cull screen-X
+# widening + full-screen-overlay fix + the experimental Widescreen launcher toggle
+# (software-renderer gated, hidden on OpenGL). One exe serves 4:3 (default,
+# byte-identical) and 16:9 (opt-in). USER-VALIDATED at 16:9. feat/native-wide also
+# merged to TombaRecomp master. 21:9 is numerically free (all aspect-derived) but
+# parked: the parallax/backdrop tile generation only covers ~16:9, so 21:9 voids
+# the far background until that pipeline is widened (8C). Next: GL compositor port.
+# ---- prior pin (feat/native-wide FOV) ----
 # Bumped 2026-06-15 (native-wide FOV complete): psxrecomp feat/native-wide adds
 # [widescreen.cull] auto_screen_x — a gen-time pass that auto-detects the GTE
 # render-funnel screen-extent reject (sltiu 0x140/0x141 width paired with a
