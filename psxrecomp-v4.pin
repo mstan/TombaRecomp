@@ -4,7 +4,18 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=fff384d
+sha=f046d52
+# Bumped 2026-06-16 (GL draw batching — 16:9 lag fix): psxrecomp master f046d52
+# merges perf/gl-frame-timing. The OpenGL renderer was immediate-mode (~1000
+# prims/frame, each its own glDrawArrays at ~14us GPU time — pipeline-flush
+# overhead; native-wide doubled it). Fixed by batching consecutive textured
+# prims sharing blend/mask/texwindow/filter into one draw (per-prim texture
+# state moved to flat vertex attributes). Measured (frame_perf, the new GPU/CPU
+# phase-timing tooling also in this bump): Tomba village 16:9 scene_gpu
+# 28.3->16.0ms (~34->~60fps), 4:3 16.5->5.5ms (3x headroom). Runtime-only
+# (GL renderer + debug_server), no emitter/regen/overlay-ABI impact. Does NOT
+# include the parked [widescreen.cull] auto_backdrop (feat/ws-backdrop-coverage).
+# ---- prior pin (OpenGL 16:9 native-wide) ----
 # Bumped 2026-06-15 (OpenGL 16:9 native-wide): psxrecomp master fff384d adds the
 # GL wide compositor — native-wide widescreen now works on the OpenGL backend
 # (per-base wide FBOs + double-draw with x-shifted projection; GPU-direct present
