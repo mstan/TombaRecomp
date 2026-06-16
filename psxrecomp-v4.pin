@@ -4,7 +4,18 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=0c1f005
+sha=fff384d
+# Bumped 2026-06-15 (OpenGL 16:9 native-wide): psxrecomp master fff384d adds the
+# GL wide compositor — native-wide widescreen now works on the OpenGL backend
+# (per-base wide FBOs + double-draw with x-shifted projection; GPU-direct present
+# via glBlitFramebuffer, no per-frame readback so it's as fast as 4:3). Launcher
+# Widescreen toggle is un-gated on GL (shown on both renderers; window size
+# follows aspect). Bug fixes folded in: correct readback orientation, real
+# internal-scale reporting (glb_scale), present buffer sized for the true scale.
+# USER-VALIDATED: GL 16:9 renders full-frame, right-side-up, smooth. Solid /
+# ready to ship (no release cut yet). 21:9 still stubbed-hidden; sljit on-disk
+# persistence still deferred (feat/sljit-persist-cache).
+# ---- prior pin (sljit Tier-2 + cache versioning + shared ws cull) ----
 # Bumped 2026-06-15 (sljit Tier-2 + cache versioning + shared ws cull): psxrecomp
 # master 0c1f005 merges feat/sljit-backend (sljit in-process JIT, Tier-2 between
 # gcc cache and interp) and adds: (1) one shared psx_ws_cull_sltiu helper that
