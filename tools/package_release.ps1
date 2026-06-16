@@ -1,5 +1,5 @@
 param(
-    [string]$Version = "v0.1.8-alpha",
+    [string]$Version = "v0.2.0-alpha",
     [string]$BuildDir = "build-release"
 )
 
@@ -13,6 +13,15 @@ $ZipPath = Join-Path $Root ("TombaRecomp-{0}-windows-x64.zip" -f $Version)
 $MingwBin = "C:\msys64\mingw64\bin"
 
 $env:PATH = "$MingwBin;$env:PATH"
+
+# Regenerate the game's C BEFORE building. The recompiler emits the settings
+# persistence init-store hook (from game_options.toml) and the widescreen sites
+# at regen time; the runtime build below just compiles generated/*.c. A stale
+# generated/ would ship without the settings-persistence feature.
+$RecompDir = Resolve-Path (Join-Path $Root "..\psxrecomp\recompiler\build")
+cmake --build $RecompDir --target psxrecomp-game -j $env:NUMBER_OF_PROCESSORS
+& (Join-Path $RecompDir "psxrecomp-game.exe") --config (Join-Path $Root "game.toml")
+if ($LASTEXITCODE -ne 0) { throw "game regen failed" }
 
 cmake -S $Root -B $BuildPath -G Ninja -DCMAKE_BUILD_TYPE=Release -DPSX_DEBUG_TOOLS=OFF -DPSX_LAUNCHER=ON
 cmake --build $BuildPath -j $env:NUMBER_OF_PROCESSORS
@@ -110,7 +119,43 @@ renderer = "opengl"
 # video is skipped the instant it starts, jumping straight to the next screen.
 # Off by default; also toggleable in the launcher (Settings -> "Skip FMVs").
 auto_skip_fmv = false
+# aspect_ratio: "4:3" (native, default) or "16:9" (EXPERIMENTAL widescreen). Also
+# toggleable in the launcher (Settings -> Widescreen), which overrides this.
+aspect_ratio = "4:3"
+
+# ---- Controller ---------------------------------------------------------
+# default_analog: present a DualShock/analog pad by default so the left stick
+# gives variable run speed (the D-pad / keyboard still move you). Per-player
+# toggle in the launcher. deadzone: analog stick dead-band (0..32767; ~12000 =
+# 37%), also adjustable in the launcher (Settings -> Controller).
+[controller]
+default_analog = true
+deadzone = 12000
+
+# ---- Widescreen (experimental 16:9) -------------------------------------
+# These hooks keep the 16:9 picture correct (wider field of view, HUD/sprites at
+# the right proportions, backdrops filled). Inert at 4:3. Addresses are specific
+# to Tomba! (USA, SCUS-94236) and must match the build the cache was made for.
+[widescreen]
+sprite_tag_funcs   = ["0x8005E08C"]
+sprite_anchor_addr = "0x1F800070"
+hud_sprt_squash    = true
+
+[widescreen.cull]
+bias_sites    = ["0x80022E78", "0x80022F94", "0x80022FE8", "0x80023068"]
+range_sites   = ["0x80022E80", "0x80022F9C", "0x80022FF0", "0x80023070"]
+a1_sites      = ["0x80022C34", "0x80022D68", "0x800230FC"]
+auto_screen_x = true
+
+[widescreen.backdrop]
+x_sites        = ["0x801217B4", "0x8012196C"]
+unsquash_funcs = ["0x8004DB3C"]
 "@ | Set-Content -Encoding ASCII (Join-Path $Stage "game.toml")
+
+# Tomba's native OPTION-screen settings declaration (the RAM addresses the
+# settings-persistence feature reads/writes). Required for in-game settings
+# (text speed, sound, vibration, screen adjust) to persist between launches.
+Copy-Item (Join-Path $Root "game_options.toml") $Stage
 
 # Prebuilt overlay cache: native code for the game areas contributed so far.
 # Ships .dll + .ranges only (the _patched.c intermediates are build artifacts).
