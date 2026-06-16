@@ -4,7 +4,19 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=890a1cb
+sha=0c1f005
+# Bumped 2026-06-15 (sljit Tier-2 + cache versioning + shared ws cull): psxrecomp
+# master 0c1f005 merges feat/sljit-backend (sljit in-process JIT, Tier-2 between
+# gcc cache and interp) and adds: (1) one shared psx_ws_cull_sltiu helper that
+# gcc/sljit/interp all route the auto_screen_x render-funnel widen through, so
+# overlay 3D widens in 16:9 on every execution path; (2) versioned overlay cache
+# path gcc/<arch-abi>/cg<N> so a new emitter build never reuses a stale DLL;
+# (3) sljit DEFAULT-ON (validated) — gcc>sljit>interp, sljit fills gcc-absent
+# regions, shards diff-gated (device/diverging -> interp), declined -> interp, no
+# crash. Verified: live=1, 62 shards, native:interp ~31%->~87%. REMAINING (next
+# session): OpenGL 16:9 compositor port (widescreen still SW-only); sljit on-disk
+# persistence (greenfield — re-JITs in-session today).
+# ---- prior pin (21:9 docs) ----
 # Bumped 2026-06-15 (+1): psxrecomp master 890a1cb = d0d1993 + docs marking 21:9
 # as stubbed-but-hidden (engine handles it; backdrop generation only covers ~16:9,
 # so it stays out of the launcher until widened -> future 3-way Off/16:9/21:9).
