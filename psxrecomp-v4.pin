@@ -4,7 +4,11 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=d0d1993
+sha=890a1cb
+# Bumped 2026-06-15 (+1): psxrecomp master 890a1cb = d0d1993 + docs marking 21:9
+# as stubbed-but-hidden (engine handles it; backdrop generation only covers ~16:9,
+# so it stays out of the launcher until widened -> future 3-way Off/16:9/21:9).
+# ---- prior pin (native-wide 16:9 landed) ----
 # Bumped 2026-06-15 (native-wide 16:9 LANDED ON MASTER): feat/native-wide merged
 # to psxrecomp master (fast-forward) = native-wide compositor + auto-cull screen-X
 # widening + full-screen-overlay fix + the experimental Widescreen launcher toggle
