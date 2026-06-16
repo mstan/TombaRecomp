@@ -1,0 +1,52 @@
+# Tomba! native OPTION-screen settings — persisted across launches (issue #5).
+#
+# These are the GAME'S OWN options (the in-game OPTION menu: MESSAGE / SOUND /
+# VIBRATION / ADJUST SCREEN), NOT recompiler or launcher enhancements. Tomba
+# keeps them only in a per-boot RAM global and has no memory-card config block,
+# so without this they reset every launch.
+#
+# Each [[option]] names a canonical config global in guest RAM (KUSEG 0x80xxxxxx)
+# that the OPTION screen writes and the game reads. The runtime restores these
+# shortly after boot (once the game's own config-init has run) and re-saves them
+# whenever they change, to:  saves/<game-id>.options  (e.g. SCUS-94236.options).
+#
+# Addresses pinned via consumer reverse-engineering (vibration: gameplay rumble
+# gate, Ghidra-confirmed) + live OPTION-screen write capture (message/sound,
+# both transitions verified). size = bytes (1 or 2).
+#
+# init_store_pc is the boot-init MIPS store (sb/sh) that writes the game's DEFAULT
+# value to that global (one writer each, Ghidra-pinned). The recompiler rewrites
+# that store to apply the persisted value instead, so a saved setting is restored
+# exactly once at initialization. The in-OPTION write (a different instruction, in
+# the option overlay) is untouched, so the player can still change settings; the
+# new values are saved on exit. Changing init_store_pc requires a regen.
+
+[[option]]
+name = "message_speed"   # SLOW = 0, FAST = 1, AUTO = 2
+addr = "0x8009C9E4"
+size = 1
+init_store_pc = "0x8001923C"   # sb v0,-0x361c(at)  in FUN_800191E0
+
+[[option]]
+name = "sound"           # STEREO = 0, MONO = 1
+addr = "0x8009C964"
+size = 1
+init_store_pc = "0x8007133C"   # sh zero,-0x369c(at)  in FUN_80071058
+
+[[option]]
+name = "vibration"       # OFF = 0, ON = 1   (default at boot = 1/ON)
+addr = "0x8009C97A"
+size = 1
+init_store_pc = "0x80028740"   # sh v0,-0x3686(at)  in FUN_80028728
+
+[[option]]
+name = "screen_x"        # ADJUST SCREEN, horizontal (signed 16-bit)
+addr = "0x8009C864"
+size = 2
+init_store_pc = "0x80016AE0"   # sh zero,-0x379c(at)  in FUN_80016A00
+
+[[option]]
+name = "screen_y"        # ADJUST SCREEN, vertical (signed 16-bit)
+addr = "0x8009C866"
+size = 2
+init_store_pc = "0x80016AE8"   # sh v0,-0x379a(at)  in FUN_80016A00
