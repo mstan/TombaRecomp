@@ -4,7 +4,16 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=2cf9f4a
+sha=1b49814
+# Bumped 2026-06-16 (crash report names the recursion culprit): psxrecomp master
+# 1b49814. The runaway-recursion crash report now carries an always-on ring of
+# the last 64 recompiled function entries (GUEST addresses) + recursion_func (the
+# func entered at the guard trip), so the next ORGANIC seesaw/wild-call crash
+# names the recursing function build-independently (root-cause in Ghidra, no
+# symbol map needed; pair with cpu.gpr for the corrupt args). Validated via the
+# synth_recurse debug self-test; no measurable overhead (16:9 stays 60fps), no
+# false-trips. Runtime-only. Supersedes 2cf9f4a.
+# ---- prior pin (native stack-overflow guard) ----
 # Bumped 2026-06-16 (native stack-overflow guard): psxrecomp master 2cf9f4a adds
 # a tentative containment for the intermittent watchtower force-close (host stack
 # overflow from runaway guest recursion — the seesaw/Bug-D wild-call family). An
