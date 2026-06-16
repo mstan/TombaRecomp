@@ -4,7 +4,22 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=1b49814
+sha=9ed788f
+# Bumped 2026-06-16 (QoL + persisted sljit shard cache): psxrecomp master 9ed788f
+# bundles two things. (1) QoL (issue #5): seamless analog/d-pad input (default
+# analog pad -> variable stick speed; D-pad/keyboard folded onto the axes) + an
+# analog deadzone option; and native OPTION-screen settings persistence (item 6)
+# via a deterministic recompiler init-store hook + save-on-exit, declared per game
+# in game_options.toml. (2) The persisted sljit shard cache (feat/sljit-persist-
+# cache, merged): Stage 1 position-independent shards (cpu-relative helper table)
+# + Stage 2 serialize/reload/re-validate to <cache>/<game>/sljit/<arch-abi>/cg<N>/,
+# so later launches reuse JIT'd shards instead of re-discovering through interp
+# (priority gcc > sljit > interp unchanged). VALIDATED: settings persist across
+# launches (user-confirmed); two-launch reload test loaded 12 shards at a fresh
+# ASLR base with no stale-pointer crash, gameplay rendered. NOTE: the settings
+# persistence emits a recompiler init-store hook -> a REGEN is required (game.toml
+# + game_options.toml already carry the sites). Supersedes 1b49814.
+# ---- prior pin (crash report names the recursion culprit) ----
 # Bumped 2026-06-16 (crash report names the recursion culprit): psxrecomp master
 # 1b49814. The runaway-recursion crash report now carries an always-on ring of
 # the last 64 recompiled function entries (GUEST addresses) + recursion_func (the
