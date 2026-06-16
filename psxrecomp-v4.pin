@@ -4,7 +4,20 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=f046d52
+sha=2cf9f4a
+# Bumped 2026-06-16 (native stack-overflow guard): psxrecomp master 2cf9f4a adds
+# a tentative containment for the intermittent watchtower force-close (host stack
+# overflow from runaway guest recursion — the seesaw/Bug-D wild-call family). An
+# in-range guest jal compiles to a direct func_X(cpu) call, so the recursion grew
+# the native stack without going through psx_dispatch_impl: the existing depth
+# guard was blind (crash report showed dispatch_depth=0). New guard at every
+# recompiled function entry reads the fiber's TEB stack bounds and halts
+# gracefully (captured crash report; clean exit in release) BEFORE overflow.
+# Converts a silent force-close into a parseable report so the crash can be
+# root-caused from a repro. Verified no false-trigger; NOT a root fix (upstream
+# data corruption unaddressed). Runtime-only. Supersedes f046d52 (still includes
+# the GL draw batching 16:9 lag fix below).
+# ---- prior pin (GL draw batching — 16:9 lag fix) ----
 # Bumped 2026-06-16 (GL draw batching — 16:9 lag fix): psxrecomp master f046d52
 # merges perf/gl-frame-timing. The OpenGL renderer was immediate-mode (~1000
 # prims/frame, each its own glDrawArrays at ~14us GPU time — pipeline-flush
