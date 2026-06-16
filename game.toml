@@ -120,6 +120,20 @@ a1_sites    = ["0x80022C34", "0x80022D68", "0x800230FC"]
 # is byte-identical with widescreen off. Changing this requires a regen.
 auto_screen_x = true
 
+# Far-backdrop column PRELOAD. The scrolling-background tile-grid generators
+# (sky / ground / cloud / flower-field layers) emit only a camera-windowed ~4:3
+# range of tile columns per frame, so the 16:9-revealed right/left margin shows
+# void until the camera moves. The recompiler auto-detects each column-window
+# generator by its invariant (/96 magic 0x66666667 dividing the 0x176 camera-X,
+# the sra-by-5 divide tail, and the move/addiu loop-bound finalize) and rewrites
+# the window START to 0 and END high; the generator's own low/high clamps then
+# pin the loop to the whole finite tile row, so the entire backdrop is emitted
+# regardless of camera. Generators are OVERLAY-resident (so the overlay compile
+# must see this via --ws-config). Generic to any PSX scroller; 0 at 4:3 ⇒
+# byte-identical with widescreen off. Changing this requires a regen + overlay
+# cache rebuild.
+auto_backdrop = true
+
 # Parallax 2D backdrop layer (ocean / cloud / mountain / grassy-top). These
 # OVERLAY actor handlers compute screenX = (worldX - camX) >> parallax in pure
 # integer math and store it to the object's screen-X field (+0x12) WITHOUT the
