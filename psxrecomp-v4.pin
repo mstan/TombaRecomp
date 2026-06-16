@@ -4,7 +4,12 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=9ed788f
+sha=12e0977
+# Bumped 2026-06-16 (launcher 50/50 cards): psxrecomp master 12e0977 = 9ed788f +
+# the launcher fix so the two Player cards always split the row evenly (flex-basis
+# 0 / min-width 0) instead of Player 1 widening when a controller is selected.
+# UI-only. Release-staging pin for the v0.2.0-alpha cut.
+# ---- prior pin (QoL + persisted sljit shard cache) ----
 # Bumped 2026-06-16 (QoL + persisted sljit shard cache): psxrecomp master 9ed788f
 # bundles two things. (1) QoL (issue #5): seamless analog/d-pad input (default
 # analog pad -> variable stick speed; D-pad/keyboard folded onto the axes) + an
