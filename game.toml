@@ -20,7 +20,7 @@ window_title = "Tomba! Recompiled"
 memcard_dir = "saves"
 disc_speed = "instant"
 fast_boot  = false   # set false to watch BIOS logos
-overlay_cache = false  # DEBUG: all overlays interpreted (no native DLLs) so the auto_backdrop ring sees full detail
+overlay_cache = true   # native overlay-DLL cache (production path; gcc > sljit > interp)
 # Step 4 turbo-through-loads: 3-5x load compression. ON by default since Bug B
 # was root-caused + fixed (psxrecomp ffc1521: the "turbo raises freeze
 # incidence" was the frame-pacing TOCTOU underflow, not an interrupt race;
@@ -63,7 +63,7 @@ renderer          = "opengl"
 # the instant a streaming FMV is detected). Ships OFF; the launcher's
 # Settings → "Skip FMVs" toggle turns it on (persisted to settings.toml).
 auto_skip_fmv     = false
-aspect_ratio      = "16:9"
+aspect_ratio      = "4:3"
 
 # Controller input defaults. Tomba is analog-capable (the box reads "Analog
 # Control Compatible"): in analog mode the left stick gives variable run speed.
