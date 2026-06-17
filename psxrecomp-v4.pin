@@ -4,7 +4,21 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=2cd5d22
+sha=ad9fdb9
+# Bumped 2026-06-17 (native-wide 2D-backdrop stretch + hybrid pad mode; NO release):
+# psxrecomp master ad9fdb9. Dev checkpoint, not a release pin. Bundles: (1) the
+# native-wide 16:9 2D-backdrop void FIX — the far backdrop (sprite-tagged tile grid:
+# sky band + flower field) is centre-stretched to fill the widened frame via a
+# draw-time gate (native-wide + sprite-tagged + background-phase, before the first
+# 3D/gouraud prim), in BOTH the GL and software renderers; HUD/Tomba/3D untouched.
+# USER-VERIFIED live on both renderers. Supersedes the dead content-match/address-
+# range approach. (2) Hybrid controller pad mode: per-player {hybrid,analog,digital}
+# replacing the analog on/off boolean; hybrid auto-switches DualShock/digital by
+# most-recent input, with a 3-way launcher selector. Plus a ws_dbg_stretch debug
+# command + GP0-ring analysis tooling. NOTE: still carries debug toggles in game.toml
+# (overlay_cache=false, aspect_ratio="16:9") + a keyboard-always-P1 tweak — revert
+# before any release. Supersedes 2cd5d22.
+# ---- prior pin (v0.2.0-alpha release cut) ----
 # Bumped 2026-06-16 (v0.2.0-alpha release cut): psxrecomp master 2cd5d22 = 12e0977
 # + a Release-build link fix (the synth_recurse debug self-test call is now
 # guarded so PSX_DEBUG_TOOLS=OFF links). This is the exact pin the v0.2.0-alpha
