@@ -4,7 +4,20 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=3ba40b0
+sha=16291fd
+# Bumped 2026-06-18 (UNIVERSAL CPS LEAK FIX — the ~14-min idle-freeze is FIXED):
+# psxrecomp master 16291fd merges the continuation-passing recompiler. Every guest
+# call is now a TAIL-TRANSFER driven by the flat trampoline + the guest's own
+# $ra/$sp (instead of a nested host C frame), so the host stack can never mirror
+# unbounded guest re-entrancy — the root of the idle-freeze host-stack leak. CPS is
+# the DEFAULT now (PSX_CPS=0 = legacy opt-out). USER-VALIDATED: Tomba boots->FMV->
+# New Game->village and plays; ce_profile FLAT at 5-6 KB through a 56.9k-frame soak
+# (legacy climbed +1.17 KB/frame -> 48 MB -> freeze). Full native overlay coverage
+# under CPS (gcc-DLL + sljit; loader continuation routing) + async background
+# overlay compile is CPS-wired (compile_overlays --cps, gcc-only on gcc boxes).
+# REGEN REQUIRED (CPS is gen-time) + overlay cache rebuilds at codegen_ver=4. See
+# psxrecomp/docs/RECURSION_BUG.md §23-§25.6. Supersedes 3ba40b0.
+# ---- prior pin (native-wide 2D-backdrop stretch + hybrid pad mode) ----
 # Bumped 2026-06-17 (native-wide 2D-backdrop stretch + hybrid pad mode; NO release):
 # psxrecomp master 3ba40b0. Dev checkpoint, not a release pin. Bundles: (1) the
 # native-wide 16:9 2D-backdrop void FIX — the far backdrop (sprite-tagged tile grid:
