@@ -705,7 +705,58 @@ and stays live.
 
 ## Issue #6 — Runtime hard-freezes ("Not Responding")
 
-**Status:** **MITIGATED / WATCH LIST 2026-05-17.** The original
+> **2026-06-18 UPDATE — the ~14-min IDLE freeze is a DISTINCT bug from the
+> 2026-05 GDI-hang below, and it is now ROOT-CAUSED + ORACLE-CONFIRMED.**
+> Canonical, exhaustive writeup: **`psxrecomp/docs/RECURSION_BUG.md` §1–§24**
+> (single source of truth; this is just the tracker pointer). Branch
+> `bug/recursion`. Summary:
+>
+> - **Symptom.** Tomba runs fine, then hard-freezes after ~14 min of idle/play
+>   (frame ~40k–87k, varies). Location-independent (New Game area, Dwarf Forest,
+>   idling on a dialogue — all identical). Real hardware idles indefinitely
+>   (user-confirmed), so this is a recomp-vs-HW divergence.
+> - **Root cause (CONFIRMED).** A gradual **host-stack leak of ~1.17 KB/frame**
+>   at the dirty-RAM-interp ↔ compiled-code boundary. Each frame the per-frame
+>   game loop (`func_8001A954 → AC00 → B2B4 → B5A8 → func_80046264 → render
+>   overlays`) crosses that boundary, and on the **RETURN path** the recomp
+>   realizes the guest `jr ra` as a forward `psx_dispatch(ret)` that **nests a
+>   host frame instead of unwinding**. ~1 un-unwound chain/frame accumulates on
+>   the 64 MB main-thread stack until 48 MB → native-stack guard → freeze.
+>   (Confirmed live this session: `ce_profile` 20099→22215 KB over 1807 frames.)
+> - **Oracle disambiguation (the decisive step, §23).** Traced one
+>   `func_8001A954` invocation on **real HW (psx-beetle, fntrace+SP)** vs the
+>   recomp in the **identical idle state**. The **guest control flow is
+>   bit-identical** (same J/JAL/JR targets, RA, and SP): real HW enters
+>   `func_8001A954` once/frame (`JAL 0x8001A630`, `sp=0x801FE3E0`) and **RETURNS
+>   once/frame** (`jr ra @0x8001A9E8 → 0x8001A638`, SP fully restored), balanced,
+>   no re-entry. The recomp runs the SAME flow with the SAME SP unwind, but
+>   forward-dispatches every boundary-crossing return → host leak. So:
+>   the guest genuinely returns each frame ⇒ this is a **CONTAINED
+>   return/unwind-contract fix**, NOT the big §11 continuation-passing redesign.
+>   Interp control-transfer fabrication is RULED OUT (guest flow identical).
+> - **Why prior fixes failed.** §20 (block-loop tail-transfer) and §22 (interp
+>   JAL/JALR down-calls) surfaced the **CALL** path; the leak is on the
+>   **RETURN** path (the `jr ra` boundary crossings:
+>   `0x800462C4/0x8001B758/0x8001B3EC/0x8001AC54/0x8001A9C0/0x8001A638`).
+> - **Fix (in progress, this session).** At the dirty↔compiled boundary, a guest
+>   **return** whose target is a compiled-GAME address must surface `cpu->pc=ret`
+>   to the `psx_dispatch_impl` trampoline owner and **unwind**, not nest
+>   `psx_dispatch_game_compiled`. Gated to compiled-game targets only
+>   (overlay-native DLL returns use the `pc==0` contract — a naive all-targets
+>   surface reintroduces the dwarf→overworld lost-continuation bug). Runtime-only
+>   (`dirty_ram_interp.c`), no regen.
+> - **Pass/fail gate.** (1) §19 `ce_profile` per-frame `max_kb` must go **FLAT**
+>   (currently +1.17 KB/frame); (2) oracle JAL/JR/SP sequence must stay identical;
+>   (3) **15-min+ idle soak with no freeze**; (4) dwarf→overworld playtest (the
+>   regression risk). NOT solved until the soak passes.
+> - **Artifacts.** `_freeze_specimens/oracle/{oracle_chain_filtered.json,
+>   oracle_state.txt,recomp_allfn_frame.json,recomp_ce_profile.json}`.
+> - **Oracle tooling.** Use **`psx-beetle.exe`** (Beetle interprets → records
+>   every branch) on port **4382** (`--port N`; moved off 4380 which collided
+>   with psxref/`cdirecomp`), NOT psxref (no PC trace). See [[psxref-oracle]].
+
+**Status (older GDI-hang era, distinct from the idle freeze above):**
+**MITIGATED / WATCH LIST 2026-05-17.** The original
 OPTIONS retry-storm workload is gone after psxrecomp-v4 `bd582d8`.
 The earlier host-side freeze was partially mitigated on 2026-05-13
 by switching the SDL renderer to OpenGL. Both `runtime/src/main.cpp` and
