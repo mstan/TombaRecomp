@@ -4,7 +4,20 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=16291fd
+sha=2a9d1e5
+# Bumped 2026-06-18 (v0.3.0-alpha release cut): psxrecomp master 2a9d1e5 = badfddc
+# + a PSX_NO_SLJIT debug knob (interp-only overlay isolation; off by default,
+# benign). badfddc adds the
+# Vulkan renderer backend as a SILENT, BUILD-EXCLUDED WIP — gated behind the
+# PSX_ENABLE_VULKAN cmake option (default OFF), so gpu_vk_renderer.c compiles to
+# its inert stub and the release exe is byte-for-byte a no-Vulkan build (no SDK /
+# glslc dependency, no "vulkan" renderer behaviour) — plus the OpenGL
+# low_latency_input (re-sample the pad just before present, default on, ~1 frame
+# less input lag) + a configurable vsync/swap-interval mode (on/immediate/adaptive).
+# Runtime-only over the CPS fix (16291fd); these need NO regen, but the release
+# regen runs anyway for the CPS emitter output. This is the exact pin v0.3.0-alpha
+# was built from. Supersedes 16291fd.
+# ---- prior pin (UNIVERSAL CPS LEAK FIX — the ~14-min idle-freeze is FIXED) ----
 # Bumped 2026-06-18 (UNIVERSAL CPS LEAK FIX — the ~14-min idle-freeze is FIXED):
 # psxrecomp master 16291fd merges the continuation-passing recompiler. Every guest
 # call is now a TAIL-TRANSFER driven by the flat trampoline + the guest's own
