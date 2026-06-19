@@ -1,25 +1,17 @@
-# Tomba! Recompiled — v0.3.0-alpha
+# Tomba! Recompiled — v0.4.0-alpha
 
-The **stability** release: the long-run freeze is fixed, the controls feel snappier, and widescreen looks cleaner.
+The **movies-and-loading** release: skip *any* FMV — even the ones you couldn't before — and choose how loading screens sound.
 
 ## ✨ What's new
 
-### No more long-play freeze (major fix)
-Earlier builds could **hard-freeze after a long session or extended idle** — a slow internal resource leak that eventually wedged the game. That's **fixed at the root**: the recompiler now uses a continuation-passing call model that keeps the host stack flat no matter how long you play. Leave the game running, or play for hours, without the creeping freeze.
+### Skip every movie (improved FMV skip)
+"Skip FMVs" now ends a video the **game's own way** — by telling the movie player it has reached its final frame — so it works on **every** movie, including the ones the game never let you skip with a button: the Whoopee Camp logo, the opening, and in-game cutscene movies. Turn it on in the launcher (**Settings → Skip FMVs**); it's off by default.
 
-### Snappier controls (lower input lag)
-Your input is now read **right before each frame is drawn** instead of up to a frame earlier, so the game responds to the stick and buttons up to **~a frame (≈14 ms) sooner**. This is on automatically. Advanced users can also choose a **vsync mode** (on / immediate / adaptive) in the game config to trade a little tearing for even lower display latency on a fast monitor.
-
-### Cleaner widescreen
-The **far-background void** in 16:9 — the missing sky band and flower-field along the screen edges — is now **filled in** properly, on both the OpenGL and software renderers. Widescreen is still experimental, but the most noticeable seam from v0.2.0 is gone.
-
-### More flexible controller handling
-New **Hybrid** controller mode (now the default): the game auto-switches between analog and digital based on how you're playing — nudge the stick for variable-speed analog, tap the D-pad for crisp digital — with a **3-way selector per player** (Hybrid / Analog / Digital) in the launcher.
-
-### Under the hood
-- The game now compiles itself to fast native code **in the background while you play**, so the brief first-time hitches when entering new areas are smoother.
+### Turbo loads is now a toggle — and off by default
+Loading screens used to always run in "turbo": the game fast-forwarded through them, which briefly **muted the audio**. That's now a launcher option (**Settings → Turbo loads**), and it's **off by default** — so music and sound **play continuously through loading screens**, with no cut or fade. Loads stay quick because disc reads are already instant. Prefer the old behavior? Switch **Turbo loads** on to fast-forward them at the cost of a brief audio mute.
 
 ## 📝 Notes
 - As always, **bring your own** PlayStation BIOS and Tomba! (USA, SCUS-94236) disc image — the launcher asks for each.
-- Widescreen is **opt-in and experimental**.
+- Both new options live in the launcher's **Settings** and are remembered between launches.
+- Widescreen remains **opt-in and experimental**.
 - The overlay cache grows as you play; please keep `overlay_captures.json` private — it contains game code read from your disc (see README).
