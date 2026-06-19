@@ -46,10 +46,6 @@ The game is playable from BIOS boot through gameplay. Latest release:
 | Widescreen 16:9 | Experimental, opt-in (true wider FOV) |
 | Controller | Seamless analog + D-pad; DualShock on by default |
 
-A small number of rare crashes remain under investigation — most notably the
-Underground Maze / seesaw crash (`ISSUES.md` #1). If you hit one, please attach
-`psx_last_run_report.json`; release builds now name the function involved.
-
 ## Features
 
 - **Two renderers.** A CPU software rasterizer and a GPU-authoritative OpenGL
@@ -74,9 +70,6 @@ Underground Maze / seesaw crash (`ISSUES.md` #1). If you hit one, please attach
 - **Self-growing native cache.** Areas you visit are converted to fast native
   code as you play and reused on later launches (see "Help make your game
   faster" below).
-- **Crash safety net.** A guard catches a class of stack-overflow crashes
-  gracefully and writes a report (`psx_last_run_report.json`) naming the
-  function involved, instead of just closing.
 
 ## Setup
 
