@@ -4,7 +4,23 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=2a9d1e5
+sha=9932dab
+# Bumped 2026-06-19 (v0.4.0-alpha release cut — universal FMV skip + Turbo-loads
+# toggle): psxrecomp master 9932dab = dc7f5c5 + a launcher Settings "Turbo loads"
+# toggle (default OFF). dc7f5c5 added the FMV-skip RUNTIME support: ending a movie
+# via the game's OWN per-movie frame-count teardown ([video] fmv_skip_total_table /
+# fmv_skip_movie_id / fmv_skip_end_total) — reaching EVERY movie, including the ones
+# the game won't let you skip with a button (Whoopee Camp logo, opening, in-game
+# cutscene movies), by writing the active movie's frame-total down so the MDEC player
+# tears it down on its next frame (no state synthesis). 9932dab then moves turbo-
+# through-loads (unpace + audio mute during CD loads) out of game.toml-only into the
+# launcher, defaulting OFF so loads play at natural speed with continuous audio
+# (disc_speed=instant keeps data fast). Both the FMV table wiring (game.toml [video])
+# and the turbo default (game.toml [runtime] turbo_loads=false) are on TombaRecomp
+# master. Runtime/launcher/config only over the v0.3.0 CPS pin — codegen hash is
+# unchanged (347751c1), so the overlay cache is unaffected; the release regen runs
+# anyway. Supersedes dc7f5c5 / 2a9d1e5.
+# ---- prior pin (v0.3.0-alpha release cut) ----
 # Bumped 2026-06-18 (v0.3.0-alpha release cut): psxrecomp master 2a9d1e5 = badfddc
 # + a PSX_NO_SLJIT debug knob (interp-only overlay isolation; off by default,
 # benign). badfddc adds the

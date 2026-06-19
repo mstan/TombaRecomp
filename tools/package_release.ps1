@@ -1,5 +1,5 @@
 param(
-    [string]$Version = "v0.2.0-alpha",
+    [string]$Version = "v0.4.0-alpha",
     [string]$BuildDir = "build-release"
 )
 
@@ -91,8 +91,11 @@ disc_speed = "instant"
 # Skip the PlayStation BIOS boot logos (true) or watch them (false).
 fast_boot  = false
 
-# Speed through in-game loading screens at full host speed (recommended).
-turbo_loads = true
+# Turbo loads: speed through in-game loading screens at full host speed. Faster,
+# but briefly mutes audio during the load. Off by default (loads play at natural
+# speed with continuous audio; disc reads are already instant). Toggleable in the
+# launcher (Settings -> Turbo loads).
+turbo_loads = false
 
 # Overlay cache: keeps converted native code for game areas in the cache
 # folder, and records newly visited areas into overlay_captures.json so
@@ -117,8 +120,15 @@ texture_filtering = "nearest"
 renderer = "opengl"
 # auto_skip_fmv: skip full-motion videos (e.g. the opening movie). When on, a
 # video is skipped the instant it starts, jumping straight to the next screen.
-# Off by default; also toggleable in the launcher (Settings -> "Skip FMVs").
+# It ends the movie the game's OWN way (writes the active movie's frame-total
+# down so the player tears it down next frame), so even movies you can't skip
+# with a button are skipped. Off by default; also toggleable in the launcher
+# (Settings -> "Skip FMVs"). The fmv_skip_* addresses below are specific to
+# Tomba! (USA, SCUS-94236) and drive that teardown; leave them as-is.
 auto_skip_fmv = false
+fmv_skip_total_table = 0x80077728
+fmv_skip_movie_id    = 0x1F8001CD
+fmv_skip_end_total   = 3
 # aspect_ratio: "4:3" (native, default) or "16:9" (EXPERIMENTAL widescreen). Also
 # toggleable in the launcher (Settings -> Widescreen), which overrides this.
 aspect_ratio = "4:3"
