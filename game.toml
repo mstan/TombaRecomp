@@ -59,10 +59,22 @@ supersampling     = 2
 antialiasing      = true
 texture_filtering = "nearest"
 renderer          = "opengl"
-# auto_skip_fmv: auto-skip full-motion videos (the game's own skip is triggered
-# the instant a streaming FMV is detected). Ships OFF; the launcher's
-# Settings → "Skip FMVs" toggle turns it on (persisted to settings.toml).
+# auto_skip_fmv: auto-skip full-motion videos. When a streaming FMV is detected,
+# the runtime ends it via the game's OWN end-of-movie path (see fmv_skip_* below):
+# it writes the current movie's per-movie frame-total down so Tomba's MDEC player
+# tears the movie down on its next frame. Works for EVERY movie (Whoopee Camp
+# logo, opening, in-game cutscene movies) including ones the game won't let you
+# skip with a button. Ships OFF; the launcher's Settings → "Skip FMVs" toggle
+# turns it on (persisted to settings.toml).
 auto_skip_fmv     = false
+# fmv_skip_total_table: base of Tomba's per-movie frame-total table (u16 per movie,
+#   indexed by the current-movie-id byte). fmv_skip_movie_id: that id byte (PSX
+#   scratchpad). fmv_skip_end_total: value written into the active movie's total so
+#   the player ends it immediately (its loop tears down when frame# >= total - 3).
+#   RE: player loop FUN_8001f1c0 / consumer FUN_8001efe8 (see ENHANCEMENTS.md E1).
+fmv_skip_total_table = 0x80077728
+fmv_skip_movie_id    = 0x1F8001CD
+fmv_skip_end_total   = 3
 aspect_ratio      = "4:3"
 
 # Controller input defaults. Tomba is analog-capable (the box reads "Analog
