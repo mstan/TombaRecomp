@@ -4,13 +4,21 @@ Ideas worth doing later. Active bugs live in `ISSUES.md`.
 
 ---
 
-## E1 — FMV auto-skip for UNSKIPPABLE movies (PARKED, branch `feat/fmv-instant-skip`)
+## E1 — FMV auto-skip for ALL movies (IMPLEMENTED 2026-06-18)
 
-**Status:** PARKED 2026-06-18 on `feat/fmv-instant-skip` (both repos). Goal:
-make EVERY FMV instant-skip, including ones the game won't let you skip with a
-button. The shipped v0.1.9 feature (START injection) only skips movies whose
-caller polls the pad. This branch is an unfinished attempt to cover the rest.
-The mechanism is now correctly understood (below) but NOT yet implemented/verified.
+**Status:** IMPLEMENTED + USER-VALIDATED on master. When `auto_skip_fmv` is on and
+an FMV is detected (MDEC decoding + XA streaming), the runtime writes the CURRENT
+movie's per-movie frame-total (`[video] fmv_skip_total_table` + `movie_id*2`, with
+`movie_id` read from `fmv_skip_movie_id`) down to `fmv_skip_end_total` (3). Tomba's
+MDEC player (`FUN_8001efe8`) tears a movie down when the streamed frame number
+reaches `total − 3`, so the lowered total ends it on the next frame — a NATURAL end
+that reaches EVERY movie (Whoopee Camp logo, opening, in-game cutscene movies),
+including ones whose caller never polls the skip button. Only the active movie's
+table entry is touched; present-suppress + audio mute hide the 1–2 transition
+frames. Runtime-only, no regen; the launcher's "Skip FMVs" toggle drives it. Config
+in `game.toml` ([video] `fmv_skip_total_table=0x80077728`,
+`fmv_skip_movie_id=0x1F8001CD`, `fmv_skip_end_total=3`); generic fallback (no table
+configured) = START injection. The historical RE notes that led here are kept below.
 
 ### What's already on master (works, unchanged)
 `[video] auto_skip_fmv` → when an FMV is detected (MDEC decoding + XA streaming,
