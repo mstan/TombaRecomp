@@ -26,18 +26,24 @@ name = "message_speed"   # SLOW = 0, FAST = 1, AUTO = 2
 addr = "0x8009C9E4"
 size = 1
 init_store_pc = "0x8001923C"   # sb v0,-0x361c(at)  in FUN_800191E0
+min = 0
+max = 2
 
 [[option]]
 name = "sound"           # STEREO = 0, MONO = 1
 addr = "0x8009C964"
 size = 1
 init_store_pc = "0x8007133C"   # sh zero,-0x369c(at)  in FUN_80071058
+min = 0
+max = 1
 
 [[option]]
 name = "vibration"       # OFF = 0, ON = 1   (default at boot = 1/ON)
 addr = "0x8009C97A"
 size = 1
 init_store_pc = "0x80028740"   # sh v0,-0x3686(at)  in FUN_80028728
+min = 0
+max = 1
 
 [[option]]
 name = "screen_x"        # ADJUST SCREEN, horizontal (signed 16-bit)
