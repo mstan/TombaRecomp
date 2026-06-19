@@ -158,14 +158,24 @@ unsquash_funcs = ["0x8004DB3C"]
 Copy-Item (Join-Path $Root "game_options.toml") $Stage
 
 # Prebuilt overlay cache: native code for the game areas contributed so far.
-# Ships .dll + .ranges only (the _patched.c intermediates are build artifacts).
+# The cache is namespaced per backend/arch/codegen-version:
+#   gcc/<arch-abi>/cg<N>/<entry8>_<crc8>.dll (+ .ranges)
+# and the loader scans it by that exact path, so the subtree must be preserved
+# (a flat copy bundles nothing / won't load). Ship .dll + .ranges only (the
+# _patched.c intermediates are build artifacts); skip the reserved sljit/
+# namespace (it has no on-disk blobs — sljit re-JITs in process).
 $CacheSrc = Join-Path $Root "build-stable/cache/SCUS-94236"
 if (Test-Path $CacheSrc) {
     $CacheDst = Join-Path $Stage "cache/SCUS-94236"
-    New-Item -ItemType Directory -Force $CacheDst | Out-Null
-    Copy-Item (Join-Path $CacheSrc "*.dll")    $CacheDst
-    Copy-Item (Join-Path $CacheSrc "*.ranges") $CacheDst
-    $dllCount = (Get-ChildItem $CacheDst -Filter *.dll).Count
+    $cacheFiles = Get-ChildItem $CacheSrc -Recurse -File -Include *.dll,*.ranges |
+        Where-Object { $_.FullName -notmatch '[\\/]sljit[\\/]' }
+    foreach ($f in $cacheFiles) {
+        $rel  = $f.FullName.Substring($CacheSrc.Length).TrimStart('\','/')
+        $dest = Join-Path $CacheDst $rel
+        New-Item -ItemType Directory -Force (Split-Path $dest) | Out-Null
+        Copy-Item $f.FullName $dest
+    }
+    $dllCount = (Get-ChildItem $CacheDst -Recurse -Filter *.dll).Count
     Write-Host "Bundled overlay cache: $dllCount native overlay DLL(s)"
 } else {
     Write-Warning "No overlay cache found at $CacheSrc - releasing without bundled cache"
