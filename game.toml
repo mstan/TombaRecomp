@@ -21,11 +21,12 @@ memcard_dir = "saves"
 disc_speed = "instant"
 fast_boot  = false   # set false to watch BIOS logos
 overlay_cache = true   # native overlay-DLL cache (production path; gcc > sljit > interp)
-# Step 4 turbo-through-loads: 3-5x load compression. ON by default since Bug B
-# was root-caused + fixed (psxrecomp ffc1521: the "turbo raises freeze
-# incidence" was the frame-pacing TOCTOU underflow, not an interrupt race;
-# turbo merely added the CPU load that widened the preemption window).
-turbo_loads = true
+# Step 4 turbo-through-loads: run the guest unpaced (host speed) + mute audio while
+# the CD data stream is active. Ships OFF (default) so loads play at natural 60fps
+# with continuous audio (no mute/fade); disc_speed=instant already keeps the data
+# delivery fast, so loads stay quick. Toggleable in the launcher (Settings -> Turbo
+# loads), which persists to settings.toml and overrides this.
+turbo_loads = false
 # Step 2.8: auto capture+compile of uncovered overlay variants (background;
 # run via cmd.exe /C with cwd = project root; needs python + gcc on PATH).
 # Chained: after each compile, additively back up captures + cache into the
