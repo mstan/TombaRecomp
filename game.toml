@@ -18,15 +18,19 @@ strict = true
 debug_port = 4470
 window_title = "Tomba! Recompiled"
 memcard_dir = "saves"
-disc_speed = "instant"
+disc_speed = "1x"      # authentic CD timing — never perturbs game timing/audio
 fast_boot  = false   # set false to watch BIOS logos
 overlay_cache = true   # native overlay-DLL cache (production path; gcc > sljit > interp)
-# Step 4 turbo-through-loads: run the guest unpaced (host speed) + mute audio while
-# the CD data stream is active. Ships OFF (default) so loads play at natural 60fps
-# with continuous audio (no mute/fade); disc_speed=instant already keeps the data
-# delivery fast, so loads stay quick. Toggleable in the launcher (Settings -> Turbo
-# loads), which persists to settings.toml and overrides this.
-turbo_loads = false
+# Fast loads, done the safe way. disc_speed stays authentic 1x (speeding the
+# guest-visible CD device changes how many VBlanks/callbacks fall between the
+# game's state transitions, which desyncs CD-streamed audio and can wedge
+# timing-sensitive titles). The real speed comes from turbo_loads: while a CD
+# load is in progress (cdrom_load_in_progress: a sustained read, XA/FMV excluded,
+# post-handoff), the frontend drops wall-clock pacing so the guest runs every
+# authentic frame at host speed. All guest timing is preserved; only real-world
+# load time shrinks. Audio plays through (no mute). Launcher Settings -> Turbo
+# loads persists to settings.toml and overrides this.
+turbo_loads = true
 # Step 2.8: auto capture+compile of uncovered overlay variants (background;
 # run via cmd.exe /C with cwd = project root; needs python + gcc on PATH).
 # Chained: after each compile, additively back up captures + cache into the
