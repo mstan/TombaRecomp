@@ -85,17 +85,21 @@ out_dir = "generated"
 window_title = "Tomba! Recompiled"
 memcard_dir = "saves"
 
-# Disc read speed: "1x" (authentic), "2x", "4x", or "instant" (fastest).
-disc_speed = "instant"
+# Disc read speed. "1x" is authentic PlayStation timing and is the safe default:
+# speeding up the emulated CD device ("2x"/"4x"/"instant") changes how many
+# frames pass between a game's internal steps, which can desync streamed audio
+# or stall timing-sensitive titles. Fast loads instead come from turbo_loads
+# below (which fast-forwards the whole machine during a load, preserving timing).
+disc_speed = "1x"
 
 # Skip the PlayStation BIOS boot logos (true) or watch them (false).
 fast_boot  = false
 
-# Turbo loads: speed through in-game loading screens at full host speed. Faster,
-# but briefly mutes audio during the load. Off by default (loads play at natural
-# speed with continuous audio; disc reads are already instant). Toggleable in the
-# launcher (Settings -> Turbo loads).
-turbo_loads = false
+# Turbo loads: while a load is in progress, run the machine at full host speed so
+# loading finishes much faster, with all game timing preserved. Audio plays
+# through normally. On by default. Toggleable in the launcher (Settings -> Turbo
+# loads).
+turbo_loads = true
 
 # Overlay cache: keeps converted native code for game areas in the cache
 # folder, and records newly visited areas into overlay_captures.json so
