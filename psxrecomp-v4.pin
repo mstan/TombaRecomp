@@ -4,7 +4,14 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=9932dab
+sha=dbfd92f
+# Bumped 2026-06-19 (turbo-loads fast-load model): psxrecomp master dbfd92f =
+#   prior + turbo-during-loads as the production fast-load path. game.toml ships
+#   disc_speed="1x" (authentic CD timing) + turbo_loads=true: the guest runs every
+#   authentic frame at host speed during CD loads (all guest timing preserved, audio
+#   intact), so real load time shrinks with zero timing breakage. Also: CD response
+#   arbiter + authentic command latencies (dormant at 1x, for accelerated modes) and
+#   no turbo audio mute. Runtime/config only, no regen. Supersedes 9932dab.
 # Bumped 2026-06-19 (v0.4.0-alpha release cut — universal FMV skip + Turbo-loads
 # toggle): psxrecomp master 9932dab = dc7f5c5 + a launcher Settings "Turbo loads"
 # toggle (default OFF). dc7f5c5 added the FMV-skip RUNTIME support: ending a movie
