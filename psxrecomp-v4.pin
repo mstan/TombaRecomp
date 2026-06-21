@@ -4,7 +4,12 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=ababd91
+sha=5007c46
+# Bumped 2026-06-21 (launcher fullscreen + skip-launcher): psxrecomp master
+#   5007c46 = prior + PR #8 (launcher "Fullscreen on launch" toggle applied as
+#   SDL_WINDOW_FULLSCREEN_DESKTOP at window creation, and a bottom-left "Skip
+#   Launcher on Boot" switch + confirm modal wired to the existing skip_launcher
+#   round-trip / --launcher escape hatch). Runtime/launcher only, no regen.
 # Bumped 2026-06-21 (Tomba Hybrid controller fix): psxrecomp master ababd91 =
 #   prior + PR #7 (Tomba [controller] legacy_pad_config — per-game opt-in that
 #   restores the pre-MMX6 pad-config handshake so the launcher Hybrid mode's
