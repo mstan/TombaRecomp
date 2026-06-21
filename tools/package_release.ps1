@@ -145,6 +145,11 @@ aspect_ratio = "4:3"
 [controller]
 default_analog = true
 deadzone = 12000
+# legacy_pad_config restores Tomba's original pad-config handshake so the launcher
+# "Hybrid" mode (analog/digital auto-switch) works without the pad re-detect that
+# the modern DualShock state machine would turn into a 1-frame disconnect (menu
+# unpause / phantom input). Tomba-only opt-in; default off for every other title.
+legacy_pad_config = true
 
 # ---- Widescreen (experimental 16:9) -------------------------------------
 # These hooks keep the 16:9 picture correct (wider field of view, HUD/sprites at
