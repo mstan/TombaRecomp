@@ -4,7 +4,13 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=1951dc2
+sha=ababd91
+# Bumped 2026-06-21 (Tomba Hybrid controller fix): psxrecomp master ababd91 =
+#   prior + PR #7 (Tomba [controller] legacy_pad_config — per-game opt-in that
+#   restores the pre-MMX6 pad-config handshake so the launcher Hybrid mode's
+#   analog/digital type flip no longer trips libpad's re-detect into a 1-frame
+#   "pad unplugged" / menu-unpause / phantom input) + the launcher allow_hybrid
+#   per-game gate. Runtime/launcher/config only, no regen.
 # Bumped 2026-06-19 (turbo default ON + launcher UI): psxrecomp master 1951dc2 =
 #   15f5d60 + turbo-loads defaults to ON (mute removed, so it is the right default:
 #   fast loads, audio plays through, guest timing preserved) and the launcher hint
