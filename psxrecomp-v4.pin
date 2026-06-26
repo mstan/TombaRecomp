@@ -1,10 +1,21 @@
 # Pinned commit of github.com/mstan/psxrecomp (the shared framework) used to
-# build this repo. Bumping this is a deliberate, reviewable change — psxrecomp
+# build this repo. Bumping this is a deliberate, reviewable change ??? psxrecomp
 # is a separate repo evolving on its own cadence. Update via:
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=e7f7fb6
+sha=598d1dd
+# Bumped 2026-06-25 (v0.6.1 hotfix ??? roll back AE pre-prologue discovery):
+#   psxrecomp master b9e3841 = e7f7fb6 + reverting the Ape-Escape forward-port's
+#   pre-prologue function-start discovery in function_analysis.{cpp,h}. That AE
+#   change over-extended a function boundary in Tomba's Village-of-All-Beginnings
+#   init path (func count 5562->5492), softlocking New Game / the Village save with
+#   the main loop spinning on the 0xCF0 SIO poll (a "blue screen"; backend-
+#   independent, NOT overlay/interp). v0.6.0 shipped this regression. Reverting
+#   restores the pre-AE (v0.5.x) behaviour ??? Village opening renders, native ~26k/s,
+#   no wedge (visually confirmed). Codegen hash returns to cg4_5648b99b (the pre-AE
+#   tag), so the shipped overlay cache is rebuilt under that tag. AE isn't a public
+#   release; a future AE/MMX6 rebuild should re-verify discovery.
 # Bumped 2026-06-25 (overlay cache unification + ws_cull DLL fix): psxrecomp
 #   master e7f7fb6 = 1915b5c + the two framework fixes that cured the overlay
 #   "agonizing lag" (e.g. Tomba's dwarf village ran ~97% interpreted): (1) the
@@ -20,20 +31,20 @@ sha=e7f7fb6
 #   tier and replaces it with a TCC (TinyCC) toolchain-free tier. Priority is now
 #   static > gcc shard > tcc shard > interp (tcc fills the regions the bundled
 #   gcc cache doesn't cover, where uncovered code previously fell to slow interp
-#   — the source of the user-reported lag). Also folds in the post-BIOS boot
+#   ??? the source of the user-reported lag). Also folds in the post-BIOS boot
 #   snapshot (340d6e7) + "Skip PSX BIOS" launcher toggle (c35c04f) and the SDL
 #   HIDAPI Xbox-pad enable (1915b5c). Runtime/overlay only; codegen (MIPS->C) is
 #   unchanged, so the gcc overlay cache stays valid. NOTE: to actually SHIP the
 #   tcc lag-fix to toolchain-less users, game.toml needs overlay_autocompile_cmd_tcc
 #   and package_release.ps1 must bundle the overlay_toolchain/ (python+tcc+recompiler)
-#   — same productionization MMX6 v0.0.2 received; not done in this pin bump.
+#   ??? same productionization MMX6 v0.0.2 received; not done in this pin bump.
 # Bumped 2026-06-21 (launcher fullscreen + skip-launcher): psxrecomp master
 #   5007c46 = prior + PR #8 (launcher "Fullscreen on launch" toggle applied as
 #   SDL_WINDOW_FULLSCREEN_DESKTOP at window creation, and a bottom-left "Skip
 #   Launcher on Boot" switch + confirm modal wired to the existing skip_launcher
 #   round-trip / --launcher escape hatch). Runtime/launcher only, no regen.
 # Bumped 2026-06-21 (Tomba Hybrid controller fix): psxrecomp master ababd91 =
-#   prior + PR #7 (Tomba [controller] legacy_pad_config — per-game opt-in that
+#   prior + PR #7 (Tomba [controller] legacy_pad_config ??? per-game opt-in that
 #   restores the pre-MMX6 pad-config handshake so the launcher Hybrid mode's
 #   analog/digital type flip no longer trips libpad's re-detect into a 1-frame
 #   "pad unplugged" / menu-unpause / phantom input) + the launcher allow_hybrid
@@ -56,11 +67,11 @@ sha=e7f7fb6
 #   intact), so real load time shrinks with zero timing breakage. Also: CD response
 #   arbiter + authentic command latencies (dormant at 1x, for accelerated modes) and
 #   no turbo audio mute. Runtime/config only, no regen. Supersedes 9932dab.
-# Bumped 2026-06-19 (v0.4.0-alpha release cut — universal FMV skip + Turbo-loads
+# Bumped 2026-06-19 (v0.4.0-alpha release cut ??? universal FMV skip + Turbo-loads
 # toggle): psxrecomp master 9932dab = dc7f5c5 + a launcher Settings "Turbo loads"
 # toggle (default OFF). dc7f5c5 added the FMV-skip RUNTIME support: ending a movie
 # via the game's OWN per-movie frame-count teardown ([video] fmv_skip_total_table /
-# fmv_skip_movie_id / fmv_skip_end_total) — reaching EVERY movie, including the ones
+# fmv_skip_movie_id / fmv_skip_end_total) ??? reaching EVERY movie, including the ones
 # the game won't let you skip with a button (Whoopee Camp logo, opening, in-game
 # cutscene movies), by writing the active movie's frame-total down so the MDEC player
 # tears it down on its next frame (no state synthesis). 9932dab then moves turbo-
@@ -68,39 +79,39 @@ sha=e7f7fb6
 # launcher, defaulting OFF so loads play at natural speed with continuous audio
 # (disc_speed=instant keeps data fast). Both the FMV table wiring (game.toml [video])
 # and the turbo default (game.toml [runtime] turbo_loads=false) are on TombaRecomp
-# master. Runtime/launcher/config only over the v0.3.0 CPS pin — codegen hash is
+# master. Runtime/launcher/config only over the v0.3.0 CPS pin ??? codegen hash is
 # unchanged (347751c1), so the overlay cache is unaffected; the release regen runs
 # anyway. Supersedes dc7f5c5 / 2a9d1e5.
 # ---- prior pin (v0.3.0-alpha release cut) ----
 # Bumped 2026-06-18 (v0.3.0-alpha release cut): psxrecomp master 2a9d1e5 = badfddc
 # + a PSX_NO_SLJIT debug knob (interp-only overlay isolation; off by default,
 # benign). badfddc adds the
-# Vulkan renderer backend as a SILENT, BUILD-EXCLUDED WIP — gated behind the
+# Vulkan renderer backend as a SILENT, BUILD-EXCLUDED WIP ??? gated behind the
 # PSX_ENABLE_VULKAN cmake option (default OFF), so gpu_vk_renderer.c compiles to
 # its inert stub and the release exe is byte-for-byte a no-Vulkan build (no SDK /
-# glslc dependency, no "vulkan" renderer behaviour) — plus the OpenGL
+# glslc dependency, no "vulkan" renderer behaviour) ??? plus the OpenGL
 # low_latency_input (re-sample the pad just before present, default on, ~1 frame
 # less input lag) + a configurable vsync/swap-interval mode (on/immediate/adaptive).
 # Runtime-only over the CPS fix (16291fd); these need NO regen, but the release
 # regen runs anyway for the CPS emitter output. This is the exact pin v0.3.0-alpha
 # was built from. Supersedes 16291fd.
-# ---- prior pin (UNIVERSAL CPS LEAK FIX — the ~14-min idle-freeze is FIXED) ----
-# Bumped 2026-06-18 (UNIVERSAL CPS LEAK FIX — the ~14-min idle-freeze is FIXED):
+# ---- prior pin (UNIVERSAL CPS LEAK FIX ??? the ~14-min idle-freeze is FIXED) ----
+# Bumped 2026-06-18 (UNIVERSAL CPS LEAK FIX ??? the ~14-min idle-freeze is FIXED):
 # psxrecomp master 16291fd merges the continuation-passing recompiler. Every guest
 # call is now a TAIL-TRANSFER driven by the flat trampoline + the guest's own
 # $ra/$sp (instead of a nested host C frame), so the host stack can never mirror
-# unbounded guest re-entrancy — the root of the idle-freeze host-stack leak. CPS is
+# unbounded guest re-entrancy ??? the root of the idle-freeze host-stack leak. CPS is
 # the DEFAULT now (PSX_CPS=0 = legacy opt-out). USER-VALIDATED: Tomba boots->FMV->
 # New Game->village and plays; ce_profile FLAT at 5-6 KB through a 56.9k-frame soak
 # (legacy climbed +1.17 KB/frame -> 48 MB -> freeze). Full native overlay coverage
 # under CPS (gcc-DLL + sljit; loader continuation routing) + async background
 # overlay compile is CPS-wired (compile_overlays --cps, gcc-only on gcc boxes).
 # REGEN REQUIRED (CPS is gen-time) + overlay cache rebuilds at codegen_ver=4. See
-# psxrecomp/docs/RECURSION_BUG.md §23-§25.6. Supersedes 3ba40b0.
+# psxrecomp/docs/RECURSION_BUG.md ??23-??25.6. Supersedes 3ba40b0.
 # ---- prior pin (native-wide 2D-backdrop stretch + hybrid pad mode) ----
 # Bumped 2026-06-17 (native-wide 2D-backdrop stretch + hybrid pad mode; NO release):
 # psxrecomp master 3ba40b0. Dev checkpoint, not a release pin. Bundles: (1) the
-# native-wide 16:9 2D-backdrop void FIX — the far backdrop (sprite-tagged tile grid:
+# native-wide 16:9 2D-backdrop void FIX ??? the far backdrop (sprite-tagged tile grid:
 # sky band + flower field) is centre-stretched to fill the widened frame via a
 # draw-time gate (native-wide + sprite-tagged + background-phase, before the first
 # 3D/gouraud prim), in BOTH the GL and software renderers; HUD/Tomba/3D untouched.
@@ -152,7 +163,7 @@ sha=e7f7fb6
 # ---- prior pin (native stack-overflow guard) ----
 # Bumped 2026-06-16 (native stack-overflow guard): psxrecomp master 2cf9f4a adds
 # a tentative containment for the intermittent watchtower force-close (host stack
-# overflow from runaway guest recursion — the seesaw/Bug-D wild-call family). An
+# overflow from runaway guest recursion ??? the seesaw/Bug-D wild-call family). An
 # in-range guest jal compiles to a direct func_X(cpu) call, so the recursion grew
 # the native stack without going through psx_dispatch_impl: the existing depth
 # guard was blind (crash report showed dispatch_depth=0). New guard at every
@@ -162,10 +173,10 @@ sha=e7f7fb6
 # root-caused from a repro. Verified no false-trigger; NOT a root fix (upstream
 # data corruption unaddressed). Runtime-only. Supersedes f046d52 (still includes
 # the GL draw batching 16:9 lag fix below).
-# ---- prior pin (GL draw batching — 16:9 lag fix) ----
-# Bumped 2026-06-16 (GL draw batching — 16:9 lag fix): psxrecomp master f046d52
+# ---- prior pin (GL draw batching ??? 16:9 lag fix) ----
+# Bumped 2026-06-16 (GL draw batching ??? 16:9 lag fix): psxrecomp master f046d52
 # merges perf/gl-frame-timing. The OpenGL renderer was immediate-mode (~1000
-# prims/frame, each its own glDrawArrays at ~14us GPU time — pipeline-flush
+# prims/frame, each its own glDrawArrays at ~14us GPU time ??? pipeline-flush
 # overhead; native-wide doubled it). Fixed by batching consecutive textured
 # prims sharing blend/mask/texwindow/filter into one draw (per-prim texture
 # state moved to flat vertex attributes). Measured (frame_perf, the new GPU/CPU
@@ -175,7 +186,7 @@ sha=e7f7fb6
 # include the parked [widescreen.cull] auto_backdrop (feat/ws-backdrop-coverage).
 # ---- prior pin (OpenGL 16:9 native-wide) ----
 # Bumped 2026-06-15 (OpenGL 16:9 native-wide): psxrecomp master fff384d adds the
-# GL wide compositor — native-wide widescreen now works on the OpenGL backend
+# GL wide compositor ??? native-wide widescreen now works on the OpenGL backend
 # (per-base wide FBOs + double-draw with x-shifted projection; GPU-direct present
 # via glBlitFramebuffer, no per-frame readback so it's as fast as 4:3). Launcher
 # Widescreen toggle is un-gated on GL (shown on both renderers; window size
@@ -191,11 +202,11 @@ sha=e7f7fb6
 # gcc/sljit/interp all route the auto_screen_x render-funnel widen through, so
 # overlay 3D widens in 16:9 on every execution path; (2) versioned overlay cache
 # path gcc/<arch-abi>/cg<N> so a new emitter build never reuses a stale DLL;
-# (3) sljit DEFAULT-ON (validated) — gcc>sljit>interp, sljit fills gcc-absent
+# (3) sljit DEFAULT-ON (validated) ??? gcc>sljit>interp, sljit fills gcc-absent
 # regions, shards diff-gated (device/diverging -> interp), declined -> interp, no
 # crash. Verified: live=1, 62 shards, native:interp ~31%->~87%. REMAINING (next
 # session): OpenGL 16:9 compositor port (widescreen still SW-only); sljit on-disk
-# persistence (greenfield — re-JITs in-session today).
+# persistence (greenfield ??? re-JITs in-session today).
 # ---- prior pin (21:9 docs) ----
 # Bumped 2026-06-15 (+1): psxrecomp master 890a1cb = d0d1993 + docs marking 21:9
 # as stubbed-but-hidden (engine handles it; backdrop generation only covers ~16:9,
@@ -211,27 +222,27 @@ sha=e7f7fb6
 # the far background until that pipeline is widened (8C). Next: GL compositor port.
 # ---- prior pin (feat/native-wide FOV) ----
 # Bumped 2026-06-15 (native-wide FOV complete): psxrecomp feat/native-wide adds
-# [widescreen.cull] auto_screen_x — a gen-time pass that auto-detects the GTE
+# [widescreen.cull] auto_screen_x ??? a gen-time pass that auto-detects the GTE
 # render-funnel screen-extent reject (sltiu 0x140/0x141 width paired with a
 # sltiu 0xE0 height) and routes every WIDTH cull through psx_ws_x_margin(),
 # sign-extended + shifted so BOTH 16:9 margins reveal. 4:3 byte-identical
 # (margin 0). USER-VALIDATED: with game.toml auto_screen_x = true the revealed
 # left+right margins fill with real geometry (no more 320-edge cull). One opt-in
-# flag, ~106 sites auto-widened, generic to any PSX GTE title — supersedes the
+# flag, ~106 sites auto-widened, generic to any PSX GTE title ??? supersedes the
 # WIP "wtrace OT writers" plan in the checkpoint note below. Remaining polish
 # (separate, non-blocking): load-in fade + pause gray-filter still drawn at 4:3.
 # ---- prior pin (compositor checkpoint) ----
 # Bumped 2026-06-15 (compositor checkpoint): psxrecomp feat/native-wide now
-# carries the native-wide render-pipeline rewrite — a separate per-framebuffer
+# carries the native-wide render-pipeline rewrite ??? a separate per-framebuffer
 # WIDE COMPOSITOR surface (software renderer), canonical PSX VRAM left faithful
 # (4:3 / non-opted = byte-identical). SW path works: 16:9 flicker fixed, faithful,
 # terrain platform fills. WIP: discrete foreground objects + parallax backdrop
-# still culled at the 4:3 edge (separate spawn path — wtrace OT writers next);
+# still culled at the 4:3 edge (separate spawn path ??? wtrace OT writers next);
 # GL compositor port pending. See psxrecomp/NATIVE_WIDE_PLAN.md + session handoff.
 # Build against the psxrecomp feat/native-wide checkout (tools/build-linux.sh
 # --nopin, or check it out so HEAD matches this sha).
 # ---- prior pin (plan-doc only) ----
-# 2026-06-15: 5348f48 — native-wide branch forked from feat/widescreen; at that
+# 2026-06-15: 5348f48 ??? native-wide branch forked from feat/widescreen; at that
 # point == feat/widescreen + NATIVE_WIDE_PLAN.md (rewrite not yet started).
 # ---- prior pin (feat/widescreen line) ----
 # Bumped 2026-06-15: re-pinned to psxrecomp feat/widescreen (b1b7d6b) after
@@ -243,7 +254,7 @@ sha=e7f7fb6
 # ---- prior pin (master line) ----
 # Bumped 2026-06-14 for v0.1.9-alpha: psxrecomp master 1010c58 = FMV auto-skip
 # (46a653a) + overlay-cache flavor tag (1010c58). The flavor tag is behaviour-
-# neutral for base/master (tag == ABI v2) — it lets a variant build (e.g.
+# neutral for base/master (tag == ABI v2) ??? it lets a variant build (e.g.
 # widescreen, PSX_OVERLAY_FLAVOR=1) keep a SEPARATE overlay cache that a base
 # runtime auto-rejects, so the two never cross-contaminate. Strict superset of
 # 4ea9ecd. Runtime/overlay-only; no game emitter/regen impact.
@@ -256,7 +267,7 @@ sha=e7f7fb6
 # Runtime-only; no emitter/regen impact, overlay ABI stays v2 (the v1->v2 cache
 # rebuild already happened for v0.1.7-alpha).
 # ---- history ----
-# 2026-06-12 (bba973d, feat/gl-renderer): GL renderer v2 pin (now superseded —
+# 2026-06-12 (bba973d, feat/gl-renderer): GL renderer v2 pin (now superseded ???
 #   the GL merge landed in master, so we base off master instead of that branch).
 # 2026-06-11 (34561b5, master): v0.1.7-alpha release pin. master superset of the
 #   old feat/overlay-jit-cache pin (7249123): overlay-jit-cache campaign + Bug D
@@ -264,3 +275,4 @@ sha=e7f7fb6
 #   freeze fix. feat/overlay-jit-cache was fully merged into master and deleted.
 # 2026-06-06 (d22c9ce / 7249123): mmx6 framework + diagnostic tooling.
 # 2026-06-07: re-pointed branch -> feat/overlay-jit-cache (same commit then).
+
