@@ -4,7 +4,7 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=598d1dd
+sha=2ff21c4
 # Bumped 2026-06-25 (v0.6.1 hotfix ??? roll back AE pre-prologue discovery):
 #   psxrecomp master b9e3841 = e7f7fb6 + reverting the Ape-Escape forward-port's
 #   pre-prologue function-start discovery in function_analysis.{cpp,h}. That AE

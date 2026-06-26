@@ -1,28 +1,31 @@
 #!/usr/bin/env python3
-"""Regression test: Tomba must NOT softlock entering Village of All Beginnings.
+"""Regression test for the two native-overlay failure classes that have bitten
+Tomba's Village of All Beginnings (New Game / load-Village-save):
 
-History (this blue-screen class has recurred): the Ape-Escape forward-port added
-"pre-prologue" function-start discovery to the recompiler's function_analysis,
-which over-extended a function boundary in Tomba's Village-of-All-Beginnings init
-path. The result was a main-loop softlock — New Game (and loading the Village
-save) wedged with the dirty-RAM dispatcher spinning on the 0x00000CF0 SIO-poll
-stub forever, never rendering the area (a solid "blue screen"). It was backend-
-independent (gcc + tcc) and NOT overlay-interp related, so only an end-to-end boot
-catches it. psxrecomp b9e3841 rolled the AE discovery back; this guards it.
+  1. BLUE-SCREEN WEDGE — a native overlay function entered at a foreign interior
+     PC ran from its top, corrupting shared state; the main loop then spun forever
+     on the 0x00000CF0 SIO stub and never rendered the area. Fixed by the fail-
+     closed native entry guard + the jal-target alias discovery (the swallowed
+     function becomes its own routable native entry).
 
-How it works: on boot Tomba auto-progresses into the Village opening scene (no
-input needed). The WEDGE signature is the native overlay ring being ~100%
-0x00000CF0 while dispatch_native keeps climbing (alive but stuck). Healthy
-gameplay shows a VARIETY of overlay addresses. We boot, wait for gameplay, and
-discriminate.
+  2. READ!=WRITE LAG — the loader read overlay shards from cg<hashA> while
+     autocompile wrote them to cg<hashB> (a stale baked-in codegen hash drifting
+     from the headers), so the freshly compiled Village shards were never loaded
+     and the area ran ~97% interpreted. Fixed by hardcoding the cache to
+     <exe>/cache + an OBJECT_DEPENDS so the runtime's cg tag can't drift.
 
-Requirements: a dev build with the TCP debug server (configure with
--DPSX_DEBUG_TOOLS=ON), plus the BIOS (baked via DEFAULT_BIOS_PATH) and the Tomba
-disc resolvable from game.toml. Run from the TombaRecomp project root:
+The test boots Tomba, waits until it reaches a live gameplay scene, then asserts:
+  - it REACHED gameplay (not the 0xCF0 wedge), and
+  - that scene runs NATIVE-DOMINANT (native dispatch >> interp), i.e. the loader is
+    reading the same cg dir autocompile writes.
+
+Requires a dev build with the TCP debug server (-DPSX_DEBUG_TOOLS=ON), the BIOS
+(baked), and the Tomba disc resolvable from game.toml. Run from the project root:
 
     python tools/test_village_softlock.py --exe build-tcctest/psx-runtime.exe
 
-Exit 0 = PASS (reached gameplay, no softlock). Exit 1 = FAIL (wedged / no boot).
+Exit 0 = PASS. Exit 1 = FAIL (wedge, lag, or no boot). Don't run under heavy CPU
+load (a concurrent shard compile starves the boot and can look like a wedge).
 """
 import argparse, json, os, socket, subprocess, sys, time
 
@@ -58,41 +61,28 @@ def wait_tcp(timeout):
     return False
 
 
-def sample():
-    """Return (cf0_fraction, unique_addr_count, native_calls, interp_fallback).
-
-    Two independent progress signals so the verdict is robust to cache state:
-      - native overlay variety (cf0_frac / uniq): valid when overlays run NATIVE
-        (cache matches the build). Healthy gameplay = many addrs, cf0_frac low.
-      - interp-fallback count: valid when overlays run INTERPRETED (stale/empty
-        cache -> the native ring shows ONLY the 0xCF0 kernel stub, so cf0_frac=1.00
-        even during healthy but slow gameplay). Healthy = interp climbing briskly.
-    The WEDGE is the one state with NEITHER: native ring pinned to 0xCF0 AND the
-    interp count flat (the main loop spins on the SIO stub, executing nothing else).
-    """
+def snap():
+    """(cf0_frac, uniq_native_addrs, native_total, interp_total, read_cg_dir)."""
     ring = call("overlay_native_ring").get("ring", {})
     rec = ring.get("recent", [])
     native_total = ring.get("calls_total", 0)
-    interp = call("overlay_loader_status").get("dispatch_interp_fallback", 0)
+    st = call("overlay_loader_status")
+    interp = st.get("dispatch_interp_fallback", 0)
+    msg = st.get("last_msg", "")
+    read_cg = msg.split("/gcc/")[-1].split("/")[1] if "/gcc/" in msg else "?"
     if not rec:
-        return 0.0, 0, native_total, interp
-    addrs = [x["addr"] for x in rec]
-    return addrs.count(WEDGE_ADDR) / len(addrs), len(set(addrs)), native_total, interp
+        return 0.0, 0, native_total, interp, read_cg
+    a = [x["addr"] for x in rec]
+    return a.count(WEDGE_ADDR) / len(a), len(set(a)), native_total, interp, read_cg
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--exe", default="build-tcctest/psx-runtime.exe",
-                    help="path to a PSX_DEBUG_TOOLS=ON psx-runtime.exe")
+    ap.add_argument("--exe", default="build-tcctest/psx-runtime.exe")
     ap.add_argument("--game", default="game.toml")
-    ap.add_argument("--boot-wait", type=int, default=120,
-                    help="seconds to allow boot to reach gameplay. NOTE: during "
-                         "normal BIOS boot the SIO stub 0xCF0 is the only overlay "
-                         "running, so cf0_frac=1.00 early on is NOT yet a wedge — "
-                         "the test waits for varied gameplay. Don't run this under "
-                         "heavy CPU load (e.g. a concurrent shard compile), which "
-                         "starves the boot and can look like a wedge.")
+    ap.add_argument("--boot-wait", type=int, default=180,
+                    help="max seconds to allow boot to reach a gameplay scene")
     args = ap.parse_args()
 
     env = dict(os.environ)
@@ -105,38 +95,46 @@ def main():
                   "(build without PSX_DEBUG_TOOLS, or a boot crash).")
             return 1
 
+        # Phase 1: reach a live gameplay scene. "Gameplay" = the overlay native ring
+        # shows VARIETY (not just the 0xCF0 SIO stub) and plenty of dispatch. A
+        # sustained 100% 0xCF0 with native still climbing AND interp flat = WEDGE.
         deadline = time.time() + args.boot_wait
-        prev_interp, prev_t, last = None, None, None
+        reached = False
         while time.time() < deadline:
             time.sleep(5)
-            frac, uniq, native_total, interp = sample()
-            now = time.time()
-            irate = ((interp - prev_interp) / (now - prev_t)) if prev_interp is not None else 0.0
-            prev_interp, prev_t = interp, now
-            last = (frac, uniq, native_total, interp, round(irate))
-            native_ok = frac < 0.5 and uniq >= 3 and native_total > 50000
-            interp_ok = irate > 1500 and interp > 50000
-            if native_ok or interp_ok:
-                why = "native overlays varied" if native_ok else f"interp overlays brisk ({round(irate)}/s)"
-                print(f"PASS: reached live gameplay ({why}; cf0_frac={frac:.2f}, "
-                      f"uniq={uniq}, native={native_total}, interp={interp}).")
-                return 0
-
-        # Timed out — distinguish the WEDGE (native ring pinned to 0xCF0 AND interp
-        # flat: the loop spins on the SIO stub executing nothing else) from a merely
-        # slow/failed boot.
-        f0, _, n0, i0 = sample()
-        time.sleep(3)
-        f1, _, n1, i1 = sample()
-        if f1 > 0.9 and n1 > n0 and (i1 - i0) < 300:
-            print(f"FAIL: SOFTLOCK — main loop spinning on {WEDGE_ADDR}, executing "
-                  f"nothing else (cf0_frac={f1:.2f}, native climbing {n0}->{n1}, "
-                  f"interp flat {i0}->{i1}). The Village-init function-boundary "
-                  f"regression is back.")
+            cf0, uniq, nat, interp, cg = snap()
+            if uniq >= 4 and (nat > 200_000 or interp > 200_000):
+                reached = True
+                break
+        if not reached:
+            cf0a, _, na, ia, _ = snap(); time.sleep(3); cf0b, _, nb, ib, cg = snap()
+            if cf0b > 0.9 and nb > na and (ib - ia) < 500:
+                print(f"FAIL [WEDGE]: main loop spinning on {WEDGE_ADDR}, executing "
+                      f"nothing else (cf0={cf0b:.2f}, native {na}->{nb}, interp flat "
+                      f"{ia}->{ib}). The blue-screen wedge is back.")
+            else:
+                print(f"FAIL: never reached a gameplay scene within {args.boot_wait}s "
+                      f"(cf0={cf0b:.2f}, native={nb}, interp={ib}).")
             return 1
-        print(f"FAIL: did not reach gameplay within {args.boot_wait}s "
-              f"(last sample cf0_frac/uniq/native/interp/irate={last}).")
-        return 1
+
+        # Phase 2: in a gameplay scene — measure the native:interp RATE. Native must
+        # dominate. Interp-dominant here = the read!=write lag (shards written to a
+        # cg dir the loader doesn't read) or the boundary-bounce-to-interp lag.
+        _, _, n0, i0, cg = snap()
+        time.sleep(5.0)
+        _, _, n1, i1, _ = snap()
+        nrate, irate = (n1 - n0) / 5.0, (i1 - i0) / 5.0
+        total = nrate + irate
+        native_frac = nrate / total if total else 0.0
+        print(f"reached gameplay: loader reads cg {cg}; "
+              f"native {nrate:.0f}/s, interp {irate:.0f}/s ({native_frac*100:.0f}% native)")
+        if native_frac < 0.6:
+            print(f"FAIL [LAG]: gameplay is {(1-native_frac)*100:.0f}% INTERPRETED "
+                  f"(native {nrate:.0f}/s vs interp {irate:.0f}/s). The Village is not "
+                  f"running native — read!=write cg-dir drift, or boundary bounce.")
+            return 1
+        print(f"PASS: Village reached gameplay, no wedge, {native_frac*100:.0f}% native.")
+        return 0
     finally:
         proc.terminate()
         try:
