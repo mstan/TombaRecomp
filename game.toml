@@ -20,7 +20,13 @@ window_title = "Tomba! Recompiled"
 memcard_dir = "saves"
 disc_speed = "1x"      # authentic CD timing — never perturbs game timing/audio
 fast_boot  = false   # set false to watch BIOS logos
-overlay_cache = true   # native overlay-DLL cache (production path; gcc > sljit > interp)
+overlay_cache = true   # native overlay-DLL cache (production path; gcc > tcc > interp)
+# Tier selection: "auto" (default) = gcc if a gcc toolchain is present (dev /
+# production shard authoring), else the bundled toolchain-free tcc. Other values:
+# "gcc", "tcc", "auto-no-gcc" (dev: force tcc even with gcc present, to test the
+# user path). Priority is static > gcc shard > tcc shard > interp. The deprecated
+# sljit tier is retired (removed in the 1915b5c framework refactor).
+overlay_backend = "auto"
 # Fast loads, done the safe way. disc_speed stays authentic 1x (speeding the
 # guest-visible CD device changes how many VBlanks/callbacks fall between the
 # game's state transitions, which desyncs CD-streamed audio and can wedge
@@ -33,10 +39,14 @@ overlay_cache = true   # native overlay-DLL cache (production path; gcc > sljit 
 turbo_loads = true
 # Step 2.8: auto capture+compile of uncovered overlay variants (background;
 # run via cmd.exe /C with cwd = project root; needs python + gcc on PATH).
-# Chained: after each compile, additively back up captures + cache into the
-# clean-proof coverage vault (../_coverage_vault, outside any build dir) so a
-# cmake clean / fresh worktree never costs accumulated coverage.
-overlay_autocompile_cmd = "python ../psxrecomp/tools/compile_overlays.py --captures build-stable/overlay_captures.json --game-toml game.toml --recompiler ../psxrecomp/recompiler/build/psxrecomp-game.exe --runtime-include ../psxrecomp/runtime/include --out-dir build-stable/cache && python ../psxrecomp/tools/coverage_vault.py merge --vault ../_coverage_vault/SCUS-94236 --captures build-stable/overlay_captures.json --cache build-stable/cache/SCUS-94236"
+# The compile's WRITE cache + READ captures are NOT specified here: the runtime
+# injects PSX_OVERLAY_CACHE_DIR / PSX_OVERLAY_CAPTURES (the loader's canonical
+# <exe>/cache and <exe>/overlay_captures.json) so the write can never drift from
+# where the loader reads (the framework owns the cache location, uniform for all
+# games, dev or prod). This command is just the compile RECIPE (which compiler,
+# tool paths). Coverage-vault backup is a separate manual dev step now (it must
+# not fail-couple the autocompile rescan).
+overlay_autocompile_cmd = "python ../psxrecomp/tools/compile_overlays.py --game-toml game.toml --recompiler ../psxrecomp/recompiler/build/psxrecomp-game.exe --runtime-include ../psxrecomp/runtime/include --gcc C:/msys64/mingw64/bin/gcc.exe --cps"
 
 [video]
 # Visual enhancement options.

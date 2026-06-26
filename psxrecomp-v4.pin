@@ -4,7 +4,29 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=5007c46
+sha=e7f7fb6
+# Bumped 2026-06-25 (overlay cache unification + ws_cull DLL fix): psxrecomp
+#   master e7f7fb6 = 1915b5c + the two framework fixes that cured the overlay
+#   "agonizing lag" (e.g. Tomba's dwarf village ran ~97% interpreted): (1) the
+#   runtime now injects PSX_OVERLAY_CACHE_DIR/PSX_OVERLAY_CAPTURES so the
+#   autocompile WRITE cache + READ captures are always the loader's canonical
+#   <exe>/cache (no more write-where-the-loader-can't-read drift); (2) the overlay
+#   DLL preamble now defines psx_ws_cull_sltiu (auto_screen_x emits it into every
+#   build's overlay C; its absence made any overlay variant with cull sites fail to
+#   link -> no shard -> interpreter forever). Proven: dwarf village 29/s -> 11454/s
+#   native. Runtime/tooling only; codegen unchanged (cache stays cg4_7db781d9).
+# Bumped 2026-06-25 (sljit->tcc tier refactor): psxrecomp master 1915b5c =
+#   5007c46 + the overlay-backend refactor that RETIRES the buggy sljit emitter
+#   tier and replaces it with a TCC (TinyCC) toolchain-free tier. Priority is now
+#   static > gcc shard > tcc shard > interp (tcc fills the regions the bundled
+#   gcc cache doesn't cover, where uncovered code previously fell to slow interp
+#   — the source of the user-reported lag). Also folds in the post-BIOS boot
+#   snapshot (340d6e7) + "Skip PSX BIOS" launcher toggle (c35c04f) and the SDL
+#   HIDAPI Xbox-pad enable (1915b5c). Runtime/overlay only; codegen (MIPS->C) is
+#   unchanged, so the gcc overlay cache stays valid. NOTE: to actually SHIP the
+#   tcc lag-fix to toolchain-less users, game.toml needs overlay_autocompile_cmd_tcc
+#   and package_release.ps1 must bundle the overlay_toolchain/ (python+tcc+recompiler)
+#   — same productionization MMX6 v0.0.2 received; not done in this pin bump.
 # Bumped 2026-06-21 (launcher fullscreen + skip-launcher): psxrecomp master
 #   5007c46 = prior + PR #8 (launcher "Fullscreen on launch" toggle applied as
 #   SDL_WINDOW_FULLSCREEN_DESKTOP at window creation, and a bottom-left "Skip
