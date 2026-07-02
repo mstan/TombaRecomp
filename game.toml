@@ -19,6 +19,17 @@ debug_port = 4470
 window_title = "Tomba! Recompiled"
 memcard_dir = "saves"
 disc_speed = "1x"      # authentic CD timing — never perturbs game timing/audio
+# BIOS backend (CLAUDE.md §0 amendment 2026-07-02). Default false = LLE (the
+# recompiled BIOS, the reference implementation + oracle). true = HLE tier:
+# implemented kernel services (the B0 event family in v1) computed in-runtime
+# against the real guest kernel structures, everything else falling through to
+# LLE — and the BIOS shell (boot animation) skipped one-shot with kernel init +
+# EXE load still run by the real recompiled BIOS at host speed. Env overrides:
+# PSX_BIOS_HLE / PSX_BIOS_HLE_KEEP_INTRO. Observability: hle_dump TCP command.
+bios_hle = false
+bios_hle_keep_intro = false  # HLE calls but keep the real boot intro
+# DEPRECATED: fast_boot is now an alias for the HLE boot shell-skip alone (the
+# old first-boot snapshot capture/restore mechanism is gone).
 fast_boot  = false   # set false to watch BIOS logos
 overlay_cache = true   # native overlay-DLL cache (production path; gcc > tcc > interp)
 # Tier selection: "auto" (default) = gcc if a gcc toolchain is present (dev /
