@@ -22,3 +22,19 @@ psxrecomp_add_runtime_target(psx-runtime
     DEFAULT_BIOS_PATH "${PSXRECOMP_ROOT}/bios/SCPH1001.BIN"
     DEFAULT_GAME_CONFIG_PATH "game.toml"
 )
+
+# First-divergence co-sim oracle build (COSIM_ORACLE.md): clean, deterministic,
+# PSX_NO_DEBUG_TOOLS + PSX_COSIM. Two of these (one normal, one PSX_FORCE_INTERP=1)
+# are cycle-lockstepped by tools/cosim.py to prove Tomba's compiled backend matches
+# the interpreter under the new timing model (regression check). Only built on
+# explicit request (-DPSX_BUILD_COSIM=ON) to keep normal game builds lean.
+if(PSX_BUILD_COSIM)
+    psxrecomp_add_runtime_target(psx-cosim
+        GAME_GENERATED_FULL_C "${TOMBA_GENERATED_FULL}"
+        GAME_GENERATED_DISPATCH_C "${TOMBA_GENERATED_DISPATCH}"
+        WINDOW_TITLE "Tomba-cosim"
+        DEFAULT_BIOS_PATH "${PSXRECOMP_ROOT}/bios/SCPH1001.BIN"
+        DEFAULT_GAME_CONFIG_PATH "game.toml"
+        COSIM
+    )
+endif()

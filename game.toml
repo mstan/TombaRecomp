@@ -46,7 +46,7 @@ turbo_loads = true
 # games, dev or prod). This command is just the compile RECIPE (which compiler,
 # tool paths). Coverage-vault backup is a separate manual dev step now (it must
 # not fail-couple the autocompile rescan).
-overlay_autocompile_cmd = "python ../psxrecomp/tools/compile_overlays.py --game-toml game.toml --recompiler ../psxrecomp/recompiler/build/psxrecomp-game.exe --runtime-include ../psxrecomp/runtime/include --gcc C:/msys64/mingw64/bin/gcc.exe --cps"
+overlay_autocompile_cmd = "python F:/Projects/psxrecomp/_wt-tomba2/psxrecomp/tools/compile_overlays.py --game-toml game.toml --recompiler F:/Projects/psxrecomp/_wt-tomba2/psxrecomp/recompiler/build-t2/psxrecomp-game.exe --runtime-include F:/Projects/psxrecomp/_wt-tomba2/psxrecomp/runtime/include --gcc C:/msys64/mingw64/bin/gcc.exe --cps"
 
 [video]
 # Visual enhancement options.
