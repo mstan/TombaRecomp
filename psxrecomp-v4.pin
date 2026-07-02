@@ -4,7 +4,16 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=2ff21c4
+sha=496d1db
+# Bumped 2026-07-02 (HLE tier + coherent-regen stability): psxrecomp master
+#   496d1db = 0ecf552 + the stale-recompiler shard guard (13c5e0c), the opt-in
+#   HLE BIOS tier (582aecc: dispatch-hook call-HLE with the B0 event family +
+#   HLE boot shell-skip replacing fast_boot snapshots; LLE stays default dev
+#   reference + oracle), and the tier wiring/instrumentation (496d1db). Codegen
+#   hash 0cec55ab (EMITTER CHANGED -> BIOS+game images and overlay caches must
+#   be regenerated together). Releases ship bios_hle=true (user directive
+#   2026-07-02); the coherent full-stack regen also cleared the dwarf-village
+#   black screen + MMX6 card-load regressions (staleness class).
 # Bumped 2026-06-25 (v0.6.1 hotfix ??? roll back AE pre-prologue discovery):
 #   psxrecomp master b9e3841 = e7f7fb6 + reverting the Ape-Escape forward-port's
 #   pre-prologue function-start discovery in function_analysis.{cpp,h}. That AE
