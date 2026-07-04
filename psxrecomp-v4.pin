@@ -4,7 +4,15 @@
 #   git -C ../psxrecomp rev-parse master > /tmp/sha && \
 #     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
 branch=master
-sha=c3c43e6
+sha=010a281
+# Bumped 2026-07-03 (renderer arc merged): psxrecomp master 010a281 = c3c43e6 +
+#   the OpenGL black-frame-flicker fix (exact pending-upload rects, ISSUES #7),
+#   native-wide 16:9 GL perf/band fixes, the Vulkan (3rd) backend, and the R3
+#   validation sweep. Runtime-only (gl/vk/interp/main/memory/debug_server);
+#   codegen (MIPS->C) UNCHANGED -> codegen hash 0cec55ab holds, NO regen, overlay
+#   caches valid. Validation: GL 4:3 PASS all titles; Vulkan ships hidden by
+#   default (dev/CLI-only) + widescreen EXPERIMENTAL in launcher. No release cut.
+#   See psxrecomp ENHANCEMENTS.md R1/R1b/R2/R3.
 # Bumped 2026-07-02 (HLE tier + coherent-regen stability): psxrecomp master
 #   c3c43e6 = 496d1db + launcher "Skip PSX BIOS" toggle removal (boot skip is
 #   automatic now via bios_hle=true in the shipped game.toml).
