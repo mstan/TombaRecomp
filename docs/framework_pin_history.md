@@ -1,10 +1,18 @@
-# Pinned commit of github.com/mstan/psxrecomp (the shared framework) used to
-# build this repo. Bumping this is a deliberate, reviewable change ??? psxrecomp
-# is a separate repo evolving on its own cadence. Update via:
-#   git -C ../psxrecomp rev-parse master > /tmp/sha && \
-#     sed -i "s|^sha=.*|sha=$(cat /tmp/sha)|" psxrecomp-v4.pin
-branch=master
-sha=010a281
+# Framework pin history (historical)
+
+The `psxrecomp` framework used to be pinned via this hand-maintained
+`psxrecomp-v4.pin` file. That mechanism has been **replaced by a real git
+submodule**: the framework commit this repo builds against is now recorded as
+the `psxrecomp` submodule pointer (see `.gitmodules`). Bump it the normal way:
+
+    git -C psxrecomp fetch && git -C psxrecomp checkout <new-sha>
+    git add psxrecomp && git commit -m "bump psxrecomp to <new-sha>"
+
+The notes below are kept only as a historical changelog of which framework
+build each Tomba release was cut against.
+
+---
+
 # Bumped 2026-07-03 (renderer arc merged): psxrecomp master 010a281 = c3c43e6 +
 #   the OpenGL black-frame-flicker fix (exact pending-upload rects, ISSUES #7),
 #   native-wide 16:9 GL perf/band fixes, the Vulkan (3rd) backend, and the R3

@@ -15,8 +15,6 @@ release-stage/
 /tomba/
 /isos/
 /saves/
-/psxrecomp-v4/
-/psxrecomp-v4
 *.bin
 *.cue
 *.iso

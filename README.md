@@ -25,7 +25,8 @@ Important files:
 - `seeds/`: Ghidra-derived function starts and game-specific seed data.
 - `tools/regen.ps1`: regenerates the Tomba recompiled C output.
 - `tools/package_release.ps1`: builds the redistributable release zip.
-- `psxrecomp.pin`: framework commit this project is known-good against.
+- `psxrecomp/`: the [PSXRecomp](https://github.com/mstan/psxrecomp) framework,
+  pulled in as a **git submodule** pinned to a known-good commit.
 - `ISSUES.md`: game-specific issue log.
 
 ## Status
@@ -101,18 +102,32 @@ Requirements:
 - Tomba! (USA, SCUS-94236) disc image (`.cue` + `.bin`, `.bin`, or `.iso`). Not included.
 - Sony SCPH1001 BIOS ROM (`SCPH1001.BIN`). Not included.
 - SDL2: bundled on Windows (MSYS2 `mingw-w64-x86_64` toolchain); `brew install sdl2 pkg-config ninja` on macOS; `libsdl2-dev` + `ninja` on Linux.
-- The `psxrecomp` framework cloned in as a sibling subdir `psxrecomp/` at the
-  pinned SHA (gitignored from this repo), plus a recompiled BIOS in
-  `psxrecomp/generated/` (see the framework README).
+- The `psxrecomp` framework, which comes in as a **git submodule** at
+  `psxrecomp/` (clone with `--recurse-submodules`, below), plus a recompiled
+  BIOS in `psxrecomp/generated/` (see the framework README).
+
+Clone with the framework submodule:
+
+```sh
+git clone --recurse-submodules https://github.com/mstan/TombaRecomp.git
+# or, in an existing clone:
+git submodule update --init --recursive
+```
 
 Example local layout:
 
 ```sh
-TombaRecomp/psxrecomp/            # framework, at psxrecomp.pin SHA
+TombaRecomp/psxrecomp/            # framework submodule (pinned commit)
 TombaRecomp/psxrecomp/bios/SCPH1001.BIN
 TombaRecomp/tomba/tomba.cue
 TombaRecomp/tomba/tomba.bin
 ```
+
+> **Sharing one framework checkout across games (optional dev setup).** If you
+> hack on several game repos plus the framework at once, replace each game's
+> `psxrecomp/` submodule directory with a junction/symlink to a single shared
+> framework checkout so you don't keep N copies — see the framework's
+> [`docs/BUILDING.md`](https://github.com/mstan/psxrecomp/blob/master/docs/BUILDING.md#linking-the-framework).
 
 The recompiler needs the game's PS-X EXE extracted from the disc. A
 cross-platform helper is included:
@@ -124,11 +139,12 @@ python3 tools/extract_psx_exe.py tomba/tomba.bin SCUS_942.36 tomba/SCUS_942.36
 Generate the recompiled C, then build and run:
 
 ```sh
-# Regenerate generated/SCUS_942.36_{full,dispatch}.c from the disc/EXE.
+# Regenerate generated/SCUS_942.36_{full,dispatch}.c from the disc/EXE by
+# invoking the framework recompiler directly (all platforms):
+#   psxrecomp/recompiler/build/psxrecomp-game --config game.toml
 # This also emits the settings-persistence hook (game_options.toml) and the
 # widescreen sites, so a regen is required after changing those.
-#   Windows:       pwsh tools/regen.ps1
-#   macOS / Linux: ../psxrecomp/recompiler/build/psxrecomp-game --config game.toml
+# (build the recompiler first: see psxrecomp/docs/BUILDING.md)
 
 # Windows (MSYS2/MinGW)
 cmake -S . -B build -G "Unix Makefiles" && cmake --build build -j16 && ./build/psx-runtime.exe
