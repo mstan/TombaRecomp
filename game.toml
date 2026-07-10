@@ -151,6 +151,10 @@ legacy_pad_config = true
 sprite_tag_funcs   = ["0x8005E08C"]
 sprite_anchor_addr = "0x1F800070"
 hud_sprt_squash    = true
+# Native-wide: re-anchor outer-third HUD to the true wide corners. For a
+# sprite-tag title this applies ONLY to untagged rect-family prims (the HUD);
+# tagged character billboards and world/poly prims never shift.
+nw_hud_corners     = true
 
 # World-space draw-cull widening. The per-object classifier family tests
 # (objX - camX + BIAS) <u RANGE, where BIAS/RANGE are sized for the 4:3 screen
