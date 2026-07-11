@@ -26,7 +26,7 @@ disc_speed = "1x"      # authentic CD timing — never perturbs game timing/audi
 # LLE — and the BIOS shell (boot animation) skipped one-shot with kernel init +
 # EXE load still run by the real recompiled BIOS at host speed. Env overrides:
 # PSX_BIOS_HLE / PSX_BIOS_HLE_KEEP_INTRO. Observability: hle_dump TCP command.
-bios_hle = false
+bios_hle = true
 bios_hle_keep_intro = false  # HLE calls but keep the real boot intro
 # DEPRECATED: fast_boot is now an alias for the HLE boot shell-skip alone (the
 # old first-boot snapshot capture/restore mechanism is gone).
