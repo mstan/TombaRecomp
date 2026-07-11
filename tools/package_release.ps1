@@ -1,5 +1,5 @@
 param(
-    [string]$Version = "v0.6.0-alpha",
+    [string]$Version = "v0.8.0-alpha",
     [string]$BuildDir = "build-release"
 )
 
@@ -47,7 +47,14 @@ if (Test-Path $StageRoot) {
 New-Item -ItemType Directory -Force $Stage | Out-Null
 New-Item -ItemType Directory -Force (Join-Path $Stage "saves") | Out-Null
 
-Copy-Item (Join-Path $BuildPath "psx-runtime.exe") (Join-Path $Stage "TombaRecomp.exe")
+# The current framework derives OUTPUT_NAME from WINDOW_TITLE. For
+# "Tomba! Recompiled" that is Tomba__Recompiled.exe; older framework pins
+# emitted psx-runtime.exe. Prefer the current name but keep the fallback so
+# historical release branches remain packageable.
+$DevExe = Join-Path $BuildPath "Tomba__Recompiled.exe"
+if (-not (Test-Path $DevExe)) { $DevExe = Join-Path $BuildPath "psx-runtime.exe" }
+if (-not (Test-Path $DevExe)) { throw "Built runtime executable not found in $BuildPath" }
+Copy-Item $DevExe (Join-Path $Stage "TombaRecomp.exe")
 Copy-Item (Join-Path $Root "README.md") $Stage
 Copy-Item (Join-Path $Root "LICENSE") $Stage
 if (Test-Path (Join-Path $Root "RELEASE_NOTES.md")) {
