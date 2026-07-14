@@ -92,7 +92,7 @@ renderer          = "opengl"
 # logo, opening, in-game cutscene movies) including ones the game won't let you
 # skip with a button. Ships OFF; the launcher's Settings → "Skip FMVs" toggle
 # turns it on (persisted to settings.toml).
-auto_skip_fmv     = false
+auto_skip_fmv     = true
 # fmv_skip_total_table: base of Tomba's per-movie frame-total table (u16 per movie,
 #   indexed by the current-movie-id byte). fmv_skip_movie_id: that id byte (PSX
 #   scratchpad). fmv_skip_end_total: value written into the active movie's total so
@@ -265,3 +265,13 @@ vaddr_base  = "0x80010000"
 # contiguously at vaddr_base; no kernel-style relocation).
 [audit.normalize]
 kseg_mask = "0x1FFFFFFF"
+
+# --- LOAD_TIME_ZERO L1.4: data-shard hook targets (spike/load-time-zero) ---
+# E0 attribution (load_probe 2026-07-14, user's triple load-screen run):
+# 0x80067C30 = 60.3% of static wall samples (stream/decode loop family, also
+# named by the 2026-07-10 cutscene histogram alongside 0x80066FEC);
+# 0x800253C8 (14.8%) + 0x80024EEC (6.1%) = next-hottest static funcs.
+# Over-hooking is safe by design: impure funcs poison once per session and
+# negative-cache; unhit funcs cost nothing.
+[data_shards]
+funcs = [0x80067C30, 0x80066FEC, 0x800253C8, 0x80024EEC]
