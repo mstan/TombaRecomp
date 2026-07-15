@@ -45,9 +45,20 @@ overlay_backend = "auto"
 # load is in progress (cdrom_load_in_progress: a sustained read, XA/FMV excluded,
 # post-handoff), the frontend drops wall-clock pacing so the guest runs every
 # authentic frame at host speed. All guest timing is preserved; only real-world
-# load time shrinks. Audio plays through (no mute). Launcher Settings -> Turbo
-# loads persists to settings.toml and overrides this.
+# load time shrinks. Launcher Settings -> Turbo loads persists to settings.toml
+# and overrides this.
 turbo_loads = true
+# Opt-in host-only turbo audio sink: the SPU still advances on the exact guest
+# sample budget, but accelerated samples are discarded before SDL playback.
+# Normal output resumes from current guest audio state with a short fade.
+turbo_audio_sink = true
+# Proof-gated generic poll-loop fast-forward. Strictly opt-in per game. Each
+# skip has no guest stores/MMIO and stable register state; guest/device time
+# still runs.
+# Known cosmetic tradeoff under aggressive load turbo: an occasional partial
+# texture frame can flash briefly, then resolves on the next complete frame.
+idle_skip = true
+
 # Step 2.8: auto capture+compile of uncovered overlay variants (background;
 # run via cmd.exe /C with cwd = project root; needs python + gcc on PATH).
 # The compile's WRITE cache + READ captures are NOT specified here: the runtime
@@ -58,6 +69,15 @@ turbo_loads = true
 # tool paths). Coverage-vault backup is a separate manual dev step now (it must
 # not fail-couple the autocompile rescan).
 overlay_autocompile_cmd = "python psxrecomp/tools/compile_overlays.py --game-toml game.toml --recompiler psxrecomp/recompiler/build/psxrecomp-game.exe --runtime-include psxrecomp/runtime/include --gcc C:/msys64/mingw64/bin/gcc.exe --cps"
+
+# Tomba-specific warm New Game experiment. The observed route repeats exactly
+# across warm runs: SetLoc 95947 arms it, 298 begins it, and every later file
+# start must match this order. A mismatch immediately falls back to 1x. This
+# accelerates the existing CD/IRQ/DMA/callback path; it stores no guest state.
+[[runtime.warm_cd_routes]]
+arm_lba = 95947
+lbas = [298, 299, 306, 376, 1390, 414, 548, 587, 960, 996]
+instant_max_per_frame = 32
 
 [video]
 # Visual enhancement options.
@@ -266,12 +286,28 @@ vaddr_base  = "0x80010000"
 [audit.normalize]
 kseg_mask = "0x1FFFFFFF"
 
-# --- LOAD_TIME_ZERO L1.4: data-shard hook targets (spike/load-time-zero) ---
-# E0 attribution (load_probe 2026-07-14, user's triple load-screen run):
-# 0x80067C30 = 60.3% of static wall samples (stream/decode loop family, also
-# named by the 2026-07-10 cutscene histogram alongside 0x80066FEC);
-# 0x800253C8 (14.8%) + 0x80024EEC (6.1%) = next-hottest static funcs.
-# Over-hooking is safe by design: impure funcs poison once per session and
-# negative-cache; unhit funcs cost nothing.
+# --- LOAD_TIME_ZERO L1.4: data-shard hook targets ---
+# No live targets. Feature 3.5 identified FUN_8003EF50 as Tomba's real
+# back-reference decompressor, but the v1 replay verifier falsely accepted its
+# boot variants and corrupted title/game asset output. It remains quarantined
+# along with the previously rejected GTE render-packet targets.
 [data_shards]
-funcs = [0x80067C30, 0x80066FEC, 0x800253C8, 0x80024EEC]
+funcs = []
+
+# Verified by Ghidra against SCUS_942.36: VSync(-1) returns the guest RAM
+# VBlank counter at 0x800974D4; its preceding GPUSTAT and Timer1 read values are
+# unused.  The framework reproduces the original instruction timing, stack
+# traffic, cache fetches, and IRQ checkpoints while bypassing only those two
+# side-effect-free MMIO handlers. Other VSync modes fall through byte-for-byte.
+[load_accel.vsync_query]
+func = "0x80067C30"
+counter_addr = "0x800974D4"
+gpustat_ptr_addr = "0x80096408"
+timer1_ptr_addr = "0x8009640C"
+timer1_cache_addr = "0x80096410"
+# Verified loop-call return PCs in PsyQ CD_sync, CD_ready, CD_cw, and
+# CD_datasync.  Other VSync(-1) callers never receive an event-horizon skip.
+event_horizon_sites = ["0x800654E4", "0x8006576C", "0x80065BDC", "0x800662D8"]
+# Feature 3: the two VSync(-1) returns inside PsyQ CdRead's sector-completion
+# wait loop. Kept as a separately togglable tier for matched A/B testing.
+event_horizon_extra_sites = ["0x80066B60", "0x80066B90"]
