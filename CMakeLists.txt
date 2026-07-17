@@ -9,8 +9,13 @@ set(PSXRECOMP_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/psxrecomp" CACHE PATH
 
 include("${PSXRECOMP_ROOT}/runtime/runtime.cmake")
 
-set(TOMBA_GENERATED_FULL
-    "${CMAKE_CURRENT_SOURCE_DIR}/generated/SCUS_942.36_full.c")
+# Split-TU build: the recompiler writes the recompiled game as N
+# SCUS_942.36_full_NN.c shards (plus a shared SCUS_942.36_decls.h) instead of
+# one monolithic SCUS_942.36_full.c, so every shard compiles as its own
+# translation unit in parallel. CONFIGURE_DEPENDS re-globs on every build so
+# a shard-count change (regen) is picked up without a manual re-configure.
+file(GLOB TOMBA_GENERATED_FULL CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/generated/SCUS_942.36_full_*.c")
 set(TOMBA_GENERATED_DISPATCH
     "${CMAKE_CURRENT_SOURCE_DIR}/generated/SCUS_942.36_dispatch.c")
 
