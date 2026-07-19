@@ -1,5 +1,11 @@
 # TombaRecomp
 
+> _Tomba! Recompiled is a byproduct of developing **psxrecomp**, the
+> static-recompilation framework it's built on. Driving the framework forward is
+> the priority, so my time for this particular title is limited — I ask for your
+> patience with its continued development, and community contributions are warmly
+> welcomed._
+
 Tomba! (USA, SCUS-94236) statically recompiled to a native PC executable with
 [PSXRecomp](https://github.com/mstan/psxrecomp).
 
