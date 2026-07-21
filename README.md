@@ -1,5 +1,14 @@
 # TombaRecomp
 
+> _This recompilation is a **byproduct of developing
+> [psxrecomp](https://github.com/mstan/psxrecomp)** — the games are the proving ground, the framework is the goal.
+> **These are in-development previews, not finished ports — expect rough
+> edges**, and depth will keep landing over months, not days. My time for any
+> one title is limited, so I ask for your patience. Contributions are welcome —
+> testing, issues, and PRs to the game or framework all help and will
+> accelerate this game's polish. More on the why at:
+> [Recomp + AI: 5 Months Later »](https://1379.tech/recomp-ai-5-months-later/)_
+
 Tomba! (USA, SCUS-94236) statically recompiled to a native PC executable with
 [PSXRecomp](https://github.com/mstan/psxrecomp).
 

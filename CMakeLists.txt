@@ -9,19 +9,35 @@ set(PSXRECOMP_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/psxrecomp" CACHE PATH
 
 include("${PSXRECOMP_ROOT}/runtime/runtime.cmake")
 
-# Split-TU build: the recompiler writes the recompiled game as N
-# SCUS_942.36_full_NN.c shards (plus a shared SCUS_942.36_decls.h) instead of
-# one monolithic SCUS_942.36_full.c, so every shard compiles as its own
-# translation unit in parallel. CONFIGURE_DEPENDS re-globs on every build so
-# a shard-count change (regen) is picked up without a manual re-configure.
-file(GLOB TOMBA_GENERATED_FULL CONFIGURE_DEPENDS
+# Newer recompiler builds can write parallel-compilable full_NN.c shards, while
+# the framework commit pinned by this repository still writes full.c. Prefer a
+# freshly regenerated monolith when present; otherwise consume every shard.
+set(TOMBA_GENERATED_MONOLITH
+    "${CMAKE_CURRENT_SOURCE_DIR}/generated/SCUS_942.36_full.c")
+file(GLOB TOMBA_GENERATED_SHARDS CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/generated/SCUS_942.36_full_*.c")
+if(EXISTS "${TOMBA_GENERATED_MONOLITH}")
+    set(TOMBA_GENERATED_PRIMARY "${TOMBA_GENERATED_MONOLITH}")
+    set(TOMBA_GENERATED_EXTRAS)
+elseif(TOMBA_GENERATED_SHARDS)
+    list(POP_FRONT TOMBA_GENERATED_SHARDS TOMBA_GENERATED_PRIMARY)
+    set(TOMBA_GENERATED_EXTRAS ${TOMBA_GENERATED_SHARDS})
+else()
+    # Keep configure usable before the first regeneration. The generated-file
+    # property in psxrecomp_add_runtime_target allows the path to appear later.
+    set(TOMBA_GENERATED_PRIMARY "${TOMBA_GENERATED_MONOLITH}")
+    set(TOMBA_GENERATED_EXTRAS)
+endif()
 set(TOMBA_GENERATED_DISPATCH
     "${CMAKE_CURRENT_SOURCE_DIR}/generated/SCUS_942.36_dispatch.c")
 
 psxrecomp_add_runtime_target(psx-runtime
-    GAME_GENERATED_FULL_C "${TOMBA_GENERATED_FULL}"
+    # The framework's GAME_GENERATED_FULL_C argument is singular. Keep the
+    # primary output in that slot and compile any remaining shards through its
+    # supported extra-sources list.
+    GAME_GENERATED_FULL_C "${TOMBA_GENERATED_PRIMARY}"
     GAME_GENERATED_DISPATCH_C "${TOMBA_GENERATED_DISPATCH}"
+    EXTRAS_SOURCES ${TOMBA_GENERATED_EXTRAS}
     DEBUG_PORT 4470
     WINDOW_TITLE "Tomba! Recompiled"
     DEFAULT_BIOS_PATH "${PSXRECOMP_ROOT}/bios/SCPH1001.BIN"
