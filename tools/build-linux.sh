@@ -40,7 +40,7 @@ PREBUILD_CMD=""
 POSTBUILD_CMD=""
 # prod/debug -> framework cmake flags. PSX_DEBUG_TOOLS OFF (the default) strips the
 # TCP debug server + heartbeat + per-block recording (PSX_NO_DEBUG_TOOLS). The Beetle
-# oracle (PSX_ORACLE_BUILD) stays OFF; the RmlUi launcher (PSX_LAUNCHER) stays ON.
+# Oracle mode stays off; the game target wires in the shared Dear ImGui launcher.
 PROD_CMAKE_FLAGS=( -DPSX_DEBUG_TOOLS=OFF )
 DEBUG_CMAKE_FLAGS=( -DPSX_DEBUG_TOOLS=ON )
 # ============================================================================
