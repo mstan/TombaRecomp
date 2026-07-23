@@ -1,6 +1,6 @@
 # Tomba! Recompiled — v0.9.0-alpha
 
-This release replaces the old RmlUi launcher with the shared Dear ImGui
+This release replaces the old in-tree launcher with the shared Dear ImGui
 launcher. Its DPI-independent layout keeps the Start Game button and settings
 accessible at Windows display scaling levels such as 125%.
 This addresses the launcher scaling failure reported in issue #11.
@@ -45,7 +45,7 @@ overhauled OpenGL path as the default renderer.
 - OpenGL presentation no longer performs synchronous per-frame GPU readbacks.
 - Painter-ordered primitive batching substantially reduces submission overhead
   while preserving PlayStation draw order and transparency behavior.
-- The RmlUi launcher exposes the current renderer and high-refresh presentation
+- The launcher exposes the current renderer and high-refresh presentation
   controls. Gameplay and audio simulation remain at the original guest rate.
 - The software renderer remains available as a reference and fallback.
 

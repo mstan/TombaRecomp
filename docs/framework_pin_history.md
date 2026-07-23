@@ -288,7 +288,7 @@ build each Tomba release was cut against.
 # Bumped 2026-06-12 for v0.1.8-alpha (GL default + launcher): re-pointed to
 # psxrecomp master (4ea9ecd, pushed to origin). master already contains the GL
 # renderer v2 merge (7ef6415), the SPU/CRT verified-enhancement shadow
-# (8a4ac4e, default OFF), and the full RmlUi launcher (Phases 1-5). Tomba now
+# (8a4ac4e, default OFF), and the former in-tree launcher (Phases 1-5). Tomba now
 # defaults to the GPU renderer (game.toml renderer = "opengl") to fix the
 # fill-bound software-rasterizer lag in heavy scenes (mushroom forest).
 # Runtime-only; no emitter/regen impact, overlay ABI stays v2 (the v1->v2 cache
@@ -302,4 +302,3 @@ build each Tomba release was cut against.
 #   freeze fix. feat/overlay-jit-cache was fully merged into master and deleted.
 # 2026-06-06 (d22c9ce / 7249123): mmx6 framework + diagnostic tooling.
 # 2026-06-07: re-pointed branch -> feat/overlay-jit-cache (same commit then).
-
