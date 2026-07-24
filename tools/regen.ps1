@@ -1,19 +1,26 @@
 $ErrorActionPreference = 'Stop'
 
 $Root      = Split-Path -Parent $PSScriptRoot
-$Framework = Join-Path $Root 'psxrecomp-v4'
+$Framework = Join-Path $Root 'psxrecomp'
 $Tool      = Join-Path $Framework 'recompiler/build/psxrecomp-game.exe'
 $Config    = Join-Path $Root 'game.toml'
 
 if (!(Test-Path $Tool)) {
-    throw "psxrecomp-game not built: $Tool"
+    throw @"
+recompiler tool not built: $Tool
+
+Build it first (one time):
+  cmake -S "$Framework/recompiler" -B "$Framework/recompiler/build" -G Ninja -DCMAKE_BUILD_TYPE=Release
+  cmake --build "$Framework/recompiler/build"
+See psxrecomp/docs/BUILDING.md ("Build and run a game").
+"@
 }
 if (!(Test-Path $Config)) {
     throw "game.toml not found: $Config"
 }
 
-# Going-forward: config-driven invocation. The TOML describes exe, seeds,
-# out_dir — see psxrecomp-v4/docs/config_schema.md.
+# Config-driven invocation. The TOML describes exe, seeds, out_dir —
+# see psxrecomp/docs/config_schema.md.
 Push-Location $Root
 try {
     & $Tool --config $Config

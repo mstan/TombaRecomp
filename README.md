@@ -32,7 +32,8 @@ Important files:
 - `game.toml`: Tomba runtime / recompiler / video / controller / widescreen config.
 - `game_options.toml`: in-game OPTION settings that persist across launches.
 - `seeds/`: Ghidra-derived function starts and game-specific seed data.
-- `tools/regen.ps1`: regenerates the Tomba recompiled C output.
+- `tools/regen.sh` (macOS/Linux) / `tools/regen.ps1` (Windows): regenerates the
+  Tomba recompiled C output by invoking the framework recompiler.
 - `tools/package_release.ps1`: builds the redistributable release zip.
 - `psxrecomp/`: the [PSXRecomp](https://github.com/mstan/psxrecomp) framework,
   pulled in as a **git submodule** pinned to a known-good commit.
@@ -112,8 +113,11 @@ Requirements:
 - Sony SCPH1001 BIOS ROM (`SCPH1001.BIN`). Not included.
 - SDL2: bundled on Windows (MSYS2 `mingw-w64-x86_64` toolchain); `brew install sdl2 pkg-config ninja` on macOS; `libsdl2-dev` + `ninja` on Linux.
 - The `psxrecomp` framework, which comes in as a **git submodule** at
-  `psxrecomp/` (clone with `--recurse-submodules`, below), plus a recompiled
-  BIOS in `psxrecomp/generated/` (see the framework README).
+  `psxrecomp/` (clone with `--recurse-submodules`, below). The framework bundles
+  an open-source BIOS and uses it by default, so **no BIOS recompilation is
+  required to build**. You still supply your own `SCPH1001.BIN` at runtime (in
+  the launcher) for full accuracy; recompiling a Sony BIOS is optional and
+  covered in the framework's `docs/BUILDING.md`.
 
 Clone with the framework submodule:
 
@@ -138,33 +142,61 @@ TombaRecomp/tomba/tomba.bin
 > framework checkout so you don't keep N copies — see the framework's
 > [`docs/BUILDING.md`](https://github.com/mstan/psxrecomp/blob/master/docs/BUILDING.md#linking-the-framework).
 
-The recompiler needs the game's PS-X EXE extracted from the disc. A
-cross-platform helper is included:
+Then follow these steps **in order**. Steps 1–3 produce the recompiled C that
+the build in step 4 compiles — **skipping them makes the build fail** with a
+missing-file error like `cc1: fatal error: generated/SCUS_942.36_full.c: No such
+file or directory`. (If you do skip one, the build now stops early with a message
+telling you exactly this.)
+
+**Step 1 — Build the framework recompiler tool (one time).** This is a separate
+CMake tree from the game and produces the `psxrecomp-game` binary used in step 3:
+
+```sh
+cmake -S psxrecomp/recompiler -B psxrecomp/recompiler/build -G Ninja -DCMAKE_BUILD_TYPE=Release
+cmake --build psxrecomp/recompiler/build
+```
+
+**Step 2 — Extract your game's PS-X EXE from your disc.** The recompiler reads
+the EXE path from `game.toml`, so the output path here must match what
+`game.toml` expects (the defaults below already match the shipped `game.toml`):
 
 ```sh
 python3 tools/extract_psx_exe.py tomba/tomba.bin SCUS_942.36 tomba/SCUS_942.36
 ```
 
-Generate the recompiled C, then build and run:
+**Step 3 — Generate the recompiled C** (`generated/SCUS_942.36_{full,dispatch}.c`).
+Re-run this whenever you change the disc/EXE or any gen-time settings (it also
+emits the settings-persistence hook and widescreen sites):
 
 ```sh
-# Regenerate generated/SCUS_942.36_{full,dispatch}.c from the disc/EXE by
-# invoking the framework recompiler directly (all platforms):
-#   psxrecomp/recompiler/build/psxrecomp-game --config game.toml
-# This also emits the settings-persistence hook (game_options.toml) and the
-# widescreen sites, so a regen is required after changing those.
-# (build the recompiler first: see psxrecomp/docs/BUILDING.md)
-
-# Windows (MSYS2/MinGW)
-cmake -S . -B build -G "Unix Makefiles" && cmake --build build -j16 && ./build/psx-runtime.exe
-
-# macOS / Linux (Ninja)
-cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release && ninja -C build psx-runtime
-./build/psx-runtime --game game.toml --disc tomba/tomba.cue
+# macOS / Linux:
+sh tools/regen.sh
+# Windows (PowerShell):
+pwsh tools/regen.ps1
+# ...or, on any platform, invoke the recompiler directly:
+psxrecomp/recompiler/build/psxrecomp-game --config game.toml
 ```
 
-To build the redistributable Windows release (regens, builds with the launcher,
-bundles assets + cache, and zips it): `pwsh tools/package_release.ps1`.
+**Step 4 — Configure and build the game runtime:**
+
+```sh
+# macOS / Linux (Ninja)
+cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release && cmake --build build --target psx-runtime
+
+# Windows (MSYS2/MinGW)
+cmake -S . -B build -G "Unix Makefiles" && cmake --build build -j16 --target psx-runtime
+```
+
+**Step 5 — Run:**
+
+```sh
+./build/psx-runtime --game game.toml --disc tomba/tomba.cue    # macOS/Linux
+./build/psx-runtime.exe --game game.toml --disc tomba/tomba.cue # Windows
+```
+
+To build the redistributable Windows release instead (does steps 3–4 for you,
+builds with the launcher, bundles assets + cache, and zips it):
+`pwsh tools/package_release.ps1`.
 
 ## Configuration
 
