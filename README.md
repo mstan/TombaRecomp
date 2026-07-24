@@ -187,11 +187,25 @@ cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release && cmake --build build -
 cmake -S . -B build -G "Unix Makefiles" && cmake --build build -j16 --target psx-runtime
 ```
 
-**Step 5 — Run:**
+**Step 5 — Run.** The built executable is `build/Tomba__Recompiled` (Windows:
+`build\Tomba__Recompiled.exe`). You supply your own legally-obtained
+`SCPH1001.BIN` — it is not part of the build.
+
+On **macOS/Linux** there is no graphical file picker, so the BIOS (and the disc,
+unless it resolves from `game.toml`) **must** be passed on the command line —
+otherwise you get `no BIOS selected; exiting.`:
 
 ```sh
-./build/psx-runtime --game game.toml --disc tomba/tomba.cue    # macOS/Linux
-./build/psx-runtime.exe --game game.toml --disc tomba/tomba.cue # Windows
+./build/Tomba__Recompiled --game game.toml \
+  --bios /path/to/SCPH1001.BIN \
+  --disc "tomba/tomba.cue"
+```
+
+On **Windows**, the app opens a launcher that prompts for the BIOS and disc on
+first run (your choices are saved next to the exe), so the flags are optional:
+
+```powershell
+.\build\Tomba__Recompiled.exe --game game.toml
 ```
 
 To build the redistributable Windows release instead (does steps 3–4 for you,
