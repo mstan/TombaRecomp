@@ -57,6 +57,16 @@ if (-not (Test-Path $DevExe)) { throw "Built runtime executable not found in $Bu
 Copy-Item $DevExe (Join-Path $Stage "TombaRecomp.exe")
 Copy-Item (Join-Path $Root "README.md") $Stage
 Copy-Item (Join-Path $Root "LICENSE") $Stage
+$BundledBiosSrc = Join-Path $BuildPath "bios"
+if (!(Test-Path (Join-Path $BundledBiosSrc "openbios.bin")) -or
+    (Get-Item (Join-Path $BundledBiosSrc "openbios.bin")).Length -ne 524288 -or
+    !(Test-Path (Join-Path $BundledBiosSrc "OpenBIOS.LICENSE"))) {
+    throw "Runtime build did not stage OpenBIOS and its MIT notice"
+}
+$BundledBiosDst = Join-Path $Stage "bios"
+New-Item -ItemType Directory -Force $BundledBiosDst | Out-Null
+Copy-Item (Join-Path $BundledBiosSrc "openbios.bin") $BundledBiosDst
+Copy-Item (Join-Path $BundledBiosSrc "OpenBIOS.LICENSE") $BundledBiosDst
 if (Test-Path (Join-Path $Root "RELEASE_NOTES.md")) {
     Copy-Item (Join-Path $Root "RELEASE_NOTES.md") $Stage
 }
@@ -331,17 +341,14 @@ select = back
 @"
 TombaRecomp $Version
 
-This package does not include the Tomba disc, the PlayStation BIOS, save
-data, or any game assets - you supply those from your own collection, and
-TombaRecomp asks for them one at a time (each dialog says which one it
-wants). The executable and the cache folder contain statically recompiled
-(machine-translated) builds of the game's code, the same distribution model
-used by other static recompilation projects such as N64: Recompiled.
+This package includes the MIT-licensed OpenBIOS from PCSX-Redux and its notice
+in bios/OpenBIOS.LICENSE. It does not include the Tomba disc, a retail
+PlayStation BIOS, save data, or game assets.
 
 First launch:
 1. Run TombaRecomp.exe. A launcher window opens.
-2. In the launcher, set your PlayStation BIOS: select your legally obtained
-   SCPH1001.BIN (a 512 KB file dumped from your own console).
+2. OpenBIOS is selected automatically. You may optionally select your legally
+   obtained SCPH1001.BIN in the BIOS row.
 3. Set the game disc: select your legally obtained Tomba! (USA, SCUS-94236)
    disc image.
 4. Adjust any options you like (renderer, supersampling, screen look,
@@ -352,9 +359,8 @@ Disc image formats:
 - .bin
 - .iso
 
-The selected BIOS path is saved in bios.cfg and the selected disc path is saved
-in disc.cfg next to the executable. Delete those files if you want to pick
-different files later.
+An optional retail BIOS choice and the selected disc path are saved next to the
+executable. Clear the BIOS row to return to OpenBIOS.
 
 If the disc header or game ID does not match SCUS-94236, TombaRecomp will show
 a warning and try to run the image anyway. Boot may fail if the image is the

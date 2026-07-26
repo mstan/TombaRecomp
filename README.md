@@ -23,9 +23,10 @@ into a real Windows/macOS/Linux program that runs the game's own logic on a
 faithful simulation of the PS1 hardware (GPU, SPU, GTE, memory cards) plus the
 real, recompiled PS1 BIOS — no high-level emulation shims.
 
-It does **not** contain the Tomba disc image, the PS1 BIOS, generated game
-code, or any decompiled Tomba C. Those are produced locally from your own
-legally obtained assets.
+It does **not** contain the Tomba disc image, a retail PS1 BIOS, generated game
+code, or any decompiled Tomba C. Release builds include the MIT-licensed
+OpenBIOS from PCSX-Redux; game data and an optional retail BIOS come from your
+own legally obtained assets.
 
 Important files:
 
@@ -75,9 +76,9 @@ The game is playable from BIOS boot through gameplay. Latest release:
   is on by default on both player slots. Adjustable stick deadzone.
 - **Persistent in-game settings.** Your OPTION choices — text speed, sound,
   vibration, screen adjust — are saved and restored on every launch.
-- **Graphical launcher.** Pick your BIOS, disc, and memory cards; verify the
-  disc; configure renderer / supersampling / widescreen / controller, all with
-  live settings persistence — then press Launch.
+- **Graphical launcher.** OpenBIOS works out of the box. Pick your disc and
+  memory cards, optionally select your own verified retail BIOS, and configure
+  renderer / supersampling / widescreen / controller before launching.
 - **Self-growing native cache.** Areas you visit are converted to fast native
   code as you play and reused on later launches (see "Help make your game
   faster" below).
@@ -88,8 +89,8 @@ The game is playable from BIOS boot through gameplay. Latest release:
 
 1. Download `TombaRecomp-v*-windows-x64.zip` from Releases and extract it.
 2. Run `TombaRecomp.exe`. A **launcher window** opens.
-3. Set your PlayStation **BIOS**: select your legally obtained `SCPH1001.BIN`
-   (a 512 KB file dumped from your own console).
+3. OpenBIOS is selected automatically. Optionally select your legally obtained
+   `SCPH1001.BIN` in the BIOS row.
 4. Set the game **disc**: select your legally obtained Tomba! (USA, SCUS-94236)
    disc image. The launcher verifies the ISO9660 header, region, and serial.
 5. Optionally adjust renderer, supersampling, screen look, widescreen, and
@@ -99,8 +100,8 @@ Accepted disc formats: `.cue` + `.bin` (preferred — pick the `.cue`), direct
 `.bin`, and `.iso`. If the header or game ID does not match `SCUS-94236`, the
 launcher warns and tries to run the image anyway.
 
-Selected paths persist next to the executable (`bios.cfg` / `disc.cfg` and
-`settings.toml`). Delete those to pick different files or reset settings.
+Selected paths persist next to the executable (`disc.cfg` and `settings.toml`).
+Clear the BIOS row to return from an optional retail selection to OpenBIOS.
 
 ### Building From Source
 
@@ -110,14 +111,13 @@ Requirements:
 
 - A C/C++ toolchain (MSVC/MinGW, Apple Clang, or Clang/GCC) and CMake 3.20+.
 - Tomba! (USA, SCUS-94236) disc image (`.cue` + `.bin`, `.bin`, or `.iso`). Not included.
-- Sony SCPH1001 BIOS ROM (`SCPH1001.BIN`). Not included.
+- Optional Sony SCPH1001 BIOS ROM (`SCPH1001.BIN`). Not included.
 - SDL2: bundled on Windows (MSYS2 `mingw-w64-x86_64` toolchain); `brew install sdl2 pkg-config ninja` on macOS; `libsdl2-dev` + `ninja` on Linux.
 - The `psxrecomp` framework, which comes in as a **git submodule** at
   `psxrecomp/` (clone with `--recurse-submodules`, below). The framework bundles
-  an open-source BIOS and uses it by default, so **no BIOS recompilation is
-  required to build**. You still supply your own `SCPH1001.BIN` at runtime (in
-  the launcher) for full accuracy; recompiling a Sony BIOS is optional and
-  covered in the framework's `docs/BUILDING.md`.
+  OpenBIOS and uses it by default, so **no external BIOS is required**.
+  Supplying and recompiling a Sony BIOS is optional and covered in the
+  framework's `docs/BUILDING.md`.
 
 Clone with the framework submodule:
 
@@ -131,7 +131,7 @@ Example local layout:
 
 ```sh
 TombaRecomp/psxrecomp/            # framework submodule (pinned commit)
-TombaRecomp/psxrecomp/bios/SCPH1001.BIN
+TombaRecomp/psxrecomp/bios/SCPH1001.BIN # optional retail dump
 TombaRecomp/tomba/tomba.cue
 TombaRecomp/tomba/tomba.bin
 ```
@@ -188,21 +188,19 @@ cmake -S . -B build -G "Unix Makefiles" && cmake --build build -j16 --target psx
 ```
 
 **Step 5 — Run.** The built executable is `build/Tomba__Recompiled` (Windows:
-`build\Tomba__Recompiled.exe`). You supply your own legally-obtained
-`SCPH1001.BIN` — it is not part of the build.
+`build\Tomba__Recompiled.exe`). The build stages OpenBIOS and its MIT notice
+beside the executable automatically.
 
-On **macOS/Linux** there is no graphical file picker, so the BIOS (and the disc,
-unless it resolves from `game.toml`) **must** be passed on the command line —
-otherwise you get `no BIOS selected; exiting.`:
+On **macOS/Linux** there is no graphical file picker, so pass the disc on the
+command line unless it resolves from `game.toml`. `--bios` is optional:
 
 ```sh
 ./build/Tomba__Recompiled --game game.toml \
-  --bios /path/to/SCPH1001.BIN \
   --disc "tomba/tomba.cue"
 ```
 
-On **Windows**, the app opens a launcher that prompts for the BIOS and disc on
-first run (your choices are saved next to the exe), so the flags are optional:
+On **Windows**, the launcher asks for the disc on first run and uses OpenBIOS by
+default. Its optional BIOS row can select a verified retail dump:
 
 ```powershell
 .\build\Tomba__Recompiled.exe --game game.toml
@@ -312,11 +310,10 @@ PolyForm Noncommercial 1.0.0. See `LICENSE`.
 
 Tomba! is copyright Whoopee Camp / Sony Computer Entertainment. This
 repository contains none of Tomba's original binaries or assets. Release
-packages contain no game assets, no disc data, and no BIOS image — those
-are always read from files you supply. The release executable and the
-bundled `cache` folder do contain statically recompiled (machine-translated)
-builds of the game's code, the same distribution model used by other static
-recompilation projects such as N64: Recompiled.
+packages include PCSX-Redux OpenBIOS under the MIT notice in
+`bios/OpenBIOS.LICENSE`; they contain no retail BIOS, game assets, or disc data.
+The release executable and bundled `cache` folder contain statically recompiled
+(machine-translated) builds of the game's code.
 
 ---
 
