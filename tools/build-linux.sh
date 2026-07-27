@@ -170,6 +170,17 @@ EOF
 $LINUXDEPLOY --appdir "$APPDIR" --executable "$BIN" \
     --desktop-file "$WORK/$SLUG.desktop" --icon-file "$WORK/$SLUG.png"
 
+# The runtime resolves its built-in mod catalog relative to the real
+# executable. CMake has already staged the catalog beside BIN; preserve it in
+# the AppImage and fail rather than publishing a build with an empty Mods page.
+BUILT_MODS="$(dirname "$BIN")/mods"
+WARP_MANIFEST="$BUILT_MODS/packages/tomba.debug.warp/1.0.0/manifest.toml"
+[ -f "$WARP_MANIFEST" ] || {
+  echo "ERROR: built-in mod catalog missing: $WARP_MANIFEST" >&2
+  exit 1
+}
+cp -a "$BUILT_MODS" "$APPDIR/usr/bin/mods"
+
 # Custom AppRun: bundle libs, read the controller natively on a Steam Deck, find
 # the ROM next to the .AppImage, run from the ROM's folder so saves land there.
 rm -f "$APPDIR/AppRun"   # linuxdeploy leaves it a symlink to the real exe

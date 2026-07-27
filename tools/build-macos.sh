@@ -133,6 +133,17 @@ if command -v dylibbundler >/dev/null 2>&1; then
 else
   echo "      WARNING: dylibbundler not found — .app will need a system SDL2."
 fi
+# The runtime resolves built-in mods beside the real executable. CMake stages
+# that catalog beside BIN; retain it in the app bundle and fail closed if the
+# expected default-off Tomba package is absent.
+BUILT_MODS="$(dirname "$BIN")/mods"
+WARP_MANIFEST="$BUILT_MODS/packages/tomba.debug.warp/1.0.0/manifest.toml"
+[ -f "$WARP_MANIFEST" ] || {
+  echo "ERROR: built-in mod catalog missing: $WARP_MANIFEST" >&2
+  exit 1
+}
+cp -a "$BUILT_MODS" "$APPDIR/Contents/MacOS/mods"
+
 # Ad-hoc codesign so Gatekeeper lets it run locally (no Developer ID required).
 codesign --force --deep --sign - "$APPDIR" 2>/dev/null || \
   echo "      (codesign skipped — run 'xattr -dr com.apple.quarantine' if Gatekeeper blocks it)"

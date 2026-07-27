@@ -84,6 +84,18 @@ $fontCount = (Get-ChildItem (Join-Path $Stage "assets/fonts") -Filter *.ttf -Err
 $imgCount  = (Get-ChildItem (Join-Path $Stage "assets/img")   -Filter *.tga -ErrorAction SilentlyContinue).Count
 Write-Host "Bundled recomp-ui launcher assets: $fontCount font(s) + $imgCount image(s)"
 
+# Built-in mod catalog: CMake stages game-owned packages next to the runtime.
+# Ship that exact output so the release and local-build catalogs cannot drift.
+# Native plugin implementations remain compiled into the executable; these
+# packages are metadata that expose their default-off features in recomp-ui.
+$ModsSrc = Join-Path $BuildPath "mods"
+$WarpManifest = Join-Path $ModsSrc "packages/tomba.debug.warp/1.0.0/manifest.toml"
+if (-not (Test-Path $WarpManifest)) {
+    throw "Built-in mod catalog missing from runtime output: $WarpManifest"
+}
+Copy-Item -Recurse -Force $ModsSrc (Join-Path $Stage "mods")
+Write-Host "Bundled built-in mod catalog from $ModsSrc"
+
 # Player-facing game.toml: same effective runtime settings as the dev config,
 # minus dev-only sections ([recompiler]/[audit] inputs, the overlay
 # autocompile command that needs a local python+gcc toolchain). Players can
