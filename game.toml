@@ -93,14 +93,8 @@ instant_max_per_frame = 32
 #   FBO backend). OpenGL moves rasterization + supersampling onto the GPU, so
 #   fill-heavy scenes (e.g. the mushroom forest) hold 59.94 fps even at
 #   supersampling 2..4. Falls back to software automatically if GL init fails.
-# aspect_ratio: display aspect "W:H" ("4:3" = native, the default). "16:9"
-#   enables the EXPERIMENTAL widescreen hack: the GTE projection is squashed
-#   horizontally and the frame is presented stretched to 16:9, revealing extra
-#   world at the screen edges. Tomba's world is GTE-projected 3D, so geometry
-#   keeps correct proportions; screen-space 2D (HUD, sprite quads, FMV) looks
-#   stretched, and world-space object culling can pop near the edges. Also
-#   selectable in the launcher (Settings -> Aspect ratio), which persists to
-#   settings.toml and overrides this value.
+# Native 4:3 is the baseline. Tomba's game-specific 16:9 enhancement is exposed
+# as the default-off Tomba Widescreen mod, not as a generic Settings value.
 supersampling     = 2
 antialiasing      = true
 texture_filtering = "nearest"
@@ -168,6 +162,9 @@ legacy_pad_config = true
 # anchor SXY to scratchpad 0x1F800070. Sprite sizes are fixed pixels (never
 # depth-scaled). The HUD/menus build SPRT prims with no GTE involvement.
 [widescreen]
+# Keep recomp-ui's legacy aspect control available to other games while Tomba
+# owns activation through its built-in widescreen mod.
+offer = false
 sprite_tag_funcs   = ["0x8005E08C"]
 sprite_anchor_addr = "0x1F800070"
 hud_sprt_squash    = true

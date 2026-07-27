@@ -90,8 +90,11 @@ Write-Host "Bundled recomp-ui launcher assets: $fontCount font(s) + $imgCount im
 # packages are metadata that expose their default-off features in recomp-ui.
 $ModsSrc = Join-Path $BuildPath "mods"
 $WarpManifest = Join-Path $ModsSrc "packages/tomba.debug.warp/1.0.0/manifest.toml"
-if (-not (Test-Path $WarpManifest)) {
-    throw "Built-in mod catalog missing from runtime output: $WarpManifest"
+$WidescreenManifest = Join-Path $ModsSrc "packages/tomba.enhancement.widescreen/1.0.0/manifest.toml"
+foreach ($RequiredManifest in @($WarpManifest, $WidescreenManifest)) {
+    if (-not (Test-Path $RequiredManifest)) {
+        throw "Built-in mod catalog missing from runtime output: $RequiredManifest"
+    }
 }
 Copy-Item -Recurse -Force $ModsSrc (Join-Path $Stage "mods")
 Write-Host "Bundled built-in mod catalog from $ModsSrc"
@@ -177,8 +180,8 @@ auto_skip_fmv = false
 fmv_skip_total_table = 0x80077728
 fmv_skip_movie_id    = 0x1F8001CD
 fmv_skip_end_total   = 3
-# aspect_ratio: "4:3" (native, default) or "16:9" (EXPERIMENTAL widescreen). Also
-# toggleable in the launcher (Settings -> Widescreen), which overrides this.
+# Native 4:3 baseline. Enable the built-in Tomba Widescreen mod for 16:9;
+# widescreen is deliberately not duplicated in the launcher's Settings page.
 aspect_ratio = "4:3"
 
 # ---- Controller ---------------------------------------------------------
@@ -200,6 +203,7 @@ legacy_pad_config = true
 # the right proportions, backdrops filled). Inert at 4:3. Addresses are specific
 # to Tomba! (USA, SCUS-94236) and must match the build the cache was made for.
 [widescreen]
+offer = false
 sprite_tag_funcs   = ["0x8005E08C"]
 sprite_anchor_addr = "0x1F800070"
 hud_sprt_squash    = true

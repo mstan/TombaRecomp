@@ -1,0 +1,23 @@
+format_version = 5
+id = "tomba.enhancement.widescreen"
+version = "1.0.0"
+name = "Tomba Widescreen"
+author = "mstan"
+description = "Renders Tomba with a wider 16:9 field of view using game-specific projection, culling, sprite, HUD, and backdrop hooks."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SCUS-94236"
+disc_sha256 = "25ada3dd51e70eb9f9218cd83fb02d73139750229fb44b012d62d183ab32eb13"
+
+[[feature]]
+id = "widescreen"
+name = "Widescreen (16:9)"
+description = "Enable Tomba's game-specific 16:9 rendering enhancement."
+group = "Display"
+default_enabled = false
+
+[[plugin]]
+feature = "widescreen"
+id = "tomba.widescreen"

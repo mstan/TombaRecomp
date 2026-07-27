@@ -175,10 +175,13 @@ $LINUXDEPLOY --appdir "$APPDIR" --executable "$BIN" \
 # the AppImage and fail rather than publishing a build with an empty Mods page.
 BUILT_MODS="$(dirname "$BIN")/mods"
 WARP_MANIFEST="$BUILT_MODS/packages/tomba.debug.warp/1.0.0/manifest.toml"
-[ -f "$WARP_MANIFEST" ] || {
-  echo "ERROR: built-in mod catalog missing: $WARP_MANIFEST" >&2
-  exit 1
-}
+WIDESCREEN_MANIFEST="$BUILT_MODS/packages/tomba.enhancement.widescreen/1.0.0/manifest.toml"
+for manifest in "$WARP_MANIFEST" "$WIDESCREEN_MANIFEST"; do
+  [ -f "$manifest" ] || {
+    echo "ERROR: built-in mod catalog missing: $manifest" >&2
+    exit 1
+  }
+done
 cp -a "$BUILT_MODS" "$APPDIR/usr/bin/mods"
 
 # Custom AppRun: bundle libs, read the controller natively on a Steam Deck, find
