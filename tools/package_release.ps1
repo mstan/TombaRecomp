@@ -183,18 +183,14 @@ fmv_skip_end_total   = 3
 aspect_ratio = "4:3"
 
 # ---- Controller ---------------------------------------------------------
-# default_analog: present a DualShock/analog pad by default so the left stick
-# gives variable run speed (the D-pad / keyboard still move you). Per-player
-# toggle in the launcher. deadzone: analog stick dead-band (0..32767; ~12000 =
-# 37%), also adjustable in the launcher (Settings -> Controller).
+# Present a DualShock/analog pad by default so the left stick gives variable run
+# speed (the D-pad / keyboard still move you). The launcher offers only the
+# explicit Analog / D-Pad choices. deadzone: analog stick dead-band (0..32767;
+# ~12000 = 37%), also adjustable in Settings -> Controller.
 [controller]
-default_analog = true
+default_mode = "analog"
+allow_hybrid = false
 deadzone = 12000
-# legacy_pad_config restores Tomba's original pad-config handshake so the launcher
-# "Hybrid" mode (analog/digital auto-switch) works without the pad re-detect that
-# the modern DualShock state machine would turn into a 1-frame disconnect (menu
-# unpause / phantom input). Tomba-only opt-in; default off for every other title.
-legacy_pad_config = true
 
 # ---- Widescreen (experimental 16:9) -------------------------------------
 # These hooks keep the 16:9 picture correct (wider field of view, HUD/sprites at

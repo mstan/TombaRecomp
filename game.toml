@@ -115,40 +115,18 @@ aspect_ratio      = "4:3"
 
 # Controller input defaults. Tomba is analog-capable (the box reads "Analog
 # Control Compatible"): in analog mode the left stick gives variable run speed.
-# default_analog presents a DualShock/analog pad (id 0x73) out of the box so that
-# path is live without toggling DualShock in the launcher — the left stick is
+# default_mode presents a DualShock/analog pad (id 0x73) out of the box so that
+# path is live without changing modes in the launcher — the left stick is
 # variable, and the D-pad / keyboard arrows are folded onto the analog axes at
-# full deflection so they still move the character. This is the "seamless d-pad /
-# analog" behaviour of the Special Edition. The launcher's Player cards expose a
-# per-port DualShock toggle and Settings → Controller a deadzone control; both
-# persist to settings.toml and override these. deadzone is the analog centre
-# dead-band / stick->d-pad threshold in raw SDL axis units (0..32767; 12000≈37%).
+# full deflection so they still move the character. The launcher's Player cards
+# expose an explicit Analog / D-Pad choice and Settings → Controller a deadzone
+# control; both persist to settings.toml and override these. deadzone is the
+# analog centre dead-band / stick->d-pad threshold in raw SDL axis units
+# (0..32767; 12000≈37%).
 [controller]
-default_analog = true
-deadzone       = 12000
-# LEGACY pad-config compatibility (Tomba "Hybrid" controller).
-#
-# The launcher "Hybrid" mode — our first controller implementation, built to
-# reproduce Tomba: Special Edition's seamless analog/digital feel — flips the
-# emulated pad's reported type (digital 0x41 <-> DualShock/analog 0x73) as you
-# move between the d-pad and the stick. That flip worked when the SIO pad answered
-# the DualShock config commands trivially (always config id 0xF3).
-#
-# We then matured the pad against Mega Man X6, which needs a REAL config-mode
-# state machine to probe the pad before polling (the trivial "always 0xF3" answer
-# wedged it / killed its input). That modern SM became the default. Under it,
-# Tomba's Hybrid flip regressed: a type change makes libpad re-detect the pad and
-# manufacture a 1-frame "pad unplugged", which Tomba reads as a disconnect (menu
-# unpause / phantom input) and MMX6 reads as a phantom dash. We could not make the
-# modern SM keep the flip benign, so this per-game opt-in restores the original
-# "always 0xF3" answers for Tomba ONLY — making the Hybrid flip benign exactly as
-# the real game expects. Every other title (MMX6, etc.) keeps the modern SM.
-#
-# This is LEGACY: once the controller re-detect is refactored so the flip is
-# benign for every game (real hardware tolerates unlimited analog-button presses),
-# this opt-in and its runtime machinery should be removed. See psxrecomp
-# runtime/src/sio.c g_pad_legacy_cfg for the full story. Default off.
-legacy_pad_config = true
+default_mode = "analog"
+allow_hybrid = false
+deadzone     = 12000
 
 # Widescreen proportion hooks (inert at 4:3; engaged when aspect_ratio is
 # wide). Evidence: Ghidra pass 2026-06-12 — every character/billboard render
