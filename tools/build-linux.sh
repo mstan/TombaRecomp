@@ -176,7 +176,8 @@ $LINUXDEPLOY --appdir "$APPDIR" --executable "$BIN" \
 BUILT_MODS="$(dirname "$BIN")/mods"
 WARP_MANIFEST="$BUILT_MODS/packages/tomba.debug.warp/1.0.0/manifest.toml"
 WIDESCREEN_MANIFEST="$BUILT_MODS/packages/tomba.enhancement.widescreen/1.0.0/manifest.toml"
-for manifest in "$WARP_MANIFEST" "$WIDESCREEN_MANIFEST"; do
+SKIP_FMV_MANIFEST="$BUILT_MODS/packages/tomba.enhancement.skip-fmv/1.0.0/manifest.toml"
+for manifest in "$WARP_MANIFEST" "$WIDESCREEN_MANIFEST" "$SKIP_FMV_MANIFEST"; do
   [ -f "$manifest" ] || {
     echo "ERROR: built-in mod catalog missing: $manifest" >&2
     exit 1

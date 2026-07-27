@@ -99,14 +99,10 @@ supersampling     = 2
 antialiasing      = true
 texture_filtering = "nearest"
 renderer          = "opengl"
-# auto_skip_fmv: auto-skip full-motion videos. When a streaming FMV is detected,
-# the runtime ends it via the game's OWN end-of-movie path (see fmv_skip_* below):
-# it writes the current movie's per-movie frame-total down so Tomba's MDEC player
-# tears the movie down on its next frame. Works for EVERY movie (Whoopee Camp
-# logo, opening, in-game cutscene movies) including ones the game won't let you
-# skip with a button. Ships OFF; the launcher's Settings → "Skip FMVs" toggle
-# turns it on (persisted to settings.toml).
-auto_skip_fmv     = true
+# Native movie playback is the baseline. The default-off Tomba Skip FMVs mod
+# owns activation; keep the generic recomp-ui Settings row hidden for Tomba.
+auto_skip_fmv     = false
+offer_skip_fmv    = false
 # fmv_skip_total_table: base of Tomba's per-movie frame-total table (u16 per movie,
 #   indexed by the current-movie-id byte). fmv_skip_movie_id: that id byte (PSX
 #   scratchpad). fmv_skip_end_total: value written into the active movie's total so

@@ -91,7 +91,8 @@ Write-Host "Bundled recomp-ui launcher assets: $fontCount font(s) + $imgCount im
 $ModsSrc = Join-Path $BuildPath "mods"
 $WarpManifest = Join-Path $ModsSrc "packages/tomba.debug.warp/1.0.0/manifest.toml"
 $WidescreenManifest = Join-Path $ModsSrc "packages/tomba.enhancement.widescreen/1.0.0/manifest.toml"
-foreach ($RequiredManifest in @($WarpManifest, $WidescreenManifest)) {
+$SkipFmvManifest = Join-Path $ModsSrc "packages/tomba.enhancement.skip-fmv/1.0.0/manifest.toml"
+foreach ($RequiredManifest in @($WarpManifest, $WidescreenManifest, $SkipFmvManifest)) {
     if (-not (Test-Path $RequiredManifest)) {
         throw "Built-in mod catalog missing from runtime output: $RequiredManifest"
     }
@@ -169,14 +170,11 @@ texture_filtering = "nearest"
 # full speed). "software" = CPU renderer (automatic fallback if the GPU
 # renderer can't start). You can also change this in the launcher.
 renderer = "opengl"
-# auto_skip_fmv: skip full-motion videos (e.g. the opening movie). When on, a
-# video is skipped the instant it starts, jumping straight to the next screen.
-# It ends the movie the game's OWN way (writes the active movie's frame-total
-# down so the player tears it down next frame), so even movies you can't skip
-# with a button are skipped. Off by default; also toggleable in the launcher
-# (Settings -> "Skip FMVs"). The fmv_skip_* addresses below are specific to
-# Tomba! (USA, SCUS-94236) and drive that teardown; leave them as-is.
+# Native movie playback is the baseline. Enable the built-in Tomba Skip FMVs
+# mod to end movies through the game's original completion path. The addresses
+# below are Tomba! (USA, SCUS-94236) metadata used by that implementation.
 auto_skip_fmv = false
+offer_skip_fmv = false
 fmv_skip_total_table = 0x80077728
 fmv_skip_movie_id    = 0x1F8001CD
 fmv_skip_end_total   = 3
