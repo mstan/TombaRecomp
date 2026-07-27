@@ -1,9 +1,9 @@
 format_version = 5
 id = "tomba.debug.warp"
 version = "1.0.0"
-name = "Tomba Debug Features"
-author = "Tomba reverse-engineering community"
-description = "Opt-in debug features discovered in the original game."
+name = "Tomba Mods"
+author = "T4g1 (discovery), mstan (implementation)"
+description = "Opt-in mods for original game behaviors and discovered features."
 resolver = "declarative"
 save_compatibility = "shared"
 
