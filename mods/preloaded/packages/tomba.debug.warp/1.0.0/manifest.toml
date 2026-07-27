@@ -1,0 +1,23 @@
+format_version = 5
+id = "tomba.debug.warp"
+version = "1.0.0"
+name = "Tomba Debug Features"
+author = "Tomba reverse-engineering community"
+description = "Opt-in debug features discovered in the original game."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SCUS-94236"
+disc_sha256 = "25ada3dd51e70eb9f9218cd83fb02d73139750229fb44b012d62d183ab32eb13"
+
+[[feature]]
+id = "warp-debug-menu"
+name = "Enable Warp Debug Menu"
+description = "Sets scratchpad byte 0x01B4 to 1 after game startup, enabling the original warp debug menu when starting a game."
+group = "Debug"
+default_enabled = false
+
+[[plugin]]
+feature = "warp-debug-menu"
+id = "tomba.warp-debug"
