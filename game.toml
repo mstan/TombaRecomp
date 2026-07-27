@@ -103,6 +103,11 @@ renderer          = "opengl"
 # owns activation; keep the generic recomp-ui Settings row hidden for Tomba.
 auto_skip_fmv     = false
 offer_skip_fmv    = false
+# Same treatment for frame interpolation: the default-off Tomba Frame
+# Interpolation mod owns activation, so keep the generic recomp-ui Settings row
+# hidden (the shared PSX launcher profile enables it for every title) and ignore
+# any value an older build persisted into settings.toml.
+offer_frame_interpolation = false
 # fmv_skip_total_table: base of Tomba's per-movie frame-total table (u16 per movie,
 #   indexed by the current-movie-id byte). fmv_skip_movie_id: that id byte (PSX
 #   scratchpad). fmv_skip_end_total: value written into the active movie's total so
