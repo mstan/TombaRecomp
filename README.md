@@ -43,7 +43,7 @@ Important files:
 ## Status
 
 The game is playable from BIOS boot through gameplay. Latest release:
-**v0.2.0-alpha** (2026-06-16).
+**v0.10.0-alpha** (2026-07-28).
 
 | Area | State |
 |---|---|
@@ -56,7 +56,7 @@ The game is playable from BIOS boot through gameplay. Latest release:
 | Gameplay | Playable; known crashes tracked in `ISSUES.md` |
 | Renderers | Software **and** OpenGL (GPU); OpenGL is the default |
 | Widescreen 16:9 | Experimental, opt-in (true wider FOV) |
-| Controller | Seamless analog + D-pad; DualShock on by default |
+| Controller | Analog / D-Pad modes; optional Special Edition Hybrid mod |
 
 ## Features
 
@@ -71,9 +71,10 @@ The game is playable from BIOS boot through gameplay. Latest release:
   projection is widened so you see more of the world at the sides, not a
   stretched picture. Works on both renderers. Opt-in; some 2D HUD/menu/FMV
   elements and the occasional background seam can look off. 21:9 is not ready.
-- **Seamless analog + D-pad controller.** The left analog stick (variable run
-  speed) and the D-pad both work at once with no mode toggle. DualShock/analog
-  is on by default on both player slots. Adjustable stick deadzone.
+- **Controller modes.** Choose Analog (DualShock, variable stick movement) or
+  D-Pad (digital movement) in the normal controller settings. The default-off
+  **Special Edition Hybrid Controller** mod switches to digital when the D-pad
+  is touched and back to analog when the stick is moved. Adjustable deadzone.
 - **Persistent in-game settings.** Your OPTION choices — text speed, sound,
   vibration, screen adjust — are saved and restored on every launch.
 - **Graphical launcher.** OpenBIOS works out of the box. Pick your disc and
@@ -93,8 +94,10 @@ The game is playable from BIOS boot through gameplay. Latest release:
    `SCPH1001.BIN` in the BIOS row.
 4. Set the game **disc**: select your legally obtained Tomba! (USA, SCUS-94236)
    disc image. The launcher verifies the ISO9660 header, region, and serial.
-5. Optionally adjust renderer, supersampling, screen look, widescreen, and
-   controller settings, then press **Launch**. Your choices are remembered.
+5. Optionally adjust renderer, supersampling, screen look, and controller
+   settings. Widescreen, frame interpolation, FMV skipping, the Hybrid
+   Controller, and the Warp Debug Menu are on the **Mods** page. Then press
+   **Launch**; your choices are remembered.
 
 Accepted disc formats: `.cue` + `.bin` (preferred — pick the `.cue`), direct
 `.bin`, and `.iso`. If the header or game ID does not match `SCUS-94236`, the
@@ -218,7 +221,8 @@ underlying defaults live in `game.toml`:
 - `[video]` — `renderer` (`opengl` / `software`), `supersampling` (1–4),
   `antialiasing`, `texture_filtering` (`nearest` / `bilinear`), `aspect_ratio`
   (`4:3` / `16:9`), `auto_skip_fmv`.
-- `[controller]` — `default_analog` (DualShock on by default), `deadzone`.
+- `[controller]` — `default_mode` (`analog` / `digital`), `allow_hybrid`,
+  `deadzone`.
 - `[runtime]` — `disc_speed`, `turbo_loads` (compressed loading screens),
   `fast_boot`, `overlay_cache`.
 - `[widescreen]*` — widescreen projection / culling / backdrop hooks (gen-time;

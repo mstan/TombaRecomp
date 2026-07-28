@@ -1,5 +1,5 @@
 param(
-    [string]$Version = "v0.9.0-alpha",
+    [string]$Version = "v0.10.0-alpha",
     [string]$BuildDir = "build-release"
 )
 
@@ -92,7 +92,15 @@ $ModsSrc = Join-Path $BuildPath "mods"
 $WarpManifest = Join-Path $ModsSrc "packages/tomba.debug.warp/1.0.0/manifest.toml"
 $WidescreenManifest = Join-Path $ModsSrc "packages/tomba.enhancement.widescreen/1.0.0/manifest.toml"
 $SkipFmvManifest = Join-Path $ModsSrc "packages/tomba.enhancement.skip-fmv/1.0.0/manifest.toml"
-foreach ($RequiredManifest in @($WarpManifest, $WidescreenManifest, $SkipFmvManifest)) {
+$InterpolationManifest = Join-Path $ModsSrc "packages/tomba.enhancement.frame-interpolation/1.0.0/manifest.toml"
+$HybridManifest = Join-Path $ModsSrc "packages/tomba.enhancement.hybrid-controller/1.0.0/manifest.toml"
+foreach ($RequiredManifest in @(
+    $WarpManifest,
+    $WidescreenManifest,
+    $SkipFmvManifest,
+    $InterpolationManifest,
+    $HybridManifest
+)) {
     if (-not (Test-Path $RequiredManifest)) {
         throw "Built-in mod catalog missing from runtime output: $RequiredManifest"
     }

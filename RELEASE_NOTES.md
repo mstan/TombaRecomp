@@ -1,3 +1,49 @@
+# Tomba! Recompiled — v0.10.0-alpha
+
+This release moves Tomba's optional enhancements into the launcher's Mods
+catalog, overhauls controller selection, and exposes the original warp debug
+menu as a default-off mod.
+
+## Mods
+
+- **Enhancements have moved to Mods.** Widescreen, Skip FMVs, frame
+  interpolation, and the Special Edition Hybrid Controller now live on the
+  launcher's **Mods** page instead of being duplicated in generic settings.
+- **Frame interpolation** provides presentation-only 60Hz output while the
+  game's simulation, animation, physics, timers, and audio keep their original
+  cadence.
+- **Enable Warp Debug Menu** exposes the original game's warp menu when
+  starting a game. It is disabled by default and credited to T4g1 for the
+  discovery and reverse engineering.
+
+## Hybrid controller overhaul
+
+- The normal controller setting is now an explicit **Analog** or **D-Pad**
+  choice.
+- The default-off **Special Edition Hybrid Controller** mod switches to digital
+  mode when the D-pad is engaged and back to analog when the stick is moved,
+  reproducing the intended variable-speed analog movement plus precise digital
+  movement without one-frame disconnects or phantom inputs.
+- Hybrid switching now follows the active physical controller even when the
+  launcher uses automatic device routing.
+
+## Runtime and packaging
+
+- OpenBIOS is included and selected by default; a legally obtained retail BIOS
+  remains optional.
+- Built-in mod packages and their trusted implementations are bundled into the
+  self-contained Windows x64 release.
+- Current BIOS boot-skip parity, launcher Mods support, and renderer/settings
+  fixes are included through the pinned PSXRecomp framework.
+
+## Before playing
+
+Supply your own legally obtained Tomba! (USA, SCUS-94236) disc image. It is not
+included. This remains an alpha release; keep `overlay_captures.json` private
+because it contains code captured from your own disc.
+
+---
+
 # Tomba! Recompiled — v0.9.0-alpha
 
 This release replaces the old in-tree launcher with the shared Dear ImGui
