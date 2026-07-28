@@ -1,0 +1,23 @@
+format_version = 5
+id = "tomba.enhancement.hybrid-controller"
+version = "1.0.0"
+name = "Hybrid Controller"
+author = "mstan"
+description = "Automatically switches between Tomba's digital D-pad and analog DualShock movement paths according to the player's most recent input."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SCUS-94236"
+disc_sha256 = "25ada3dd51e70eb9f9218cd83fb02d73139750229fb44b012d62d183ab32eb13"
+
+[[feature]]
+id = "hybrid-controller"
+name = "Hybrid Controller"
+description = "Use the D-pad in digital mode and automatically switch to DualShock analog mode when the left stick is moved."
+group = "Gameplay"
+default_enabled = false
+
+[[plugin]]
+feature = "hybrid-controller"
+id = "tomba.hybrid-controller"
