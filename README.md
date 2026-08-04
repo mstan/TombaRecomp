@@ -43,7 +43,7 @@ Important files:
 ## Status
 
 The game is playable from BIOS boot through gameplay. Latest release:
-**v0.10.0-alpha** (2026-07-28).
+**v0.11.0-alpha** (2026-08-03).
 
 | Area | State |
 |---|---|
@@ -80,6 +80,11 @@ The game is playable from BIOS boot through gameplay. Latest release:
 - **Graphical launcher.** OpenBIOS works out of the box. Pick your disc and
   memory cards, optionally select your own verified retail BIOS, and configure
   renderer / supersampling / widescreen / controller before launching.
+- **CHD discs.** MAME-compatible `.chd` images mount directly, including their
+  embedded track table; raw-sector fingerprints remain compatible with mods.
+- **Optional Fast Loading mod.** Disabled by default. Its single dropdown makes
+  recommended host-pacing modes mutually exclusive with experimental 2x, 4x,
+  and instant emulated-CD timing.
 - **Self-growing native cache.** Areas you visit are converted to fast native
   code as you play and reused on later launches (see "Help make your game
   faster" below).
@@ -100,7 +105,7 @@ The game is playable from BIOS boot through gameplay. Latest release:
    **Launch**; your choices are remembered.
 
 Accepted disc formats: `.cue` + `.bin` (preferred — pick the `.cue`), direct
-`.bin`, and `.iso`. If the header or game ID does not match `SCUS-94236`, the
+`.bin`, `.iso`, and `.chd`. If the header or game ID does not match `SCUS-94236`, the
 launcher warns and tries to run the image anyway.
 
 Selected paths persist next to the executable (`disc.cfg` and `settings.toml`).
@@ -113,7 +118,7 @@ Builds on **Windows (MSVC/MinGW)**, **macOS (Apple Silicon & Intel)**, and **Lin
 Requirements:
 
 - A C/C++ toolchain (MSVC/MinGW, Apple Clang, or Clang/GCC) and CMake 3.20+.
-- Tomba! (USA, SCUS-94236) disc image (`.cue` + `.bin`, `.bin`, or `.iso`). Not included.
+- Tomba! (USA, SCUS-94236) disc image (`.cue` + `.bin`, `.bin`, `.iso`, or `.chd`). Not included.
 - Optional Sony SCPH1001 BIOS ROM (`SCPH1001.BIN`). Not included.
 - SDL2: bundled on Windows (MSYS2 `mingw-w64-x86_64` toolchain); `brew install sdl2 pkg-config ninja` on macOS; `libsdl2-dev` + `ninja` on Linux.
 - The `psxrecomp` framework, which comes in as a **git submodule** at
@@ -223,8 +228,9 @@ underlying defaults live in `game.toml`:
   (`4:3` / `16:9`), `auto_skip_fmv`.
 - `[controller]` — `default_mode` (`analog` / `digital`), `allow_hybrid`,
   `deadzone`.
-- `[runtime]` — `disc_speed`, `turbo_loads` (compressed loading screens),
-  `fast_boot`, `overlay_cache`.
+- `[runtime]` — authentic loading defaults, `fast_boot`, and `overlay_cache`.
+  Loading acceleration is configured through the default-off Fast Loading mod;
+  its CD timing choices carry compatibility warnings in the launcher.
 - `[widescreen]*` — widescreen projection / culling / backdrop hooks (gen-time;
   changing these requires a regen and overlay-cache rebuild).
 

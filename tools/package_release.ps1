@@ -1,5 +1,5 @@
 param(
-    [string]$Version = "v0.10.0-alpha",
+    [string]$Version = "v0.11.0-alpha",
     [string]$BuildDir = "build-release"
 )
 
@@ -33,7 +33,7 @@ function Invoke-Native {
     if ($code -ne 0) { throw "$What failed (exit $code)" }
 }
 
-$RecompDir = Resolve-Path (Join-Path $Root "..\psxrecomp\recompiler\build")
+$RecompDir = Resolve-Path (Join-Path $Root "psxrecomp\recompiler\build")
 Invoke-Native { cmake --build $RecompDir --target psxrecomp-game -j $env:NUMBER_OF_PROCESSORS } "recompiler build"
 & (Join-Path $RecompDir "psxrecomp-game.exe") --config (Join-Path $Root "game.toml")
 if ($LASTEXITCODE -ne 0) { throw "game regen failed" }
@@ -67,6 +67,10 @@ $BundledBiosDst = Join-Path $Stage "bios"
 New-Item -ItemType Directory -Force $BundledBiosDst | Out-Null
 Copy-Item (Join-Path $BundledBiosSrc "openbios.bin") $BundledBiosDst
 Copy-Item (Join-Path $BundledBiosSrc "OpenBIOS.LICENSE") $BundledBiosDst
+$ThirdPartyLicenses = Join-Path $Stage "licenses"
+New-Item -ItemType Directory -Force $ThirdPartyLicenses | Out-Null
+Copy-Item (Join-Path $Root "psxrecomp\runtime\licenses\libchdr-NOTICES.txt") `
+    $ThirdPartyLicenses
 if (Test-Path (Join-Path $Root "RELEASE_NOTES.md")) {
     Copy-Item (Join-Path $Root "RELEASE_NOTES.md") $Stage
 }
@@ -94,12 +98,14 @@ $WidescreenManifest = Join-Path $ModsSrc "packages/tomba.enhancement.widescreen/
 $SkipFmvManifest = Join-Path $ModsSrc "packages/tomba.enhancement.skip-fmv/1.0.0/manifest.toml"
 $InterpolationManifest = Join-Path $ModsSrc "packages/tomba.enhancement.frame-interpolation/1.0.0/manifest.toml"
 $HybridManifest = Join-Path $ModsSrc "packages/tomba.enhancement.hybrid-controller/1.0.0/manifest.toml"
+$FastLoadingManifest = Join-Path $ModsSrc "packages/tomba.enhancement.fast-loading/1.0.0/manifest.toml"
 foreach ($RequiredManifest in @(
     $WarpManifest,
     $WidescreenManifest,
     $SkipFmvManifest,
     $InterpolationManifest,
-    $HybridManifest
+    $HybridManifest,
+    $FastLoadingManifest
 )) {
     if (-not (Test-Path $RequiredManifest)) {
         throw "Built-in mod catalog missing from runtime output: $RequiredManifest"
@@ -135,11 +141,9 @@ out_dir = "generated"
 window_title = "Tomba! Recompiled"
 memcard_dir = "saves"
 
-# Disc read speed. "1x" is authentic PlayStation timing and is the safe default:
-# speeding up the emulated CD device ("2x"/"4x"/"instant") changes how many
-# frames pass between a game's internal steps, which can desync streamed audio
-# or stall timing-sensitive titles. Fast loads instead come from turbo_loads
-# below (which fast-forwards the whole machine during a load, preserving timing).
+# Authentic CD timing is the baseline. The default-off Fast Loading mod offers
+# one dropdown of mutually exclusive host-pacing and experimental CD-timing
+# choices, with compatibility warnings next to the latter.
 disc_speed = "1x"
 
 # BIOS backend. true (the release default) = HLE: the PlayStation boot
@@ -151,11 +155,12 @@ bios_hle = true
 # Deprecated alias for the HLE boot skip alone (kept for old settings files).
 fast_boot  = false
 
-# Turbo loads: while a load is in progress, run the machine at full host speed so
-# loading finishes much faster, with all game timing preserved. Audio plays
-# through normally. On by default. Toggleable in the launcher (Settings -> Turbo
-# loads).
-turbo_loads = true
+# Loading acceleration is mod-owned. Hide the retired generic Settings switch
+# and ignore a stale value persisted by an older release.
+turbo_loads = false
+offer_turbo_loads = false
+turbo_audio_sink = true
+idle_skip = false
 
 # Overlay cache: keeps converted native code for game areas in the cache
 # folder, and records newly visited areas into overlay_captures.json so
@@ -235,8 +240,8 @@ Copy-Item (Join-Path $Root "game_options.toml") $Stage
 # namespace (it has no on-disk blobs), and ONLY the dir matching THIS build's
 # codegen tag -- a stale-hash dir is dead weight the runtime never loads (it was
 # the cause of the v0.3.0 black-screen: shipping a cg dir the emitter moved past).
-$RecompTools = Resolve-Path (Join-Path $Root "..\psxrecomp\tools")
-$RecompInc   = Resolve-Path (Join-Path $Root "..\psxrecomp\runtime\include")
+$RecompTools = Resolve-Path (Join-Path $Root "psxrecomp\tools")
+$RecompInc   = Resolve-Path (Join-Path $Root "psxrecomp\runtime\include")
 $tagScript = Join-Path $env:TEMP ("psx_cgtag_{0}.py" -f $PID)
 @"
 import importlib.util
@@ -376,6 +381,7 @@ Disc image formats:
 - .cue + .bin (preferred - pick the .cue)
 - .bin
 - .iso
+- .chd
 
 An optional retail BIOS choice and the selected disc path are saved next to the
 executable. Clear the BIOS row to return to OpenBIOS.
@@ -384,8 +390,9 @@ If the disc header or game ID does not match SCUS-94236, TombaRecomp will show
 a warning and try to run the image anyway. Boot may fail if the image is the
 wrong game, the wrong region, or corrupt.
 
-Options such as loading-screen turbo and disc speed can be changed in
-game.toml (the [runtime] section) with any text editor.
+Fast Loading is disabled by default. Enable its mod in the launcher and choose
+one dropdown value. Host pacing is recommended; experimental CD timing can
+break timing-sensitive loads, audio, or speedrun strategies.
 
 The cache folder contains pre-converted native code for game areas covered
 so far; those run at full speed from your first visit. As you play, newly
@@ -403,6 +410,12 @@ Memory cards are stored in the saves directory.
 if (Test-Path $ZipPath) {
     Remove-Item -Force $ZipPath
 }
-Compress-Archive -Path (Join-Path $Stage "*") -DestinationPath $ZipPath -Force
+$ZipHelper = Join-Path $Root "psxrecomp\tools\create_release_zip.py"
+if (-not (Test-Path $ZipHelper)) {
+    throw "Portable ZIP helper missing from pinned psxrecomp: $ZipHelper"
+}
+Invoke-Native {
+    python $ZipHelper --source $Stage --output $ZipPath
+} "portable release ZIP"
 
 Write-Host "Wrote $ZipPath"

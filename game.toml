@@ -38,16 +38,11 @@ overlay_cache = true   # native overlay-DLL cache (production path; gcc > tcc > 
 # user path). Priority is static > gcc shard > tcc shard > interp. The deprecated
 # sljit tier is retired (removed in the 1915b5c framework refactor).
 overlay_backend = "auto"
-# Fast loads, done the safe way. disc_speed stays authentic 1x (speeding the
-# guest-visible CD device changes how many VBlanks/callbacks fall between the
-# game's state transitions, which desyncs CD-streamed audio and can wedge
-# timing-sensitive titles). The real speed comes from turbo_loads: while a CD
-# load is in progress (cdrom_load_in_progress: a sustained read, XA/FMV excluded,
-# post-handoff), the frontend drops wall-clock pacing so the guest runs every
-# authentic frame at host speed. All guest timing is preserved; only real-world
-# load time shrinks. Launcher Settings -> Turbo loads persists to settings.toml
-# and overrides this.
-turbo_loads = true
+# Authentic loading is the baseline. The default-off Fast Loading mod owns both
+# host-only turbo and experimental guest-visible disc-speed choices, so stale
+# Settings values from older builds are ignored and the generic row is hidden.
+turbo_loads = false
+offer_turbo_loads = false
 # Opt-in host-only turbo audio sink: the SPU still advances on the exact guest
 # sample budget, but accelerated samples are discarded before SDL playback.
 # Normal output resumes from current guest audio state with a short fade.
@@ -57,7 +52,7 @@ turbo_audio_sink = true
 # still runs.
 # Known cosmetic tradeoff under aggressive load turbo: an occasional partial
 # texture frame can flash briefly, then resolves on the next complete frame.
-idle_skip = true
+idle_skip = false
 
 # Step 2.8: auto capture+compile of uncovered overlay variants (background;
 # run via cmd.exe /C with cwd = project root; needs python + gcc on PATH).
@@ -69,15 +64,6 @@ idle_skip = true
 # tool paths). Coverage-vault backup is a separate manual dev step now (it must
 # not fail-couple the autocompile rescan).
 overlay_autocompile_cmd = "python psxrecomp/tools/compile_overlays.py --game-toml game.toml --recompiler psxrecomp/recompiler/build/psxrecomp-game.exe --runtime-include psxrecomp/runtime/include --gcc C:/msys64/mingw64/bin/gcc.exe --cps"
-
-# Tomba-specific warm New Game experiment. The observed route repeats exactly
-# across warm runs: SetLoc 95947 arms it, 298 begins it, and every later file
-# start must match this order. A mismatch immediately falls back to 1x. This
-# accelerates the existing CD/IRQ/DMA/callback path; it stores no guest state.
-[[runtime.warm_cd_routes]]
-arm_lba = 95947
-lbas = [298, 299, 306, 376, 1390, 414, 548, 587, 960, 996]
-instant_max_per_frame = 32
 
 [video]
 # Visual enhancement options.
