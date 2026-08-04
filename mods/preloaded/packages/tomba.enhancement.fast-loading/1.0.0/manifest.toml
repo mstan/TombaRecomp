@@ -1,0 +1,64 @@
+format_version = 5
+id = "tomba.enhancement.fast-loading"
+version = "1.0.0"
+name = "Tomba Fast Loading"
+author = "mstan"
+description = "Optional loading acceleration with mutually exclusive host-safe and experimental CD-timing modes."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SCUS-94236"
+disc_sha256 = "25ada3dd51e70eb9f9218cd83fb02d73139750229fb44b012d62d183ab32eb13"
+
+[[feature]]
+id = "fast-loading"
+name = "Fast Loading"
+description = "Disabled by default. Host modes preserve every guest frame and CD interrupt. Disc modes change emulated CD timing and may break loads, audio, or speedrun strategies."
+group = "Quality of Life"
+default_enabled = false
+
+[[option]]
+feature = "fast-loading"
+id = "mode"
+label = "Loading mode"
+description = "Choose one mode. Host pacing is recommended. Experimental disc timing delivers CD interrupts earlier; use 2x first and disable the mod if anything stalls."
+group = "Quality of Life"
+type = "choice"
+default = "host-4x"
+
+[[option.choice]]
+value = "host-2x"
+label = "Host pacing: 2x"
+
+[[option.choice]]
+value = "host-4x"
+label = "Host pacing: 4x (recommended)"
+
+[[option.choice]]
+value = "host-8x"
+label = "Host pacing: 8x"
+
+[[option.choice]]
+value = "host-16x"
+label = "Host pacing: 16x"
+
+[[option.choice]]
+value = "host-uncapped"
+label = "Host pacing: uncapped"
+
+[[option.choice]]
+value = "disc-2x"
+label = "CD timing: 2x (experimental)"
+
+[[option.choice]]
+value = "disc-4x"
+label = "CD timing: 4x (experimental)"
+
+[[option.choice]]
+value = "disc-instant"
+label = "CD timing: instant (highest risk)"
+
+[[plugin]]
+feature = "fast-loading"
+id = "tomba.fast-loading"

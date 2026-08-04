@@ -1,3 +1,35 @@
+# Tomba! Recompiled — v0.11.0-alpha
+
+This release makes authentic loading and strict controller routing the
+baseline, adds direct CHD support, and fixes the Windows ZIP layout.
+
+## Loading
+
+- Fast Loading is now a default-off mod instead of a generic Settings toggle.
+- One dropdown makes recommended host-pacing modes mutually exclusive with
+  experimental 2x, 4x, and instant emulated-CD timing.
+- Host acceleration stops as soon as the sustained load ends, preventing turbo
+  input from spilling into the first gameplay frame.
+- Tomba no longer opts into generic turbo loads, idle skipping, accelerated CD
+  timing, or the experimental warm-disc route by default.
+
+## Discs and packaging
+
+- `.chd` images now mount directly through pinned libchdr support, including
+  embedded track metadata and CD audio sectors.
+- Disc verification and mod targeting fingerprint reconstructed raw sectors, so
+  compressing a supported dump does not change its identity.
+- Release ZIP entries now use portable forward-slash paths and extract
+  correctly outside Windows Explorer.
+
+## Controller routing
+
+- The developer “any input” merge is now explicitly enabled only with
+  `PSX_DEV_INPUT=1`. Normal launches keep the selected keyboard/controller
+  isolated, avoiding stale or unrelated devices driving Hybrid controls.
+
+---
+
 # Tomba! Recompiled — v0.10.0-alpha
 
 This release moves Tomba's optional enhancements into the launcher's Mods
