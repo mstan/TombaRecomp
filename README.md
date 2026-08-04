@@ -36,6 +36,7 @@ Important files:
 - `tools/regen.sh` (macOS/Linux) / `tools/regen.ps1` (Windows): regenerates the
   Tomba recompiled C output by invoking the framework recompiler.
 - `tools/package_release.ps1`: builds the redistributable release zip.
+- `tools/package_appimage.sh`: builds the experimental Linux x86-64 AppImage.
 - `psxrecomp/`: the [PSXRecomp](https://github.com/mstan/psxrecomp) framework,
   pulled in as a **git submodule** pinned to a known-good commit.
 - `ISSUES.md`: game-specific issue log.
@@ -91,7 +92,7 @@ The game is playable from BIOS boot through gameplay. Latest release:
 
 ## Setup
 
-### Release Package (recommended)
+### Windows Release Package
 
 1. Download `TombaRecomp-v*-windows-x64.zip` from Releases and extract it.
 2. Run `TombaRecomp.exe`. A **launcher window** opens.
@@ -110,6 +111,24 @@ launcher warns and tries to run the image anyway.
 
 Selected paths persist next to the executable (`disc.cfg` and `settings.toml`).
 Clear the BIOS row to return from an optional retail selection to OpenBIOS.
+
+### Experimental Linux AppImage
+
+Download `TombaRecomp-v*-linux-x86_64.AppImage`, make it executable, and run it:
+
+```sh
+chmod +x TombaRecomp-v*-linux-x86_64.AppImage
+./TombaRecomp-v*-linux-x86_64.AppImage
+```
+
+The AppImage payload is read-only. Settings, memory cards, installed mods,
+keybinds, caches, and launcher state persist under
+`${XDG_DATA_HOME:-$HOME/.local/share}/TombaRecomp`, so they survive relaunches,
+AppImage upgrades, and moving the AppImage itself. Set
+`TOMBA_RECOMP_DATA_DIR=/some/path` before launch to use another writable root.
+
+The Linux build is experimental and currently targets x86-64 with OpenGL. It
+does not include the game or a Sony BIOS; OpenBIOS is bundled.
 
 ### Building From Source
 
@@ -217,6 +236,12 @@ default. Its optional BIOS row can select a verified retail dump:
 To build the redistributable Windows release instead (does steps 3–4 for you,
 builds with the launcher, bundles assets + cache, and zips it):
 `pwsh tools/package_release.ps1`.
+
+To build the experimental Linux AppImage after generating the game sources:
+
+```sh
+sh tools/package_appimage.sh
+```
 
 ## Configuration
 

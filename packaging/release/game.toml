@@ -1,0 +1,70 @@
+[game]
+name = "Tomba!"
+id = "SCUS-94236"
+exe = "tomba/SCUS_942.36"
+disc = "tomba/tomba.cue"
+load_address = "0x80010000"
+entry_pc = "0x8006B58C"
+text_size = "0x00088000"
+stack_base = "0x801FFFF0"
+
+# Required block; used only by the developer recompiler tool, not at runtime.
+[recompiler]
+seeds = "seeds/ghidra_funcs.txt"
+bios_thunks = "seeds/tomba_bios_thunks.txt"
+out_dir = "generated"
+
+# ---- Player-adjustable options ------------------------------------------
+[runtime]
+window_title = "Tomba! Recompiled"
+memcard_dir = "saves"
+
+# Authentic CD timing is the baseline. The default-off Fast Loading mod offers
+# mutually exclusive host-pacing and experimental CD-timing choices.
+disc_speed = "1x"
+
+bios_hle = true
+fast_boot = false
+
+# Loading acceleration is owned by the default-off Fast Loading mod.
+turbo_loads = false
+offer_turbo_loads = false
+turbo_audio_sink = true
+idle_skip = false
+
+overlay_cache = true
+
+[video]
+supersampling = 2
+antialiasing = true
+texture_filtering = "nearest"
+renderer = "opengl"
+
+# Native movie playback and 4:3 are the baseline. Their bundled mods are off.
+auto_skip_fmv = false
+offer_skip_fmv = false
+fmv_skip_total_table = 0x80077728
+fmv_skip_movie_id = 0x1F8001CD
+fmv_skip_end_total = 3
+aspect_ratio = "4:3"
+
+[controller]
+default_mode = "analog"
+allow_hybrid = false
+deadzone = 12000
+
+[widescreen]
+offer = false
+sprite_tag_funcs = ["0x8005E08C"]
+sprite_anchor_addr = "0x1F800070"
+hud_sprt_squash = true
+
+[widescreen.cull]
+bias_sites = ["0x80022E78", "0x80022F94", "0x80022FE8", "0x80023068"]
+range_sites = ["0x80022E80", "0x80022F9C", "0x80022FF0", "0x80023070"]
+a1_sites = ["0x80022C34", "0x80022D68", "0x800230FC"]
+auto_screen_x = true
+
+[widescreen.backdrop]
+x_sites = ["0x801217B4", "0x8012196C"]
+unsquash_funcs = ["0x8004DB3C"]
