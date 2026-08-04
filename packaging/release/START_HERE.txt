@@ -1,0 +1,14 @@
+Tomba! Recompiled - v0.11.0-alpha
+
+This package does not include the game.
+
+Select your verified North American Tomba! disc image (SCUS-94236) in the
+launcher. CUE/BIN, BIN, ISO, and CHD are supported. OpenBIOS is included; a
+Sony BIOS is optional and is not distributed with this project.
+
+All bundled mods are disabled by default. Configure them from the Mods page.
+
+Linux AppImage state is stored in:
+  ${XDG_DATA_HOME:-$HOME/.local/share}/TombaRecomp
+
+Set TOMBA_RECOMP_DATA_DIR before launch to choose a different writable root.

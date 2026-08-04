@@ -21,6 +21,9 @@ baseline, adds direct CHD support, and fixes the Windows ZIP layout.
   compressing a supported dump does not change its identity.
 - Release ZIP entries now use portable forward-slash paths and extract
   correctly outside Windows Explorer.
+- An experimental x86-64 Linux AppImage ships the same launcher and preloaded
+  mod catalog. Its read-only payload is separated from persistent settings,
+  memory cards, installed mods, keybinds, and caches under XDG data storage.
 
 ## Controller routing
 

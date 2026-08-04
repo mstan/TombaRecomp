@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Tomba! Recompiled
+Comment=Experimental Linux build of Tomba! Recompiled
+Exec=TombaRecomp
+Icon=io.github.mstan.TombaRecomp
+Categories=Game;Emulator;
+Terminal=false
+StartupNotify=true
