@@ -1,3 +1,18 @@
+# Tomba! Recompiled — v0.11.1-alpha
+
+This patch accepts the Steam release's PlayStation disc payload directly.
+
+## Steam disc image
+
+- Steam's `t_data_u.car` can be selected in the launcher without renaming it
+  to `tomba.bin`.
+- The runtime treats `.car` as the same raw-sector image its contents already
+  identify as; normal ISO9660, game-serial, and sector-layout checks still run.
+- `.car` is included in the shared launcher, preparation picker, and native
+  runtime file dialog.
+
+---
+
 # Tomba! Recompiled — v0.11.0-alpha
 
 This release makes authentic loading and strict controller routing the

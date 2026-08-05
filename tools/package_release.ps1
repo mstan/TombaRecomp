@@ -1,5 +1,5 @@
 param(
-    [string]$Version = "v0.11.0-alpha",
+    [string]$Version = "v0.11.1-alpha",
     [string]$BuildDir = "build-release"
 )
 
@@ -273,7 +273,9 @@ First launch:
 Disc image formats:
 - .cue + .bin (preferred - pick the .cue)
 - .bin
+- .img
 - .iso
+- .car (Steam; t_data_u.car works without renaming)
 - .chd
 
 An optional retail BIOS choice and the selected disc path are saved next to the
