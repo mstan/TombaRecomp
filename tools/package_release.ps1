@@ -1,6 +1,10 @@
 param(
     [string]$Version = "v0.11.2-alpha",
-    [string]$BuildDir = "build-release"
+    [string]$BuildDir = "build-release",
+    # Ship without a bundled overlay cache. Off by default: a cache-less
+    # package makes every player's first session run overlays interpreted, so
+    # it has to be asked for rather than warned about.
+    [switch]$AllowNoCache
 )
 
 $ErrorActionPreference = "Stop"
@@ -141,7 +145,12 @@ import importlib.util
 s = importlib.util.spec_from_file_location('co', r'$RecompTools\compile_overlays.py')
 m = importlib.util.module_from_spec(s); s.loader.exec_module(m)
 inc = r'$RecompInc'
-print('cg%d_%08x' % (m.codegen_ver(inc), m.codegen_hash(inc)))
+print('cg%d_%08x_gc%08x' % (
+    m.codegen_ver(inc),
+    m.codegen_hash(inc),
+    m.overlay_config_hash(
+        r'$(Join-Path $RecompDir "psxrecomp-game.exe")',
+        r'$(Join-Path $Stage "game.toml")')))
 "@ | Set-Content -Encoding ASCII $tagScript
 $CgTag = (& python $tagScript).Trim()
 Remove-Item -Force $tagScript
@@ -159,8 +168,35 @@ if (Test-Path $CacheSrc) {
     }
     $dllCount = (Get-ChildItem $CacheDst -Recurse -Filter *.dll -ErrorAction SilentlyContinue).Count
     Write-Host "Bundled overlay cache: $dllCount native overlay DLL(s)"
+    if ($dllCount -eq 0) {
+        throw ("Overlay cache at $CacheSrc has no shards for this build's tag $CgTag. " +
+               "Rebuild it against this runtime AND the packaged game.toml " +
+               "(the tag folds in an overlay-config hash of both), or pass " +
+               "-AllowNoCache to ship without one.")
+    }
+} elseif ($AllowNoCache) {
+    Write-Warning "No overlay cache at $CacheSrc - shipping without one because -AllowNoCache was given"
 } else {
-    Write-Warning "No overlay cache found at $CacheSrc - releasing without bundled cache"
+    # A cache-less package makes every player's first session run overlays
+    # interpreted. v0.11.2 nearly shipped that way silently because the tag
+    # computed here had drifted from the one the runtime and compile_overlays
+    # actually use, so the match never hit and this branch just warned.
+    throw @"
+No overlay cache found at $CacheSrc, so this package would ship without one and
+every player's first session would run overlays interpreted.
+
+Build one for this release's tag ($CgTag) -- note the tag folds in a hash of
+the PACKAGED game.toml, so a cache built against the dev config lands under a
+different tag and will not be picked up:
+
+  `$env:PSX_OVERLAY_CACHE_DIR = "$Root\build-stable\cache"
+  `$env:PSX_OVERLAY_CAPTURES  = "<coverage vault>\overlay_captures.json"
+  python psxrecomp\tools\compile_overlays.py --game-toml <packaged game.toml> ``
+      --recompiler psxrecomp\recompiler\build\psxrecomp-game.exe ``
+      --runtime-include psxrecomp\runtime\include --gcc C:\msys64\mingw64\bin\gcc.exe --cps
+
+Then re-run this packager, or pass -AllowNoCache to ship without one anyway.
+"@
 }
 
 # ---- Self-contained overlay toolchain (tcc tier) -------------------------

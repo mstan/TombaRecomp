@@ -40,6 +40,15 @@ for tree in assets bios licenses; do
         chmod -R u+rwX "$data_dir/$tree"
     fi
 done
+# Bundled overlay cache: seed WITHOUT clobbering. The running game writes this
+# directory too, so a plain copy would wipe shards the player's own sessions
+# built, every launch.
+if [ -d "$payload/cache" ]; then
+    mkdir -p "$data_dir/cache"
+    cp -a -n "$payload/cache/." "$data_dir/cache/" 2>/dev/null || true
+    chmod -R u+rwX "$data_dir/cache"
+fi
+
 if [ -d "$payload/mods" ]; then
     cp -a "$payload/mods/." "$data_dir/mods/"
     chmod -R u+rwX "$data_dir/mods"

@@ -40,6 +40,43 @@ payload=$appdir/usr/share/tombarecomp
 cp -a "$build_dir/assets" "$payload/assets"
 cp -a "$build_dir/bios" "$payload/bios"
 cp -a "$build_dir/mods" "$payload/mods"
+
+# Prebuilt overlay cache. Without it every player's first session runs overlays
+# interpreted. Linux shards are .so under gcc/linux-x64 (overlay_loader.c's
+# OVERLAY_SHARED_EXT), and only THIS build's codegen tag is usable -- the tag
+# folds in a hash of the packaged game.toml, so a cache built against the dev
+# config lands elsewhere and the loader ignores it. Fail rather than silently
+# ship a slow package.
+game_id=SCUS-94236
+cache_src=${OVERLAY_CACHE_DIR:-"$root/build-linux-cache/cache"}/$game_id
+cg_tag=$(python3 - "$root" <<'PY'
+import importlib.util, os, sys
+root = sys.argv[1]
+spec = importlib.util.spec_from_file_location(
+    'co', os.path.join(root, 'psxrecomp/tools/compile_overlays.py'))
+m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+inc = os.path.join(root, 'psxrecomp/runtime/include')
+exe = os.path.join(root, 'psxrecomp/recompiler/build-linux/psxrecomp-game')
+gt  = os.path.join(root, 'packaging/release/game.toml')
+print('cg%d_%08x_gc%08x' % (m.codegen_ver(inc), m.codegen_hash(inc),
+                            m.overlay_config_hash(exe, gt)))
+PY
+)
+shards=$(find "$cache_src" -path "*/$cg_tag/*" \
+    \( -name '*.so' -o -name '*.ranges' -o -name '*.resident' \) 2>/dev/null | wc -l)
+if [ "${ALLOW_NO_CACHE:-0}" != "1" ] && [ "$shards" -eq 0 ]; then
+    echo "No overlay cache for tag $cg_tag under $cache_src." >&2
+    echo "Build one with compile_overlays.py against the PACKAGED game.toml," >&2
+    echo "or set ALLOW_NO_CACHE=1 to ship without one." >&2
+    exit 1
+fi
+if [ "$shards" -gt 0 ]; then
+    mkdir -p "$payload/cache/$game_id"
+    ( cd "$cache_src" && find . -path "*/$cg_tag/*" -type f \
+        \( -name '*.so' -o -name '*.ranges' -o -name '*.resident' \) \
+        -exec cp --parents {} "$payload/cache/$game_id/" \; )
+    echo "Bundled overlay cache: $(find "$payload/cache" -name '*.so' | wc -l) native overlay .so"
+fi
 mkdir -p "$payload/licenses"
 cp "$root/psxrecomp/runtime/licenses/libchdr-NOTICES.txt" "$payload/licenses/"
 cp "$root/packaging/release/game.toml" "$payload/game.toml"
