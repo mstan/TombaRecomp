@@ -1,9 +1,9 @@
 format_version = 5
 id = "tomba.enhancement.fast-loading"
 version = "1.0.0"
-name = "Tomba Fast Loading"
+name = "Tomba Fast Loading (host pacing)"
 author = "mstan"
-description = "Optional loading acceleration with mutually exclusive host-safe and experimental CD-timing modes."
+description = "Speeds up the wall-clock pacing of loads without changing anything the game can observe. Every guest frame, CD interrupt and callback still happens on schedule."
 resolver = "declarative"
 save_compatibility = "shared"
 
@@ -13,51 +13,32 @@ disc_sha256 = "25ada3dd51e70eb9f9218cd83fb02d73139750229fb44b012d62d183ab32eb13"
 
 [[feature]]
 id = "fast-loading"
-name = "Fast Loading"
-description = "Disabled by default. Host modes preserve every guest frame and CD interrupt. Disc modes change emulated CD timing and may break loads, audio, or speedrun strategies."
+name = "Fast Loading (host pacing)"
+description = "Disabled by default. Host pacing is the safe accelerator: it only changes how fast real time is fed to a load, so the guest cannot desync. It does speed the game up while a load is detected, which some speedrun routes rely on NOT happening -- if that is you, leave this off and use CD Speed instead."
 group = "Quality of Life"
 default_enabled = false
 
 [[option]]
 feature = "fast-loading"
-id = "mode"
-label = "Loading mode"
-description = "Choose one mode. Host pacing is recommended. Experimental disc timing delivers CD interrupts earlier; use 2x first and disable the mod if anything stalls."
+id = "multiplier"
+label = "Host speed multiplier"
+description = "How much faster than real time a load may run. 1 is authentic. 2-32 is the useful range; larger values keep working but stop helping once the host, not the pacing, is the limit. Ignored while Uncapped is ticked."
 group = "Quality of Life"
-type = "choice"
-default = "host-4x"
+type = "integer"
+min = 1
+max = 1024
+step = 1
+default = 4
+disabled_by = "uncapped"
 
-[[option.choice]]
-value = "host-2x"
-label = "Host pacing: 2x"
-
-[[option.choice]]
-value = "host-4x"
-label = "Host pacing: 4x (recommended)"
-
-[[option.choice]]
-value = "host-8x"
-label = "Host pacing: 8x"
-
-[[option.choice]]
-value = "host-16x"
-label = "Host pacing: 16x"
-
-[[option.choice]]
-value = "host-uncapped"
-label = "Host pacing: uncapped"
-
-[[option.choice]]
-value = "disc-2x"
-label = "CD timing: 2x (experimental)"
-
-[[option.choice]]
-value = "disc-4x"
-label = "CD timing: 4x (experimental)"
-
-[[option.choice]]
-value = "disc-instant"
-label = "CD timing: instant (highest risk)"
+[[option]]
+feature = "fast-loading"
+id = "uncapped"
+label = "Uncapped (as fast as the host allows)"
+description = "Run loads at whatever speed this machine can manage, ignoring the multiplier above."
+group = "Quality of Life"
+type = "boolean"
+default = "false"
 
 [[plugin]]
 feature = "fast-loading"
