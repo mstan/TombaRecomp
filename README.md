@@ -44,7 +44,7 @@ Important files:
 ## Status
 
 The game is playable from BIOS boot through gameplay. Latest release:
-**v0.11.0-alpha** (2026-08-03).
+**v0.11.1-alpha** (2026-08-04).
 
 | Area | State |
 |---|---|
@@ -83,6 +83,8 @@ The game is playable from BIOS boot through gameplay. Latest release:
   renderer / supersampling / widescreen / controller before launching.
 - **CHD discs.** MAME-compatible `.chd` images mount directly, including their
   embedded track table; raw-sector fingerprints remain compatible with mods.
+- **Steam disc images.** Steam's `t_data_u.car` is an extension-renamed raw
+  PlayStation image and can be selected directly without renaming it to `.bin`.
 - **Optional Fast Loading mod.** Disabled by default. Its single dropdown makes
   recommended host-pacing modes mutually exclusive with experimental 2x, 4x,
   and instant emulated-CD timing.
@@ -106,8 +108,8 @@ The game is playable from BIOS boot through gameplay. Latest release:
    **Launch**; your choices are remembered.
 
 Accepted disc formats: `.cue` + `.bin` (preferred — pick the `.cue`), direct
-`.bin`, `.iso`, and `.chd`. If the header or game ID does not match `SCUS-94236`, the
-launcher warns and tries to run the image anyway.
+`.bin`, `.img`, `.iso`, Steam `.car`, and `.chd`. If the header or game ID does
+not match `SCUS-94236`, the launcher warns and tries to run the image anyway.
 
 Selected paths persist next to the executable (`disc.cfg` and `settings.toml`).
 Clear the BIOS row to return from an optional retail selection to OpenBIOS.
@@ -137,7 +139,8 @@ Builds on **Windows (MSVC/MinGW)**, **macOS (Apple Silicon & Intel)**, and **Lin
 Requirements:
 
 - A C/C++ toolchain (MSVC/MinGW, Apple Clang, or Clang/GCC) and CMake 3.20+.
-- Tomba! (USA, SCUS-94236) disc image (`.cue` + `.bin`, `.bin`, `.iso`, or `.chd`). Not included.
+- Tomba! (USA, SCUS-94236) disc image (`.cue` + `.bin`, `.bin`, `.img`, `.iso`,
+  Steam `.car`, or `.chd`). Not included.
 - Optional Sony SCPH1001 BIOS ROM (`SCPH1001.BIN`). Not included.
 - SDL2: bundled on Windows (MSYS2 `mingw-w64-x86_64` toolchain); `brew install sdl2 pkg-config ninja` on macOS; `libsdl2-dev` + `ninja` on Linux.
 - The `psxrecomp` framework, which comes in as a **git submodule** at

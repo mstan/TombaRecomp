@@ -1,10 +1,11 @@
-Tomba! Recompiled - v0.11.0-alpha
+Tomba! Recompiled - v0.11.1-alpha
 
 This package does not include the game.
 
 Select your verified North American Tomba! disc image (SCUS-94236) in the
-launcher. CUE/BIN, BIN, ISO, and CHD are supported. OpenBIOS is included; a
-Sony BIOS is optional and is not distributed with this project.
+launcher. CUE/BIN, BIN, IMG, ISO, Steam CAR, and CHD are supported. Steam's
+t_data_u.car can be selected without renaming it. OpenBIOS is included; a Sony
+BIOS is optional and is not distributed with this project.
 
 All bundled mods are disabled by default. Configure them from the Mods page.
 
