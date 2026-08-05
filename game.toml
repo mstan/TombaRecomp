@@ -1,4 +1,4 @@
-﻿[game]
+[game]
 name = "Tomba!"
 id = "SCUS-94236"
 exe = "tomba/SCUS_942.36"
@@ -38,9 +38,14 @@ overlay_cache = true   # native overlay-DLL cache (production path; gcc > tcc > 
 # user path). Priority is static > gcc shard > tcc shard > interp. The deprecated
 # sljit tier is retired (removed in the 1915b5c framework refactor).
 overlay_backend = "auto"
-# Authentic loading is the baseline. The default-off Fast Loading mod owns both
-# host-only turbo and experimental guest-visible disc-speed choices, so stale
-# Settings values from older builds are ignored and the generic row is hidden.
+# Authentic loading is the baseline. Two default-off mods own acceleration and
+# are independent of each other: "Fast Loading (host pacing)" speeds wall-clock
+# pacing during a load (safe -- every guest frame, CD deadline and callback still
+# happens, but the game does run faster while loading), and "CD Speed" divides
+# the emulated sector delay (shorter loads with the game at normal speed, which
+# is what timing-sensitive routes need). Both take a free integer multiplier
+# rather than a fixed list, with a tickbox for uncapped/instant. Stale Settings
+# values from older builds are ignored and the generic row stays hidden.
 turbo_loads = false
 offer_turbo_loads = false
 # Opt-in host-only turbo audio sink: the SPU still advances on the exact guest
