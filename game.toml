@@ -68,7 +68,7 @@ idle_skip = false
 # games, dev or prod). This command is just the compile RECIPE (which compiler,
 # tool paths). Coverage-vault backup is a separate manual dev step now (it must
 # not fail-couple the autocompile rescan).
-overlay_autocompile_cmd = "py -3 psxrecomp/tools/compile_overlays.py --game-toml game.toml --recompiler psxrecomp/recompiler/build/psxrecomp-game.exe --runtime-include psxrecomp/runtime/include --gcc C:/msys64/mingw64/bin/gcc.exe --cps"
+overlay_autocompile_cmd = "py -3 psxrecomp/tools/compile_overlays.py --game-toml game.toml --recompiler psxrecomp/recompiler/build/psxrecomp-game.exe --runtime-include psxrecomp/runtime/include --cps"
 
 [video]
 # Visual enhancement options.
