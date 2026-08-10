@@ -48,6 +48,18 @@ psxrecomp_add_runtime_target(psx-runtime
     LAUNCHER_BOXART "${CMAKE_SOURCE_DIR}/recomp/launcher/boxart.tga"
 )
 
+# The runtime resolves its baked "game.toml" default relative to the
+# executable. Keep direct development launches equivalent to packaged builds:
+# without these files the executable falls back to "Unknown Game" and cannot
+# load Tomba's title metadata or native game options.
+foreach(TOMBA_RUNTIME_CONFIG game.toml game_options.toml)
+    add_custom_command(TARGET psx-runtime POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_CURRENT_SOURCE_DIR}/${TOMBA_RUNTIME_CONFIG}"
+            "$<TARGET_FILE_DIR:psx-runtime>/${TOMBA_RUNTIME_CONFIG}"
+        COMMENT "Staging ${TOMBA_RUNTIME_CONFIG} for direct Tomba launches")
+endforeach()
+
 # Preload the game-owned catalog. Features remain disabled until selected in
 # the launcher, and plugin ids resolve only to implementations compiled above.
 set(TOMBA_PRELOADED_MODS "${CMAKE_CURRENT_SOURCE_DIR}/mods/preloaded")
