@@ -43,7 +43,9 @@ psxrecomp_add_runtime_target(psx-runtime
     EXTRAS_SOURCES ${TOMBA_GENERATED_EXTRAS} ${TOMBA_MOD_PLUGIN_SOURCES}
     DEBUG_PORT 4470
     WINDOW_TITLE "Tomba! Recompiled"
-    DEFAULT_BIOS_PATH "${PSXRECOMP_ROOT}/bios/SCPH1001.BIN"
+    # BIOS selection is registry-driven: bundled OpenBIOS is always usable,
+    # and a generated SCPH-1001 backend makes the launcher picker available.
+    # Do not bake a developer-machine retail BIOS path into the executable.
     DEFAULT_GAME_CONFIG_PATH "game.toml"
     LAUNCHER_BOXART "${CMAKE_SOURCE_DIR}/recomp/launcher/boxart.tga"
 )
@@ -81,7 +83,6 @@ if(PSX_BUILD_COSIM)
         GAME_GENERATED_FULL_C "${TOMBA_GENERATED_FULL}"
         GAME_GENERATED_DISPATCH_C "${TOMBA_GENERATED_DISPATCH}"
         WINDOW_TITLE "Tomba-cosim"
-        DEFAULT_BIOS_PATH "${PSXRECOMP_ROOT}/bios/SCPH1001.BIN"
         DEFAULT_GAME_CONFIG_PATH "game.toml"
         EXTRAS_SOURCES ${TOMBA_MOD_PLUGIN_SOURCES}
         COSIM
