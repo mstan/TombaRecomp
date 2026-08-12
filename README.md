@@ -14,6 +14,8 @@ Tomba! (USA, SCUS-94236) statically recompiled to a native PC executable with
 
 [![PSXRecomp demo](https://img.youtube.com/vi/CID9oVhgCyY/maxresdefault.jpg)](https://www.youtube.com/watch?v=CID9oVhgCyY)
 
+[![PSXRecomp rewind and save states demo](https://img.youtube.com/vi/L36ppNkuJG0/maxresdefault.jpg)](https://www.youtube.com/watch?v=L36ppNkuJG0)
+
 ## What This Is
 
 This repository contains the game-specific configuration, seeds, tools, and
@@ -54,6 +56,7 @@ The game is playable from BIOS boot through gameplay. Latest release:
 | Title menu / OPTIONS | Works (settings persist across launches) |
 | NEW GAME / LOAD GAME | Works |
 | Memory-card save & load | Works (standard `.mcd`, emulator-compatible) |
+| Rewind / save states | Works (local PSXRecomp snapshots; save states are BIOS-specific) |
 | Gameplay | Playable; known crashes tracked in `ISSUES.md` |
 | Renderers | Software **and** OpenGL (GPU); OpenGL is the default |
 | Widescreen 16:9 | Experimental, opt-in (true wider FOV) |
@@ -78,6 +81,9 @@ The game is playable from BIOS boot through gameplay. Latest release:
   is touched and back to analog when the stick is moved. Adjustable deadzone.
 - **Persistent in-game settings.** Your OPTION choices — text speed, sound,
   vibration, screen adjust — are saved and restored on every launch.
+- **Rewind + save states.** PSXRecomp's local snapshot system is enabled for
+  TombaRecomp. Press F8 for rewind and F7 for the save-state slot menu; rewind
+  depth and capture interval are configurable in the launcher.
 - **Graphical launcher.** OpenBIOS works out of the box. Pick your disc and
   memory cards, optionally select your own verified retail BIOS, and configure
   renderer / supersampling / widescreen / controller before launching.
@@ -253,9 +259,10 @@ underlying defaults live in `game.toml`:
 
 - `[video]` — `renderer` (`opengl` / `software`), `supersampling` (1–4),
   `antialiasing`, `texture_filtering` (`nearest` / `bilinear`), `aspect_ratio`
-  (`4:3` / `16:9`), `auto_skip_fmv`.
+  (`4:3` / `16:9`), `auto_skip_fmv`, `rewind_depth`, `rewind_interval`.
 - `[controller]` — `default_mode` (`analog` / `digital`), `allow_hybrid`,
   `deadzone`.
+- `[hotkeys]`: host hotkeys including rewind and the save-state menu.
 - `[runtime]` — authentic loading defaults, `fast_boot`, and `overlay_cache`.
   Loading acceleration is configured through the default-off Fast Loading mod;
   its CD timing choices carry compatibility warnings in the launcher.
@@ -276,11 +283,17 @@ underlying defaults live in `game.toml`:
 | Start | Enter |
 | Select | Right Shift |
 | Turbo | Tab (hold) |
+| Rewind | F8 |
+| Save-state menu | F7 |
 | Fullscreen | F11 / Alt+Enter / Cmd+F |
 
 A game controller (Xbox, PlayStation, or any SDL-recognized pad) is supported on
 all platforms via SDL when connected. The left analog stick gives variable run
 speed and the D-pad works at the same time — no mode toggle.
+
+In the save-state menu, use the arrow keys or `1`-`0` / `-` / `=` to pick one
+of the twelve slots. Press `S` to save, `L` or Enter/Space to load, and Escape
+or F7 to close the menu.
 
 | PSX button | Xbox controller |
 |---|---|
@@ -304,6 +317,11 @@ Runtime memory-card files are local artifacts and must not be committed. The
 runtime uses raw PS1 memory-card images compatible with DuckStation,
 PCSX-Redux, Mednafen, ePSXe, and similar emulators. Cards are stored in the
 `saves` directory and managed in the launcher's Player/memory-card cards.
+
+Save states are stored alongside the same local save data, but they are tied to
+the BIOS backend that created them. A state made with OpenBIOS will not load
+under the retail BIOS path, and vice versa. Memory cards remain shared between
+BIOS choices.
 
 ## Help make your game faster — just by playing
 
