@@ -44,6 +44,7 @@ default_mode = "digital"
 
 # Online mount gate: digests + track count + optional TOC fingerprint
 # (see docs/NETPLAY.md).
+multitap_analog = true
 [netplay]
 require_cue = true
 required_tracks = 1
