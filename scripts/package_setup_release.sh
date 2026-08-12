@@ -32,6 +32,12 @@ fi
 if [[ -f "${ROOT}/framework_pins.txt" ]]; then
   EXTRA_PROJECT+=(--project-file framework_pins.txt)
 fi
+# Optional in-game options defaults — CMake POST_BUILD may copy this beside the
+# runtime. Omitting it from the setup-host zip makes cmake --build fail after
+# link and leaves RetComM without a releases/ binary.
+if [[ -f "${ROOT}/game_options.toml" ]]; then
+  EXTRA_PROJECT+=(--project-file game_options.toml)
+fi
 
 cd "${ROOT}"
 exec bash "${PACKAGER}" \
