@@ -34,6 +34,11 @@ release-stage/
 *.user
 *.log
 
+# Local config files
+bios.cfg
+disc.cfg
+rom.cfg
+
 # Runtime artifacts from psx-runtime/psx-beetle launches
 psx_crash.txt
 psx_last_run_report.json
@@ -53,3 +58,8 @@ __pycache__/
 # Downloaded/extracted release toolchain (embedded python + tcc). Build
 # artifact: fetched and verified by tools/package_release.ps1 on demand.
 tools/_toolchain_cache/
+
+# --- PSXRecomp setup-host (project studio) ---
+/disc/
+/bios/
+/dist/

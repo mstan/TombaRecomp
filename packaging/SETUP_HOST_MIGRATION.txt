@@ -1,0 +1,5 @@
+This title is migrating to setup-host releases only.
+Do not ship prebuilt generated game C.
+Use scripts/package_setup_release.sh + .github/workflows/release.yml
+(see psxrecomp/docs/GAME_PROJECT_SETUP.md and docs/ci/HOST_ONLY_RELEASES.md).
+Legacy package_release scripts in this folder are obsolete for public releases.

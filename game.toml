@@ -1,280 +1,51 @@
+# Autofilled by tools/new_project_layout/probe_disc.py from your legal dump.
+# Review before shipping. Runtime quirks / overlay seeds still need hand work.
+
 [game]
-name = "Tomba!"
+name = "TombaRecomp"
 id = "SCUS-94236"
-exe = "tomba/SCUS_942.36"
-disc = "tomba/tomba.cue"
+players = 1
+exe = "disc/SCUS_942.36"
+disc = "disc/Tomba! (USA).cue"
 load_address = "0x80010000"
 entry_pc = "0x8006B58C"
 text_size = "0x00088000"
 stack_base = "0x801FFFF0"
 
+# Digests are for data Track 01 (first BINARY FILE / TRACK 01).
+[prepare_disc]
+out_dir = "disc"
+bin_name = "Tomba! (USA).bin"
+cue_name = "Tomba! (USA).cue"
+boot_exe = "SCUS_942.36"
+known_sizes = [280193760]
+known_md5 = [
+  "c80636a28de4abcfa34f9e57fb3b043d",
+]
+known_sha1 = [
+  "c259ec7ff6ef4163913991f4e4db2eff71702818",
+]
+
 [recompiler]
 seeds = "seeds/ghidra_funcs.txt"
-bios_thunks = "seeds/tomba_bios_thunks.txt"
 out_dir = "generated"
 strict = true
 
 [runtime]
-debug_port = 4470
-window_title = "Tomba! Recompiled"
+window_title = "TombaRecomp Recompiled"
 memcard_dir = "saves"
-disc_speed = "1x"      # authentic CD timing — never perturbs game timing/audio
-# BIOS backend (CLAUDE.md §0 amendment 2026-07-02). Default false = LLE (the
-# recompiled BIOS, the reference implementation + oracle). true = HLE tier:
-# implemented kernel services (the B0 event family in v1) computed in-runtime
-# against the real guest kernel structures, everything else falling through to
-# LLE — and the BIOS shell (boot animation) skipped one-shot with kernel init +
-# EXE load still run by the real recompiled BIOS at host speed. Env overrides:
-# PSX_BIOS_HLE / PSX_BIOS_HLE_KEEP_INTRO. Observability: hle_dump TCP command.
-bios_hle = true
-bios_hle_keep_intro = false  # HLE calls but keep the real boot intro
-# DEPRECATED: fast_boot is now an alias for the HLE boot shell-skip alone (the
-# old first-boot snapshot capture/restore mechanism is gone).
-fast_boot  = false   # set false to watch BIOS logos
-overlay_cache = true   # native overlay-DLL cache (production path; gcc > tcc > interp)
-# Tier selection: "auto" (default) = gcc if a gcc toolchain is present (dev /
-# production shard authoring), else the bundled toolchain-free tcc. Other values:
-# "gcc", "tcc", "auto-no-gcc" (dev: force tcc even with gcc present, to test the
-# user path). Priority is static > gcc shard > tcc shard > interp. The deprecated
-# sljit tier is retired (removed in the 1915b5c framework refactor).
-overlay_backend = "auto"
-# Authentic loading is the baseline. Two default-off mods own acceleration and
-# are independent of each other: "Fast Loading (host pacing)" speeds wall-clock
-# pacing during a load (safe -- every guest frame, CD deadline and callback still
-# happens, but the game does run faster while loading), and "CD Speed" divides
-# the emulated sector delay (shorter loads with the game at normal speed, which
-# is what timing-sensitive routes need). Both take a free integer multiplier
-# rather than a fixed list, with a tickbox for uncapped/instant. Stale Settings
-# values from older builds are ignored and the generic row stays hidden.
-turbo_loads = false
-offer_turbo_loads = false
-# Opt-in host-only turbo audio sink: the SPU still advances on the exact guest
-# sample budget, but accelerated samples are discarded before SDL playback.
-# Normal output resumes from current guest audio state with a short fade.
-turbo_audio_sink = true
-# Proof-gated generic poll-loop fast-forward. Strictly opt-in per game. Each
-# skip has no guest stores/MMIO and stable register state; guest/device time
-# still runs.
-# Known cosmetic tradeoff under aggressive load turbo: an occasional partial
-# texture frame can flash briefly, then resolves on the next complete frame.
-idle_skip = false
-
-# Step 2.8: auto capture+compile of uncovered overlay variants (background;
-# run via cmd.exe /C with cwd = project root; needs python + gcc on PATH).
-# The compile's WRITE cache + READ captures are NOT specified here: the runtime
-# injects PSX_OVERLAY_CACHE_DIR / PSX_OVERLAY_CAPTURES (the loader's canonical
-# <exe>/cache and <exe>/overlay_captures.json) so the write can never drift from
-# where the loader reads (the framework owns the cache location, uniform for all
-# games, dev or prod). This command is just the compile RECIPE (which compiler,
-# tool paths). Coverage-vault backup is a separate manual dev step now (it must
-# not fail-couple the autocompile rescan).
-overlay_autocompile_cmd = "py -3 psxrecomp/tools/compile_overlays.py --game-toml game.toml --recompiler psxrecomp/recompiler/build/psxrecomp-game.exe --runtime-include psxrecomp/runtime/include --cps"
 
 [video]
-# Visual enhancement options.
-# supersampling: internal-resolution SSAA factor (1 = native PSX, 2..4 render
-#   the scene at N* the resolution and downsample on present -> true
-#   supersampling + edge anti-aliasing). 2 is a good quality/perf default;
-#   raise to 3 or 4 for sharper edges if your CPU holds 59.94 fps.
-# antialiasing: linear present filtering (smooths the downscale and any window
-#   resize). Set false for sharp, unfiltered pixels.
-# texture_filtering: "nearest" (native PSX look) or "bilinear" (smooths
-#   textures and 2D backgrounds). Off by default.
-# renderer: "software" (CPU rasterizer) or "opengl" (GPU-authoritative VRAM
-#   FBO backend). OpenGL moves rasterization + supersampling onto the GPU, so
-#   fill-heavy scenes (e.g. the mushroom forest) hold 59.94 fps even at
-#   supersampling 2..4. Falls back to software automatically if GL init fails.
-# Native 4:3 is the baseline. Tomba's game-specific 16:9 enhancement is exposed
-# as the default-off Tomba Widescreen mod, not as a generic Settings value.
-supersampling     = 2
-antialiasing      = true
-texture_filtering = "nearest"
-renderer          = "opengl"
-# Native movie playback is the baseline. The default-off Tomba Skip FMVs mod
-# owns activation; keep the generic recomp-ui Settings row hidden for Tomba.
-auto_skip_fmv     = false
-offer_skip_fmv    = false
-# Same treatment for frame interpolation: the default-off Tomba Frame
-# Interpolation mod owns activation, so keep the generic recomp-ui Settings row
-# hidden (the shared PSX launcher profile enables it for every title) and ignore
-# any value an older build persisted into settings.toml.
-offer_frame_interpolation = false
-# fmv_skip_total_table: base of Tomba's per-movie frame-total table (u16 per movie,
-#   indexed by the current-movie-id byte). fmv_skip_movie_id: that id byte (PSX
-#   scratchpad). fmv_skip_end_total: value written into the active movie's total so
-#   the player ends it immediately (its loop tears down when frame# >= total - 3).
-#   RE: player loop FUN_8001f1c0 / consumer FUN_8001efe8 (see ENHANCEMENTS.md E1).
-fmv_skip_total_table = 0x80077728
-fmv_skip_movie_id    = 0x1F8001CD
-fmv_skip_end_total   = 3
-aspect_ratio      = "4:3"
+renderer = "opengl"
+aspect_ratio = "4:3"
 
-# Controller input defaults. Tomba is analog-capable (the box reads "Analog
-# Control Compatible"): in analog mode the left stick gives variable run speed.
-# default_mode presents a DualShock/analog pad (id 0x73) out of the box so that
-# path is live without changing modes in the launcher — the left stick is
-# variable, and the D-pad / keyboard arrows are folded onto the analog axes at
-# full deflection so they still move the character. The launcher's Player cards
-# expose an explicit Analog / D-Pad choice and Settings → Controller a deadzone
-# control; both persist to settings.toml and override these. deadzone is the
-# analog centre dead-band / stick->d-pad threshold in raw SDL axis units
-# (0..32767; 12000≈37%).
 [controller]
-default_mode = "analog"
-allow_hybrid = false
-deadzone     = 12000
+default_mode = "digital"
 
-# Widescreen proportion hooks (inert at 4:3; engaged when aspect_ratio is
-# wide). Evidence: Ghidra pass 2026-06-12 — every character/billboard render
-# function (RTPS cluster 0x800459E0-0x8004FB54, both the rotatable-POLY_FT4
-# and multi-part-SPRT patterns) calls the shared per-prim helper 0x8005E08C
-# with the prim pointer in $a0, after the RTPS preamble stores the projected
-# anchor SXY to scratchpad 0x1F800070. Sprite sizes are fixed pixels (never
-# depth-scaled). The HUD/menus build SPRT prims with no GTE involvement.
-[widescreen]
-# Keep recomp-ui's legacy aspect control available to other games while Tomba
-# owns activation through its built-in widescreen mod.
-offer = false
-sprite_tag_funcs   = ["0x8005E08C"]
-sprite_anchor_addr = "0x1F800070"
-hud_sprt_squash    = true
-# Native-wide HUD-at-16:9-corners is DEFERRED (see psxrecomp ENHANCEMENTS.md,
-# "Tomba HUD corner re-anchoring"): the plain thirds shift tears composites
-# that span zones (in-world dialog boxes split their end caps to the screen
-# edges) and the AP counter renders through the TAGGED sprite funnel so it
-# doesn't move. Needs composite-group awareness before it can ship.
-nw_hud_corners     = false
-
-# World-space draw-cull widening. The per-object classifier family tests
-# (objX - camX + BIAS) <u RANGE, where BIAS/RANGE are sized for the 4:3 screen
-# (320 + 64px margins). The GTE squash shows ~33% more world, collapsing the
-# effective margin to ~11px so objects pop near the wide-screen edges. The
-# recompiler emits these immediates with + psx_ws_x_margin() (bias) / + 2x
-# (range), which is 0 at 4:3 so the original cull is byte-identical. Sites are
-# Ghidra-evidenced (classifier family 0x80022C08-0x80023164; camX=0x1F800176).
-[widescreen.cull]
-# addiu rT,rS,imm  → rT = rS + (imm + margin)
-bias_sites  = ["0x80022E78", "0x80022F94", "0x80022FE8", "0x80023068"]
-# sltiu rT,rS,imm  → rT = rS <u (imm + 2*margin)
-range_sites = ["0x80022E80", "0x80022F9C", "0x80022FF0", "0x80023070"]
-# nop (delay slot) → a1 += margin  (caller-supplied-margin classifier variants)
-a1_sites    = ["0x80022C34", "0x80022D68", "0x800230FC"]
-
-# Automatic horizontal-FOV cull widening (the dominant fix for native-wide /
-# Issue #8). The GTE render funnel (RTPT tri/quad emitters ~0x80024CFC.. and
-# RTPS billboard emitters ~0x800487A4..) rejects a primitive only when ALL its
-# vertices fall off the 4:3 frame: a per-vertex `sltiu vN, SX, 0x140` (right
-# edge) paired with `sltiu vN, SY, 0xE0` (bottom edge) in the same function.
-# That hard 320 clip — not the world-space classifier above (which already
-# carries a ±64px margin and is a proven no-op for 16:9) — is what leaves the
-# revealed right margin empty. Rather than list all ~100 identical sites, the
-# recompiler auto-detects that signature and emits every width compare with
-# + 2*psx_ws_x_margin(), so geometry out to the wide-surface edge is submitted
-# instead of culled at 320. Generic to any PSX GTE title; 0 at 4:3 ⇒ the build
-# is byte-identical with widescreen off. Changing this requires a regen.
-auto_screen_x = true
-
-# Far-backdrop column PRELOAD. The scrolling-background tile-grid generators
-# (sky / ground / cloud / flower-field layers) emit only a camera-windowed ~4:3
-# range of tile columns per frame, so the 16:9-revealed right/left margin shows
-# void until the camera moves. The recompiler auto-detects each column-window
-# generator by its invariant (/96 magic 0x66666667 dividing the 0x176 camera-X,
-# the sra-by-5 divide tail, and the move/addiu loop-bound finalize) and rewrites
-# the window START to 0 and END high; the generator's own low/high clamps then
-# pin the loop to the whole finite tile row, so the entire backdrop is emitted
-# regardless of camera. Generators are OVERLAY-resident (so the overlay compile
-# must see this via --ws-config). Generic to any PSX scroller; 0 at 4:3 ⇒
-# byte-identical with widescreen off. Changing this requires a regen + overlay
-# cache rebuild.
-auto_backdrop = true
-
-# Parallax 2D backdrop layer (ocean / cloud / mountain / grassy-top). These
-# OVERLAY actor handlers compute screenX = (worldX - camX) >> parallax in pure
-# integer math and store it to the object's screen-X field (+0x12) WITHOUT the
-# GTE, so the GTE X-squash that gives 3D the wider 16:9 FOV never reaches them:
-# far pieces sit past the 320px framebuffer edge and are clipped, showing as the
-# blue void / half-drawn rectangles at the screen edges (Issue #8C). Each site
-# is the FINAL `sh rt,0x12(base)` store in a backdrop handler; the recompiler
-# emits it as write_half(.., psx_ws_backdrop_x(rt)) to squash screenX around the
-# screen centre by the same factor as the GTE (identity at 4:3). Overlay code,
-# so compile_overlays.py forwards this via --ws-config; changing it needs a
-# regen + overlay-cache rebuild. Each handler must be VERIFIED to draw far
-# backdrop (NOT UI) before enabling — a parallax+camera signature ALSO matches
-# screen-space UI positioned relative to the camera:
-#   0x801216BC type0  store 0x801217B4  (>>3, single prim)   = far backdrop ✓
-#   0x80121810 type1  store 0x8012196C  (>>1, animated tex)  = midground row ✓
-#       Draws a row of 4 evenly-spaced parallax pieces (worldX 540/680/820/960,
-#       fixed screenY 130) that stay active with NO dialogue on screen — proven
-#       backdrop, not the dialogue box. The a3 ±0x40 "tiling loop" only CYCLES the
-#       texpage/CLUT word at +0x8 (animated-texture shimmer), it does not lay out
-#       text tiles. 8C right-edge culling (slots 4/5) is this row clipping while
-#       unsquashed; enabling the squash pulls them in (slot4 410→316 on-screen).
-#       NB: 8F's dialogue-split is the SEPARATE sprite_tag/hud_sprt_squash path,
-#       NOT this handler — an earlier session mis-blamed 0x80121810 for it.
-#       (Data-confirmed firing; live in-scene dialogue smoke-check still pending.)
-#   0x80121A74 type2  store 0x80121BAC  (>>3 + clamps)       = UNVERIFIED
-#       far-right area gate (camX>=0x719, not active in start area); left out
-#       until confirmed backdrop vs UI.
-[widescreen.backdrop]
-x_sites = ["0x801217B4", "0x8012196C"]
-
-# Far-backdrop GTE un-squash (8C). The far parallax backdrop (ocean / cloud /
-# distant mountain) is GTE-projected 3D drawn by FUN_8004db3c (sole caller of
-# the GTE emitter FUN_80027600). The global widescreen GTE X-squash repositions
-# it toward centre, so its 4:3-extent geometry falls short of the revealed 16:9
-# edges -> dark-blue void that "pops" as you walk (each layer crosses its 4:3
-# coverage threshold). A/B (ws_aspect 16/9 vs 1/1, same camX) confirmed: squash
-# OFF fills the frame, squash ON reveals beyond the backdrop's extent. Fix:
-# bracket the driver with gte_ws_set_suppress(1)/(0) so the far backdrop draws
-# UN-squashed (fills the stretched frame, skybox-style) while the near 3D world
-# keeps the wider FOV. Main-EXE address -> regen-class (native emit fires in dev).
-unsquash_funcs = ["0x8004DB3C"]
-
-# ── Audit-specific config (consumed by psxrecomp/tools/*.py and tests) ──
-#
-# Schema mirrors psxrecomp/bios/SCPH1001.toml. Paths are relative to the
-# TombaRecomp project root.
-
-[audit]
-# Dynamic discovery — no Ghidra function-starts file for Tomba; the
-# recompiler discovers functions by walking control flow from entry_pc.
-# function_starts left absent on purpose.
-
-# Code region: Tomba's text segment is contiguous from load_address for
-# text_size bytes. Single region keeps L1/coverage audits scoped to code.
-[[audit.regions]]
-name        = "Text"
-rom_start   = "0x800"          # offset within the PS-X EXE file (skip header)
-rom_end     = "0x88800"        # rom_start + text_size
-vaddr_base  = "0x80010000"
-
-# Address normalization: just KSEG masking. No remaps (game loads
-# contiguously at vaddr_base; no kernel-style relocation).
-[audit.normalize]
-kseg_mask = "0x1FFFFFFF"
-
-# --- LOAD_TIME_ZERO L1.4: data-shard hook targets ---
-# No live targets. Feature 3.5 identified FUN_8003EF50 as Tomba's real
-# back-reference decompressor, but the v1 replay verifier falsely accepted its
-# boot variants and corrupted title/game asset output. It remains quarantined
-# along with the previously rejected GTE render-packet targets.
-[data_shards]
-funcs = []
-
-# Verified by Ghidra against SCUS_942.36: VSync(-1) returns the guest RAM
-# VBlank counter at 0x800974D4; its preceding GPUSTAT and Timer1 read values are
-# unused.  The framework reproduces the original instruction timing, stack
-# traffic, cache fetches, and IRQ checkpoints while bypassing only those two
-# side-effect-free MMIO handlers. Other VSync modes fall through byte-for-byte.
-[load_accel.vsync_query]
-func = "0x80067C30"
-counter_addr = "0x800974D4"
-gpustat_ptr_addr = "0x80096408"
-timer1_ptr_addr = "0x8009640C"
-timer1_cache_addr = "0x80096410"
-# Verified loop-call return PCs in PsyQ CD_sync, CD_ready, CD_cw, and
-# CD_datasync.  Other VSync(-1) callers never receive an event-horizon skip.
-event_horizon_sites = ["0x800654E4", "0x8006576C", "0x80065BDC", "0x800662D8"]
-# Feature 3: the two VSync(-1) returns inside PsyQ CdRead's sector-completion
-# wait loop. Kept as a separately togglable tier for matched A/B testing.
-event_horizon_extra_sites = ["0x80066B60", "0x80066B90"]
+# Online mount gate: digests + track count + optional TOC fingerprint
+# (see docs/NETPLAY.md).
+multitap_analog = true
+[netplay]
+require_cue = true
+required_tracks = 1
+required_disc_fp = "84ce733697c16a6bddbd319504b1ee50a02f4c2a42f4eee049092a6da286a4b5"
