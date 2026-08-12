@@ -102,7 +102,7 @@ $WidescreenManifest = Join-Path $ModsSrc "packages/tomba.enhancement.widescreen/
 $SkipFmvManifest = Join-Path $ModsSrc "packages/tomba.enhancement.skip-fmv/1.0.0/manifest.toml"
 $InterpolationManifest = Join-Path $ModsSrc "packages/tomba.enhancement.frame-interpolation/1.0.0/manifest.toml"
 $HybridManifest = Join-Path $ModsSrc "packages/tomba.enhancement.hybrid-controller/1.0.0/manifest.toml"
-$FastLoadingManifest = Join-Path $ModsSrc "packages/tomba.enhancement.fast-loading/1.0.0/manifest.toml"
+$FastLoadingManifest = Join-Path $ModsSrc "packages/psx.enhancement.fast-loading/1.0.0/manifest.toml"
 foreach ($RequiredManifest in @(
     $WarpManifest,
     $WidescreenManifest,
