@@ -34,6 +34,11 @@ release-stage/
 *.user
 *.log
 
+# Local config files
+bios.cfg
+disc.cfg
+rom.cfg
+
 # Runtime artifacts from psx-runtime/psx-beetle launches
 psx_crash.txt
 psx_last_run_report.json
