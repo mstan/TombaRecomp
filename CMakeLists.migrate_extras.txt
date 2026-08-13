@@ -1,6 +1,5 @@
 Preserved notes after setup-host CMake rewrite:
 
-- Old CMakeLists used EXTRAS_SOURCES — re-attach mod/plugin sources.
 - Old CMakeLists copied mods/preloaded POST_BUILD — re-add if needed.
 
 Full previous file: CMakeLists.txt.pre_migrate.bak

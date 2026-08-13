@@ -14,6 +14,29 @@ Tomba! (USA, SCUS-94236) statically recompiled to a native PC executable with
 
 [![PSXRecomp demo](https://img.youtube.com/vi/CID9oVhgCyY/maxresdefault.jpg)](https://www.youtube.com/watch?v=CID9oVhgCyY)
 
+## RetComM Launcher
+
+You can run this title **standalone** (release zip + the built-in recomp-ui
+Generate & Build flow), or manage installs, updates, ROM/BIOS wiring, and queued
+builds more intuitively with
+**[RetComM Launcher](https://github.com/TechnicallyComputers/RetComM-Launcher)** —
+the Retro Compilation Manager hub for self-compiling recomps.
+
+[Downloads](https://github.com/TechnicallyComputers/RetComM-Launcher/releases) ·
+[Full README & features](https://github.com/TechnicallyComputers/RetComM-Launcher#readme)
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TechnicallyComputers/RetComM-Launcher/main/docs/screenshots/hub-and-game-launcher.png" alt="RetComM hub with a background build, next to a title’s recomp-ui launcher" width="720">
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TechnicallyComputers/RetComM-Launcher/main/docs/screenshots/queue-and-background-build.png" alt="Background cmake build with titles queued" width="720">
+</p>
+
+RetComM checks for updates, rebuilds with existing build data when possible,
+shares the portable toolchain used by per-title launchers, and automates
+BIOS/ROM/save plumbing so you are not stuck repeating each game’s wizard by hand.
+
 ## What This Is
 
 This repository contains the game-specific configuration, seeds, tools, and
