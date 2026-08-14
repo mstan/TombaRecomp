@@ -1,5 +1,16 @@
 # TombaRecomp
 
+<!-- retcomm-readme-metrics -->
+[![GitHub downloads (all assets, all releases)](https://img.shields.io/github/downloads/TechnicallyComputers/TombaRecomp/total)](https://github.com/TechnicallyComputers/TombaRecomp/releases)
+[![GitHub downloads (latest release)](https://img.shields.io/github/downloads/TechnicallyComputers/TombaRecomp/latest/total)](https://github.com/TechnicallyComputers/TombaRecomp/releases/latest)
+[![GitHub release](https://img.shields.io/github/v/release/TechnicallyComputers/TombaRecomp)](https://github.com/TechnicallyComputers/TombaRecomp/releases/latest)
+
+[![Linux](https://img.shields.io/github/downloads/TechnicallyComputers/TombaRecomp/latest/tomba-%2A-linux-x64.zip)](https://github.com/TechnicallyComputers/TombaRecomp/releases/latest)
+[![Windows](https://img.shields.io/github/downloads/TechnicallyComputers/TombaRecomp/latest/tomba-%2A-windows-x64.zip)](https://github.com/TechnicallyComputers/TombaRecomp/releases/latest)
+[![macOS arm64](https://img.shields.io/github/downloads/TechnicallyComputers/TombaRecomp/latest/tomba-%2A-macos-arm64.zip)](https://github.com/TechnicallyComputers/TombaRecomp/releases/latest)
+[![macOS x64](https://img.shields.io/github/downloads/TechnicallyComputers/TombaRecomp/latest/tomba-%2A-macos-x64.zip)](https://github.com/TechnicallyComputers/TombaRecomp/releases/latest)
+<!-- /retcomm-readme-metrics -->
+
 > _This recompilation is a **byproduct of developing
 > [psxrecomp](https://github.com/mstan/psxrecomp)** — the games are the proving ground, the framework is the goal.
 > **These are in-development previews, not finished ports — expect rough
@@ -14,6 +25,7 @@ Tomba! (USA, SCUS-94236) statically recompiled to a native PC executable with
 
 [![PSXRecomp demo](https://img.youtube.com/vi/CID9oVhgCyY/maxresdefault.jpg)](https://www.youtube.com/watch?v=CID9oVhgCyY)
 
+<!-- retcomm-readme-launcher -->
 ## RetComM Launcher
 
 You can run this title **standalone** (release zip + the built-in recomp-ui
@@ -36,6 +48,7 @@ the Retro Compilation Manager hub for self-compiling recomps.
 RetComM checks for updates, rebuilds with existing build data when possible,
 shares the portable toolchain used by per-title launchers, and automates
 BIOS/ROM/save plumbing so you are not stuck repeating each game’s wizard by hand.
+<!-- /retcomm-readme-launcher -->
 
 ## What This Is
 
