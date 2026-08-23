@@ -285,10 +285,23 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          OUT="${GITHUB_WORKSPACE}/.cache/sdl3-src"
+          # Use repo-relative paths for tar: Windows GITHUB_WORKSPACE is D:\…
+          # and GNU tar treats drive-letter abs paths as remote hosts
+          # ("Cannot connect to D"). Prefer prefetch_sdl3.sh when present.
+          OUT=".cache/sdl3-src"
+          sdl3_env() {
+            local abs="${OUT}"
+            if command -v cygpath >/dev/null 2>&1; then
+              abs="$(cygpath -m "${OUT}")"
+            elif [[ -d "${OUT}" ]]; then
+              abs="$(cd "${OUT}" && pwd)"
+            fi
+            echo "PSX_SDL3_SOURCE_DIR=${abs}" >>"$GITHUB_ENV"
+            echo "SDL3 source ready: ${abs}"
+          }
           if [[ -f "${OUT}/CMakeLists.txt" ]]; then
-            echo "PSX_SDL3_SOURCE_DIR=${OUT}" >>"$GITHUB_ENV"
-            echo "SDL3 source cache hit: ${OUT}"
+            sdl3_env
+            echo "SDL3 source cache hit"
             exit 0
           fi
           if [[ -f psxrecomp/tools/ci/prefetch_sdl3.sh ]]; then
@@ -298,22 +311,26 @@ jobs:
           fi
           # Submodule may predate the helper — inline HTTP/1.1 prefetch.
           echo "prefetch_sdl3.sh missing; using inline curl --http1.1"
-          mkdir -p "${GITHUB_WORKSPACE}/.cache"
+          mkdir -p .cache
           VER=3.4.10
           SHA=12b34280415ec8418c864408b93d008a20a6530687ee613d60bfbd20411f2785
           URL="https://github.com/libsdl-org/SDL/releases/download/release-${VER}/SDL3-${VER}.tar.gz"
-          TAR="${GITHUB_WORKSPACE}/.cache/SDL3-${VER}.tar.gz"
+          TAR=".cache/SDL3-${VER}.tar.gz"
           curl -fsSL --http1.1 --retry 5 --retry-all-errors --retry-delay 2 -o "${TAR}" "${URL}"
           echo "${SHA}  ${TAR}" | sha256sum -c -
           rm -rf "${OUT}.extracting"
           mkdir -p "${OUT}.extracting"
-          tar -xzf "${TAR}" -C "${OUT}.extracting"
+          # --force-local: belt-and-suspenders if a path ever gains a colon.
+          if tar --help 2>&1 | grep -q -- '--force-local'; then
+            tar --force-local -xzf "${TAR}" -C "${OUT}.extracting"
+          else
+            tar -xzf "${TAR}" -C "${OUT}.extracting"
+          fi
           INNER="$(find "${OUT}.extracting" -mindepth 1 -maxdepth 1 -type d | head -n1)"
           rm -rf "${OUT}"
           mv "${INNER}" "${OUT}"
           rm -rf "${OUT}.extracting"
-          echo "PSX_SDL3_SOURCE_DIR=${OUT}" >>"$GITHUB_ENV"
-          echo "SDL3 source ready: ${OUT}"
+          sdl3_env
 
       # Windows: build emitters with llvm-mingw from cmake-clang-v1 (static CLI).
       # Zip still omits toolchain/ — fetch is for the build machine only.
@@ -487,6 +504,30 @@ jobs:
             exit 1
           fi
           cmake --build build-ci --target psx-runtime -j"${JOBS}"
+          # Lobby list pin must match RELEASE_VERSION (package_setup_host enforces).
+          STAMP=""
+          for cand in \
+              build-ci/psx_game_version.txt \
+              build-ci/Release/psx_game_version.txt \
+              build-ci/*/psx_game_version.txt
+          do
+            if [[ -f "${cand}" ]]; then STAMP="${cand}"; break; fi
+          done
+          if [[ -z "${STAMP}" ]]; then
+            # Fallback: stamp next to the host exe
+            STAMP="$(find build-ci -name psx_game_version.txt -type f 2>/dev/null | head -n1 || true)"
+          fi
+          if [[ -z "${STAMP}" || ! -f "${STAMP}" ]]; then
+            echo "::error::missing psx_game_version.txt after build (update psxrecomp submodule)"
+            exit 1
+          fi
+          BUILT="$(tr -d '[:space:]' <"${STAMP}")"
+          BUILT="${BUILT#v}"
+          if [[ "${BUILT}" != "${RELEASE_VERSION}" ]]; then
+            echo "::error::lobby pin stamp ${BUILT} != RELEASE_VERSION ${RELEASE_VERSION} (${STAMP})"
+            exit 1
+          fi
+          echo "lobby pin ok: ${BUILT} (${STAMP})"
 
       - name: Package setup zip
         run: |
