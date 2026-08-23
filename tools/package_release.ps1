@@ -37,7 +37,7 @@ function Invoke-Native {
     if ($code -ne 0) { throw "$What failed (exit $code)" }
 }
 
-$RecompDir = Resolve-Path (Join-Path $Root "psxrecomp\recompiler\build")
+$RecompDir = Resolve-Path (Join-Path $Root "psxrecomp\recompiler\build-rbengine")
 Invoke-Native { cmake --build $RecompDir --target psxrecomp-game -j $env:NUMBER_OF_PROCESSORS } "recompiler build"
 & (Join-Path $RecompDir "psxrecomp-game.exe") --config (Join-Path $Root "game.toml")
 if ($LASTEXITCODE -ne 0) { throw "game regen failed" }
