@@ -1,7 +1,7 @@
 # TombaRecomp — Open Issues
 
-Game-specific issues. Framework-side issues live in
-`F:/Projects/psxrecomp-v4/ISSUES.md`.
+Game-specific issues. Framework-side issues live in `psxrecomp/ISSUES.md`
+(the framework submodule vendored in this repo).
 
 ---
 
@@ -651,7 +651,7 @@ queued 0 — confirming Tomba's OPTIONS UI never runs the queue.
 
 ### First-divergence finding (2026-05-13, late session)
 
-Per `F:\Projects\recomp-template\NES\PRINCIPLES.md` #3 (first-divergence
+Per `recomp-ai-rules/NES/PRINCIPLES.md` #3 (first-divergence
 debugging): extended `psx-beetle.exe` to accept `--disc <cue>` so it
 can boot Tomba alongside our runtime. Navigated both to OPTIONS.
 Beetle: renders the OPTIONS UI (MESSAGE FAST, SOUND STEREO, ADJUST
