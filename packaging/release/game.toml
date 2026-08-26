@@ -49,7 +49,7 @@ fmv_skip_end_total = 3
 aspect_ratio = "4:3"
 
 [controller]
-default_mode = "analog"
+default_mode = "digital"
 allow_hybrid = false
 deadzone = 12000
 
