@@ -44,7 +44,7 @@ Important files:
 ## Status
 
 The game is playable from BIOS boot through gameplay. Latest release:
-**v0.11.1-alpha** (2026-08-04).
+**v0.12.3-alpha** (2026-08-26).
 
 | Area | State |
 |---|---|

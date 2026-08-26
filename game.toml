@@ -37,6 +37,16 @@ memcard_dir = "saves"
 
 [video]
 renderer = "opengl"
+# Native movie playback is the baseline. The default-off Tomba Skip FMVs mod
+# owns activation; keep the generic recomp-ui Settings row hidden for Tomba.
+auto_skip_fmv = false
+offer_skip_fmv = false
+# Tomba-specific teardown metadata used by the Skip FMVs mod. The runtime writes
+# the active movie's frame total down to fmv_skip_end_total so the game's own
+# MDEC player ends every movie, including ones that never poll START.
+fmv_skip_total_table = 0x80077728
+fmv_skip_movie_id = 0x1F8001CD
+fmv_skip_end_total = 3
 aspect_ratio = "4:3"
 
 [controller]
