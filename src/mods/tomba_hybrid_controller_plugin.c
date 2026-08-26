@@ -1,14 +1,24 @@
 #include "mod_plugins.h"
 
-/*
- * Keep Tomba's game-owned Hybrid Controller policy out of the generic
- * controller selector. The activation runs after launcher/settings resolution,
- * so this deliberately wins over the normal Analog / D-Pad choice for Player 1
- * only when the corresponding mod feature is enabled.
- */
+static uint32_t tomba_hybrid_controller_mode = PSX_MOD_CONTROLLER_ANALOG;
+
+static uint32_t tomba_hybrid_controller_policy(
+    const PSXModControllerInput* input) {
+    if (input) {
+        if (input->stick_active) {
+            tomba_hybrid_controller_mode = PSX_MOD_CONTROLLER_ANALOG;
+        } else if (input->dpad_active) {
+            tomba_hybrid_controller_mode = PSX_MOD_CONTROLLER_DIGITAL;
+        }
+    }
+    return tomba_hybrid_controller_mode;
+}
+
 static void tomba_hybrid_controller_activate(void) {
-    (void)psx_mod_set_controller_mode_override(
-        0u, PSX_MOD_CONTROLLER_HYBRID);
+    tomba_hybrid_controller_mode = PSX_MOD_CONTROLLER_ANALOG;
+    (void)psx_mod_set_controller_presentation_policy(
+        0u, tomba_hybrid_controller_policy,
+        PSX_MOD_CONTROLLER_ANALOG, 1);
 }
 
 PSX_MOD_CONSTRUCTOR(tomba_register_hybrid_controller_plugin) {
