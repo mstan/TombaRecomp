@@ -34,6 +34,9 @@ psxrecomp_add_game_runtime(psx-runtime
 )
 
 target_sources(psx-runtime PRIVATE ${TOMBA_MOD_PLUGIN_SOURCES})
+if(TARGET psx-runtime-pgxp)
+    target_sources(psx-runtime-pgxp PRIVATE ${TOMBA_MOD_PLUGIN_SOURCES})
+endif()
 
 # Stage configs beside the binary for direct launches. Gate on EXISTS so a
 # setup-host zip that forgot an optional file still links successfully.
@@ -50,10 +53,14 @@ endforeach()
 
 set(TOMBA_PRELOADED_MODS "${CMAKE_CURRENT_SOURCE_DIR}/mods/preloaded")
 if(EXISTS "${TOMBA_PRELOADED_MODS}/packages")
-    add_custom_command(TARGET psx-runtime POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${TOMBA_PRELOADED_MODS}"
-            "$<TARGET_FILE_DIR:psx-runtime>/mods"
-        COMMENT "Preloading the Tomba mod catalog"
-        VERBATIM)
+    foreach(TOMBA_RUNTIME_TARGET psx-runtime psx-runtime-pgxp)
+        if(TARGET ${TOMBA_RUNTIME_TARGET})
+            add_custom_command(TARGET ${TOMBA_RUNTIME_TARGET} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_directory
+                    "${TOMBA_PRELOADED_MODS}"
+                    "$<TARGET_FILE_DIR:${TOMBA_RUNTIME_TARGET}>/mods"
+                COMMENT "Preloading the Tomba mod catalog"
+                VERBATIM)
+        endif()
+    endforeach()
 endif()
