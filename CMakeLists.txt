@@ -19,6 +19,7 @@ include("${PSXRECOMP_ROOT}/runtime/runtime.cmake")
 
 file(GLOB TOMBA_MOD_PLUGIN_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/mods/*.c")
+set(TOMBA_PRELOADED_MODS "${CMAKE_CURRENT_SOURCE_DIR}/mods/preloaded")
 
 psxrecomp_add_game_runtime(psx-runtime
     # ENABLE_NETPLAY_IF_PRESENT
@@ -30,7 +31,10 @@ psxrecomp_add_game_runtime(psx-runtime
     LAUNCHER_BOXART "${CMAKE_CURRENT_SOURCE_DIR}/launcher_assets/img/boxart.tga"
     GEN_MARKER "generated/SCUS_942.36_dispatch.c"
     GEN_FULL_GLOB "generated/SCUS_942.36_full_*.c"
-    CODEGEN_SETUP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/codegen_setup.c"
+    CODEGEN_SETUP_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/codegen_setup.c"
+        "${PSXRECOMP_ROOT}/host/psxrecomp_codegen_host.c"
+    PRELOADED_MODS_DIR "${TOMBA_PRELOADED_MODS}"
 )
 
 target_sources(psx-runtime PRIVATE ${TOMBA_MOD_PLUGIN_SOURCES})
@@ -47,13 +51,3 @@ foreach(TOMBA_RUNTIME_CONFIG game.toml game_options.toml)
             VERBATIM)
     endif()
 endforeach()
-
-set(TOMBA_PRELOADED_MODS "${CMAKE_CURRENT_SOURCE_DIR}/mods/preloaded")
-if(EXISTS "${TOMBA_PRELOADED_MODS}/packages")
-    add_custom_command(TARGET psx-runtime POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${TOMBA_PRELOADED_MODS}"
-            "$<TARGET_FILE_DIR:psx-runtime>/mods"
-        COMMENT "Preloading the Tomba mod catalog"
-        VERBATIM)
-endif()

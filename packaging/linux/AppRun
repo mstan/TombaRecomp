@@ -49,6 +49,12 @@ if [ -d "$payload/cache" ]; then
     chmod -R u+rwX "$data_dir/cache"
 fi
 
+if [ -d "$payload/overlay_toolchain" ]; then
+    if [ -L "$data_dir/overlay_toolchain" ] || [ ! -e "$data_dir/overlay_toolchain" ]; then
+        ln -sfn "$payload/overlay_toolchain" "$data_dir/overlay_toolchain"
+    fi
+fi
+
 if [ -d "$payload/mods" ]; then
     cp -a "$payload/mods/." "$data_dir/mods/"
     chmod -R u+rwX "$data_dir/mods"
