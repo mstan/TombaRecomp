@@ -34,6 +34,10 @@ strict = true
 [runtime]
 window_title = "TombaRecomp Recompiled"
 memcard_dir = "saves"
+# Tomba's runtime-loaded code must enter the overlay cache pipeline: capture
+# variants, compile native shards, and load matching shards on later runs.
+# Without this, every overlay stays on the dirty-RAM interpreter.
+overlay_cache = true
 
 [video]
 renderer = "opengl"
