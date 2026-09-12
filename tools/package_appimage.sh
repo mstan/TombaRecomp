@@ -4,7 +4,7 @@ set -eu
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 build_dir=${BUILD_DIR:-"$root/build-appimage"}
 appdir=$build_dir/AppDir
-output=${OUTPUT:-"$root/TombaRecomp-v0.11.2-alpha-linux-x86_64.AppImage"}
+output=${OUTPUT:-"$root/TombaRecomp-v0.13.0-alpha-linux-x86_64.AppImage"}
 tools_dir=$build_dir/appimage-tools
 fw=$root/psxrecomp
 
@@ -32,13 +32,16 @@ if [ -f "$fw/bios/openbios.bin" ] && [ ! -f "$fw/generated/OpenBIOS_dispatch.c" 
     (cd "$fw" && PSXRECOMP_BIOS_BUILD="$bios_build" tools/regen_bios.sh --config bios/OpenBIOS.toml)
 fi
 
+if [ "${SKIP_RUNTIME_BUILD:-0}" != 1 ]; then
 cmake -S "$root" -B "$build_dir" -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_C_COMPILER_LAUNCHER= \
     -DCMAKE_CXX_COMPILER_LAUNCHER= \
     -DPSX_DEBUG_TOOLS=OFF \
-    -DPSX_SDL_BACKEND=SDL2
+    -DPSX_SDL_BACKEND=SDL3 \
+    -DPSX_PGXP_VARIANT=OFF
 cmake --build "$build_dir" --target psx-runtime -j "${BUILD_JOBS:-$(getconf _NPROCESSORS_ONLN)}"
+fi
 
 case "$appdir" in
     "$build_dir"/*) ;;
@@ -61,18 +64,12 @@ psx_add_mod_catalog --build-path "$build_dir" --stage "$payload" \
 
 game_id=SCUS-94236
 recompiler_bin=$fw/$bios_build/psxrecomp-game
-cg_tag=$(psx_overlay_cg_tag \
-    --runtime-include "$fw/runtime/include" \
-    --recompiler "$recompiler_bin" \
-    --game-toml "$root/packaging/release/game.toml" \
-    --flavor-from-build "$build_dir" \
-    --runtime-target psx-runtime)
-[ -n "$cg_tag" ] || { echo "could not compute codegen tag" >&2; exit 1; }
-cache_src_root=${OVERLAY_CACHE_DIR:-"$root/build-linux-cache/cache"}
-psx_add_overlay_cache --game-id "$game_id" \
-                      --cache-src-root "$cache_src_root" \
-                      --stage "$payload" \
-                      --cg-tag "$cg_tag"
+"${PSX_RELEASE_STAGE_PYTHON:-python3}" "$fw/tools/aot_overlay_pipeline.py" release \
+    --profile "$root/aot/overlays.json" --game-toml "$root/game.toml" \
+    --runtime-config "$root/packaging/release/game.toml" \
+    --recompiler "$recompiler_bin" --runtime-build-dir "$build_dir" --runtime-target psx-runtime \
+    --work-dir "$build_dir/aot-release" \
+    --stage "$payload" --gcc "${AOT_GCC:-gcc}" --workers "${AOT_WORKERS:-3}"
 mkdir -p "$payload/licenses"
 cp "$root/psxrecomp/runtime/licenses/libchdr-NOTICES.txt" "$payload/licenses/"
 cp "$root/packaging/release/game.toml" "$payload/game.toml"
@@ -101,7 +98,7 @@ else
     echo "ImageMagick is required to create the AppImage icon." >&2
     exit 1
 fi
-"$image_tool" "$root/recomp/launcher/boxart.tga" \
+"$image_tool" "$root/launcher_assets/img/boxart.tga" \
     -resize 240x240 -background transparent -gravity center -extent 256x256 \
     "$appdir/io.github.mstan.TombaRecomp.png"
 ln -s io.github.mstan.TombaRecomp.png "$appdir/.DirIcon"
@@ -136,4 +133,5 @@ rm -f -- "$output"
 ARCH=x86_64 "$appimagetool" --appimage-extract-and-run "$appdir" "$output"
 chmod 0755 "$output"
 
-sha256sum "$output"
+(cd "$(dirname -- "$output")" && sha256sum "$(basename -- "$output")") > "$output.sha256"
+cat "$output.sha256"

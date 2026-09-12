@@ -15,7 +15,7 @@
 # Title-owned:
 #   CMake setup-host flags, thin scripts/package_setup_release.sh wrapper
 #
-# No private CI assets. No BIOS dumps. No generated/ required.
+# Requires private original-disc input for fresh AOT extraction; no BIOS dumps or generated/ required.
 # Do not set PSX_PGO in CI (PGO stays user-local after Generate).
 # Release hosts always build with PSX_HAVE_VULKAN (headers + glslc); runtime
 # still loads the ICD dynamically via SDL.
@@ -183,13 +183,15 @@ jobs:
           submodules: recursive
           fetch-depth: 1
 
-      - name: Checkout private shard archive
-        uses: actions/checkout@v4
-        with:
-          repository: mstan/psxrecomp-shards
-          path: psxrecomp-shards
-          lfs: true
-          token: ${{ secrets.PSXRECOMP_SHARDS_TOKEN }}
+      - name: Require original-disc input
+        shell: bash
+        env:
+          DISC_ARCHIVE_URL: ${{ secrets.PSXRECOMP_DISC_ARCHIVE_URL }}
+        run: |
+          if [[ -z "$DISC_ARCHIVE_URL" ]]; then
+            echo "::error::Set PSXRECOMP_DISC_ARCHIVE_URL to a private ZIP containing the supported original disc (see docs/AOT_OVERLAYS.md). Historical shard captures cannot replace the disc."
+            exit 1
+          fi
 
       - name: Pin VERSION
         shell: bash
@@ -496,50 +498,23 @@ jobs:
           fi
           cmake --build build-ci --target psx-runtime -j"${JOBS}"
 
-      - name: Build setup shard cache
+      - name: Fetch original-disc input
+        env:
+          DISC_ARCHIVE_URL: ${{ secrets.PSXRECOMP_DISC_ARCHIVE_URL }}
         run: |
           set -euo pipefail
-          captures="${GITHUB_WORKSPACE}/psxrecomp-shards/SCUS-94236/overlay_captures.json"
-          if [[ ! -f "${captures}" ]]; then
-            echo "::error::missing private shard captures at ${captures}"
-            echo "Set the PSXRECOMP_SHARDS_TOKEN secret so release CI can read mstan/psxrecomp-shards."
-            exit 1
-          fi
-          recompiler=""
-          for cand in build-recompiler/psxrecomp-game.exe build-recompiler/psxrecomp-game; do
-            if [[ -f "${cand}" ]]; then
-              recompiler="${cand}"
-              break
-            fi
-          done
-          if [[ -z "${recompiler}" ]]; then
-            echo "::error::psxrecomp-game emitter missing under build-recompiler"
-            exit 1
-          fi
-          gcc_bin="gcc"
-          if [[ "$(uname -s)" == MINGW* || "$(uname -s)" == MSYS* ]]; then
-            gcc_bin="/mingw64/bin/gcc.exe"
-          fi
-          set +e
-          python psxrecomp/tools/compile_overlays.py \
-            --captures "${captures}" \
-            --game-toml game.toml \
-            --recompiler "${recompiler}" \
-            --runtime-include psxrecomp/runtime/include \
-            --out-dir build-setup-shards/cache \
-            --gcc "${gcc_bin}" \
-            --cps
-          compile_rc="$?"
-          set -e
-          shard_count="$(find build-setup-shards/cache/SCUS-94236 -type f \( -name '*.dll' -o -name '*.so' \) | wc -l | tr -d ' ')"
-          if [[ "${shard_count}" -eq 0 ]]; then
-            echo "::error::compiled shard cache is empty"
-            exit 1
-          fi
-          if [[ "${compile_rc}" -ne 0 ]]; then
-            echo "::warning::compile_overlays exited ${compile_rc}; shipping ${shard_count} safe compiled shard(s)"
-          fi
-          echo "Compiled ${shard_count} overlay shard(s)"
+          curl --fail --silent --show-error --location "$DISC_ARCHIVE_URL" -o "$RUNNER_TEMP/disc-input.zip"
+          python - "$RUNNER_TEMP/disc-input.zip" <<'PY'
+          import pathlib, sys, zipfile
+          root = pathlib.Path('disc').resolve()
+          root.mkdir(exist_ok=True)
+          with zipfile.ZipFile(sys.argv[1]) as archive:
+              for item in archive.infolist():
+                  target = (root / item.filename).resolve()
+                  if not target.is_relative_to(root) or (item.external_attr >> 16) & 0o170000 == 0o120000:
+                      raise ValueError('Unsafe disc archive member')
+              archive.extractall(root)
+          PY
 
       - name: Package setup zip
         run: |

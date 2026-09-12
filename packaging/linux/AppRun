@@ -61,7 +61,7 @@ if [ -d "$payload/mods" ]; then
 fi
 
 for file in game.toml game_options.toml LICENSE README.md RELEASE_NOTES.md \
-            START_HERE.txt; do
+            START_HERE.txt AOT_CACHE_AUDIT.json; do
     if [ -f "$payload/$file" ]; then
         cp -f "$payload/$file" "$data_dir/$file"
         chmod u+rw "$data_dir/$file"
@@ -74,7 +74,7 @@ if [ ! -f "$data_dir/input.ini" ] && [ -f "$payload/input.ini" ]; then
     chmod u+rw "$data_dir/input.ini"
 fi
 
-printf '%s\n' "v0.11.2-alpha" > "$data_dir/.appimage-layout-version"
+printf '%s\n' "v0.13.0-alpha" > "$data_dir/.appimage-layout-version"
 
 if [ "${TOMBA_RECOMP_SEED_ONLY:-0}" = "1" ]; then
     printf '%s\n' "$data_dir"

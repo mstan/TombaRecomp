@@ -1,7 +1,8 @@
 param(
-    [string]$Version = "v0.11.2-alpha",
+    [string]$Version = "v0.13.0-alpha",
     [string]$BuildDir = "build-release",
-    [string]$CacheBuildDir = "build-stable",
+    [string]$RecompilerBuildDir = "recompiler/build",
+    [int]$Jobs = 8,
     [switch]$SkipRegen
 )
 
@@ -17,6 +18,8 @@ $FrameworkRoot = Join-Path $Root "psxrecomp"
 $RecompTools = Resolve-Path (Join-Path $FrameworkRoot "tools")
 $RecompInc = Resolve-Path (Join-Path $FrameworkRoot "runtime\include")
 $RuntimeTarget = "psx-runtime"
+$Cmake = Join-Path $MingwBin "cmake.exe"
+$AotPython = Join-Path $MingwBin "python.exe"
 
 . (Join-Path $RecompTools "release_overlay_stage.ps1")
 
@@ -78,26 +81,29 @@ function Ensure-BiosBackends {
 }
 
 $RecompSourceDir = Join-Path $FrameworkRoot "recompiler"
-$RecompDir = Join-Path $RecompSourceDir "build"
+$RecompDir = Join-Path $FrameworkRoot $RecompilerBuildDir
 if (-not (Test-Path -LiteralPath (Join-Path $RecompDir "build.ninja"))) {
     Invoke-Native {
-        cmake -S $RecompSourceDir -B $RecompDir -G Ninja -DCMAKE_BUILD_TYPE=Release
+        & $Cmake -S $RecompSourceDir -B $RecompDir -G Ninja -DCMAKE_BUILD_TYPE=Release
     } "recompiler configure"
 }
-Invoke-Native { cmake --build $RecompDir --target psxrecomp-game psxrecomp-bios -j $env:NUMBER_OF_PROCESSORS } "recompiler build"
+Invoke-Native { & $Cmake --build $RecompDir --target psxrecomp-game psxrecomp-bios -j $Jobs } "recompiler build"
 Ensure-BiosBackends -FrameworkRoot $FrameworkRoot
 if ($SkipRegen) {
-    Write-Host "SkipRegen: shipping checked-in generated/ code without requiring a local disc image"
+    Write-Host "SkipRegen: reusing generated base code; original-disc AOT extraction is still mandatory"
 } else {
     & (Join-Path $RecompDir "psxrecomp-game.exe") --config (Join-Path $Root "game.toml")
     if ($LASTEXITCODE -ne 0) { throw "game regen failed" }
 }
 
-Invoke-Native { cmake -S $Root -B $BuildPath -G Ninja -DCMAKE_BUILD_TYPE=Release -DPSX_DEBUG_TOOLS=OFF } "cmake configure"
-Invoke-Native { cmake --build $BuildPath --target $RuntimeTarget -j $env:NUMBER_OF_PROCESSORS } "cmake build"
+Invoke-Native { & $Cmake -S $Root -B $BuildPath -G Ninja -DCMAKE_BUILD_TYPE=Release -DPSX_DEBUG_TOOLS=OFF -DPSX_PGXP_VARIANT=OFF -DPSX_SDL_BACKEND=SDL3 "-DPSX_GAME_VERSION=$Version" } "cmake configure"
+Invoke-Native { & $Cmake --build $BuildPath --target $RuntimeTarget -j $Jobs } "cmake build"
 
-if (Test-Path $StageRoot) {
-    Remove-Item -Recurse -Force $StageRoot
+if (Test-Path -LiteralPath $StageRoot) {
+    $resolvedStage = [System.IO.Path]::GetFullPath($StageRoot)
+    $expectedStage = [System.IO.Path]::GetFullPath((Join-Path $Root 'release-stage'))
+    if ($resolvedStage -ne $expectedStage) { throw 'Unsafe release stage path' }
+    Remove-Item -LiteralPath $StageRoot -Recurse -Force
 }
 New-Item -ItemType Directory -Force $Stage | Out-Null
 New-Item -ItemType Directory -Force (Join-Path $Stage "saves") | Out-Null
@@ -159,14 +165,16 @@ Copy-Item (Join-Path $Root "game_options.toml") $Stage
 # Prebuilt overlay cache + self-contained overlay toolchain are staged by the
 # shared framework implementation. Keep this a call; Tomba 1 must not own tag
 # formatting, shard filtering, or toolchain layout.
-$CgTag = Get-OverlayCgTag -RecompTools $RecompTools -RecompInc $RecompInc `
-                          -GameExe (Join-Path $RecompDir "psxrecomp-game.exe") `
-                          -GameToml (Join-Path $Stage "game.toml") `
-                          -BuildPath $BuildPath -RuntimeTarget $RuntimeTarget
-Write-Host "Release codegen tag: $CgTag (only this cache namespace is shipped)"
-Add-OverlayCache -GameId "SCUS-94236" `
-                 -CacheSrcRoot (Join-Path $Root "$CacheBuildDir/cache") `
-                 -Stage $Stage -CgTag $CgTag | Out-Null
+Invoke-Native {
+    & $AotPython (Join-Path $RecompTools 'aot_overlay_pipeline.py') release `
+        --profile (Join-Path $Root 'aot/overlays.json') `
+        --game-toml (Join-Path $Root 'game.toml') `
+        --runtime-config (Join-Path $Stage 'game.toml') `
+        --recompiler (Join-Path $RecompDir 'psxrecomp-game.exe') `
+        --runtime-build-dir $BuildPath --runtime-target psx-runtime `
+        --work-dir (Join-Path $BuildPath 'aot-release') --stage $Stage `
+        --gcc (Join-Path $MingwBin 'gcc.exe') --workers 3
+} 'original-disc AOT extraction, build and staging'
 Add-OverlayToolchain -Stage $Stage -RecompDir $RecompDir -RecompTools $RecompTools `
                      -RecompInc $RecompInc -MingwBin $MingwBin `
                      -DlCache (Join-Path $Root "tools\_toolchain_cache") | Out-Null
@@ -183,8 +191,11 @@ $imports = & $objdump -p (Join-Path $Stage "TombaRecomp.exe") |
 $systemDlls = @("kernel32.dll","user32.dll","gdi32.dll","shell32.dll","msvcrt.dll",
                 "advapi32.dll","ws2_32.dll","comdlg32.dll","dbghelp.dll","ole32.dll",
                 "oleaut32.dll","winmm.dll","imm32.dll","version.dll","setupapi.dll",
-                "dinput8.dll","rpcrt4.dll","hid.dll","cfgmgr32.dll","opengl32.dll")
-$nonSystem = $imports | Where-Object { $systemDlls -notcontains $_.ToLower() }
+                "dinput8.dll","rpcrt4.dll","hid.dll","cfgmgr32.dll","opengl32.dll",
+                "d2d1.dll","dwrite.dll","ucrtbase.dll")
+$nonSystem = $imports | Where-Object {
+    $systemDlls -notcontains $_.ToLower() -and $_ -notlike 'api-ms-win-crt-*.dll'
+}
 if ($nonSystem) {
     throw "Release exe is NOT self-contained -- imports non-system DLL(s): $($nonSystem -join ', ')"
 }
@@ -252,12 +263,8 @@ Fast Loading is disabled by default. Enable its mod in the launcher and choose
 one dropdown value. Host pacing is recommended; experimental CD timing can
 break timing-sensitive loads, audio, or speedrun strategies.
 
-The cache folder contains pre-converted native code for game areas covered
-so far; those run at full speed from your first visit. As you play, newly
-visited areas are recorded into overlay_captures.json and your local cache
-grows automatically. Do NOT post overlay_captures.json publicly - it
-contains snapshots of the game's own code read from your disc. See
-README.md ("Help make your game faster") for details.
+This release includes prebuilt native code for all 25 configured area and
+support images. Additional code can still use the runtime fallback.
 
 Keyboard and Xbox-style controller defaults are documented in README.md.
 Controller mappings are configurable in input.ini.
@@ -273,7 +280,9 @@ if (-not (Test-Path $ZipHelper)) {
     throw "Portable ZIP helper missing from pinned psxrecomp: $ZipHelper"
 }
 Invoke-Native {
-    python $ZipHelper --source $Stage --output $ZipPath
+    & $AotPython $ZipHelper --source $Stage --output $ZipPath
 } "portable release ZIP"
 
+$zipHash = (Get-FileHash -LiteralPath $ZipPath -Algorithm SHA256).Hash.ToLowerInvariant()
+"$zipHash  $([System.IO.Path]::GetFileName($ZipPath))" | Set-Content -Encoding ASCII -LiteralPath "$ZipPath.sha256"
 Write-Host "Wrote $ZipPath"

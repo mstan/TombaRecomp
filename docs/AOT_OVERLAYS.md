@@ -6,7 +6,7 @@ images and eight support images. All use load address `0x800E7388`.
 
 This uses the shared psxrecomp [AOT sharding workflow](../psxrecomp/docs/AOT_SHARDING.md).
 Tomba does not need a new decompressor or a runtime loader replacement. The
-title-specific verifier checks the supported disc, its loader instructions,
+declarative profile checks the supported disc, its loader instructions,
 duplicate files, and exact source extents; the framework discovers entries,
 compiles native shards, and validates live bytes before dispatch.
 
@@ -53,21 +53,27 @@ Use the framework revision pinned by this repository, with a freshly built
 single-line syntax; replace `RECOMPILER` with its native executable path.
 
 ```text
-python psxrecomp/tools/aot_overlay_spike/extract_generic.py --game-toml game.toml --recompiler RECOMPILER --no-bios-resident --out build-aot-inputs/generic.json --tmp build-aot-inputs/tmp
-python tools/prepare_aot_inventory.py --framework-root psxrecomp --disc "disc/Tomba! (USA).cue" --generic-records build-aot-inputs/generic.json --out-dir build-aot-inputs/verified
-python tools/build_aot_cache.py --framework-root psxrecomp --recompiler RECOMPILER --inventory build-aot-inputs/verified/runtime-input-inventory.json --out-dir build-aot-cache --gcc gcc --jobs 2
+python psxrecomp/tools/aot_overlay_pipeline.py extract --profile aot/overlays.json --game-toml game.toml --recompiler RECOMPILER --work-dir build-aot-inputs
+python psxrecomp/tools/aot_overlay_pipeline.py release --profile aot/overlays.json --game-toml game.toml --runtime-config packaging/release/game.toml --recompiler RECOMPILER --work-dir build-aot-inputs --stage build-aot-stage --gcc gcc --workers 3
 ```
 
-Create `build-aot-inputs` first. The cache output must be empty. Each image is
-compiled separately to avoid nominating unrelated area entries during initial
-discovery. The final audit checks every native pair and every guard against
-original source bytes, excluding the alignment prefix. Recipes and generated
-code contain game data and remain local; only metadata receipts belong in Git.
+The shared pipeline freshly extracts the disc, validates `aot/overlays.json`,
+compiles each recipe independently, audits every native pair and checks every
+image has native entries. It then stages all audited pairs and an audit receipt.
+Only the profile and receipts belong in Git; recipes contain original game data.
+Windows and Linux require separate native builds. Set
+`PSX_OVERLAY_AUTOCOMPILE_OFF=1` during spot checks to distinguish prebuilt native
+execution from runtime compilation. Interpreter fallback remains active.
 
-Stage the audited `SCUS-94236` directory under the runtime's adjacent `cache`
-directory. Windows and Linux require separate native builds. Set
-`PSX_OVERLAY_AUTOCOMPILE_OFF=1` during spot checks to establish that the prebuilt
-cache is responsible for native execution. Interpreter fallback remains active.
+`tools/package_release.ps1`, `tools/package_appimage.sh`, and
+`scripts/package_setup_release.sh` all require this pipeline. Skipping base
+regeneration or an already completed runtime build never skips disc extraction
+or AOT auditing. There is no historical-cache substitute or partial-build override.
+For CI, `PSXRECOMP_DISC_ARCHIVE_URL` must privately supply a ZIP with
+`Tomba! (USA).cue` and its referenced `Tomba! (USA).bin` at its root. CI places
+these under `disc/`; the profile verifies the data-track hash. The ZIP is an
+input only and is never included in release assets. Local release scripts use
+the owner's disc at the path in `game.toml` without that CI secret.
 
 For a useful playtest, load a memory-card save, move/jump/interact, then cross
 between the Village of All Beginnings and a neighboring area and return. Check
@@ -77,14 +83,16 @@ with the current runtime, so ordinary memory-card saves are preferable.
 
 ## Current validation (2026-09-11)
 
-The clean Windows build produced 72 native pairs with 4,536 manifest entry
-rows. Every pair passed the ABI/export audit, and every guard matched known
+The v0.13.0-alpha Windows and Linux builds each produced 196 native pairs
+with 8,213 manifest entry rows for the packaged configuration. Every pair passed the ABI/export audit, and every guard matched known
 original-disc bytes. All 25 images have matching native entries; see the
-[per-image receipt](aot_coverage/SCUS-94236_windows_audit.json) and
+[Windows receipt](aot_coverage/SCUS-94236_windows_audit.json),
+[Linux receipt](aot_coverage/SCUS-94236_linux_audit.json) and
 [disc inventory](aot_coverage/SCUS-94236_disc_inventory.json).
 
-An isolated OpenBIOS boot with runtime compilation disabled rendered the intro
-and executed the prebuilt options overlay: 27 registered entries and advancing
-native calls, with no manifest/candidate overflow. Full gameplay and area
-transitions await the owner's spot checks. Linux shards have not been built in
-this discovery task; native artifacts are platform-specific.
+Isolated OpenBIOS boots with runtime compilation disabled rendered the Windows
+intro and booted the Linux AppImage. The preceding discovery build also executed
+the prebuilt options overlay: 27 registered entries and advancing native calls,
+with no manifest/candidate overflow. Full gameplay and area
+transitions await the owner's spot checks. The v0.13.0-alpha release builds and audits platform-specific shards afresh
+for both Windows and Linux; each package contains its resulting audit receipt.

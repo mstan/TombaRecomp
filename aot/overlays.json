@@ -1,0 +1,91 @@
+{
+  "schema": "psxrecomp AOT methods v1",
+  "game_id": "SCUS-94236",
+  "disc_hashes": {
+    "sha1": "c259ec7ff6ef4163913991f4e4db2eff71702818"
+  },
+  "expected_records": 25,
+  "strict_bounds": true,
+  "bios_resident": false,
+  "checks": [
+    {
+      "method": "words",
+      "file": "SCUS_942.36",
+      "base": "0x80010000",
+      "file_offset": 2048,
+      "values": {
+        "0x80021e4c": "0x240200f0",
+        "0x80021e5c": "0x3c06800e",
+        "0x80021e60": "0x24c67388",
+        "0x800102c8": "0x8002155c",
+        "0x800102cc": "0x8002155c",
+        "0x80021568": "0x8c420004"
+      }
+    },
+    {
+      "method": "words",
+      "file": "SYS/LDSYS.BIN",
+      "base": "0x0",
+      "file_offset": 0,
+      "values": {
+        "0x1c24": "0xf0ff00d7",
+        "0x1c28": "0x80000000",
+        "0x1c2c": "0xcac",
+        "0x1c30": "0x0",
+        "0x1c34": "0x2"
+      }
+    },
+    {
+      "method": "bcd_extent_table",
+      "file": "SCUS_942.36",
+      "base": "0x80010000",
+      "file_offset": 2048,
+      "table": "0x800791A0",
+      "index": 215,
+      "target": "SYSTEM/GOVER.BIN"
+    }
+  ],
+  "images": [
+    {
+      "method": "fixed_address_files",
+      "files": [
+        "SYSTEM/X00.BIN",
+        "SYSTEM/X01.BIN",
+        "SYSTEM/INFO.BIN",
+        "SYSTEM/INFO3.BIN",
+        "SYSTEM/X02.BIN",
+        "SYSTEM/X03.BIN",
+        "SYSTEM/X04.BIN",
+        "SYSTEM/INFO2.BIN",
+        "SYSTEM/X05.BIN",
+        "SYSTEM/X06.BIN",
+        "SYSTEM/X08.BIN",
+        "SYSTEM/X09.BIN",
+        "SYSTEM/X10.BIN",
+        "SYSTEM/X11.BIN",
+        "SYSTEM/X13.BIN",
+        "SYSTEM/X14.BIN",
+        "SYSTEM/X16.BIN",
+        "SYSTEM/X17.BIN",
+        "SYSTEM/X18.BIN",
+        "SYSTEM/X19.BIN",
+        "SYSTEM/DSPSUB.BIN",
+        "SYSTEM/DSPSUB3.BIN",
+        "SYSTEM/DSPSUB2.BIN",
+        "SYSTEM/OPTSUB00.BIN"
+      ],
+      "load_addr": "0x800e7388",
+      "verify_duplicate_names": true
+    },
+    {
+      "method": "fixed_address_files",
+      "files": [
+        "SYSTEM/GOVER.BIN"
+      ],
+      "load_addr": "0x800e7388",
+      "verify_duplicate_names": true,
+      "allow_missing": true,
+      "supplemental_entries": false
+    }
+  ]
+}

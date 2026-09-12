@@ -21,7 +21,7 @@ test "$(cat "$tmp/seed-path")" = "$tmp/state"
 test -f "$tmp/state/game.toml"
 test -f "$tmp/state/input.ini"
 test -f "$tmp/state/bios/openbios.bin"
-test -f "$tmp/state/mods/packages/tomba.enhancement.fast-loading/1.0.0/manifest.toml"
+test -f "$tmp/state/mods/bundled/psx.enhancement.fast-loading/1.0.0/manifest.toml"
 test ! -e "$appdir/settings.toml"
 
 printf 'user-owned\n' > "$tmp/state/input.ini"
@@ -32,7 +32,11 @@ TOMBA_RECOMP_SEED_ONLY=1 \
 "$appdir/AppRun" >/dev/null
 test "$(cat "$tmp/state/input.ini")" = "user-owned"
 
-count=$(find "$tmp/state/mods/packages" -mindepth 1 -maxdepth 1 -type d | wc -l)
-test "$count" -eq 6
+test ! -d "$tmp/state/mods/packages"
+test -f "$tmp/state/AOT_CACHE_AUDIT.json"
+count=$(find "$tmp/state/mods/bundled" -mindepth 1 -maxdepth 1 -type d | wc -l)
+expected=$(find "$appdir/usr/share/tombarecomp/mods/bundled" -mindepth 1 -maxdepth 1 -type d | wc -l)
+test "$count" -eq "$expected"
+test "$count" -gt 0
 
-echo "AppImage layout test passed: read-only payload, persistent writable state, six bundled packages"
+echo "AppImage layout test passed: read-only payload, persistent writable state, $count bundled packages and an AOT audit receipt"
