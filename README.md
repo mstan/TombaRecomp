@@ -30,6 +30,8 @@ own legally obtained assets.
 
 Important files:
 
+- [Original-disc AOT overlays](docs/AOT_OVERLAYS.md): pre-shard Tomba's 25 known
+  overlay images, verify source-byte guards, and run gameplay spot checks.
 - `game.toml`: Tomba runtime / recompiler / video / controller / widescreen config.
 - `game_options.toml`: in-game OPTION settings that persist across launches.
 - `seeds/`: Ghidra-derived function starts and game-specific seed data.
