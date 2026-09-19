@@ -68,7 +68,6 @@ adaptive_view = true
 native_wide = true
 sprite_tag_funcs = ["0x8005E08C"]
 sprite_anchor_addr = "0x1F800070"
-hud_sprt_squash = true
 
 # Tomba's object classifier family uses a 320px camera window.  Emit the
 # runtime margin into its draw/retirement predicates so native-wide rendering
@@ -83,13 +82,6 @@ range_sites = ["0x80022E80", "0x80022F9C", "0x80022FF0", "0x80023070"]
 a1_sites = ["0x80022C34", "0x80022D68", "0x800230FC"]
 auto_screen_x = true
 auto_backdrop = true
-
-# Preserve the established Tomba backdrop treatment for the fallback squash
-# path and overlay variants; the native-wide path uses the generated backdrop
-# preload above to fill its wider compositor margins.
-[widescreen.backdrop]
-x_sites = ["0x801217B4", "0x8012196C"]
-unsquash_funcs = ["0x8004DB3C"]
 
 # Online mount gate: digests + track count + optional TOC fingerprint
 # (see docs/NETPLAY.md).

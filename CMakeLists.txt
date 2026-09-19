@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project(TombaRecomp LANGUAGES C CXX)
+include(CTest)
 
 set(PSXRECOMP_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/psxrecomp" CACHE PATH
     "Path to psxrecomp")
@@ -54,3 +55,14 @@ foreach(TOMBA_RUNTIME_CONFIG game.toml game_options.toml)
             VERBATIM)
     endif()
 endforeach()
+
+if(BUILD_TESTING)
+    add_executable(tomba-adaptive-tests tests/test_adaptive_widescreen.c)
+    add_test(NAME tomba_adaptive_widescreen COMMAND tomba-adaptive-tests)
+    find_package(Python3 QUIET COMPONENTS Interpreter)
+    if(Python3_FOUND)
+        add_test(NAME tomba_runtime_metadata
+            COMMAND "${Python3_EXECUTABLE}"
+                "${CMAKE_CURRENT_SOURCE_DIR}/tools/test_runtime_config_metadata.py")
+    endif()
+endif()

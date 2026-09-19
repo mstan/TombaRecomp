@@ -1,9 +1,14 @@
+/* This is an assertion-based executable, including in Release builds. */
+#ifdef NDEBUG
+#undef NDEBUG
+#endif
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
 #include "../src/mods/tomba_widescreen_hud.h"
 #include "../src/mods/tomba_widescreen_residency.h"
 #include "../src/mods/tomba_widescreen_sprites.h"
+#include "../src/mods/tomba_widescreen_view.h"
 #include "../psxrecomp/runtime/include/ws_primitive_roles.h"
 #include "../psxrecomp/runtime/include/ws_scene_latch.h"
 #include "../psxrecomp/runtime/include/ws_backdrop_margin.h"
@@ -116,6 +121,13 @@ static void check_hud(uint32_t ra, unsigned offset, uint32_t parent,
     assert(tomba_hud_edge(ra, 0x1000, read_stack) == 0);
 }
 int main(void) {
+    const char* values[] = {"16:9", "21:9", "32:9", "Fit", "", NULL};
+    const unsigned numerators[] = {16, 21, 32, 16, 16, 16};
+    for (unsigned i = 0; i < sizeof values / sizeof values[0]; ++i) {
+        TombaWidescreenView view = tomba_widescreen_view(values[i]);
+        assert(view.numerator == numerators[i] && view.denominator == 9);
+        assert(view.fit == (i >= 3));
+    }
     WsSceneLatch scene = {0};
     /* Room effects can project thousands of vertices, but cannot promote 2D. */
     for (uint32_t f = 0; f < 100; ++f)

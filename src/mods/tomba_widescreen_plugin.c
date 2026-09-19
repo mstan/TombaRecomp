@@ -2,8 +2,7 @@
 #include "cpu_state.h"
 #include "tomba_widescreen_hud.h"
 #include "tomba_widescreen_sprites.h"
-
-#include <string.h>
+#include "tomba_widescreen_view.h"
 
 /*
  * Tomba's game-specific widescreen hooks remain part of generated/runtime
@@ -11,7 +10,7 @@
  * than generic recomp-ui Settings.  The renderer is native-wide: it grows the
  * compositor surface and its cull margin, rather than stretching the 320px
  * framebuffer. Start from a 16:9 window, then let Fit follow every resize
- * without an upper aspect-ratio limit. Fixed 16:9 remains a separate choice.
+ * without an upper aspect-ratio limit. Fixed views use this same renderer.
  */
 #define PKG "tomba.enhancement.widescreen"
 #define FEATURE "widescreen"
@@ -35,8 +34,9 @@ static void tomba_widescreen_activate(void) {
     if (!psx_mod_option_value(PKG, FEATURE, "aspect", aspect, sizeof aspect))
         strcpy(aspect, "Fit");
 
-    (void)psx_mod_set_fixed_display_aspect(16u, 9u);
-    if (strcmp(aspect, "Fit") == 0)
+    TombaWidescreenView view = tomba_widescreen_view(aspect);
+    (void)psx_mod_set_fixed_display_aspect(view.numerator, view.denominator);
+    if (view.fit)
         (void)psx_mod_set_adaptive_display_aspect(0u, 0u);
 }
 

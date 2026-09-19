@@ -35,6 +35,11 @@ def main():
                         help="Leave the window at the final test size")
     parser.add_argument("--load-slot", type=int,
                         help="Restore this diagnostic slot before each size (never saves)")
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument("--fixed-aspect", choices=["16:9", "21:9", "32:9"],
+                       help="Validate a fixed custom-renderer choice instead of Fit")
+    modes.add_argument("--disabled", action="store_true",
+                       help="Assert stock rendering even when the window is wide")
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     user = C.WinDLL("user32", use_last_error=True)
@@ -102,9 +107,11 @@ def main():
             state = request(args.port, "gpu_state")
             ws = state["ws"]
             expected = 0
-            if width * 3 > height * 4:
-                offset = (state["width"] * (3 * width - 4 * height)
-                          + 4 * height) // (8 * height)
+            aspect_w, aspect_h = (map(int, args.fixed_aspect.split(":"))
+                                  if args.fixed_aspect else (width, height))
+            if not args.disabled and aspect_w * 3 > aspect_h * 4:
+                offset = (state["width"] * (3 * aspect_w - 4 * aspect_h)
+                          + 4 * aspect_h) // (8 * aspect_h)
                 expected = offset + 32
             assert ws["mode"] == (2 if expected else 0), state
             assert ws["x_margin"] == expected, (width, height, expected, ws)
@@ -130,7 +137,8 @@ def main():
             if maximized:
                 user.ShowWindow(hwnd, 3)
     (args.output / "resize-results.json").write_text(json.dumps(rows, indent=2))
-    print("PASS: live Fit/culling at " + ", ".join(args.sizes))
+    print("PASS: live " + ("stock" if args.disabled else args.fixed_aspect or "Fit")
+          + "/culling at " + ", ".join(args.sizes))
 
 
 if __name__ == "__main__":

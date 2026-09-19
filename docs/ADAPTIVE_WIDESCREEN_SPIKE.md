@@ -1,11 +1,16 @@
 # Tomba adaptive-widescreen spike
 
-The bundled **Tomba Adaptive Widescreen** mod now selects the framework's
-native-wide compositor and its `Fit to screen (uncapped)` view. It starts a
+The bundled **Tomba Custom Renderer** mod selects the framework's
+native-wide compositor and defaults to `Fit to Window`. It starts a
 16:9 window, then tracks live window resizing with no upper aspect limit
 (native 4:3 minimum). This grows the native-wide render target; the native-wide
 path leaves GTE projection unsquashed. It is not a newly implemented scene
-renderer. Menus and FMV retain the framework's 4:3 policy.
+renderer. Fixed 16:9, 21:9 and 32:9 use this same path. Disabling the mod
+retains the stock 4:3 renderer. Menus and FMV retain the framework's 4:3 policy.
+The former Tomba HUD squash, hardcoded backdrop-X stores and far-backdrop
+GTE unsquash configuration have been removed; adaptive terrain selection and
+explicit HUD/world roles replace them. Shared squash support for other titles
+is not removed.
 
 ## Culling policy
 
@@ -79,11 +84,11 @@ to select uncapped Fit; existing capped callers keep their behavior. The GL
 stencil scratch texture grows when a native-wide target exceeds VRAM width.
 Finite backdrop producers and area-specific spawning remain experimental:
 exposing those limitations is part of this spike, not a reason to restrict
-the requested viewport. Fixed 16:9 is an optional separate mod choice.
+the requested viewport. Fixed 16:9, 21:9 and 32:9 are choices in the same mod.
 
 ## Validation route
 
-1. Enable **Tomba Adaptive Widescreen** and leave **View** on **Fit**.
+1. Enable **Tomba Custom Renderer** and leave **View** on **Fit to Window**.
 2. In gameplay, resize through 4:3, 16:9, 21:9, 32:9, and beyond. Verify the view grows/shrinks
    without a restart; title/menu/FMV screens should remain pillarboxed.
 3. Walk both directions through a populated horizontal area and pause at each

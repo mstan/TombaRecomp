@@ -60,7 +60,6 @@ adaptive_view = true
 native_wide = true
 sprite_tag_funcs = ["0x8005E08C"]
 sprite_anchor_addr = "0x1F800070"
-hud_sprt_squash = true
 
 [widescreen.cull]
 guard_pixels = 32
@@ -70,7 +69,3 @@ range_sites = ["0x80022E80", "0x80022F9C", "0x80022FF0", "0x80023070"]
 a1_sites = ["0x80022C34", "0x80022D68", "0x800230FC"]
 auto_screen_x = true
 auto_backdrop = true
-
-[widescreen.backdrop]
-x_sites = ["0x801217B4", "0x8012196C"]
-unsquash_funcs = ["0x8004DB3C"]
