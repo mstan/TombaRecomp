@@ -1,3 +1,9 @@
+# Historical report
+
+This report compares an older cache with runtime observations. It is not a
+correctness or completeness claim for current AOT overlays. See the
+[original-disc AOT workflow](../AOT_OVERLAYS.md) for current inputs and validation.
+
 # AOT static-coverage recall — SCUS-94236
 
 _How much of the played reference set did the play-free static extractor reproduce, and how much lies in compiled static code?_

@@ -1,0 +1,721 @@
+{
+  "game_id": "SCUS-94236",
+  "original_disc_sha1": "c259ec7ff6ef4163913991f4e4db2eff71702818",
+  "boot_sha256": "c45cd788df40a540d8641dc9682007c80e6ab8a4bcdd0e4a4e2c14c5108aa10b",
+  "loader_destination_instructions": [
+    "0x80021E5C",
+    "0x80021E60"
+  ],
+  "overlay_images": 25,
+  "area_images": 17,
+  "support_images": 8,
+  "gover_loader_descriptor": {
+    "file": "SYS/LDSYS.BIN",
+    "offset": "0x1C24",
+    "file_id": 215,
+    "read_mode": 2
+  },
+  "full_static_coverage_proven": false,
+  "jobs": [
+    {
+      "name": "X00.BIN",
+      "sources": [
+        {
+          "path": "AREA00/X00.BIN",
+          "lba": 1390,
+          "size": 343864
+        },
+        {
+          "path": "SYSTEM/X00.BIN",
+          "lba": 103340,
+          "size": 343864
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148774592
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 344768,
+      "sha256": "bc9db5097b36e38dcd919d90471ef00408c967c22f375118217aad5edd71efad",
+      "source_sha256": "5ce630a4f8c2cbc3842daa0fa5731ed9e019022d974d96ae37936fc9ee8fe61f",
+      "pair_stem": "000E7000_76FE455F"
+    },
+    {
+      "name": "X01.BIN",
+      "sources": [
+        {
+          "path": "AREA01/X01.BIN",
+          "lba": 2495,
+          "size": 360340
+        },
+        {
+          "path": "AREA07/X01.BIN",
+          "lba": 10809,
+          "size": 360340
+        },
+        {
+          "path": "SYSTEM/X01.BIN",
+          "lba": 103508,
+          "size": 360340
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148791068
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 361244,
+      "sha256": "b63aa0551825b308106fe0d2ecadf1246dd88ec96cb5213de79bac9f6ecbbe33",
+      "source_sha256": "c1b77323016000fda59b491fdb3ee6198174ac76552c08ec1fe04f17948cbda5",
+      "pair_stem": "000E7000_0E802B0F"
+    },
+    {
+      "name": "INFO.BIN",
+      "sources": [
+        {
+          "path": "AREA02/INFO.BIN",
+          "lba": 4137,
+          "size": 54228
+        },
+        {
+          "path": "AREA19/INFO.BIN",
+          "lba": 21846,
+          "size": 54228
+        },
+        {
+          "path": "SYSTEM/INFO.BIN",
+          "lba": 103197,
+          "size": 54228
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148484956
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 55132,
+      "sha256": "4aabf578f8e369a14351241c277141ec9304779b09863335ad218568ad795eae",
+      "source_sha256": "35bd8683d5d372e21d27ed97fa5b577abd064aab4d08fcdc26ef024d9775a2c2",
+      "pair_stem": "000E7000_3EDB6C7B"
+    },
+    {
+      "name": "INFO3.BIN",
+      "sources": [
+        {
+          "path": "AREA02/INFO3.BIN",
+          "lba": 4164,
+          "size": 39064
+        },
+        {
+          "path": "SYSTEM/INFO3.BIN",
+          "lba": 103291,
+          "size": 39064
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148469792
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 39968,
+      "sha256": "87980b8751626f335954e1426f8c80cf13f309d1ac1bed52999573798d84f71d",
+      "source_sha256": "9101b5ed68f3a0582940e75a6a74f05b0989893d24f5513a6450d8ac3ec6d0b8",
+      "pair_stem": "000E7000_A829A342"
+    },
+    {
+      "name": "X02.BIN",
+      "sources": [
+        {
+          "path": "AREA02/X02.BIN",
+          "lba": 4184,
+          "size": 228620
+        },
+        {
+          "path": "AREA19/X02.BIN",
+          "lba": 21940,
+          "size": 228620
+        },
+        {
+          "path": "SYSTEM/X02.BIN",
+          "lba": 103684,
+          "size": 228620
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148659348
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 229524,
+      "sha256": "f05c269645ad3f87f83a6292b1c319e9175085706547de8cf7f5b0663e321306",
+      "source_sha256": "dcdf7404aaa542cde751aa4d42ec1d3a3ee5901fbc0c8f72952557eb48ef2c57",
+      "pair_stem": "000E7000_0F4922EF"
+    },
+    {
+      "name": "X03.BIN",
+      "sources": [
+        {
+          "path": "AREA03/X03.BIN",
+          "lba": 5516,
+          "size": 338588
+        },
+        {
+          "path": "SYSTEM/X03.BIN",
+          "lba": 103796,
+          "size": 338588
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148769316
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 339492,
+      "sha256": "a8c3a4e8a1ddb85537c036cd2467fa83e007fabc96e8cee3aade48bd18f1b0ce",
+      "source_sha256": "1acffd72b9b6c14e44c4ffd8e7007c8ee88381e8976f0024bbfff23a65cad8d9",
+      "pair_stem": "000E7000_166F98C4"
+    },
+    {
+      "name": "X04.BIN",
+      "sources": [
+        {
+          "path": "AREA04/X04.BIN",
+          "lba": 7125,
+          "size": 318096
+        },
+        {
+          "path": "AREA12/X04.BIN",
+          "lba": 16409,
+          "size": 318096
+        },
+        {
+          "path": "SYSTEM/X04.BIN",
+          "lba": 103962,
+          "size": 318096
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148748824
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 319000,
+      "sha256": "60cb18f1204b5adb5fc28b5fbedbe244f0c90cae4489177d4f2ca2f3edaeee4d",
+      "source_sha256": "f1566e4e458e979ea340765bc076f874158006ae3795be2168ecdb575c707257",
+      "pair_stem": "000E7000_4BE1665A"
+    },
+    {
+      "name": "INFO2.BIN",
+      "sources": [
+        {
+          "path": "AREA05/INFO2.BIN",
+          "lba": 8583,
+          "size": 136672
+        },
+        {
+          "path": "AREA08/INFO2.BIN",
+          "lba": 11733,
+          "size": 136672
+        },
+        {
+          "path": "AREA11/INFO2.BIN",
+          "lba": 15020,
+          "size": 136672
+        },
+        {
+          "path": "AREA16/INFO2.BIN",
+          "lba": 18914,
+          "size": 136672
+        },
+        {
+          "path": "AREA17/INFO2.BIN",
+          "lba": 20038,
+          "size": 136672
+        },
+        {
+          "path": "AREA18/INFO2.BIN",
+          "lba": 20589,
+          "size": 136672
+        },
+        {
+          "path": "AREA19/INFO2.BIN",
+          "lba": 21873,
+          "size": 136672
+        },
+        {
+          "path": "SYSTEM/INFO2.BIN",
+          "lba": 103224,
+          "size": 136672
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148567400
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 137576,
+      "sha256": "b3cff9a86b12403c78f231f1e1b3c71ae5477ab9f94386be210ca76d8d4b4036",
+      "source_sha256": "a7a4a9c01c49ef88f7f15e39ace1af0461804c68b8347344df530f2a2c3152cd",
+      "pair_stem": "000E7000_98204F56"
+    },
+    {
+      "name": "X05.BIN",
+      "sources": [
+        {
+          "path": "AREA05/X05.BIN",
+          "lba": 8650,
+          "size": 206700
+        },
+        {
+          "path": "SYSTEM/X05.BIN",
+          "lba": 104118,
+          "size": 206700
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148637428
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 207604,
+      "sha256": "d7dc2da395a560e4d677e38e7e091bba5d7a924687c26c08d4eca27eae312760",
+      "source_sha256": "505ebfdda00415484d950fc32f63d131e3d523d5b81b749cdf46581b52a28425",
+      "pair_stem": "000E7000_ECD07894"
+    },
+    {
+      "name": "X06.BIN",
+      "sources": [
+        {
+          "path": "AREA06/X06.BIN",
+          "lba": 9749,
+          "size": 242012
+        },
+        {
+          "path": "SYSTEM/X06.BIN",
+          "lba": 104219,
+          "size": 242012
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148672740
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 242916,
+      "sha256": "203931edfc28e74948333156359a44ed7f5dc0c1ec7240f3da79eabbe4106d8a",
+      "source_sha256": "c103f623cdaeb9698973d97d96f0de12f1f417c57aaa6d608430d756a394a0d2",
+      "pair_stem": "000E7000_8D999AD5"
+    },
+    {
+      "name": "X08.BIN",
+      "sources": [
+        {
+          "path": "AREA08/X08.BIN",
+          "lba": 11800,
+          "size": 198112
+        },
+        {
+          "path": "SYSTEM/X08.BIN",
+          "lba": 104338,
+          "size": 198112
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148628840
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 199016,
+      "sha256": "6b67fabc0da94713135e6188b993776d76e48b1edf2af20f8d8e372260490ec8",
+      "source_sha256": "2413c2264a13bd3836bf4eb5f3d352b59a24992f961aa8544e2315b212f7fc53",
+      "pair_stem": "000E7000_CCAB32F3"
+    },
+    {
+      "name": "X09.BIN",
+      "sources": [
+        {
+          "path": "AREA09/X09.BIN",
+          "lba": 12864,
+          "size": 299576
+        },
+        {
+          "path": "SYSTEM/X09.BIN",
+          "lba": 104435,
+          "size": 299576
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148730304
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 300480,
+      "sha256": "4fccc2514a574920aa5c26ab5f3765df79788b062910f26db85ed1e121f19a89",
+      "source_sha256": "43ea0cf8bc687f25d52da9c508fd0022f5fae3d5f97a340389e1a65b6faf3401",
+      "pair_stem": "000E7000_794452F2"
+    },
+    {
+      "name": "X10.BIN",
+      "sources": [
+        {
+          "path": "AREA10/X10.BIN",
+          "lba": 14436,
+          "size": 306808
+        },
+        {
+          "path": "SYSTEM/X10.BIN",
+          "lba": 104582,
+          "size": 306808
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148737536
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 307712,
+      "sha256": "7fecbc4f020acf4ba745bc733767605ae17f452c0475b09b158ac0bec2681d89",
+      "source_sha256": "9b6f4becd64e192150c3104aab86a8e699a1e1f5b290c6d3bf059bc7a66b74cd",
+      "pair_stem": "000E7000_24606ACB"
+    },
+    {
+      "name": "X11.BIN",
+      "sources": [
+        {
+          "path": "AREA11/X11.BIN",
+          "lba": 15087,
+          "size": 214740
+        },
+        {
+          "path": "SYSTEM/X11.BIN",
+          "lba": 104732,
+          "size": 214740
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148645468
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 215644,
+      "sha256": "6fdc54ec8ac5ca9483a6d9560508914897bca6e7a1a4576bfb4bbe4f42ebd0d4",
+      "source_sha256": "a8774ec769deb1f49723ee72ae362ccabd8eda85b5c56d6993e52eecc3ec96e4",
+      "pair_stem": "000E7000_D56179F9"
+    },
+    {
+      "name": "X13.BIN",
+      "sources": [
+        {
+          "path": "AREA13/X13.BIN",
+          "lba": 16936,
+          "size": 208284
+        },
+        {
+          "path": "SYSTEM/X13.BIN",
+          "lba": 104837,
+          "size": 208284
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148639012
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 209188,
+      "sha256": "523f4390162898510feafd015d87861d3ee46c607ccde9439b5887379b206689",
+      "source_sha256": "bf055c68a3abda5d02eeb7dc08eb4e5874ab25a3c67e17783a92dc6f729fbb38",
+      "pair_stem": "000E7000_232753A3"
+    },
+    {
+      "name": "X14.BIN",
+      "sources": [
+        {
+          "path": "AREA14/X14.BIN",
+          "lba": 17791,
+          "size": 272328
+        },
+        {
+          "path": "SYSTEM/X14.BIN",
+          "lba": 104939,
+          "size": 272328
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148703056
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 273232,
+      "sha256": "507465ba64829d276f9c2a220474e9146f05c996f2fccdd9b6ecc0d7b39d3cb0",
+      "source_sha256": "8e59371a8f96567c2fde0cadafe090dfa62d99944f34f605f206ba29ec060928",
+      "pair_stem": "000E7000_E2C837A8"
+    },
+    {
+      "name": "X16.BIN",
+      "sources": [
+        {
+          "path": "AREA16/X16.BIN",
+          "lba": 18981,
+          "size": 210776
+        },
+        {
+          "path": "SYSTEM/X16.BIN",
+          "lba": 105072,
+          "size": 210776
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148641504
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 211680,
+      "sha256": "1401be2ab99bb28882c4a33d3b96f2da9c38712c5d6660e4de6109ab4ad3c50d",
+      "source_sha256": "4d08594b8e1752110a8317b99c02b5617e598a2f293feb0a2571488ff816f124",
+      "pair_stem": "000E7000_7675500B"
+    },
+    {
+      "name": "X17.BIN",
+      "sources": [
+        {
+          "path": "AREA17/X17.BIN",
+          "lba": 20105,
+          "size": 214732
+        },
+        {
+          "path": "SYSTEM/X17.BIN",
+          "lba": 105175,
+          "size": 214732
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148645460
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 215636,
+      "sha256": "45784a711743ca95fa9ec3bc2b91567fd800885326979aeb307d45713cbfca3b",
+      "source_sha256": "000a1f80d079ad36c2fb0ecea0ababca43cf59f65492c35c42413ca92e462078",
+      "pair_stem": "000E7000_CF67D646"
+    },
+    {
+      "name": "X18.BIN",
+      "sources": [
+        {
+          "path": "AREA18/X18.BIN",
+          "lba": 20656,
+          "size": 216448
+        },
+        {
+          "path": "SYSTEM/X18.BIN",
+          "lba": 105280,
+          "size": 216448
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148647176
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 217352,
+      "sha256": "11e64cd4e40bb29378ba7d1ac886ed4bed9effb8d17071f430a9da7e88760c4a",
+      "source_sha256": "030a4fe7f99b16e7255f9051ce1d835442df25f5c6aa0342b1745eb0ba29d7dc",
+      "pair_stem": "000E7000_A7626755"
+    },
+    {
+      "name": "X19.BIN",
+      "sources": [
+        {
+          "path": "AREA19/X19.BIN",
+          "lba": 22052,
+          "size": 190164
+        },
+        {
+          "path": "SYSTEM/X19.BIN",
+          "lba": 105386,
+          "size": 190164
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148620892
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 191068,
+      "sha256": "31ecf3b50a07609cc353e26ad917f60dfe908e16db8584af6226a462ed30cd69",
+      "source_sha256": "f5a908134cfca04f0d7155a10bce019756120fd7fa59decb0d657741cc098dc0",
+      "pair_stem": "000E7000_3458C117"
+    },
+    {
+      "name": "DSPSUB.BIN",
+      "sources": [
+        {
+          "path": "SYSTEM/DSPSUB.BIN",
+          "lba": 103010,
+          "size": 167836
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148598564
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 168740,
+      "sha256": "0b5dbfa983864bac2af5e3a8bcb7fa4dad8770a62a16c807ddad00cae2c1f7b3",
+      "source_sha256": "1fc77e34c98db74864c6121d06149cfe34929451c35890c772a0f6518cea2520",
+      "pair_stem": "000E7000_1871F568"
+    },
+    {
+      "name": "DSPSUB3.BIN",
+      "sources": [
+        {
+          "path": "SYSTEM/DSPSUB3.BIN",
+          "lba": 103122,
+          "size": 101112
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148531840
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 102016,
+      "sha256": "8e282854acf82ffb24fb9fbb0ee96053c7a73aa51ea802db62787f818fbd04b9",
+      "source_sha256": "78b40853bb07e09e4a1a2ec49de01c09feedae88cb07fb1641edb5e39e5036e1",
+      "pair_stem": "000E7000_88A5816D"
+    },
+    {
+      "name": "DSPSUB2.BIN",
+      "sources": [
+        {
+          "path": "SYSTEM/DSPSUB2.BIN",
+          "lba": 103092,
+          "size": 61272
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148492000
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 62176,
+      "sha256": "c7a75351281604411a996dbaa8e84eba705ff82bfca00c285078e77dc168d9f7",
+      "source_sha256": "f7f15f0e45f6b341c64b03363666ffc44306cf0248b130271ab6c56bc2acfd8a",
+      "pair_stem": "000E7000_64047822"
+    },
+    {
+      "name": "OPTSUB00.BIN",
+      "sources": [
+        {
+          "path": "SYSTEM/OPTSUB00.BIN",
+          "lba": 103311,
+          "size": 12300
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148443028
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 13204,
+      "sha256": "9138f060212e7d2e27a41731efc752d3b99aa31dca1ce49bae196b2ff74f3fc5",
+      "source_sha256": "f2cbb21bb659a844bbc8ca3a1a169c6370011c3dc1cd874b0e2e8f3c154f0036",
+      "pair_stem": "000E7000_0450D04C"
+    },
+    {
+      "name": "GOVER.BIN",
+      "sources": [
+        {
+          "path": "SYSTEM/GOVER.BIN",
+          "lba": 103195,
+          "size": 3244
+        }
+      ],
+      "known_ranges": [
+        [
+          2148430728,
+          2148433972
+        ]
+      ],
+      "load_addr": "0x800e7000",
+      "file_load_addr": "0x800e7388",
+      "size": 4148,
+      "sha256": "659f99cea20f41e1014ae9ea8dc64dc6d71a2abfaa7869b4b749779790a28c84",
+      "source_sha256": "105294855f4d4254fa71c6c0b859edc047891348f68c6d45fafa06534c9e8ed0",
+      "pair_stem": "000E7000_86C30B86"
+    }
+  ]
+}

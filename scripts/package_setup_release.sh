@@ -57,8 +57,12 @@ bash "${PACKAGER}" \
   --project-file codegen_setup.c \
   --project-file codegen_setup.h \
   --project-file README.md \
+  --project-dir src \
+  --project-dir mods \
   --project-dir seeds \
+  --project-dir aot \
   --project-dir launcher_assets \
+  --runtime-dir-optional mods \
   "${EXTRA_PROJECT[@]}"
 
 DIST="${ROOT}/dist"
@@ -75,76 +79,15 @@ VERSION="$(tr -d '[:space:]' <"${STAGE}/psx_game_version.txt")"
 ZIP_NAME="tomba-${VERSION}-${ARTIFACT_TAG}.zip"
 ZIP_PATH="${DIST}/${ZIP_NAME}"
 
-resolve_cache_source() {
-  local cand
-  local roots=()
-  for cand in \
-    "${TOMBA_SHARD_CACHE_DIR:-}" \
-    "${PSXRECOMP_SHARD_CACHE_DIR:-}" \
-    "${OVERLAY_CACHE_DIR:-}" \
-    "${ROOT}/build-setup-shards/cache" \
-    "${ROOT}/build-stable/cache" \
-    "${ROOT}/build-release/cache" \
-    "${ROOT}/psxrecomp-shards/${GAME_ID}/cache" \
-    "${ROOT}/../psxrecomp-shards/${GAME_ID}/cache"
-  do
-    [[ -n "${cand}" ]] && roots+=("${cand}")
-  done
-
-  for cand in "${roots[@]}"; do
-    [[ -d "${cand}" ]] || continue
-    if [[ -d "${cand}/gcc" || -d "${cand}/tcc" ]]; then
-      printf '%s\n' "${cand}"
-      return 0
-    fi
-    if [[ -d "${cand}/${GAME_ID}/gcc" || -d "${cand}/${GAME_ID}/tcc" ]]; then
-      printf '%s\n' "${cand}/${GAME_ID}"
-      return 0
-    fi
-    if [[ -d "${cand}/cache/${GAME_ID}/gcc" || -d "${cand}/cache/${GAME_ID}/tcc" ]]; then
-      printf '%s\n' "${cand}/cache/${GAME_ID}"
-      return 0
-    fi
-    if [[ -d "${cand}/${GAME_ID}/cache/gcc" || -d "${cand}/${GAME_ID}/cache/tcc" ]]; then
-      printf '%s\n' "${cand}/${GAME_ID}/cache"
-      return 0
-    fi
-  done
-  return 1
-}
-
-CACHE_SRC="$(resolve_cache_source || true)"
-if [[ -z "${CACHE_SRC}" ]]; then
-  echo "error: no compiled shard cache found for ${GAME_ID}" >&2
-  echo "  Set TOMBA_SHARD_CACHE_DIR to a cache root containing ${GAME_ID}/gcc/...," >&2
-  echo "  or build shards into build-setup-shards/cache before packaging." >&2
-  exit 1
-fi
-
-CACHE_DST="${STAGE}/cache/${GAME_ID}"
-rm -rf "${CACHE_DST}"
-mkdir -p "${CACHE_DST}"
-shard_count=0
-while IFS= read -r -d '' rel; do
-  rel="${rel#./}"
-  mkdir -p "${CACHE_DST}/$(dirname "${rel}")"
-  cp -a "${CACHE_SRC}/${rel}" "${CACHE_DST}/${rel}"
-  case "${rel}" in
-    *.dll|*.so) shard_count=$((shard_count + 1)) ;;
-  esac
-done < <(
-  cd "${CACHE_SRC}"
-  find . -type f \
-    \( -name '*.dll' -o -name '*.so' -o -name '*.ranges' -o -name '*.resident' \) \
-    \( -path './gcc/*/cg*_gc*_f*/*' -o -path './tcc/*/cg*_gc*_f*/*' \) \
-    -print0
-)
-
-if [[ "${shard_count}" -eq 0 ]]; then
-  echo "error: ${CACHE_SRC} has no current-format compiled shards" >&2
-  echo "  Expected ${GAME_ID}/{gcc,tcc}/<arch>/cg<ver>_<hash>_gc<config>_f<flavor>/*.dll|*.so" >&2
-  exit 1
-fi
+# Remove the shared packager's intermediate ZIP before the mandatory AOT gate.
+rm -f -- "$ZIP_PATH"
+RECOMPILER="$RECOMPILER_BUILD/psxrecomp-game"
+[[ ! -f "$RECOMPILER.exe" ]] || RECOMPILER="$RECOMPILER.exe"
+"${PSX_RELEASE_STAGE_PYTHON:-python3}" psxrecomp/tools/aot_overlay_pipeline.py release \
+  --profile aot/overlays.json --game-toml game.toml --recompiler "$RECOMPILER" \
+  --runtime-build-dir "$BUILD_DIR" --runtime-target psx-runtime \
+  --work-dir "$BUILD_DIR/aot-release" --stage "$STAGE" \
+  --gcc "${AOT_GCC:-gcc}" --workers "${AOT_WORKERS:-3}"
 
 bad_asset=0
 while IFS= read -r bad; do
@@ -169,5 +112,5 @@ rm -f "${ZIP_PATH}"
   cd "${STAGE}"
   zip -r -q "${ZIP_PATH}" .
 )
-echo "Bundled ${shard_count} compiled overlay shard(s) from ${CACHE_SRC}"
+echo "Bundled complete audited original-disc overlay shards"
 echo "Updated ${ZIP_PATH}"

@@ -4,11 +4,16 @@ set -eu
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 build_dir=${BUILD_DIR:-"$root/build-appimage"}
 appdir=$build_dir/AppDir
-output=${OUTPUT:-"$root/TombaRecomp-v0.11.2-alpha-linux-x86_64.AppImage"}
+output=${OUTPUT:-"$root/TombaRecomp-v0.13.0-alpha-linux-x86_64.AppImage"}
 tools_dir=$build_dir/appimage-tools
+fw=$root/psxrecomp
+
+# shellcheck source=/dev/null
+. "$fw/tools/release_overlay_stage.sh"
+psx_release_stage_init "$fw"
 
 linuxdeploy_url=https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
-linuxdeploy_sha=421ca71d5c69ea97c6309276232990d43df1dcece0edfaa26bbf926ff96ed12e
+linuxdeploy_sha=36a2d7e274d12e1050d0e9ecfe11d339ed54720b2bec464c286d53f8b07f5c62
 appimagetool_url=https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
 appimagetool_sha=a6d71e2b6cd66f8e8d16c37ad164658985e0cf5fcaa950c90a482890cb9d13e0
 
@@ -17,11 +22,26 @@ if [ ! -f "$root/generated/SCUS_942.36_dispatch.c" ]; then
     exit 1
 fi
 
+bios_build=${PSXRECOMP_BIOS_BUILD:-recompiler/build-linux}
+if [ ! -x "$fw/$bios_build/psxrecomp-game" ] || [ ! -x "$fw/$bios_build/psxrecomp-bios" ]; then
+    cmake -S "$fw/recompiler" -B "$fw/$bios_build" -G Ninja -DCMAKE_BUILD_TYPE=Release
+    cmake --build "$fw/$bios_build" --target psxrecomp-game psxrecomp-bios -j "${BUILD_JOBS:-$(getconf _NPROCESSORS_ONLN)}"
+fi
+
+if [ -f "$fw/bios/openbios.bin" ] && [ ! -f "$fw/generated/OpenBIOS_dispatch.c" ]; then
+    (cd "$fw" && PSXRECOMP_BIOS_BUILD="$bios_build" tools/regen_bios.sh --config bios/OpenBIOS.toml)
+fi
+
+if [ "${SKIP_RUNTIME_BUILD:-0}" != 1 ]; then
 cmake -S "$root" -B "$build_dir" -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_C_COMPILER_LAUNCHER= \
+    -DCMAKE_CXX_COMPILER_LAUNCHER= \
     -DPSX_DEBUG_TOOLS=OFF \
-    -DPSX_SDL_BACKEND=SDL2
+    -DPSX_SDL_BACKEND=SDL3 \
+    -DPSX_PGXP_VARIANT=OFF
 cmake --build "$build_dir" --target psx-runtime -j "${BUILD_JOBS:-$(getconf _NPROCESSORS_ONLN)}"
+fi
 
 case "$appdir" in
     "$build_dir"/*) ;;
@@ -39,44 +59,17 @@ install -m 0644 "$root/packaging/linux/io.github.mstan.TombaRecomp.desktop" \
 payload=$appdir/usr/share/tombarecomp
 cp -a "$build_dir/assets" "$payload/assets"
 cp -a "$build_dir/bios" "$payload/bios"
-cp -a "$build_dir/mods" "$payload/mods"
+psx_add_mod_catalog --build-path "$build_dir" --stage "$payload" \
+                    --runtime-target psx-runtime
 
-# Prebuilt overlay cache. Without it every player's first session runs overlays
-# interpreted. Linux shards are .so under gcc/linux-x64 (overlay_loader.c's
-# OVERLAY_SHARED_EXT), and only THIS build's codegen tag is usable -- the tag
-# folds in a hash of the packaged game.toml, so a cache built against the dev
-# config lands elsewhere and the loader ignores it. Fail rather than silently
-# ship a slow package.
 game_id=SCUS-94236
-cache_src=${OVERLAY_CACHE_DIR:-"$root/build-linux-cache/cache"}/$game_id
-cg_tag=$(python3 - "$root" <<'PY'
-import importlib.util, os, sys
-root = sys.argv[1]
-spec = importlib.util.spec_from_file_location(
-    'co', os.path.join(root, 'psxrecomp/tools/compile_overlays.py'))
-m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
-inc = os.path.join(root, 'psxrecomp/runtime/include')
-exe = os.path.join(root, 'psxrecomp/recompiler/build-linux/psxrecomp-game')
-gt  = os.path.join(root, 'packaging/release/game.toml')
-print('cg%d_%08x_gc%08x' % (m.codegen_ver(inc), m.codegen_hash(inc),
-                            m.overlay_config_hash(exe, gt)))
-PY
-)
-shards=$(find "$cache_src" -path "*/$cg_tag/*" \
-    \( -name '*.so' -o -name '*.ranges' -o -name '*.resident' \) 2>/dev/null | wc -l)
-if [ "${ALLOW_NO_CACHE:-0}" != "1" ] && [ "$shards" -eq 0 ]; then
-    echo "No overlay cache for tag $cg_tag under $cache_src." >&2
-    echo "Build one with compile_overlays.py against the PACKAGED game.toml," >&2
-    echo "or set ALLOW_NO_CACHE=1 to ship without one." >&2
-    exit 1
-fi
-if [ "$shards" -gt 0 ]; then
-    mkdir -p "$payload/cache/$game_id"
-    ( cd "$cache_src" && find . -path "*/$cg_tag/*" -type f \
-        \( -name '*.so' -o -name '*.ranges' -o -name '*.resident' \) \
-        -exec cp --parents {} "$payload/cache/$game_id/" \; )
-    echo "Bundled overlay cache: $(find "$payload/cache" -name '*.so' | wc -l) native overlay .so"
-fi
+recompiler_bin=$fw/$bios_build/psxrecomp-game
+"${PSX_RELEASE_STAGE_PYTHON:-python3}" "$fw/tools/aot_overlay_pipeline.py" release \
+    --profile "$root/aot/overlays.json" --game-toml "$root/game.toml" \
+    --runtime-config "$root/packaging/release/game.toml" \
+    --recompiler "$recompiler_bin" --runtime-build-dir "$build_dir" --runtime-target psx-runtime \
+    --work-dir "$build_dir/aot-release" \
+    --stage "$payload" --gcc "${AOT_GCC:-gcc}" --workers "${AOT_WORKERS:-3}"
 mkdir -p "$payload/licenses"
 cp "$root/psxrecomp/runtime/licenses/libchdr-NOTICES.txt" "$payload/licenses/"
 cp "$root/packaging/release/game.toml" "$payload/game.toml"
@@ -85,6 +78,12 @@ cp "$root/packaging/release/input.ini" "$payload/input.ini"
 cp "$root/packaging/release/START_HERE.txt" "$payload/START_HERE.txt"
 cp "$root/LICENSE" "$root/README.md" "$root/RELEASE_NOTES.md" "$payload/"
 cp "$root/packaging/linux/README.md" "$payload/APPIMAGE_README.md"
+psx_add_overlay_toolchain --stage "$payload" \
+                          --recomp-dir "$(dirname -- "$recompiler_bin")" \
+                          --recomp-tools "$fw/tools" \
+                          --recomp-include "$fw/runtime/include" \
+                          --dl-cache "$tools_dir" \
+                          --platform linux
 
 # recomp-ui loads fonts and textures through SDL_GetBasePath(), which resolves
 # the real ELF location inside the mounted AppImage rather than psxrecomp's
@@ -99,7 +98,7 @@ else
     echo "ImageMagick is required to create the AppImage icon." >&2
     exit 1
 fi
-"$image_tool" "$root/recomp/launcher/boxart.tga" \
+"$image_tool" "$root/launcher_assets/img/boxart.tga" \
     -resize 240x240 -background transparent -gravity center -extent 256x256 \
     "$appdir/io.github.mstan.TombaRecomp.png"
 ln -s io.github.mstan.TombaRecomp.png "$appdir/.DirIcon"
@@ -134,4 +133,5 @@ rm -f -- "$output"
 ARCH=x86_64 "$appimagetool" --appimage-extract-and-run "$appdir" "$output"
 chmod 0755 "$output"
 
-sha256sum "$output"
+(cd "$(dirname -- "$output")" && sha256sum "$(basename -- "$output")") > "$output.sha256"
+cat "$output.sha256"

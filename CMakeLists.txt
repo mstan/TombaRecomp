@@ -13,40 +13,34 @@ set(PSXRECOMP_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/psxrecomp" CACHE PATH
 # if(EXISTS "${PSXRECOMP_ROOT}/lib/recomp-net/CMakeLists.txt")
 #     set(PSX_NETPLAY ON CACHE BOOL "…" FORCE)
 # endif()
+set(PSX_SETUP_WIZARD ON CACHE BOOL
+    "Advertise first-run setup wizard + Generate & rebuild in recomp-ui" FORCE)
 include("${PSXRECOMP_ROOT}/runtime/runtime.cmake")
 
 file(GLOB TOMBA_MOD_PLUGIN_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/mods/*.c")
+set(TOMBA_PRELOADED_MODS "${CMAKE_CURRENT_SOURCE_DIR}/mods/preloaded")
 
 psxrecomp_add_game_runtime(psx-runtime
     # ENABLE_NETPLAY_IF_PRESENT
     # NETPLAY_LOBBY_URL "ws://netplay.retcomm.net:8765"
+    ENABLE_SETUP_WIZARD
     WINDOW_TITLE "Tomba! Recompiled"
     DEFAULT_GAME_CONFIG_PATH "game.toml"
     MAX_PLAYERS 1
     LAUNCHER_BOXART "${CMAKE_CURRENT_SOURCE_DIR}/launcher_assets/img/boxart.tga"
     GEN_MARKER "generated/SCUS_942.36_dispatch.c"
     GEN_FULL_GLOB "generated/SCUS_942.36_full_*.c"
-    CODEGEN_SETUP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/codegen_setup.c"
+    CODEGEN_SETUP_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/codegen_setup.c"
+        "${PSXRECOMP_ROOT}/host/psxrecomp_codegen_host.c"
+    PRELOADED_MODS_DIR "${TOMBA_PRELOADED_MODS}"
 )
 
 target_sources(psx-runtime PRIVATE ${TOMBA_MOD_PLUGIN_SOURCES})
 if(TARGET psx-runtime-pgxp)
     target_sources(psx-runtime-pgxp PRIVATE ${TOMBA_MOD_PLUGIN_SOURCES})
 endif()
-
-# This pinned framework does not accept PRELOADED_MODS_DIR. Stage title
-# packages explicitly, without replacing the player's mods/state.toml.
-foreach(TOMBA_RUNTIME_TARGET psx-runtime psx-runtime-pgxp)
-    if(TARGET ${TOMBA_RUNTIME_TARGET})
-        add_custom_command(TARGET ${TOMBA_RUNTIME_TARGET} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_directory
-                "${CMAKE_CURRENT_SOURCE_DIR}/mods/preloaded/packages"
-                "$<TARGET_FILE_DIR:${TOMBA_RUNTIME_TARGET}>/mods/packages"
-            COMMENT "Staging Tomba mod packages"
-            VERBATIM)
-    endif()
-endforeach()
 
 # Stage configs beside the binary for direct launches. Gate on EXISTS so a
 # setup-host zip that forgot an optional file still links successfully.

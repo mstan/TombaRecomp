@@ -1,4 +1,24 @@
-# Tomba! Recompiled — v0.11.1-alpha
+## v0.13.0-alpha
+
+This release ships native overlay shards extracted ahead of time from all 25 configured original-disc images (17 area variants and eight support images). Both Windows and Linux packages verify shard ranges against original disc bytes and include an audit receipt. Interpreter and dynamic compilation fallbacks remain available; complete static coverage is not claimed.
+
+Extraction and release auditing now use shared psxrecomp methods, also consumed by Tomba 2 US and Italian. Release packaging requires a fresh, complete extraction and successful native build.
+
+# Tomba! Recompiled - v0.12.3-alpha
+
+This patch restores the Tomba Skip FMVs mod's all-movie behavior.
+
+## Fixes
+
+- Skip FMVs once again uses Tomba's per-movie frame-total teardown metadata, so
+  it skips movies whose original game callers never poll the skip button.
+- The generic PSX Skip FMVs settings row remains hidden; activation still lives
+  in the built-in Skip FMVs mod.
+- Release packages continue to include the compiled setup shard cache.
+
+---
+
+# Tomba! Recompiled - v0.11.1-alpha
 
 This patch accepts the Steam release's PlayStation disc payload directly.
 
