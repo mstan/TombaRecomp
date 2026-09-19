@@ -13,6 +13,7 @@ stack_base = "0x801FFFF0"
 seeds = "seeds/ghidra_funcs.txt"
 bios_thunks = "seeds/tomba_bios_thunks.txt"
 out_dir = "generated"
+mod_function_entry_funcs = ["0x8005E08C", "0x8005A184"]
 
 # ---- Player-adjustable options ------------------------------------------
 [runtime]
@@ -55,15 +56,20 @@ deadzone = 12000
 
 [widescreen]
 offer = false
+adaptive_view = true
+native_wide = true
 sprite_tag_funcs = ["0x8005E08C"]
 sprite_anchor_addr = "0x1F800070"
 hud_sprt_squash = true
 
 [widescreen.cull]
+guard_pixels = 32
+activation_guard_pixels = 32
 bias_sites = ["0x80022E78", "0x80022F94", "0x80022FE8", "0x80023068"]
 range_sites = ["0x80022E80", "0x80022F9C", "0x80022FF0", "0x80023070"]
 a1_sites = ["0x80022C34", "0x80022D68", "0x800230FC"]
 auto_screen_x = true
+auto_backdrop = true
 
 [widescreen.backdrop]
 x_sites = ["0x801217B4", "0x8012196C"]

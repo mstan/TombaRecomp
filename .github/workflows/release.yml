@@ -183,6 +183,14 @@ jobs:
           submodules: recursive
           fetch-depth: 1
 
+      - name: Checkout private shard archive
+        uses: actions/checkout@v4
+        with:
+          repository: mstan/psxrecomp-shards
+          path: psxrecomp-shards
+          lfs: true
+          token: ${{ secrets.PSXRECOMP_SHARDS_TOKEN }}
+
       - name: Pin VERSION
         shell: bash
         run: |
@@ -487,6 +495,51 @@ jobs:
             exit 1
           fi
           cmake --build build-ci --target psx-runtime -j"${JOBS}"
+
+      - name: Build setup shard cache
+        run: |
+          set -euo pipefail
+          captures="${GITHUB_WORKSPACE}/psxrecomp-shards/SCUS-94236/overlay_captures.json"
+          if [[ ! -f "${captures}" ]]; then
+            echo "::error::missing private shard captures at ${captures}"
+            echo "Set the PSXRECOMP_SHARDS_TOKEN secret so release CI can read mstan/psxrecomp-shards."
+            exit 1
+          fi
+          recompiler=""
+          for cand in build-recompiler/psxrecomp-game.exe build-recompiler/psxrecomp-game; do
+            if [[ -f "${cand}" ]]; then
+              recompiler="${cand}"
+              break
+            fi
+          done
+          if [[ -z "${recompiler}" ]]; then
+            echo "::error::psxrecomp-game emitter missing under build-recompiler"
+            exit 1
+          fi
+          gcc_bin="gcc"
+          if [[ "$(uname -s)" == MINGW* || "$(uname -s)" == MSYS* ]]; then
+            gcc_bin="/mingw64/bin/gcc.exe"
+          fi
+          set +e
+          python psxrecomp/tools/compile_overlays.py \
+            --captures "${captures}" \
+            --game-toml game.toml \
+            --recompiler "${recompiler}" \
+            --runtime-include psxrecomp/runtime/include \
+            --out-dir build-setup-shards/cache \
+            --gcc "${gcc_bin}" \
+            --cps
+          compile_rc="$?"
+          set -e
+          shard_count="$(find build-setup-shards/cache/SCUS-94236 -type f \( -name '*.dll' -o -name '*.so' \) | wc -l | tr -d ' ')"
+          if [[ "${shard_count}" -eq 0 ]]; then
+            echo "::error::compiled shard cache is empty"
+            exit 1
+          fi
+          if [[ "${compile_rc}" -ne 0 ]]; then
+            echo "::warning::compile_overlays exited ${compile_rc}; shipping ${shard_count} safe compiled shard(s)"
+          fi
+          echo "Compiled ${shard_count} overlay shard(s)"
 
       - name: Package setup zip
         run: |

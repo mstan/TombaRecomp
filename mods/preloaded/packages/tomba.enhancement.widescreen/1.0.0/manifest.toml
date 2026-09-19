@@ -1,9 +1,9 @@
 format_version = 5
 id = "tomba.enhancement.widescreen"
 version = "1.0.0"
-name = "Tomba Widescreen"
+name = "Tomba Adaptive Widescreen"
 author = "mstan"
-description = "Renders Tomba with a wider 16:9 field of view using game-specific projection, culling, sprite, HUD, and backdrop hooks."
+description = "Experimental fit-to-window rendering without an upper aspect limit, using the native-wide renderer plus Tomba-specific culling, sprite, HUD, and backdrop hooks."
 resolver = "declarative"
 save_compatibility = "shared"
 
@@ -13,10 +13,27 @@ disc_sha256 = "25ada3dd51e70eb9f9218cd83fb02d73139750229fb44b012d62d183ab32eb13"
 
 [[feature]]
 id = "widescreen"
-name = "Widescreen (16:9)"
-description = "Enable Tomba's game-specific 16:9 rendering enhancement."
+name = "Adaptive Widescreen"
+description = "Enable Tomba's native-wide gameplay view. The render target and resident-object culling expand with the current window; extreme-width content and enemy spawning are experimental."
 group = "Display"
 default_enabled = false
+
+[[option]]
+feature = "widescreen"
+id = "aspect"
+label = "View"
+description = "Fit follows live window resizing with no upper aspect limit (native 4:3 minimum)."
+group = "Display"
+type = "choice"
+default = "Fit"
+
+[[option.choice]]
+value = "Fit"
+label = "Fit to screen (uncapped)"
+
+[[option.choice]]
+value = "16:9"
+label = "Fixed 16:9"
 
 [[plugin]]
 feature = "widescreen"

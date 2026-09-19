@@ -56,7 +56,7 @@ The game is playable from BIOS boot through gameplay. Latest release:
 | Memory-card save & load | Works (standard `.mcd`, emulator-compatible) |
 | Gameplay | Playable; known crashes tracked in `ISSUES.md` |
 | Renderers | Software **and** OpenGL (GPU); OpenGL is the default |
-| Widescreen 16:9 | Experimental, opt-in (true wider FOV) |
+| Adaptive widescreen | Experimental, opt-in (fit to window, no upper aspect limit) |
 | Controller | Analog / D-Pad modes; optional Special Edition Hybrid mod |
 
 ## Features

@@ -30,6 +30,7 @@ known_sha1 = [
 seeds = "seeds/ghidra_funcs.txt"
 out_dir = "generated"
 strict = true
+mod_function_entry_funcs = ["0x8005E08C", "0x8005A184"]
 
 [runtime]
 window_title = "TombaRecomp Recompiled"
@@ -41,10 +42,43 @@ aspect_ratio = "4:3"
 
 [controller]
 default_mode = "digital"
+multitap_analog = true
+
+# The default presentation remains faithful 4:3.  The bundled Tomba
+# enhancement activates this native-wide renderer after its mod plan commits.
+# Its Fit choice starts at 16:9 and follows the live window aspect without an
+# upper ratio limit. Wider content coverage remains experimental.
+[widescreen]
+offer = false
+adaptive_view = true
+native_wide = true
+sprite_tag_funcs = ["0x8005E08C"]
+sprite_anchor_addr = "0x1F800070"
+hud_sprt_squash = true
+
+# Tomba's object classifier family uses a 320px camera window.  Emit the
+# runtime margin into its draw/retirement predicates so native-wide rendering
+# admits the entire visible fringe.  The additional 32px lead keeps objects
+# resident just outside either expanded edge instead of popping on the border.
+# All generated substitutions are identity at 4:3.
+[widescreen.cull]
+guard_pixels = 32
+activation_guard_pixels = 32
+bias_sites = ["0x80022E78", "0x80022F94", "0x80022FE8", "0x80023068"]
+range_sites = ["0x80022E80", "0x80022F9C", "0x80022FF0", "0x80023070"]
+a1_sites = ["0x80022C34", "0x80022D68", "0x800230FC"]
+auto_screen_x = true
+auto_backdrop = true
+
+# Preserve the established Tomba backdrop treatment for the fallback squash
+# path and overlay variants; the native-wide path uses the generated backdrop
+# preload above to fill its wider compositor margins.
+[widescreen.backdrop]
+x_sites = ["0x801217B4", "0x8012196C"]
+unsquash_funcs = ["0x8004DB3C"]
 
 # Online mount gate: digests + track count + optional TOC fingerprint
 # (see docs/NETPLAY.md).
-multitap_analog = true
 [netplay]
 require_cue = true
 required_tracks = 1

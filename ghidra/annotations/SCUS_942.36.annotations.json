@@ -1,0 +1,79 @@
+{
+  "program" : "SCUS_942.36",
+  "sourcePathname" : "/SCUS_942.36",
+  "languageId" : "MIPS:LE:32:default",
+  "processor" : "MIPS",
+  "imageBase" : "00000000",
+  "executableLocation" : "/F:/Projects/psxrecomp/TombaRecomp/tomba/SCUS_942.36",
+  "executableMd5" : "0b895b1ed84d5b1efcb574168e0be8ff",
+  "symbols" : [ {
+    "address" : "8006b58c",
+    "name" : "entry",
+    "namespace" : "Global",
+    "symbolType" : "Label",
+    "primary" : true
+  } ],
+  "comments" : [ {
+    "address" : "80017024",
+    "type" : "PLATE",
+    "text" : "PS1 cooperative thread scheduler — iterates TCB array at 0x801FD800 (stride 0x70), dispatches threads with state=2 (ready). Leaves loop-end value in scratchpad after each call."
+  }, {
+    "address" : "80017d70",
+    "type" : "PLATE",
+    "text" : "entity pool initializer — sets entity[0x1C]=1, pushes to pending list at scratchpad[0x204]"
+  }, {
+    "address" : "80018248",
+    "type" : "PLATE",
+    "text" : "entity_ptr helper — returns entity pointer (not 0)"
+  }, {
+    "address" : "800191e0",
+    "type" : "PLATE",
+    "text" : "display thread entry — state machine (states 9→10→0xB→0→1→4); TCB[0] display thread. TCB[0]+0x48/0x58 = draw callback pointers for buffer A/B, not state values once running."
+  }, {
+    "address" : "80019630",
+    "type" : "PLATE",
+    "text" : "draw callback for display buffer B — updated every frame by display state machine"
+  }, {
+    "address" : "800197b8",
+    "type" : "PLATE",
+    "text" : "draw callback for display buffer A"
+  }, {
+    "address" : "8001ac00",
+    "type" : "PLATE",
+    "text" : "weapon/projectile dispatch chain — called from FUN_80034524; routes weapon attack logic"
+  }, {
+    "address" : "8001dfd4",
+    "type" : "PLATE",
+    "text" : "entity tick dispatcher — iterates 200 entity slots at 0x800A5970 (stride 0xD4); dispatches each active entity's handler"
+  }, {
+    "address" : "8002d784",
+    "type" : "PLATE",
+    "text" : "camera entity handler — reads from camera entity at 0x800A38B8"
+  }, {
+    "address" : "80034524",
+    "type" : "PLATE",
+    "text" : "weapon/projectile chain entry — calls FUN_8001ac00; part of the throw/attack dispatch path"
+  }, {
+    "address" : "8003f1d4",
+    "type" : "PLATE",
+    "text" : "secondary entity dispatcher — iterates 0x800B07D8 pool (4 slots, stride 0xEC); checks entity[0]!=0, dispatches via table_8007d6a4[entity[2]]; handles projectiles and thrown weapons"
+  }, {
+    "address" : "8004637c",
+    "type" : "PLATE",
+    "text" : "terrain gate check — reads DAT_800a5399; mode in DAT_800a539a (0=compiled, 1-3=overlay); controls zone boundary transitions"
+  }, {
+    "address" : "8005b40c",
+    "type" : "PLATE",
+    "text" : "ChangeThread(handle) — cooperative thread context switch; suspends caller, resumes target thread"
+  } ],
+  "bookmarks" : [ ],
+  "functionSignatures" : [ ],
+  "dataTypes" : [ ],
+  "counts" : {
+    "symbols" : 1,
+    "comments" : 13,
+    "bookmarks" : 0,
+    "functionSignatures" : 0,
+    "dataTypes" : 0
+  }
+}

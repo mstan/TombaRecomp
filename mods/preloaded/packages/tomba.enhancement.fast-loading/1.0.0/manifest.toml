@@ -1,0 +1,52 @@
+format_version = 5
+id = "tomba.enhancement.fast-loading"
+version = "1.0.0"
+name = "Tomba Fast Loading"
+author = "mstan"
+description = "Optionally compresses data-loading wall time without changing Tomba's guest-visible CD timing, callbacks, interrupts, or game logic."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SCUS-94236"
+disc_sha256 = "25ada3dd51e70eb9f9218cd83fb02d73139750229fb44b012d62d183ab32eb13"
+
+[[feature]]
+id = "fast-loading"
+name = "Fast Loading"
+description = "Run complete loading frames faster in real time. Acceleration stops immediately when the load ends, avoiding spillover into gameplay inputs."
+group = "Quality of Life"
+default_enabled = false
+
+[[option]]
+feature = "fast-loading"
+id = "speed"
+label = "Load speed"
+description = "Bounded modes are more predictable; Uncapped runs at the maximum speed this computer can sustain."
+group = "Quality of Life"
+type = "choice"
+default = "4"
+
+[[option.choice]]
+value = "2"
+label = "2x"
+
+[[option.choice]]
+value = "4"
+label = "4x"
+
+[[option.choice]]
+value = "8"
+label = "8x"
+
+[[option.choice]]
+value = "16"
+label = "16x"
+
+[[option.choice]]
+value = "uncapped"
+label = "Uncapped"
+
+[[plugin]]
+feature = "fast-loading"
+id = "tomba.fast-loading"
