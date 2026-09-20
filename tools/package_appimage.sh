@@ -37,13 +37,20 @@ if [ -f "$fw/bios/openbios.bin" ] && [ ! -f "$fw/generated/OpenBIOS_dispatch.c" 
 fi
 
 if [ "${SKIP_RUNTIME_BUILD:-0}" != 1 ]; then
+# CMAKE_EXTRA_ARGS: host-specific configure flags, word-split on purpose.
+# Needed because a host can satisfy find_package(SDL3) with a system SDL3 the
+# compiler cannot actually link the check against, which trips the runtime's
+# own SDL3 guard. -DCMAKE_DISABLE_FIND_PACKAGE_SDL3=TRUE skips the system copy
+# and lets PSX_SDL3_FETCH build the pinned SDL3 from source.
+# shellcheck disable=SC2086
 cmake -S "$root" -B "$build_dir" -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_C_COMPILER_LAUNCHER= \
     -DCMAKE_CXX_COMPILER_LAUNCHER= \
     -DPSX_DEBUG_TOOLS=OFF \
     -DPSX_SDL_BACKEND=SDL3 \
-    -DPSX_PGXP_VARIANT=OFF
+    -DPSX_PGXP_VARIANT=OFF \
+    ${CMAKE_EXTRA_ARGS:-}
 cmake --build "$build_dir" --target psx-runtime -j "${BUILD_JOBS:-$(getconf _NPROCESSORS_ONLN)}"
 fi
 
