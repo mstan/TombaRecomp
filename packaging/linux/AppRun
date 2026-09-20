@@ -90,8 +90,21 @@ export TOMBA_RECOMP_APPIMAGE_PATH=${APPIMAGE:-}
 unset APPIMAGE
 
 export PATH="$APPDIR/usr/bin${PATH:+:$PATH}"
-export LD_LIBRARY_PATH="$APPDIR/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 export XDG_DATA_DIRS="$APPDIR/usr/share${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
+
+# Deliberately NOT exported: LD_LIBRARY_PATH=$APPDIR/usr/lib.
+#
+# The binary carries RUNPATH $ORIGIN/../lib and finds the bundle on its own.
+# A global LD_LIBRARY_PATH is inherited by every CHILD process -- including the
+# host zenity/kdialog the launcher spawns for Browse -- which then loads this
+# bundle glib/pcre2 against the host GTK stack and dies before drawing. The
+# launcher read that failure as a plain cancel, so the button just did nothing.
+# See recomp-ui launcher_files.c (sanitised spawn environment) and
+# tools/package_appimage.sh (prune of libraries only reachable this way).
+#
+# Record the host value instead, so the launcher can hand a correct
+# LD_LIBRARY_PATH to anything it spawns even if a wrapper set one for us.
+export RECOMP_HOST_LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
 
 cd "$data_dir"
 exec "$launcher" --game "$data_dir/game.toml" "$@"

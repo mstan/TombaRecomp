@@ -129,6 +129,50 @@ export NO_STRIP=1
     --desktop-file "$appdir/io.github.mstan.TombaRecomp.desktop" \
     --icon-file "$appdir/io.github.mstan.TombaRecomp.png"
 
+# Prune libraries the app cannot actually reach.
+#
+# linuxdeploy copies the whole transitive closure it sees on the BUILD host,
+# including libraries pulled in only by host-side dependencies we do NOT
+# bundle (freetype/harfbuzz drag in glib, pcre2, png16, brotli, bz2,
+# graphite2). Those copies are unreachable through the binary's own RUNPATH
+# ($ORIGIN/../lib); the only way to make the loader prefer them is a global
+# LD_LIBRARY_PATH, which is exactly what AppRun must not set -- it reaches
+# every child process, so a host zenity/kdialog spawned for the file picker
+# would load OUR glib against the host GTK and die on start. That was the dead
+# Browse button.
+#
+# The rule is general: bundle a library only if everything above it in the
+# chain is bundled too. Resolve the closure with LD_LIBRARY_PATH unset -- which
+# is exactly what the shipped AppRun gives the loader -- and drop whatever the
+# loader did not choose.
+if [ -d "$appdir/usr/lib" ]; then
+    keep=$build_dir/appdir-keep.txt
+    env -u LD_LIBRARY_PATH ldd "$appdir/usr/bin/Tomba__Recompiled" \
+        | awk '{ for (i = 1; i <= NF; i++) if ($i ~ /^\//) print $i }' \
+        | while read -r p; do readlink -f "$p" 2>/dev/null || true; done \
+        | sort -u > "$keep"
+    pruned=0
+    for f in "$appdir"/usr/lib/*; do
+        [ -e "$f" ] || continue
+        real=$(readlink -f "$f")
+        if ! grep -qxF "$real" "$keep"; then
+            echo "  prune unreachable bundled lib: $(basename "$f")"
+            rm -f "$f"
+            pruned=$((pruned + 1))
+        fi
+    done
+    echo "  pruned $pruned unreachable libraries from usr/lib"
+    # Whatever survived must resolve without LD_LIBRARY_PATH, or the AppImage
+    # would only work by poisoning its children's environment.
+    if env -u LD_LIBRARY_PATH ldd "$appdir/usr/bin/Tomba__Recompiled" \
+            | grep -q "not found"; then
+        echo "binary has unresolved libraries without LD_LIBRARY_PATH" >&2
+        env -u LD_LIBRARY_PATH ldd "$appdir/usr/bin/Tomba__Recompiled" \
+            | grep "not found" >&2
+        exit 1
+    fi
+fi
+
 rm -f -- "$output"
 ARCH=x86_64 "$appimagetool" --appimage-extract-and-run "$appdir" "$output"
 chmod 0755 "$output"
