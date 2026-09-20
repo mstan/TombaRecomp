@@ -4,7 +4,11 @@ set -eu
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 build_dir=${BUILD_DIR:-"$root/build-appimage"}
 appdir=$build_dir/AppDir
-output=${OUTPUT:-"$root/TombaRecomp-v0.14.0-alpha-linux-x86_64.AppImage"}
+# Single source of truth: VERSION. A hardcoded copy here is how a packager
+# ends up naming an artifact for the wrong build.
+version=$(tr -d " \t\r\n" < "$root/VERSION")
+[ -n "$version" ] || { echo "VERSION is empty" >&2; exit 1; }
+output=${OUTPUT:-"$root/TombaRecomp-v$version-linux-x86_64.AppImage"}
 tools_dir=$build_dir/appimage-tools
 fw=$root/psxrecomp
 

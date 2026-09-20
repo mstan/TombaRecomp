@@ -1,5 +1,5 @@
 param(
-    [string]$Version = "v0.14.0-alpha",
+    [string]$Version = "",
     [string]$BuildDir = "build-release",
     [string]$RecompilerBuildDir = "recompiler/build",
     [int]$Jobs = 8,
@@ -9,6 +9,11 @@ param(
 $ErrorActionPreference = "Stop"
 
 $Root = Resolve-Path (Join-Path $PSScriptRoot "..")
+if (-not $Version) {
+    # Single source of truth: VERSION. A hardcoded default here is how a
+    # packager ends up naming an artifact for the wrong build.
+    $Version = "v" + (Get-Content (Join-Path $Root "VERSION") -Raw).Trim()
+}
 $BuildPath = Join-Path $Root $BuildDir
 $StageRoot = Join-Path $Root "release-stage"
 $Stage = Join-Path $StageRoot "TombaRecomp-windows-x64"
