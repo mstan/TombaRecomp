@@ -1,5 +1,5 @@
 param(
-    [string]$Version = "v0.13.0-alpha",
+    [string]$Version = "v0.14.0-alpha",
     [string]$BuildDir = "build-release",
     [string]$RecompilerBuildDir = "recompiler/build",
     [int]$Jobs = 8,
@@ -262,6 +262,12 @@ wrong game, the wrong region, or corrupt.
 Fast Loading is disabled by default. Enable its mod in the launcher and choose
 one dropdown value. Host pacing is recommended; experimental CD timing can
 break timing-sensitive loads, audio, or speedrun strategies.
+
+Custom Renderer is disabled by default. Enable it in Mods for uncapped Fit to
+Window, or choose fixed 16:9, 21:9 or 32:9. Leave it off for stock 4:3.
+Very wide views remain experimental and may lower the game's frame rate.
+Older quick-save states may not load with this framework version. Keep your
+previous installation and saves until you have verified your progress.
 
 This release includes prebuilt native code for all 25 configured area and
 support images. Additional code can still use the runtime fallback.

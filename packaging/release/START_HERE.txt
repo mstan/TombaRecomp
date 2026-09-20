@@ -1,4 +1,4 @@
-Tomba! Recompiled - v0.11.1-alpha
+Tomba! Recompiled - v0.14.0-alpha
 
 This package does not include the game.
 
@@ -8,6 +8,10 @@ t_data_u.car can be selected without renaming it. OpenBIOS is included; a Sony
 BIOS is optional and is not distributed with this project.
 
 All bundled mods are disabled by default. Configure them from the Mods page.
+Custom Renderer defaults to Fit to Window (uncapped), with fixed 16:9, 21:9
+and 32:9 choices. Leave it disabled for stock 4:3 rendering.
+Older quick-save states may not load with this framework version. Keep the
+previous installation and your saves until you have verified your progress.
 
 Linux AppImage state is stored in:
   ${XDG_DATA_HOME:-$HOME/.local/share}/TombaRecomp

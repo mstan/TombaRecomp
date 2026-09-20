@@ -1,3 +1,34 @@
+## v0.14.0-alpha
+
+Tomba's opt-in **Custom Renderer** replaces the old fixed-16:9 widescreen
+patches. Enable it on the launcher's Mods page; **Fit to Window** is the
+default view and follows resizing without an upper aspect-ratio limit.
+Fixed **16:9**, **21:9** and **32:9** use the same renderer. With the mod
+disabled, the game retains its stock 4:3 renderer.
+
+- Terrain selection and object visibility follow the expanded viewport.
+- HUD groups anchor to the visible edges.
+- The tested rooftop object-bank boundary retains both visible sides;
+  floating foliage, background-terrain gaps and intermittent 4:3 black bars
+  in the reported scenes are corrected.
+- Validated on OpenGL through 64:9. Extreme-width content and enemy spawning
+  remain experimental; this is not a claim of complete all-area coverage.
+
+This release does **not** include speculative performance/HLE optimizations.
+Very wide views can lower the game's frame rate because they add emulated
+geometry work; see `docs/ADAPTIVE_RENDERER_PERFORMANCE.md` in the source tree.
+
+**Quick-save compatibility:** the updated framework uses a newer snapshot
+format. Older quick-save states may not load. Keep your previous installation
+and saves; do not rely on an old quick-save as your only record of progress.
+Normal save files are not migrated or overwritten by release packaging.
+
+Windows and Linux packaging still requires fresh original-disc AOT extraction,
+native builds and audits for all 25 configured overlay images. Supply your own
+Tomba! USA disc (SCUS-94236); no disc or retail BIOS is distributed.
+
+---
+
 ## v0.13.0-alpha
 
 This release ships native overlay shards extracted ahead of time from all 25 configured original-disc images (17 area variants and eight support images). Both Windows and Linux packages verify shard ranges against original disc bytes and include an audit receipt. Interpreter and dynamic compilation fallbacks remain available; complete static coverage is not claimed.

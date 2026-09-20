@@ -4,7 +4,7 @@ set -eu
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 build_dir=${BUILD_DIR:-"$root/build-appimage"}
 appdir=$build_dir/AppDir
-output=${OUTPUT:-"$root/TombaRecomp-v0.13.0-alpha-linux-x86_64.AppImage"}
+output=${OUTPUT:-"$root/TombaRecomp-v0.14.0-alpha-linux-x86_64.AppImage"}
 tools_dir=$build_dir/appimage-tools
 fw=$root/psxrecomp
 

@@ -57,6 +57,9 @@ bash "${PACKAGER}" \
   --project-file codegen_setup.c \
   --project-file codegen_setup.h \
   --project-file README.md \
+  --project-file tools/test_runtime_config_metadata.py \
+  --project-file packaging/release/game.toml \
+  --project-dir tests \
   --project-dir src \
   --project-dir mods \
   --project-dir seeds \
