@@ -1,15 +1,16 @@
-# Tomba seamless transitions feasibility spike
+# Tomba seamless transitions spike
 
 The target is a menu or area transition with no loading screen, load-induced
-blackout, held image, or audio hiccup. This assessment recommends preparing all
-ordinary assets before play, then implementing a Tomba-specific replacement for
-the loading and transition workflow. Pre-decompression is feasible and has now
-been tested against the original decoder. Seamless runtime transitions have
-**not** been implemented or validated by this spike.
+blackout, held image, or audio hiccup. The worktree now implements a default-off,
+game-owned resident loader and transition adapter. It prepares immutable assets
+once from the supplied disc, installs the requested destination from current
+game state, and bypasses completed loading phases. It does not use turbo, alter
+CD timing, suppress cooperative yields, discard audio, or restore cached game
+snapshots. **This remains an experimental spike, not whole-game acceptance.**
 
 Game-specific code may remain entirely in TombaRecomp, as the owner clarified.
-Generalizing the implementation is optional. The immediate next experiment
-should cover one menu-to-area route and one round-trip area boundary. The owner
+Generalizing the implementation is optional. The live experiment covers menu
+loads and a walked round trip through Dwarf Village. The owner
 clarified that the audio concern is the stuttering heard with previous turbo
 fast-loading. Keep normal audio timing and normal game-directed music changes;
 continuous outgoing music across every boundary is not a separate requirement.
@@ -17,7 +18,94 @@ continuous outgoing music across every boundary is not a separate requirement.
 Baseline: Tomba `05d82b96d31c2bab59256095cdfec82ccd328310`, framework
 `c68bf6e08568327d0c6816d083cf7d00875593f0`, UI
 `e45e1f3062731abc188e351cad3608730b01fa12`. Worktree branch:
-`spike/tomba-seamless-transitions-20261004`. Central tracking: `beads-eio.4.18`.
+`spike/tomba-seamless-transitions-20261004`. Central tracking: assessment
+`beads-eio.4.18` (closed), implementation `beads-eio.4.19` (in progress).
+
+## Prebuilt executable and first-run data preparation
+
+Players supply the supported SCUS-94236 disc to a prebuilt executable. Enabling
+the experimental Resident Assets mod prepares its data before gameplay begins.
+The native C++ preparer uses the mounted-disc file service; it needs no Python,
+compiler, generated game C, source checkout, or extraction script on the
+player's machine. The legacy code-generation wizard is now an explicit
+developer CMake option, `PSX_SETUP_WIZARD=ON`, default OFF. This spike does not
+claim to migrate the existing release CI or redesign the launcher setup UI.
+
+The local pack contains 1,062 files, excluding 22 STR movies and the disc filler
+file. Both sector-padded originals and decoded GAM output remain resident:
+74,405,256 payload bytes, about 71 MiB. Every source and decoded blob is checked
+against the supported-disc metadata. Only filenames, sizes, locations and hashes
+are committed; the pack contains original game assets and stays local.
+
+Windows cache: `%LOCALAPPDATA%/TombaRecomp/seamless/c259ec7ff6ef4163-gam-v1.pack`.
+Other platforms use `$XDG_CACHE_HOME`, or `$HOME/.cache`, under the same game
+directory. `TOMBA_SEAMLESS_CACHE` changes the cache directory for isolated tests.
+The developer-only `TOMBA_SEAMLESS_PACK` selects an explicit existing pack.
+Versioned headers, bounds checks and a body checksum reject invalid caches;
+normal caches are then rebuilt from the mounted disc. Publication uses a
+process-specific temporary file and atomic replacement. A failed preparation
+preserves the previous complete cache and leaves the native loader disabled.
+
+The independent Python builder and native preparer produce exactly the same
+74,439,288-byte pack, SHA-256
+`dacc6f5ef2d21d6c0a052005621d0bbd379131a290aa058f2d0ba3c3eb221db4`.
+Warm reuse is verified. Explicit corruption/recovery validation remains a gate.
+This catalog supports stock assets only. Asset-replacement mods and other disc
+editions need a separate compatibility/cache-identity design before support.
+
+## Runtime implementation and current evidence
+
+`src/mods/tomba_seamless.c` chains the existing BIOS/dispatch replacement seam.
+It preflights the complete resource queue before replacing loader-thread
+startup. The adapter writes the real RAM, texture and sound-bank data, updates
+the original decoder's counters, and signals completion only afterward.
+Executable writes also invalidate interpreted overlay generations. Unsupported
+requests use the retail path and count as failed seamless coverage.
+
+The transition adapters execute the original one-shot setup states together.
+They retain current inventory/events and do not pre-run neighboring gameplay.
+An outgoing scene that has requested an immediate handoff does not enqueue
+primitives referencing memory that the destination will replace; the completed
+destination renders in that tick. The ordinary visual fades remain. A deferred
+fade actor initialization is combined with its first fade step, removing an
+otherwise fully black first destination frame. Music start/stop functions are
+preserved; `0x8002065C` starts music and is not a visual fade function.
+
+Menu Load Game reads the live memory-card subsystem, including unsaved in-memory
+card writes. It supports Tomba's ordinary single-block saves, checks directory
+metadata/checksum, and leaves retail save checksum/deserialization intact.
+Unsupported card layouts use the original reader. No save writes are replaced.
+Two guarded calls bridge the interpreted menu overlay to existing compiled
+entry points because internal interpreter calls do not reach the dispatch hook.
+
+On the local OpenGL debug build:
+
+| Gate | Evidence / remaining limit |
+| --- | --- |
+| Decoder fidelity | All 397 distinct streams matched original MIPS twice, including final-token tails. |
+| Native preparation | Full pack equals the independent offline fixture; altered source rejected; valid cache preserved. |
+| Automated project checks | All four CTest checks pass, including six decoder cases and staged mod catalog validation. |
+| Menu destinations | Stormy Mountain, Charity Square and Watch Tower entered from real card saves. |
+| Walked exits, latest visual run | Watch Tower `1/3` → `1/1` → Dwarf Village `2/0` → `1/1`; no pigs or fully black frames captured. |
+| State continuity | AP changed from 130400 to 130900 through actual gameplay and remained 130900 across the village round trip. This is not an exhaustive inventory/event test. |
+| Resource installation | Latest uninstrumented route batches about 0.01–1.4 ms; no native batch crossed a guest VBlank. |
+| Whole handoff | Neighbor entry ~5.4 ms; menu ~19.2 ms and village ~33.4 ms including guest pacing. Remaining initialization is being profiled. |
+| Audio, capture/tracing disabled | Four-route run at normal ~60 Hz: zero increases in output underruns, pump skips or overflow drops. WAVs retained for inspection. Existing boot/restore drop totals are not counted as transition results. |
+| Outstanding visual gate | One repeated presentation frame remains around some handoffs; no claim of zero load-induced held frames yet. |
+
+Local evidence is ignored under `build-seamless`: `*-v11` display captures,
+`audio-perf-v12/receipt.json` and WAVs, and `probe-init-v13/v14` timing logs.
+Frame readback has overhead; audio measurements run separately with
+`PSX_FNTRACE_ALL=0` and `PSX_DISPLAY_RING=0`. `TOMBA_SEAMLESS_TRACE=1` enables
+detailed resource/initializer logging for diagnosis, not acceptance timing.
+Known menu savestate fixtures are test inputs only. Cross-process gameplay
+savestates proved unreliable on this framework pin, so route evidence uses an
+actual card load followed by uninterrupted walking, not restored area snapshots.
+
+Remaining gates include cold-cache recovery, the repeated-frame cause, first
+run with movies, death/continue, warps, event variants, further areas, and other
+renderers. No speculative neighboring-scene cache is implemented: measurements
+must establish which work needs preparation before that complexity is justified.
 
 ## What the asset experiment proved
 
@@ -91,8 +179,8 @@ main-executable paths. Addresses apply to the supported USA executable only.
 The loader's processing stage distinguishes raw/decode/upload modes and handles
 sound-bank setup for type `0x90`. It advances cooperatively through
 `0x800171D4(1)`. Finishing file reads is therefore only one part of making an area
-ready. The exact pig-screen entry/exit functions, every transition caller,
-audio teardown policy, and a safe commit boundary remain to be traced live.
+ready. The implemented state adapters now cover the traced menu/new-game and
+ordinary exit paths; enumeration of every special transition remains incomplete.
 
 There are 20 SYS loader catalog files: LDSYS plus 19 LDAR files. The disc also
 has AREA00 through AREA19 directories. Neither count is a proven count of
@@ -128,15 +216,15 @@ option. Those are not constraints on this experiment: recovering a concrete
 asset format has now enabled offline preparation. The historical evidence of
 texture corruption and scheduler failures still matters.
 
-## Recommended implementation boundary
+## Implementation boundary
 
-Start with a default-off Tomba mod owning its format, descriptor interpretation,
-transition state machine and address/byte guards. Prepare the
-asset archive during setup, and make required bytes resident before the player
-can initiate transitions. Do not defer a cold-cache stall to the first door or
-the Load Game confirmation.
+The default-off Tomba mod owns its format, descriptor interpretation,
+transition state machine and address/byte guards. It prepares the
+asset archive during activation, making required bytes resident before the
+player can initiate transitions. Cold-cache work belongs before gameplay,
+never at the first door or the Load Game confirmation.
 
-The proposed lifecycle is: prepare immutable data, construct the destination
+The lifecycle is: prepare immutable data, construct the destination
 from the player's current state, commit resources at an established safe game
 boundary, and resume normal gameplay. Preparation must stay outside live guest
 RAM until the previous consumers have finished. A global write-set replay or
@@ -154,7 +242,7 @@ menu-selected destinations need their own preparation triggers if this second
 step becomes necessary. This changes resource residency; it does not require
 merging the game's area logic into one active world.
 
-The current framework already supplies `psx_mod_read_disc_file`, which reads
+The framework supplies `psx_mod_read_disc_file`, which reads
 original files with active sector mods applied without changing guest CD state.
 It is limited to emulation-thread callbacks; it is not an asynchronous preload
 service. Existing guest-memory allocation, code-write invalidation, and the
@@ -162,14 +250,14 @@ mod catalog are also available. The offline probe currently accepts only the
 exact unmodified supported disc. A shipping archive key must additionally
 include codec version and active asset-mod identity, with invalidation on change.
 
-The current `psx_mod_register_function_entry_plugin` callback returns void. The
+The `psx_mod_register_function_entry_plugin` callback returns void. The
 generator emits the callback and then continues the original function body.
 Changing `cpu->pc` inside that callback is not a proven replacement mechanism.
 A true replacement needs an explicit dispatch/return contract or a carefully
 guarded game-owned patch using existing invalidation machinery. Generated CPS
 continuations, overlay identity, and interpreter/native paths all need coverage.
-Determine that concrete seam before choosing whether any framework change is
-necessary; do not invent a hook API that does not exist.
+The implementation uses the existing dispatch hook instead; no framework
+changes or new hook API were required.
 
 Reusable pieces, if justified later, are a content-addressed prepared-asset
 store, host preparation jobs, a validated function-replacement contract, and
@@ -183,15 +271,13 @@ here is to remove loading work while audio and gameplay run at normal speed.
 Preserve the game's intended music changes, fades, and stops. Do not accelerate
 the machine or discard audio buffers to shorten a transition.
 
-There is no observed sound-bank lifetime bug in this prototype: no runtime
-replacement has been installed. Check audio during the first normal-speed
-transition experiment. Investigate sequence commands or bank replacement only
-if that experiment introduces a glitch; a new mixer or continuous-music system
-is not a prerequisite for the loading spike.
+The runtime uses the existing SPU write path and retail sound-bank registration.
+The observed transition run has clean audio output counters. Further PCM and
+route checks remain necessary; a new mixer or continuous-music system is not
+a prerequisite for the loading spike.
 
-The next bounded runtime gate should use menu Load Game into one known area and
-a Village-to-neighbor-to-Village round trip. Confirm current supported saves
-and the baseline first. Instrument the transition trigger, descriptor queue,
+The bounded runtime gate uses menu Load Game and a walked village round trip.
+Instrument the transition trigger, descriptor queue,
 last old-scene frame, first complete destination frame, initialization, audio
 commands, and host audio underruns. The existing load transition ring observes
 CD/load/turbo edges; it does not prove semantic scene readiness.

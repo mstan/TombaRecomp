@@ -9,10 +9,10 @@
 #include "../src/mods/tomba_widescreen_residency.h"
 #include "../src/mods/tomba_widescreen_sprites.h"
 #include "../src/mods/tomba_widescreen_view.h"
-#include "../psxrecomp/runtime/include/ws_primitive_roles.h"
-#include "../psxrecomp/runtime/include/ws_scene_latch.h"
-#include "../psxrecomp/runtime/include/ws_backdrop_margin.h"
-#include "../psxrecomp/runtime/include/ws_backdrop_detect.h"
+#include "ws_primitive_roles.h"
+#include "ws_scene_latch.h"
+#include "ws_backdrop_margin.h"
+#include "ws_backdrop_detect.h"
 
 static void check_detector(void) {
     /* Shared magic is established in the taken branch's delay slot. The

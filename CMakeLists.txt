@@ -7,34 +7,38 @@ set(PSXRECOMP_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/psxrecomp" CACHE PATH
 
 # --- Opt-in product surfaces (OFF by default in the framework) -------------
 # Scaffold prompts / flags fill these. Without recomp-ui, PSX_RECOMP_UI is OFF.
-# Setup-host CI requires WIZARD_CMAKE_BLOCK / ENABLE_SETUP_WIZARD (FORCE_SETUP_HOST
-# alone does not open first-run / Generate & rebuild).
+# Release players use a prebuilt executable and supply their disc for data.
+# The legacy compiler wizard remains an explicit developer build option.
 # recomp-ui submodule present (PSX_RECOMP_UI defaults ON).
 # Full netplay UI — enable after adding recomp-ui + testing:
 # if(EXISTS "${PSXRECOMP_ROOT}/lib/recomp-net/CMakeLists.txt")
 #     set(PSX_NETPLAY ON CACHE BOOL "…" FORCE)
 # endif()
-set(PSX_SETUP_WIZARD ON CACHE BOOL
-    "Advertise first-run setup wizard + Generate & rebuild in recomp-ui" FORCE)
+option(PSX_SETUP_WIZARD "Enable the legacy developer code-generation wizard" OFF)
 include("${PSXRECOMP_ROOT}/runtime/runtime.cmake")
 
+set(TOMBA_CODEGEN_SETUP_SOURCES)
+if(PSX_SETUP_WIZARD)
+    list(APPEND TOMBA_CODEGEN_SETUP_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/codegen_setup.c"
+        "${PSXRECOMP_ROOT}/host/psxrecomp_codegen_host.c")
+endif()
+
 file(GLOB TOMBA_MOD_PLUGIN_SOURCES CONFIGURE_DEPENDS
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/mods/*.c")
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/mods/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/mods/*.cpp")
 set(TOMBA_PRELOADED_MODS "${CMAKE_CURRENT_SOURCE_DIR}/mods/preloaded")
 
 psxrecomp_add_game_runtime(psx-runtime
     # ENABLE_NETPLAY_IF_PRESENT
     # NETPLAY_LOBBY_URL "ws://netplay.retcomm.net:8765"
-    ENABLE_SETUP_WIZARD
     WINDOW_TITLE "Tomba! Recompiled"
     DEFAULT_GAME_CONFIG_PATH "game.toml"
     MAX_PLAYERS 1
     LAUNCHER_BOXART "${CMAKE_CURRENT_SOURCE_DIR}/launcher_assets/img/boxart.tga"
     GEN_MARKER "generated/SCUS_942.36_dispatch.c"
     GEN_FULL_GLOB "generated/SCUS_942.36_full_*.c"
-    CODEGEN_SETUP_SOURCES
-        "${CMAKE_CURRENT_SOURCE_DIR}/codegen_setup.c"
-        "${PSXRECOMP_ROOT}/host/psxrecomp_codegen_host.c"
+    CODEGEN_SETUP_SOURCES ${TOMBA_CODEGEN_SETUP_SOURCES}
     PRELOADED_MODS_DIR "${TOMBA_PRELOADED_MODS}"
 )
 
@@ -57,7 +61,13 @@ foreach(TOMBA_RUNTIME_CONFIG game.toml game_options.toml)
 endforeach()
 
 if(BUILD_TESTING)
+    add_executable(tomba-seamless-prepare-tests
+        tests/test_seamless_prepare.cpp src/mods/tomba_seamless_prepare.cpp
+        "${PSXRECOMP_ROOT}/runtime/src/psx_sha256.c")
+    target_compile_features(tomba-seamless-prepare-tests PRIVATE cxx_std_17)
+    target_include_directories(tomba-seamless-prepare-tests PRIVATE "${PSXRECOMP_ROOT}/runtime/include")
     add_executable(tomba-adaptive-tests tests/test_adaptive_widescreen.c)
+    target_include_directories(tomba-adaptive-tests PRIVATE "${PSXRECOMP_ROOT}/runtime/include")
     add_test(NAME tomba_adaptive_widescreen COMMAND tomba-adaptive-tests)
     find_package(Python3 QUIET COMPONENTS Interpreter)
     if(Python3_FOUND)

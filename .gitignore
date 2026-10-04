@@ -23,6 +23,7 @@ release-stage/
 *.ccd
 *.mcd
 *.mcr
+*.pack
 
 # Ghidra projects and local analysis databases
 *.gpr
