@@ -108,7 +108,7 @@ does not itself remove their data loads. See [AOT overlays](AOT_OVERLAYS.md).
 | Pre-decode all GAM files and retain ordinary assets | Proven feasible here at a modest host-memory cost. Recommended foundation. Still needs scene installation with normal audio timing. |
 | Replace only the decompressor | Can remove decode work. Leaves CD waits, cooperative phase waits, transfers, initialization, and loading presentation. A component, not the full solution. |
 | Replace file reads with immediate copies | More direct than emulated-CD acceleration, but completion must match the game's queue/consumer contract. Still leaves later phases. Test only within a defined transition transaction. |
-| Preload the likely next area during gameplay | Can move preparation off the boundary. Requires prediction for exits/warps and careful isolation from live RAM. Retaining all immutable files is simpler for this title; stage only the destination's runtime resources. |
+| Prepare neighboring areas during gameplay | Conditional second step only if destination initialization remains expensive with all immutable assets already resident. Prepare reachable neighbors' runtime resources in isolated storage and activate only the chosen destination. |
 | Replace Tomba's discrete transition workflow | Recommended route to the requested result. Consume prepared assets, initialize from current gameplay state, and publish a completed destination without entering the loading presentation. Requires reverse engineering and live validation. |
 | Broader native scene/resource system | Greatest control over resource ownership and concurrent preparation; substantially larger than a constrained spike. Escalate only if the narrow adapter cannot safely install a scene. |
 | Full native audio or retained sound-bank service | No demonstrated need in this spike. Consider only if the normal-speed prototype exposes an audio regression requiring it. |
@@ -141,6 +141,18 @@ from the player's current state, commit resources at an established safe game
 boundary, and resume normal gameplay. Preparation must stay outside live guest
 RAM until the previous consumers have finished. A global write-set replay or
 setting the completion flag early does not establish that boundary.
+
+Keep the entire prepared immutable asset set in host memory as the first
+approach. Measure destination initialization separately. If it fits the normal
+presentation interval, neighboring-area preparation adds no needed benefit.
+If initialization still causes a pause, prepare the current area's reachable
+neighbors while gameplay continues, subject to measured memory and frame costs.
+Prepared neighbors remain inactive: no enemy simulation, script execution, or
+event progression before entry. Revalidate state-dependent setup at handoff so
+inventory or event changes cannot leave a stale prepared destination. Warps and
+menu-selected destinations need their own preparation triggers if this second
+step becomes necessary. This changes resource residency; it does not require
+merging the game's area logic into one active world.
 
 The current framework already supplies `psx_mod_read_disc_file`, which reads
 original files with active sector mods applied without changing guest CD state.
