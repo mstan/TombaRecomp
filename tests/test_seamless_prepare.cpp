@@ -7,6 +7,7 @@
 #include <cassert>
 #include <cstdint>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
@@ -44,8 +45,12 @@ extern "C" int psx_mod_read_disc_file(const char *name, void *buffer, uint32_t c
     return 1;
 }
 int main(int argc, char **argv) {
-    assert(argc==2);
+    if(argc!=2 || !std::getenv("TOMBA_SEAMLESS_CACHE") || std::getenv("TOMBA_SEAMLESS_PACK")) {
+        std::fprintf(stderr,"Set TOMBA_SEAMLESS_CACHE to an isolated test directory, unset TOMBA_SEAMLESS_PACK, and pass the independent fixture pack.\n");
+        return 2;
+    }
     std::ifstream in(argv[1],std::ios::binary);
+    if(!in) { std::fprintf(stderr,"Cannot open fixture: %s\n",argv[1]); return 2; }
     fixture.assign(std::istreambuf_iterator<char>(in),{});
     assert(fixture.size()>48 && !std::memcmp(fixture.data(),"TMBPK001",8));
     assert(le32(fixture.data()+8)==std::size(catalog));

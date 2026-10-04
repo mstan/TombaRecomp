@@ -1,0 +1,157 @@
+{
+  "scope": "Constrained stock SCUS-94236 spike; full seamless acceptance remains open",
+  "branch": "spike/tomba-seamless-transitions-20261004",
+  "framework": "c68bf6e08568327d0c6816d083cf7d00875593f0",
+  "renderer": "OpenGL",
+  "disc_sha1": "c259ec7ff6ef4163913991f4e4db2eff71702818",
+  "prepared_cache": {
+    "files": 1062,
+    "bytes": 74439288,
+    "sha256": "dacc6f5ef2d21d6c0a052005621d0bbd379131a290aa058f2d0ba3c3eb221db4",
+    "native_offline_parity": true,
+    "corruption_repair": true,
+    "warm_reuse": true
+  },
+  "original_mips_oracles": {
+    "decoder_streams": 397,
+    "decoder_runs": 794,
+    "reverb_cases": 40
+  },
+  "aot_release": {
+    "recipes": 25,
+    "native_pairs": 196,
+    "manifest_rows": 8213,
+    "audit_passed": true,
+    "interpreter_fallbacks_remain": true
+  },
+  "staged_player_v22": {
+    "loose_game_executable": false,
+    "python_or_compiler_on_runtime_path": false,
+    "bundled_overlay_compiler": false,
+    "fresh_cache": true,
+    "natural_boot_to_title": true,
+    "new_game_to_first_npc": true,
+    "movies_enabled": true,
+    "restore_used_for_new_game": false,
+    "installer_isolation_test": false
+  },
+  "audio_v22": [
+    {
+      "route": "menu-watchtower",
+      "wall_seconds": 2.0309999999881256,
+      "guest_frames": 122,
+      "destination": "01000300",
+      "counter_deltas": {
+        "underruns": 0,
+        "pump_skips": 0,
+        "mutes": 0,
+        "unmutes": 0,
+        "output_underruns": 0,
+        "output_overflow_drops": 0
+      },
+      "wav_files": [
+        {
+          "path": "audio-player-v22/menu-watchtower-0.wav",
+          "sha256": "2be0eb8438dffded6175756e9df2d842b2cc0502c2896d1468cd8bd24469fd7c"
+        },
+        {
+          "path": "audio-player-v22/menu-watchtower-2.wav",
+          "sha256": "3a8331a96a9f61d7853c896e6ffa122fc12400e8c31027a0865ddc886d99b7ee"
+        }
+      ]
+    },
+    {
+      "route": "watchtower-neighbor",
+      "wall_seconds": 4.01600000000326,
+      "guest_frames": 241,
+      "destination": "01000100",
+      "counter_deltas": {
+        "underruns": 0,
+        "pump_skips": 0,
+        "mutes": 0,
+        "unmutes": 0,
+        "output_underruns": 0,
+        "output_overflow_drops": 0
+      },
+      "wav_files": [
+        {
+          "path": "audio-player-v22/watchtower-neighbor-0.wav",
+          "sha256": "078297c025b160a2189de6c40b44bc65c87d454ced9e3626580fef03778fe53b"
+        },
+        {
+          "path": "audio-player-v22/watchtower-neighbor-2.wav",
+          "sha256": "168317d8d0f274bc365b04164bb9c1831dae10b9666ca03ee47f4a3ea21b0634"
+        }
+      ]
+    },
+    {
+      "route": "neighbor-village",
+      "wall_seconds": 3.0310000000172295,
+      "guest_frames": 182,
+      "destination": "02000000",
+      "counter_deltas": {
+        "underruns": 0,
+        "pump_skips": 0,
+        "mutes": 0,
+        "unmutes": 0,
+        "output_underruns": 0,
+        "output_overflow_drops": 0
+      },
+      "wav_files": [
+        {
+          "path": "audio-player-v22/neighbor-village-0.wav",
+          "sha256": "ba4cc7b9ec222127ab4b6604390fc2835a2ae3f1a55705fe7f7daabeacf1932e"
+        },
+        {
+          "path": "audio-player-v22/neighbor-village-2.wav",
+          "sha256": "f1cedbf75c6c8e6cf2adf0f9612fdd50d3568d70551a68019998fefe41b37337"
+        }
+      ]
+    },
+    {
+      "route": "village-neighbor",
+      "wall_seconds": 4.046999999991385,
+      "guest_frames": 242,
+      "destination": "01000100",
+      "counter_deltas": {
+        "underruns": 0,
+        "pump_skips": 0,
+        "mutes": 0,
+        "unmutes": 0,
+        "output_underruns": 0,
+        "output_overflow_drops": 0
+      },
+      "wav_files": [
+        {
+          "path": "audio-player-v22/village-neighbor-0.wav",
+          "sha256": "caba34bb8e59ffbbb55393673840fc535dc591e20b56ae36c6d3f5820243ca9f"
+        },
+        {
+          "path": "audio-player-v22/village-neighbor-2.wav",
+          "sha256": "cbd128fda169b913ba0f37a24af165a813ec6b7a1fed1fedcce9b8c5d1b188a2"
+        }
+      ]
+    }
+  ],
+  "visual_v21": {
+    "route": [
+      "menu -> 1/3",
+      "1/3 -> 1/1",
+      "1/1 -> 2/0",
+      "2/0 -> 1/1"
+    ],
+    "loading_ui_frames_observed": 0,
+    "fully_black_frames": 0,
+    "repeated_frame_at_watchtower_exit": true
+  },
+  "open_gates": [
+    "Repeated presentation frame cause",
+    "Frame-level movie handoffs",
+    "Death and continue",
+    "Warps",
+    "Event variants",
+    "Other areas and renderers",
+    "Asset replacement mod compatibility",
+    "Setup-host release CI migration"
+  ]
+}

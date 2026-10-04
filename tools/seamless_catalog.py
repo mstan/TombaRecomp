@@ -19,7 +19,7 @@ def emit(report_path, output):
             json.dumps(r['source_sha256']), r['prepared_bytes'] if decoded else 0,
             json.dumps(r['prepared_sha256'] if decoded else '')))
     lines.append('};\n')
-    output.write_text('\n'.join(lines))
+    output.write_text('\n'.join(lines), encoding='utf-8', newline='\n')
 
 
 if __name__ == '__main__':

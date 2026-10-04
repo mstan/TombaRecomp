@@ -96,7 +96,9 @@ if ($SkipRegen) {
     if ($LASTEXITCODE -ne 0) { throw "game regen failed" }
 }
 
-Invoke-Native { & $Cmake -S $Root -B $BuildPath -G Ninja -DCMAKE_BUILD_TYPE=Release -DPSX_DEBUG_TOOLS=OFF -DPSX_PGXP_VARIANT=OFF -DPSX_SDL_BACKEND=SDL3 "-DPSX_GAME_VERSION=$Version" } "cmake configure"
+# Ship compiled game code. Override old CMake caches that enabled the player
+# code-generation wizard; first-run resident assets are prepared natively.
+Invoke-Native { & $Cmake -S $Root -B $BuildPath -G Ninja -DCMAKE_BUILD_TYPE=Release -DPSX_SETUP_WIZARD=OFF -DPSXRECOMP_FORCE_SETUP_HOST=OFF -DPSX_DEBUG_TOOLS=OFF -DPSX_PGXP_VARIANT=OFF -DPSX_SDL_BACKEND=SDL3 "-DPSX_GAME_VERSION=$Version" } "cmake configure"
 Invoke-Native { & $Cmake --build $BuildPath --target $RuntimeTarget -j $Jobs } "cmake build"
 
 if (Test-Path -LiteralPath $StageRoot) {

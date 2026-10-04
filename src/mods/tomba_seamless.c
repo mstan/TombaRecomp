@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 
 typedef struct {
     uint32_t lba, size, raw, raw_len, decoded, decoded_len, declared, codec_state;
@@ -22,7 +21,9 @@ static Asset *assets;
 static uint32_t asset_count, data_len;
 static int (*previous_hook)(CPUState *, uint32_t);
 static unsigned batches, fallbacks, frame;
+static unsigned last_batch_frame;
 static int trace;
+static int retail_reverb;
 extern const char *tomba_seamless_prepare_path(int rebuild);
 extern double tomba_seamless_now_ms(void);
 extern uint8_t *memory_get_ram_ptr(void);
@@ -33,6 +34,7 @@ static uint8_t r8(uint32_t a) { return psx_mod_read_byte(a); }
 static void w32(uint32_t a, uint32_t v) { psx_mod_write_word(a, v); }
 static void w16(uint32_t a, uint16_t v) { psx_mod_write_half(a, v); }
 static void w8(uint32_t a, uint8_t v) { psx_mod_write_byte(a, v); }
+#include "tomba_seamless_spu.h"
 static uint32_t u32(const unsigned char *p) {
     return (uint32_t)p[0] | (uint32_t)p[1]<<8 | (uint32_t)p[2]<<16 | (uint32_t)p[3]<<24;
 }
@@ -188,7 +190,11 @@ static int install_batch(CPUState *cpu) {
         }
         ++count;
     }
-    double start=tomba_seamless_now_ms();
+    double start=tomba_seamless_now_ms(); uint64_t start_cycles=psx_get_cycle_count();
+    /* A raw bank/overlay can reuse a previous frame's packet arena too.
+     * Drain submitted work before the first RAM write, not only before a
+     * texture upload after its scratch data has already been replaced. */
+    guest(cpu,0x8005EB54u,0x8000FB00u,0,0,0);
     w8(0x1F8001CEu,0); w32(0x8009C8B0u,0);
     for(unsigned i=0;i<count;i++) {
         const Request *r=requests+i; const Asset *a=r->asset;
@@ -223,7 +229,8 @@ static int install_batch(CPUState *cpu) {
     }
     w8(0x1F8001CEu,1);
     ++batches;
-    fprintf(stdout,"seamless: batch=%u frame=%u files=%u ms=%.3f area=%u/%u fallbacks=%u\n",batches,frame,count,tomba_seamless_now_ms()-start,r16(0x8009BCC8u),r16(0x8009BCCAu),fallbacks);
+    last_batch_frame=frame;
+    fprintf(stdout,"seamless: batch=%u frame=%u files=%u ms=%.3f cycles=%llu area=%u/%u fallbacks=%u\n",batches,frame,count,tomba_seamless_now_ms()-start,(unsigned long long)(psx_get_cycle_count()-start_cycles),r16(0x8009BCC8u),r16(0x8009BCCAu),fallbacks);
     fflush(stdout);
     cpu->gpr[2]=1;
     return 1;
@@ -261,19 +268,61 @@ static int read_save(CPUState *cpu) {
     return 0;
 }
 
+/* SpuClearReverbWorkArea's actual writes, with its allocation guard intact.
+ * The original sends the same 1 KiB buffer in small DMA jobs and waits for
+ * each completion. Install those bytes directly through the existing SPU
+ * write path. No music, envelope, sequencer or audio-output clock is advanced.
+ * Mode setup and its temporary reverb disable remain in the retail caller. */
+static int clear_reverb(CPUState *cpu) {
+    unsigned mode=cpu->gpr[4];
+    if(mode>=10 || r32(0x80097C70u)!=3 || r32(0x80097C64u) || r32(0x80097C80u) ||
+       r32(0x80076400u)!=0x27BDFFC8u || (spu_ctrl_read()&0x80)) return 0;
+    uint32_t units=r32(0x80097CB0u+4*mode);
+    if(units>0x10000u) return 0;
+    uint32_t begin=(mode ? units : 0xFFF0u)<<3;
+    if(begin<0x1010u || begin>=0x80000u) return 0;
+    if(guest(cpu,0x800758C0u,0x8000FC00u,units,0,0)) {
+        cpu->gpr[2]=0xFFFFFFFFu; return 1;
+    }
+    tomba_reverb_transfer(begin);
+    cpu->gpr[2]=0;
+    return 1;
+}
+
 static int dispatch(CPUState *cpu, uint32_t phys) {
     if(!psx_mod_game_started() || r32(0x80021340u)!=0x27BDFF98u)
         return previous_hook ? previous_hook(cpu,phys) : 0;
-    if(trace && cpu->gpr[31]!=0x8000FE00u &&
-       (phys==0x1758Cu || phys==0x17AE0u || phys==0x243E8u || phys==0x246B0u ||
-        phys==0x28EF4u || phys==0x59F7Cu || phys==0x2065Cu || phys==0x210A8u ||
-        phys==0x6BB4Cu || phys==0x6B898u || phys==0x7594Cu || phys==0x75338u)) {
+    /* The final opening-logo tick builds old primitives immediately before
+     * enqueuing the title's replacement assets. They would outlive their
+     * packet storage with immediate installation, just like an area exit. */
+    if(phys==0xE7D74u && cpu->gpr[31]==0x80019BC0u &&
+       r32(0x800E7D5Cu)==0x3C02800Fu && r32(0x800E7D74u)==0x27BDFFE8u) {
+        uint32_t t=r32(0x1F8001D4u);
+        if(!r16(t+0x48) && r16(t+0x4A)==5 && r16(t+0x58)==1) return 1;
+    }
+    if(trace && phys==0x76400u && cpu->gpr[31]!=0x8000FD00u && cpu->gpr[4]<10) {
+        unsigned mode=cpu->gpr[4];
+        uint32_t begin=(mode ? r32(0x80097CB0u+4*mode) : 0xFFF0u)<<3;
+        uint32_t before[48]; for(unsigned i=0;i<48;i++) before[i]=r32(0x80097C40u+4*i);
+        uint16_t ctrl=spu_ctrl_read(), addr=(uint16_t)spu_read(0x1F801DA6u);
         double start=tomba_seamless_now_ms(); uint64_t cycles=psx_get_cycle_count(); unsigned f=frame;
-        uint32_t result=guest(cpu,0x80000000u|phys,0x8000FE00u,cpu->gpr[4],cpu->gpr[5],cpu->gpr[6]);
-        fprintf(stdout,"seamless: init pc=%05X frames=%u..%u ms=%.3f cycles=%llu\n",
-                phys,f,frame,tomba_seamless_now_ms()-start,(unsigned long long)(psx_get_cycle_count()-cycles));
-        cpu->gpr[2]=result;
-        return 1;
+        uint32_t result;
+        if(retail_reverb || !clear_reverb(cpu))
+            result=guest(cpu,0x80076400u,0x8000FD00u,mode,0,0);
+        else result=cpu->gpr[2];
+        unsigned nonzero=0;
+        if(begin<0x80000) for(unsigned i=begin;i<0x80000;i++) nonzero+=spu_get_ram()[i]!=0;
+        fprintf(stdout,"seamless: reverb oracle mode=%u begin=%X result=%d nonzero=%u ctrl=%X..%X addr=%X..%X frames=%u..%u ms=%.3f cycles=%llu\n",
+                mode,begin,(int)result,nonzero,ctrl,spu_ctrl_read(),addr,spu_read(0x1F801DA6u),f,frame,
+                tomba_seamless_now_ms()-start,(unsigned long long)(psx_get_cycle_count()-cycles));
+        for(unsigned i=0;i<48;i++) if(before[i]!=r32(0x80097C40u+4*i))
+            fprintf(stdout,"seamless: reverb global %08X %08X -> %08X\n",0x80097C40u+4*i,before[i],r32(0x80097C40u+4*i));
+        fflush(stdout);cpu->gpr[2]=result;return 1;
+    }
+    if(phys==0x76400u && cpu->gpr[31]!=0x8000FD00u && !retail_reverb) {
+        if(clear_reverb(cpu)) return 1;
+        ++fallbacks;
+        fprintf(stdout,"seamless: reverb fallback frame=%u mode=%u\n",frame,cpu->gpr[4]);
     }
     /* An ordinary exit has already committed to state 7 before its old
      * scene's render call. The parent adapter installs and draws the new
@@ -283,6 +332,22 @@ static int dispatch(CPUState *cpu, uint32_t phys) {
         uint32_t t=r32(0x1F8001D4u);
         if(r16(t+0x48)==1 && r16(t+0x4A)==1 && r16(t+0x4C)==7 && !r16(t+0x4E))
             return 1;
+    }
+    if(trace && cpu->gpr[31]!=0x8000FE00u &&
+       (phys==0x1758Cu || phys==0x17AE0u || phys==0x243E8u || phys==0x246B0u ||
+        phys==0x28EF4u || phys==0x59F7Cu || phys==0x2065Cu || phys==0x210A8u ||
+        phys==0x6BB4Cu || phys==0x6B898u || phys==0x7594Cu ||
+        phys==0x73CA8u || phys==0x73B54u || phys==0x73BD8u ||
+        (batches && frame-last_batch_frame<=2 &&
+         (phys==0x1B5A8u || phys==0x1C2E8u || phys==0x46264u ||
+          phys==0x1DE24u || phys==0x3C78Cu || phys==0x11AF40u)))) {
+        double start=tomba_seamless_now_ms(); uint64_t cycles=psx_get_cycle_count(); unsigned f=frame;
+        uint32_t result=guest(cpu,0x80000000u|phys,0x8000FE00u,cpu->gpr[4],cpu->gpr[5],cpu->gpr[6]);
+        fprintf(stdout,"seamless: init pc=%05X frames=%u..%u ms=%.3f cycles=%llu\n",
+                phys,f,frame,tomba_seamless_now_ms()-start,(unsigned long long)(psx_get_cycle_count()-cycles));
+        fflush(stdout);
+        cpu->gpr[2]=result;
+        return 1;
     }
     /* Some areas defer the fade actor's pure initialization until their
      * first update. Run that setup and its first fade step together, just
@@ -392,6 +457,7 @@ static int dispatch(CPUState *cpu, uint32_t phys) {
     if(phys==0x1AC00u && cpu->gpr[31]!=0x8001AD0Cu) {
         uint32_t t=r32(0x1F8001D4u);
         double started=tomba_seamless_now_ms(); unsigned start_frame=frame, start_batches=batches;
+        uint64_t start_cycles=psx_get_cycle_count();
         unsigned old=r16(t+0x4C), sub=r16(t+0x4E), failed=fallbacks;
         guest(cpu,0x8001AC00u,0x8001AD0Cu,0,0,0);
         unsigned next=r16(t+0x4C);
@@ -413,10 +479,12 @@ static int dispatch(CPUState *cpu, uint32_t phys) {
         if(failed==fallbacks && old>=1 && old<=6 && old!=3 && sub==0 &&
            r16(t+0x4C)==old && r16(t+0x4E)==1)
             guest(cpu,0x8001AC00u,0x8001AD0Cu,0,0,0);
-        if(start_batches!=batches)
-            fprintf(stdout,"seamless: scene frames=%u..%u ms=%.3f area=%u/%u phase=%u/%u fallbacks=%u\n",
-                    start_frame,frame,tomba_seamless_now_ms()-started,r16(0x8009BCC8u),r16(0x8009BCCAu),
+        if(start_batches!=batches) {
+            fprintf(stdout,"seamless: scene frames=%u..%u ms=%.3f cycles=%llu area=%u/%u phase=%u/%u fallbacks=%u\n",
+                    start_frame,frame,tomba_seamless_now_ms()-started,(unsigned long long)(psx_get_cycle_count()-start_cycles),r16(0x8009BCC8u),r16(0x8009BCCAu),
                     r16(t+0x4C),r16(t+0x4E),fallbacks);
+            fflush(stdout);
+        }
         return 1;
     }
     if(phys==0x1B0A4u && cpu->gpr[31]!=0x8001B2A4u && !r8(0x1F8001B4u)) {
@@ -491,6 +559,8 @@ static int load_pack(const char *path) {
 static void activate(void) {
     const char *trace_env=getenv("TOMBA_SEAMLESS_TRACE");
     trace=trace_env && !strcmp(trace_env,"1");
+    const char *retail_env=getenv("TOMBA_SEAMLESS_REVERB_RETAIL");
+    retail_reverb=retail_env && !strcmp(retail_env,"1");
     for(int attempt=0;attempt<2;attempt++) {
         const char *path=tomba_seamless_prepare_path(attempt);
         if(!path || !*path) break;

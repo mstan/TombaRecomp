@@ -35,6 +35,8 @@ fi
 if [ "${SKIP_RUNTIME_BUILD:-0}" != 1 ]; then
 cmake -S "$root" -B "$build_dir" -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
+    -DPSX_SETUP_WIZARD=OFF \
+    -DPSXRECOMP_FORCE_SETUP_HOST=OFF \
     -DCMAKE_C_COMPILER_LAUNCHER= \
     -DCMAKE_CXX_COMPILER_LAUNCHER= \
     -DPSX_DEBUG_TOOLS=OFF \

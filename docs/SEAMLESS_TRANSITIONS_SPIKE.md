@@ -30,6 +30,10 @@ compiler, generated game C, source checkout, or extraction script on the
 player's machine. The legacy code-generation wizard is now an explicit
 developer CMake option, `PSX_SETUP_WIZARD=ON`, default OFF. This spike does not
 claim to migrate the existing release CI or redesign the launcher setup UI.
+The existing Windows and AppImage prebuilt packagers explicitly disable both
+the wizard and setup-host mode, including when reusing an older CMake cache.
+The separate setup-host GitHub workflow still needs migration before publishing
+the new release model.
 
 The local pack contains 1,062 files, excluding 22 STR movies and the disc filler
 file. Both sector-padded originals and decoded GAM output remain resident:
@@ -49,9 +53,21 @@ preserves the previous complete cache and leaves the native loader disabled.
 The independent Python builder and native preparer produce exactly the same
 74,439,288-byte pack, SHA-256
 `dacc6f5ef2d21d6c0a052005621d0bbd379131a290aa058f2d0ba3c3eb221db4`.
-Warm reuse is verified. Explicit corruption/recovery validation remains a gate.
+Corrupting a body byte in the isolated cache caused regeneration from the disc
+and restored the exact expected hash. Warm reuse left the cache timestamp
+unchanged, with no preparation pass.
 This catalog supports stock assets only. Asset-replacement mods and other disc
 editions need a separate compatibility/cache-identity design before support.
+
+A staged player smoke run contained the executable, configs, OpenBIOS, launcher
+assets, mod catalog and audited native overlays. It contained no loose PS-X EXE,
+generated C, recompiler, Python or overlay compiler. With only Windows system
+directories on the runtime PATH and a fresh prepared-data directory, it produced
+the expected pack, read the executable image from the supplied disc, played the
+opening movies, and entered a new game through the title menu. The first NPC
+conversation rendered correctly. This used normal movie playback and no save
+state restore. The test directory was under this worktree; save/options paths
+still resolved to the worktree, so this is not an installer-isolation test.
 
 ## Runtime implementation and current evidence
 
@@ -71,6 +87,18 @@ fade actor initialization is combined with its first fade step, removing an
 otherwise fully black first destination frame. Music start/stop functions are
 preserved; `0x8002065C` starts music and is not a visual fade function.
 
+Reverb setup also performs real synchronous SPU writes instead of waiting for
+each small DMA transfer. The retail allocation guard and music/reverb commands
+remain. Forty comparisons with the original MIPS routine cover all ten modes,
+two source patterns and two poisoned SPU buffers; full SPU RAM and transfer
+globals match, including the last rounded DMA wrapping around SPU RAM. On the
+measured mode this removed roughly 500,000 guest cycles of transfer waiting.
+
+Immediate installation also exposed a cold-boot ownership bug: the final logo
+queued primitives before replacing their storage with title assets. That final
+old-logo draw is omitted only at the verified handoff. Submitted GPU work is
+drained before any batch RAM write. A full cold boot now reaches the title.
+
 Menu Load Game reads the live memory-card subsystem, including unsaved in-memory
 card writes. It supports Tomba's ordinary single-block saves, checks directory
 metadata/checksum, and leaves retail save checksum/deserialization intact.
@@ -84,17 +112,24 @@ On the local OpenGL debug build:
 | --- | --- |
 | Decoder fidelity | All 397 distinct streams matched original MIPS twice, including final-token tails. |
 | Native preparation | Full pack equals the independent offline fixture; altered source rejected; valid cache preserved. |
+| Native reverb | Forty original-MIPS/native comparisons match every SPU byte and transfer register. |
 | Automated project checks | All four CTest checks pass, including six decoder cases and staged mod catalog validation. |
+| AOT overlays | Fresh disc pipeline: 25 recipes, 196 native pairs, 8,213 manifest rows; ABI/byte audit passes and runtime native calls confirmed. Interpreter fallbacks still exist. |
+| Cold boot / new game | Staged binary with fresh asset cache reaches title and the opening NPC conversation with movies enabled, without restoring a fixture. |
 | Menu destinations | Stormy Mountain, Charity Square and Watch Tower entered from real card saves. |
 | Walked exits, latest visual run | Watch Tower `1/3` → `1/1` → Dwarf Village `2/0` → `1/1`; no pigs or fully black frames captured. |
 | State continuity | AP changed from 130400 to 130900 through actual gameplay and remained 130900 across the village round trip. This is not an exhaustive inventory/event test. |
 | Resource installation | Latest uninstrumented route batches about 0.01–1.4 ms; no native batch crossed a guest VBlank. |
-| Whole handoff | Neighbor entry ~5.4 ms; menu ~19.2 ms and village ~33.4 ms including guest pacing. Remaining initialization is being profiled. |
+| Whole handoff | AOT plus native reverb: menu ~15.8 ms, neighbor ~13.2 ms, village ~17.5 ms, including guest pacing. Some handoffs still cross a guest VBlank. |
 | Audio, capture/tracing disabled | Four-route run at normal ~60 Hz: zero increases in output underruns, pump skips or overflow drops. WAVs retained for inspection. Existing boot/restore drop totals are not counted as transition results. |
 | Outstanding visual gate | One repeated presentation frame remains around some handoffs; no claim of zero load-induced held frames yet. |
 
-Local evidence is ignored under `build-seamless`: `*-v11` display captures,
-`audio-perf-v12/receipt.json` and WAVs, and `probe-init-v13/v14` timing logs.
+Local evidence is ignored under `build-seamless`: `*-v21` display captures,
+`audio-aot-v18/receipt.json` and WAVs, `probe-stage-v22` profiling logs,
+`aot-stage/AOT_CACHE_AUDIT.json`, and the `player-smoke-v22` first-run package.
+The staged-player repeat in `audio-player-v22` also passed all six audio counter
+checks at 59.8--60.1 Hz. A compact, asset-free record is committed as
+`docs/seamless_runtime_receipt.json`; the original audio and images stay local.
 Frame readback has overhead; audio measurements run separately with
 `PSX_FNTRACE_ALL=0` and `PSX_DISPLAY_RING=0`. `TOMBA_SEAMLESS_TRACE=1` enables
 detailed resource/initializer logging for diagnosis, not acceptance timing.
@@ -102,8 +137,15 @@ Known menu savestate fixtures are test inputs only. Cross-process gameplay
 savestates proved unreliable on this framework pin, so route evidence uses an
 actual card load followed by uninterrupted walking, not restored area snapshots.
 
-Remaining gates include cold-cache recovery, the repeated-frame cause, first
-run with movies, death/continue, warps, event variants, further areas, and other
+The detailed profile places most remaining guest cycles in the first ordinary
+gameplay update/draw, not resource installation. The village update also uses
+roughly 460,000--500,000 cycles on subsequent ordinary frames. A repeated image
+at the Watch Tower exit remains even when the whole adapter stays in one guest
+frame; presentation/packet ownership needs diagnosis before treating that as
+evidence for neighboring-scene initialization.
+
+Remaining gates include the repeated-frame cause, frame-level movie handoffs,
+death/continue, warps, event variants, further areas, and other
 renderers. No speculative neighboring-scene cache is implemented: measurements
 must establish which work needs preparation before that complexity is justified.
 
@@ -272,6 +314,15 @@ Preserve the game's intended music changes, fades, and stops. Do not accelerate
 the machine or discard audio buffers to shorten a transition.
 
 The runtime uses the existing SPU write path and retail sound-bank registration.
+The music-change reverb clear also installs its real bytes synchronously. The
+original `0x80076400` routine was executed against modeled completed DMA jobs
+and compared with the compiled native transfer body in 40 cases: all ten
+reverb modes, zero and patterned source buffers, and two poisoned destinations.
+All 512 KiB of sound RAM and the transfer globals/registers matched. Some modes
+round their last transfer beyond the end of sound RAM and wrap; the native
+path preserves those writes. This oracle proves transfer contents/state, not
+audio timing. Allocation checks and the caller's reverb disable/enable remain
+retail operations.
 The observed transition run has clean audio output counters. Further PCM and
 route checks remain necessary; a new mixer or continuous-music system is not
 a prerequisite for the loading spike.
@@ -323,6 +374,25 @@ Omit `--extract-dir` to measure without retaining blobs. Omit `--oracle` only
 for an inventory run; it must not be reported as original-decoder validation.
 Both generated assets and the local dependency installation are ignored by Git.
 The probe never launches Tomba or modifies a save, disc, or Ghidra database.
+
+The following checks are developer-only; players do not run Python or compile
+these tools. Build an independent local pack with `tools/seamless_pack.py`,
+then set `TOMBA_SEAMLESS_CACHE` to an isolated test directory and leave
+`TOMBA_SEAMLESS_PACK` unset. Run `tomba-seamless-prepare-tests` with the pack
+path as its sole argument. It checks full-pack equality and failed regeneration
+preserving the prior cache. This fixture is not a CTest dependency because it
+contains the owner's original disc data.
+
+Build target `tomba-seamless-reverb-fixture` and run the reverb byte oracle:
+
+```text
+python tools/seamless_reverb_probe.py --exe disc/SCUS_942.36 --native-library BUILD/libtomba-seamless-reverb-fixture.dll
+```
+
+Use the platform's shared-library suffix outside Windows. The oracle requires
+the local Unicorn installation on `PYTHONPATH` and the exact supported original
+executable. Its DMA boundary model completes the real requested transfers;
+it makes no claim about an entire SPU or BIOS emulation.
 
 Historical evidence consulted: central issue `beads-eio.4.7` (August save-load
 measurements and rejected snapshot proposal), the pinned framework's

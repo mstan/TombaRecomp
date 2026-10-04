@@ -61,6 +61,7 @@ foreach(TOMBA_RUNTIME_CONFIG game.toml game_options.toml)
 endforeach()
 
 if(BUILD_TESTING)
+    add_library(tomba-seamless-reverb-fixture SHARED tests/seamless_reverb_native_fixture.c)
     add_executable(tomba-seamless-prepare-tests
         tests/test_seamless_prepare.cpp src/mods/tomba_seamless_prepare.cpp
         "${PSXRECOMP_ROOT}/runtime/src/psx_sha256.c")
