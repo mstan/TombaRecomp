@@ -292,6 +292,28 @@ static int clear_reverb(CPUState *cpu) {
 static int dispatch(CPUState *cpu, uint32_t phys) {
     if(!psx_mod_game_started() || r32(0x80021340u)!=0x27BDFF98u)
         return previous_hook ? previous_hook(cpu,phys) : 0;
+    /* The exit actor's movement step can finish after its fade. In retail
+     * it then spends a whole tick entering a pure fade-completion check.
+     * Complete that already-ready check now; movement still runs once. */
+    if(phys==0x2CFF4u && cpu->gpr[31]!=0x8000F900u &&
+       ram(cpu->gpr[4],0x80) && r8(cpu->gpr[4]+6)==2 && !r8(0x8009BCA0u) &&
+       r32(0x8002CFF4u)==0x3C02800Au && r32(0x8002D484u)==0x3C03800Au) {
+        uint32_t actor=cpu->gpr[4], t=r32(0x1F8001D4u);
+        unsigned state=r16(t+0x4C);
+        if(r16(t+0x48)==1 && r16(t+0x4A)==1 && state>=1 && state<=6 && state!=3) {
+            uint32_t result=guest(cpu,0x8002CFF4u,0x8000F900u,actor,0,0);
+            if(r8(actor+6)==3 && r8(0x8009BCDDu)==1 && !r8(0x8009BCA0u) &&
+               r16(t+0x4C)==state) {
+                result=guest(cpu,0x8002CFF4u,0x8000F900u,actor,0,0);
+                if(trace) {
+                    fprintf(stdout,"seamless: exit movement complete frame=%u actor=%X state=%u..%u\n",
+                            frame,actor,state,r16(t+0x4C));
+                    fflush(stdout);
+                }
+            }
+            cpu->gpr[2]=result; return 1;
+        }
+    }
     /* The final opening-logo tick builds old primitives immediately before
      * enqueuing the title's replacement assets. They would outlive their
      * packet storage with immediate installation, just like an area exit. */

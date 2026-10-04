@@ -19,7 +19,8 @@ Baseline: Tomba `05d82b96d31c2bab59256095cdfec82ccd328310`, framework
 `c68bf6e08568327d0c6816d083cf7d00875593f0`, UI
 `e45e1f3062731abc188e351cad3608730b01fa12`. Worktree branch:
 `spike/tomba-seamless-transitions-20261004`. Central tracking: assessment
-`beads-eio.4.18` (closed), implementation `beads-eio.4.19` (in progress).
+`beads-eio.4.18`, constrained implementation `beads-eio.4.19`, broader release
+validation `beads-eio.4.20`.
 
 ## Prebuilt executable and first-run data preparation
 
@@ -86,6 +87,9 @@ destination renders in that tick. The ordinary visual fades remain. A deferred
 fade actor initialization is combined with its first fade step, removing an
 otherwise fully black first destination frame. Music start/stop functions are
 preserved; `0x8002065C` starts music and is not a visual fade function.
+When exit movement finishes after the fade, its following pure readiness check
+now runs immediately. Movement still runs once. This removes the repeated image
+at the Watch Tower boundary without changing fade speed or scheduler yields.
 
 Reverb setup also performs real synchronous SPU writes instead of waiting for
 each small DMA transfer. The retail allocation guard and music/reverb commands
@@ -120,15 +124,19 @@ On the local OpenGL debug build:
 | Walked exits, latest visual run | Watch Tower `1/3` → `1/1` → Dwarf Village `2/0` → `1/1`; no pigs or fully black frames captured. |
 | State continuity | AP changed from 130400 to 130900 through actual gameplay and remained 130900 across the village round trip. This is not an exhaustive inventory/event test. |
 | Resource installation | Latest uninstrumented route batches about 0.01–1.4 ms; no native batch crossed a guest VBlank. |
-| Whole handoff | AOT plus native reverb: menu ~15.8 ms, neighbor ~13.2 ms, village ~17.5 ms, including guest pacing. Some handoffs still cross a guest VBlank. |
+| Whole handoff | Final run: menu ~16.2 ms, neighbor ~5.8 ms, village ~17.6 ms, return ~18.7 ms, including guest pacing. Some handoffs still cross a guest VBlank; computation is not literally zero. |
 | Audio, capture/tracing disabled | Four-route run at normal ~60 Hz: zero increases in output underruns, pump skips or overflow drops. WAVs retained for inspection. Existing boot/restore drop totals are not counted as transition results. |
-| Outstanding visual gate | One repeated presentation frame remains around some handoffs; no claim of zero load-induced held frames yet. |
+| Final walked boundary images | No repeated adjacent images within seven frames of any of the three handoffs. No loading UI or fully black captured frames. The game's ordinary fades remain. |
+| Menu response | Static confirmation menu changes directly to the destination, two presentation frames after the loader starts. This is not a claim of zero input-to-display latency. |
 
-Local evidence is ignored under `build-seamless`: `*-v21` display captures,
+Local evidence is ignored under `build-seamless`: `*-v25` display captures,
 `audio-aot-v18/receipt.json` and WAVs, `probe-stage-v22` profiling logs,
 `aot-stage/AOT_CACHE_AUDIT.json`, and the `player-smoke-v22` first-run package.
-The staged-player repeat in `audio-player-v22` also passed all six audio counter
-checks at 59.8--60.1 Hz. A compact, asset-free record is committed as
+The staged-player repeat in `audio-player-v22` and final `audio-accept-v25` run
+both passed all six audio counter checks at normal speed. The final four capture
+intervals contain 757 consecutive images in total, with no internal gaps; these
+intervals include each transition. Their trailing export/observation time is
+not part of the captured interval. A compact, asset-free record is committed as
 `docs/seamless_runtime_receipt.json`; the original audio and images stay local.
 Frame readback has overhead; audio measurements run separately with
 `PSX_FNTRACE_ALL=0` and `PSX_DISPLAY_RING=0`. `TOMBA_SEAMLESS_TRACE=1` enables
@@ -139,12 +147,14 @@ actual card load followed by uninterrupted walking, not restored area snapshots.
 
 The detailed profile places most remaining guest cycles in the first ordinary
 gameplay update/draw, not resource installation. The village update also uses
-roughly 460,000--500,000 cycles on subsequent ordinary frames. A repeated image
-at the Watch Tower exit remains even when the whole adapter stays in one guest
-frame; presentation/packet ownership needs diagnosis before treating that as
-evidence for neighboring-scene initialization.
+roughly 460,000--500,000 cycles on subsequent ordinary frames. The repeated
+Watch Tower image came from the exit actor's completed movement entering its
+final readiness check a tick later. The guarded same-tick completion above
+removed it in the final captures. These results do not justify preparing an
+inactive neighboring gameplay state for the constrained routes.
 
-Remaining gates include the repeated-frame cause, frame-level movie handoffs,
+The constrained menu/area spike is validated on the routes above. Release
+validation still needs frame-level movie handoffs,
 death/continue, warps, event variants, further areas, and other
 renderers. No speculative neighboring-scene cache is implemented: measurements
 must establish which work needs preparation before that complexity is justified.

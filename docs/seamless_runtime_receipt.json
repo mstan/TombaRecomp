@@ -1,5 +1,5 @@
 {
-  "scope": "Constrained stock SCUS-94236 spike; full seamless acceptance remains open",
+  "scope": "Constrained stock SCUS-94236 menu/area spike validated; whole-game release acceptance remains open",
   "branch": "spike/tomba-seamless-transitions-20261004",
   "framework": "c68bf6e08568327d0c6816d083cf7d00875593f0",
   "renderer": "OpenGL",
@@ -145,7 +145,6 @@
     "repeated_frame_at_watchtower_exit": true
   },
   "open_gates": [
-    "Repeated presentation frame cause",
     "Frame-level movie handoffs",
     "Death and continue",
     "Warps",
@@ -153,5 +152,146 @@
     "Other areas and renderers",
     "Asset replacement mod compatibility",
     "Setup-host release CI migration"
-  ]
+  ],
+  "audio_v25": [
+    {
+      "route": "menu-watchtower",
+      "wall_seconds": 2.0160000000032596,
+      "guest_frames": 121,
+      "destination": "01000300",
+      "counter_deltas": {
+        "underruns": 0,
+        "pump_skips": 0,
+        "mutes": 0,
+        "unmutes": 0,
+        "output_underruns": 0,
+        "output_overflow_drops": 0
+      },
+      "wav_files": [
+        {
+          "path": "audio-accept-v25/menu-watchtower-0.wav",
+          "sha256": "b6bdf1b79cf95cb32cb8d16860f6d8b4fd0d74c2db12b5a71e571e2ee309e788"
+        },
+        {
+          "path": "audio-accept-v25/menu-watchtower-2.wav",
+          "sha256": "8c27b9422c64f3c0a761d4b355d10fcf32955cfab3cca8f9e6d0e4a3495023b4"
+        }
+      ]
+    },
+    {
+      "route": "watchtower-neighbor",
+      "wall_seconds": 4.0,
+      "guest_frames": 240,
+      "destination": "01000100",
+      "counter_deltas": {
+        "underruns": 0,
+        "pump_skips": 0,
+        "mutes": 0,
+        "unmutes": 0,
+        "output_underruns": 0,
+        "output_overflow_drops": 0
+      },
+      "wav_files": [
+        {
+          "path": "audio-accept-v25/watchtower-neighbor-0.wav",
+          "sha256": "6a4ae22765cbe2e4f159a19e2452bbd6fba37845a1dd106fab0de335dd6b1335"
+        },
+        {
+          "path": "audio-accept-v25/watchtower-neighbor-2.wav",
+          "sha256": "112055ef125606f1e17e919a9c57b63aa8127b9f9f5127cd4e18740adb55138b"
+        }
+      ]
+    },
+    {
+      "route": "neighbor-village",
+      "wall_seconds": 3.0469999999913853,
+      "guest_frames": 182,
+      "destination": "02000000",
+      "counter_deltas": {
+        "underruns": 0,
+        "pump_skips": 0,
+        "mutes": 0,
+        "unmutes": 0,
+        "output_underruns": 0,
+        "output_overflow_drops": 0
+      },
+      "wav_files": [
+        {
+          "path": "audio-accept-v25/neighbor-village-0.wav",
+          "sha256": "035e413a531f8db7d61521182b2bd6af8a93393afe8b8153befa824c6c54f67f"
+        },
+        {
+          "path": "audio-accept-v25/neighbor-village-2.wav",
+          "sha256": "21416cf1c710038bc454860bf162b1961c5e32eb3860b161164d252b936fb39e"
+        }
+      ]
+    },
+    {
+      "route": "village-neighbor",
+      "wall_seconds": 4.046999999991385,
+      "guest_frames": 243,
+      "destination": "01000100",
+      "counter_deltas": {
+        "underruns": 0,
+        "pump_skips": 0,
+        "mutes": 0,
+        "unmutes": 0,
+        "output_underruns": 0,
+        "output_overflow_drops": 0
+      },
+      "wav_files": [
+        {
+          "path": "audio-accept-v25/village-neighbor-0.wav",
+          "sha256": "540b8fab46d6d774f8f30660823f16347db4beddb49a0898f05182ab05dfe044"
+        },
+        {
+          "path": "audio-accept-v25/village-neighbor-2.wav",
+          "sha256": "62a41fb8143a6d93009fdddce70f8cf76389ccc31e245f62d5a4d7e445db3034"
+        }
+      ]
+    }
+  ],
+  "visual_v25": {
+    "route": [
+      "menu -> 1/3",
+      "1/3 -> 1/1",
+      "1/1 -> 2/0",
+      "2/0 -> 1/1"
+    ],
+    "loading_ui_frames_observed": 0,
+    "fully_black_frames": 0,
+    "repeated_adjacent_images_within_seven_frames_of_walked_handoffs": 0,
+    "menu_first_destination_frame_after_loader_start": 2,
+    "ordinary_fades_preserved": true,
+    "captured_intervals": [
+      {
+        "directory": "watch-load-v25",
+        "first": 490,
+        "last": 600,
+        "count": 111,
+        "internal_gaps": 0
+      },
+      {
+        "directory": "watch-to-1-1-v25",
+        "first": 624,
+        "last": 857,
+        "count": 234,
+        "internal_gaps": 0
+      },
+      {
+        "directory": "1-1-to-2-0-v25",
+        "first": 878,
+        "last": 1055,
+        "count": 178,
+        "internal_gaps": 0
+      },
+      {
+        "directory": "2-0-to-1-1-v25",
+        "first": 1078,
+        "last": 1311,
+        "count": 234,
+        "internal_gaps": 0
+      }
+    ]
+  }
 }

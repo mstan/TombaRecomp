@@ -34,13 +34,22 @@ def capture(port, directory, seconds, buttons, input_frames=2):
     last = start - 1
     while time.monotonic() < deadline:
         ring = request(port, cmd='display_ring_stats')
+        if ring['oldest_frame'] > last + 1:
+            receipt['errors'].append({
+                'ok': False, 'first_frame': last + 1,
+                'last_frame': ring['oldest_frame'] - 1,
+                'reason': 'Display ring overwritten before capture',
+            })
         for frame in range(max(last + 1, ring['oldest_frame']), ring['newest_frame'] + 1):
             result = request(port, cmd='display_ring_get', frame=frame,
                              path=str((directory / f'{frame:08d}.png').resolve()))
             receipt['frames' if result.get('ok') else 'errors'].append(result)
             last = frame
     receipt['audio_after'] = request(port, cmd='audio_stats')
-    receipt['end_frame'] = request(port, cmd='frame')['frame']
+    # Exporting the last PNG batch takes time while the game keeps running.
+    # Keep the captured interval distinct from that later observation.
+    receipt['end_frame'] = last
+    receipt['observed_end_frame'] = request(port, cmd='frame')['frame']
     (directory / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
     print(f'{start}..{receipt["end_frame"]}: {len(receipt["frames"])} captured; {len(receipt["errors"])} misses')
 
