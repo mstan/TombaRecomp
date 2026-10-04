@@ -9,8 +9,10 @@ been tested against the original decoder. Seamless runtime transitions have
 
 Game-specific code may remain entirely in TombaRecomp, as the owner clarified.
 Generalizing the implementation is optional. The immediate next experiment
-should cover one menu-to-area route and one round-trip area boundary, with audio
-continuity as an acceptance requirement from the beginning.
+should cover one menu-to-area route and one round-trip area boundary. The owner
+clarified that the audio concern is the stuttering heard with previous turbo
+fast-loading. Keep normal audio timing and normal game-directed music changes;
+continuous outgoing music across every boundary is not a separate requirement.
 
 Baseline: Tomba `05d82b96d31c2bab59256095cdfec82ccd328310`, framework
 `c68bf6e08568327d0c6816d083cf7d00875593f0`, UI
@@ -103,13 +105,13 @@ does not itself remove their data loads. See [AOT overlays](AOT_OVERLAYS.md).
 | Approach | Assessment against the requested experience |
 | --- | --- |
 | Cache the raw disc in host RAM | Removes physical host I/O, but the guest still waits for CD events and loader phases. Useful infrastructure; insufficient alone. |
-| Pre-decode all GAM files and retain ordinary assets | Proven feasible here at a modest host-memory cost. Recommended foundation. Still needs scene installation and audio policy. |
+| Pre-decode all GAM files and retain ordinary assets | Proven feasible here at a modest host-memory cost. Recommended foundation. Still needs scene installation with normal audio timing. |
 | Replace only the decompressor | Can remove decode work. Leaves CD waits, cooperative phase waits, transfers, initialization, and loading presentation. A component, not the full solution. |
 | Replace file reads with immediate copies | More direct than emulated-CD acceleration, but completion must match the game's queue/consumer contract. Still leaves later phases. Test only within a defined transition transaction. |
 | Preload the likely next area during gameplay | Can move preparation off the boundary. Requires prediction for exits/warps and careful isolation from live RAM. Retaining all immutable files is simpler for this title; stage only the destination's runtime resources. |
 | Replace Tomba's discrete transition workflow | Recommended route to the requested result. Consume prepared assets, initialize from current gameplay state, and publish a completed destination without entering the loading presentation. Requires reverse engineering and live validation. |
 | Broader native scene/resource system | Greatest control over resource ownership and concurrent preparation; substantially larger than a constrained spike. Escalate only if the narrow adapter cannot safely install a scene. |
-| Full native audio or retained sound-bank service | Potential fallback if the retail SPU bank lifecycle prevents uninterrupted playback. A separate cost; first determine whether a narrower Tomba audio change suffices. |
+| Full native audio or retained sound-bank service | No demonstrated need in this spike. Consider only if the normal-speed prototype exposes an audio regression requiring it. |
 | Expanded guest RAM / keep several areas resident | Host storage is easy; fixed guest pointers, shared overlay addresses, VRAM and SPU address reuse remain. Expanding RAM alone cannot make two active scenes safe. |
 | Whole-machine snapshots or speculative second instance | Restore/merge risks for inventory, events, RNG, input, and audio. Prior snapshot proposal was rejected; do not revive it for this spike. |
 | Hide pigs, hold a frame, or extend a fade | Conceals work while leaving a wait or blackout. Fails the stated experience as a standalone solution. |
@@ -129,7 +131,7 @@ texture corruption and scheduler failures still matters.
 ## Recommended implementation boundary
 
 Start with a default-off Tomba mod owning its format, descriptor interpretation,
-transition state machine, address/byte guards, and audio decisions. Prepare the
+transition state machine and address/byte guards. Prepare the
 asset archive during setup, and make required bytes resident before the player
 can initiate transitions. Do not defer a cold-cache stall to the first door or
 the Load Game confirmation.
@@ -164,13 +166,16 @@ the game repo. A generic loader is not a prerequisite for demonstrating this.
 
 ## Audio and validation gates
 
-Keep audio advancing at normal wall-clock cadence. Identify which transition
-paths stop sequences, key off voices, or replace SPU sample banks. Loading the
-next bank over samples still used by the outgoing music can glitch even when
-every asset is resident. Retain those samples until their voices finish, reuse
-unchanged banks, or introduce a separate audio path if shared SPU addresses make
-that impossible. Where tracks change, schedule the intended handoff deliberately.
-Do not satisfy continuity by discarding, muting, or replaying accelerated audio.
+The reported historical stuttering occurred with turbo fast-loading. The goal
+here is to remove loading work while audio and gameplay run at normal speed.
+Preserve the game's intended music changes, fades, and stops. Do not accelerate
+the machine or discard audio buffers to shorten a transition.
+
+There is no observed sound-bank lifetime bug in this prototype: no runtime
+replacement has been installed. Check audio during the first normal-speed
+transition experiment. Investigate sequence commands or bank replacement only
+if that experiment introduces a glitch; a new mixer or continuous-music system
+is not a prerequisite for the loading spike.
 
 The next bounded runtime gate should use menu Load Game into one known area and
 a Village-to-neighbor-to-Village round trip. Confirm current supported saves
@@ -181,7 +186,7 @@ CD/load/turbo edges; it does not prove semantic scene readiness.
 
 Acceptance requires zero loading UI frames, zero load-induced black/held frames,
 no missing first-frame textures or actors, preserved current inventory/events,
-normal-rate gameplay, and uninterrupted intended audio. Aim to fit destination
+normal-rate gameplay/audio, and no new audio stuttering. Aim to fit destination
 commit into one normal presentation interval (about 16.7 ms at 60 Hz); measure
 it instead of assuming that memcpy is free. Test cold launch as well as warm
 repeats. A fallback to ordinary loading is safe during development but does not
@@ -194,7 +199,7 @@ or events, and repeat with supported renderers and asset mods. This spike does
 not claim that asset enumeration establishes whole-game transition coverage.
 
 Stop the narrow implementation if it still needs yield suppression, exposes
-partly installed assets, or cannot retain active audio resources. Report the
+partly installed assets, or introduces an unresolved audio regression. Report the
 specific missing ownership/initialization contract and price a larger native
 replacement, rather than shipping concealment as seamless loading.
 
