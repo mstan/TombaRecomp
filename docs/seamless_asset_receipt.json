@@ -1,0 +1,171 @@
+{
+  "schema": "tomba-seamless-asset-receipt-v1",
+  "date": "2026-10-04",
+  "game_commit": "05d82b96d31c2bab59256095cdfec82ccd328310",
+  "framework_commit": "c68bf6e08568327d0c6816d083cf7d00875593f0",
+  "disc_sha1": "c259ec7ff6ef4163913991f4e4db2eff71702818",
+  "exe_sha256": "c45cd788df40a540d8641dc9682007c80e6ab8a4bcdd0e4a4e2c14c5108aa10b",
+  "probe_sha256": "4db21975f0a3f0a017a156d8b6998ef0d1d4b1e450f7d8b91a96369c38abe331",
+  "local_manifest_sha256": "6203a4c8344a70d881ce8d5e176404d5d23b615a6be3993ab30f5e6d67da803e",
+  "oracle": "Unicorn 2.1.4, original MIPS 0x8003EF50 / 0x8005B77C",
+  "summary": {
+    "disc_files": 1085,
+    "disc_file_bytes": 242589445,
+    "excluded_str_files": 22,
+    "gam_files": 637,
+    "gam_unique_source_files": 397,
+    "gam_source_bytes": 23717334,
+    "gam_prepared_bytes": 44417325,
+    "gam_unique_source_prepared_bytes": 29255048,
+    "gam_files_with_final_token_tail": 302,
+    "gam_max_final_token_tail_bytes": 252,
+    "non_str_source_bytes": 98746117,
+    "non_str_prepared_bytes": 119446108,
+    "non_str_unique_source_bytes": 74248681,
+    "non_str_unique_prepared_bytes": 85277879,
+    "original_mips_verified_unique_streams": 397,
+    "oracle_destination_patterns": 2,
+    "errors": 0
+  },
+  "prepared_blob_count": 705,
+  "exported_blob_verification": "All 1063 non-STR file entries resolve to blobs with matching size and SHA-256",
+  "unit_tests": 6,
+  "limits": [
+    "No runtime replacement or live transition test",
+    "No scheduling/IRQ/GPU/SPU oracle",
+    "22 STR streams excluded",
+    "Whole-file GAM only; no claim of all embedded formats"
+  ],
+  "groups": {
+    "AREA00": {
+      "files": 30,
+      "source_bytes": 2551482,
+      "prepared_bytes": 3913416
+    },
+    "AREA01": {
+      "files": 37,
+      "source_bytes": 2239844,
+      "prepared_bytes": 3486009
+    },
+    "AREA02": {
+      "files": 53,
+      "source_bytes": 3273422,
+      "prepared_bytes": 4281082
+    },
+    "AREA03": {
+      "files": 47,
+      "source_bytes": 2783911,
+      "prepared_bytes": 4650068
+    },
+    "AREA04": {
+      "files": 70,
+      "source_bytes": 3203923,
+      "prepared_bytes": 5417688
+    },
+    "AREA05": {
+      "files": 35,
+      "source_bytes": 2966127,
+      "prepared_bytes": 3773640
+    },
+    "AREA06": {
+      "files": 25,
+      "source_bytes": 2265115,
+      "prepared_bytes": 2684225
+    },
+    "AREA07": {
+      "files": 37,
+      "source_bytes": 2240928,
+      "prepared_bytes": 3503747
+    },
+    "AREA08": {
+      "files": 27,
+      "source_bytes": 1839004,
+      "prepared_bytes": 2389304
+    },
+    "AREA09": {
+      "files": 41,
+      "source_bytes": 2233697,
+      "prepared_bytes": 3429025
+    },
+    "AREA10": {
+      "files": 60,
+      "source_bytes": 3157771,
+      "prepared_bytes": 5421947
+    },
+    "AREA11": {
+      "files": 20,
+      "source_bytes": 1217761,
+      "prepared_bytes": 1591110
+    },
+    "AREA12": {
+      "files": 69,
+      "source_bytes": 2736270,
+      "prepared_bytes": 4471644
+    },
+    "AREA13": {
+      "files": 16,
+      "source_bytes": 952982,
+      "prepared_bytes": 1190245
+    },
+    "AREA14": {
+      "files": 44,
+      "source_bytes": 1764984,
+      "prepared_bytes": 3239363
+    },
+    "AREA15": {
+      "files": 18,
+      "source_bytes": 56353,
+      "prepared_bytes": 202360
+    },
+    "AREA16": {
+      "files": 34,
+      "source_bytes": 2255560,
+      "prepared_bytes": 2581570
+    },
+    "AREA17": {
+      "files": 41,
+      "source_bytes": 2249421,
+      "prepared_bytes": 2865309
+    },
+    "AREA18": {
+      "files": 17,
+      "source_bytes": 1108694,
+      "prepared_bytes": 1459368
+    },
+    "AREA19": {
+      "files": 31,
+      "source_bytes": 2807129,
+      "prepared_bytes": 3256505
+    },
+    "SCUS_942.36": {
+      "files": 1,
+      "source_bytes": 559104,
+      "prepared_bytes": 559104
+    },
+    "SOUND": {
+      "files": 88,
+      "source_bytes": 7431895,
+      "prepared_bytes": 7431895
+    },
+    "SYS": {
+      "files": 20,
+      "source_bytes": 44172,
+      "prepared_bytes": 44172
+    },
+    "SYSTEM": {
+      "files": 200,
+      "source_bytes": 19158500,
+      "prepared_bytes": 19955244
+    },
+    "SYSTEM.CNF": {
+      "files": 1,
+      "source_bytes": 68,
+      "prepared_bytes": 68
+    },
+    "ZZZ": {
+      "files": 1,
+      "source_bytes": 27648000,
+      "prepared_bytes": 27648000
+    }
+  }
+}

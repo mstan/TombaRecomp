@@ -64,5 +64,8 @@ if(BUILD_TESTING)
         add_test(NAME tomba_runtime_metadata
             COMMAND "${Python3_EXECUTABLE}"
                 "${CMAKE_CURRENT_SOURCE_DIR}/tools/test_runtime_config_metadata.py")
+        add_test(NAME tomba_seamless_asset_probe
+            COMMAND "${Python3_EXECUTABLE}"
+                "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_seamless_asset_probe.py")
     endif()
 endif()
