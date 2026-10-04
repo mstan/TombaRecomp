@@ -1,3 +1,21 @@
+## v0.14.1-alpha
+
+Fixes the Linux file picker. On hosts where the desktop file dialog could not
+run, Browse buttons did nothing at all -- no dialog, no error, no fallback.
+
+- The AppImage no longer exports its own `LD_LIBRARY_PATH`. It was inherited by
+  every process the game started, including the host `zenity`/`kdialog` opened
+  for Browse, which then loaded this bundle's `glib`/`pcre2` against the host's
+  GTK. Libraries that were only reachable that way are no longer bundled.
+- A backend that cannot start is no longer mistaken for the player pressing
+  Cancel, so the built-in browser now takes over instead of nothing happening.
+- Every picker can fall back to the built-in browser, not just the ROM and BIOS
+  rows: memory cards, mod packages, mod resource files and folders, ROM
+  patches, shaders, SRAM import, and the first-run disc picker -- which
+  previously dead-ended before you had a game selected.
+
+No gameplay, renderer or save-format changes.
+
 ## v0.14.0-alpha
 
 Tomba's opt-in **Custom Renderer** replaces the old fixed-16:9 widescreen

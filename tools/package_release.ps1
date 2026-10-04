@@ -1,5 +1,5 @@
 param(
-    [string]$Version = "v0.14.0-alpha",
+    [string]$Version = "",
     [string]$BuildDir = "build-release",
     [string]$RecompilerBuildDir = "recompiler/build",
     [int]$Jobs = 8,
@@ -9,6 +9,18 @@ param(
 $ErrorActionPreference = "Stop"
 
 $Root = Resolve-Path (Join-Path $PSScriptRoot "..")
+if (-not $Version) {
+    # Single source of truth: VERSION. A hardcoded default here is how a
+    # packager ends up naming an artifact for the wrong build.
+    $Version = "v" + (Get-Content (Join-Path $Root "VERSION") -Raw).Trim()
+}
+# PSX_GAME_VERSION must match the VERSION file EXACTLY. $Version carries a
+# leading v for artifact names; the Linux packager does not pass the flag at
+# all and the runtime derives the bare string from VERSION. Passing the
+# v-prefixed form here made the Windows and Linux builds of the SAME release
+# report different game_version values, which desyncs the netplay lobby list
+# across platforms.
+$GameVersion = $Version -replace '^v', ''
 $BuildPath = Join-Path $Root $BuildDir
 $StageRoot = Join-Path $Root "release-stage"
 $Stage = Join-Path $StageRoot "TombaRecomp-windows-x64"
@@ -98,7 +110,7 @@ if ($SkipRegen) {
 
 # Ship compiled game code. Override old CMake caches that enabled the player
 # code-generation wizard; first-run resident assets are prepared natively.
-Invoke-Native { & $Cmake -S $Root -B $BuildPath -G Ninja -DCMAKE_BUILD_TYPE=Release -DPSX_SETUP_WIZARD=OFF -DPSXRECOMP_FORCE_SETUP_HOST=OFF -DPSX_DEBUG_TOOLS=OFF -DPSX_PGXP_VARIANT=OFF -DPSX_SDL_BACKEND=SDL3 "-DPSX_GAME_VERSION=$Version" } "cmake configure"
+Invoke-Native { & $Cmake -S $Root -B $BuildPath -G Ninja -DCMAKE_BUILD_TYPE=Release -DPSX_SETUP_WIZARD=OFF -DPSXRECOMP_FORCE_SETUP_HOST=OFF -DPSX_DEBUG_TOOLS=OFF -DPSX_PGXP_VARIANT=OFF -DPSX_SDL_BACKEND=SDL3 "-DPSX_GAME_VERSION=$GameVersion" } "cmake configure"
 Invoke-Native { & $Cmake --build $BuildPath --target $RuntimeTarget -j $Jobs } "cmake build"
 
 if (Test-Path -LiteralPath $StageRoot) {
