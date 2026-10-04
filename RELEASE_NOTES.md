@@ -1,3 +1,32 @@
+## v0.15.0-alpha
+
+**Seamless Loading is now a bundled mod, enabled by default.** It prepares the
+disc's assets once and keeps them in memory, removing the dancing-pig loading
+screen from supported menu loads and area transitions at normal game and audio
+speed. The game's normal fades and music changes remain.
+
+- Releases ship the compiled executable and native overlay cache. Players
+  select their own Tomba! USA disc and launch; no compiler, Python, or Generate
+  step is required. First launch prepares about 71 MiB of decoded data on disk,
+  which later launches reuse. The disc remains required for movies and other
+  original data.
+- Disable **Seamless Loading** on the Mods page to restore retail loading.
+  Existing explicit opt-outs are preserved. If you previously enabled the
+  **Fast Loading** mod, disable it before using Seamless Loading.
+- Validated with new-game startup, live memory-card loads, and walked
+  transitions through Watch Tower and Dwarf Village. Captures show no loading
+  screens or held transition frames on the tested route, and audio counters
+  report no transition underruns or dropped output. Whole-game coverage,
+  including every death, warp and event path, remains under test.
+- Supports the stock SCUS-94236 disc. Asset replacement mods are not supported
+  with Seamless Loading. Custom Renderer and the other enhancements remain
+  opt-in. Linux retains the v0.14.1 file-picker fixes.
+
+Windows and Linux packages require fresh original-disc extraction, native
+builds and audits for all 25 configured overlay images. No disc image, decoded
+asset cache, retail BIOS or save data is distributed. Older quick-save states
+may not load; keep your previous installation and saves until verified.
+
 ## v0.14.1-alpha
 
 Fixes the Linux file picker. On hosts where the desktop file dialog could not

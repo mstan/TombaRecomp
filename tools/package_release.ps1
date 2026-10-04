@@ -273,9 +273,14 @@ If the disc header or game ID does not match SCUS-94236, TombaRecomp will show
 a warning and try to run the image anyway. Boot may fail if the image is the
 wrong game, the wrong region, or corrupt.
 
-Fast Loading is disabled by default. Enable its mod in the launcher and choose
-one dropdown value. Host pacing is recommended; experimental CD timing can
-break timing-sensitive loads, audio, or speedrun strategies.
+Seamless Loading is enabled by default. First launch prepares about 71 MiB of
+decoded assets from your disc; later launches reuse that cache. Game and audio
+speed stay normal. No compiler, Python or Generate step is required. Keep your
+disc available for movies and other original data.
+Disable Seamless Loading in Mods to restore retail loading. Existing explicit
+opt-outs are preserved. If you previously enabled Fast Loading, disable it
+before using Seamless Loading. Stock SCUS-94236 assets are required; asset
+replacement mods are unsupported. Whole-game coverage is still under test.
 
 Custom Renderer is disabled by default. Enable it in Mods for uncapped Fit to
 Window, or choose fixed 16:9, 21:9 or 32:9. Leave it off for stock 4:3.

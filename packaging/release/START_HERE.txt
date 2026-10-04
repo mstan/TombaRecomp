@@ -1,4 +1,4 @@
-Tomba! Recompiled - v0.14.1-alpha
+Tomba! Recompiled - v0.15.0-alpha
 
 This package does not include the game.
 
@@ -7,7 +7,16 @@ launcher. CUE/BIN, BIN, IMG, ISO, Steam CAR, and CHD are supported. Steam's
 t_data_u.car can be selected without renaming it. OpenBIOS is included; a Sony
 BIOS is optional and is not distributed with this project.
 
-All bundled mods are disabled by default. Configure them from the Mods page.
+Seamless Loading is enabled by default. On first launch, it prepares about
+71 MiB of decoded data from your disc and caches it for later launches. The
+game runs at normal speed, including audio. No compiler, Python or Generate
+step is needed. Keep your disc available for movies and other original data.
+Disable Seamless Loading on the Mods page to restore retail loading. If you
+previously enabled Fast Loading, disable it before using Seamless Loading.
+Stock SCUS-94236 assets are required; asset replacement mods are unsupported.
+Whole-game transition coverage is still under test.
+
+Other bundled mods are disabled by default. Configure them from the Mods page.
 Custom Renderer defaults to Fit to Window (uncapped), with fixed 16:9, 21:9
 and 32:9 choices. Leave it disabled for stock 4:3 rendering.
 Older quick-save states may not load with this framework version. Keep the

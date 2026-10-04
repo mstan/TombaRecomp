@@ -21,7 +21,8 @@ build glue for running Tomba on the PSXRecomp framework. Tomba's MIPS code is
 machine-translated ("recompiled") ahead of time into native C, then compiled
 into a real Windows/macOS/Linux program that runs the game's own logic on a
 faithful simulation of the PS1 hardware (GPU, SPU, GTE, memory cards) plus the
-real, recompiled PS1 BIOS — no high-level emulation shims.
+real, recompiled PS1 BIOS. The game-owned Seamless Loading mod replaces selected
+asset-loading and initialization routines with native equivalents.
 
 It does **not** contain the Tomba disc image, a retail PS1 BIOS, generated game
 code, or any decompiled Tomba C. Release builds include the MIT-licensed
@@ -46,7 +47,7 @@ Important files:
 ## Status
 
 The game is playable from BIOS boot through gameplay. Latest release:
-**v0.12.3-alpha** (2026-08-26).
+**v0.15.0-alpha** (2026-10-04).
 
 | Area | State |
 |---|---|
@@ -70,10 +71,9 @@ The game is playable from BIOS boot through gameplay. Latest release:
 - **Supersampling + anti-aliasing.** Internal-resolution SSAA (2×–4×) with
   optional linear present filtering for clean edges. Ships at 2×.
 - **Optional texture filtering.** Nearest (native PSX look) or bilinear.
-- **Experimental widescreen (16:9).** A genuine wider field of view — the GTE
-  projection is widened so you see more of the world at the sides, not a
-  stretched picture. Works on both renderers. Opt-in; some 2D HUD/menu/FMV
-  elements and the occasional background seam can look off. 21:9 is not ready.
+- **Optional Custom Renderer.** Fit to Window follows the window's aspect
+  ratio, with fixed 16:9, 21:9 and 32:9 choices. Terrain, objects and HUD adapt
+  to the expanded view. Extreme widths and all-area coverage remain experimental.
 - **Controller modes.** Choose Analog (DualShock, variable stick movement) or
   D-Pad (digital movement) in the normal controller settings. The default-off
   **Special Edition Hybrid Controller** mod switches to digital when the D-pad
@@ -87,7 +87,13 @@ The game is playable from BIOS boot through gameplay. Latest release:
   embedded track table; raw-sector fingerprints remain compatible with mods.
 - **Steam disc images.** Steam's `t_data_u.car` is an extension-renamed raw
   PlayStation image and can be selected directly without renaming it to `.bin`.
-- **Optional Fast Loading mod.** Disabled by default. Its single dropdown makes
+- **Seamless Loading, enabled by default.** Prepares about 71 MiB of disc assets
+  once, then keeps them in memory for menu loads and area transitions at normal
+  game and audio speed. Disable it on the Mods page to restore retail loading.
+  Stock SCUS-94236 assets are required; asset replacement mods and whole-game
+  transition coverage remain outside the validated scope.
+- **Optional Fast Loading mod.** Disabled by default; disable Seamless Loading
+  before enabling it. Its single dropdown makes
   recommended host-pacing modes mutually exclusive with experimental 2x, 4x,
   and instant emulated-CD timing.
 - **Self-growing native cache.** Areas you visit are converted to fast native
@@ -107,7 +113,10 @@ The game is playable from BIOS boot through gameplay. Latest release:
 5. Optionally adjust renderer, supersampling, screen look, and controller
    settings. Widescreen, frame interpolation, FMV skipping, the Hybrid
    Controller, and the Warp Debug Menu are on the **Mods** page. Then press
-   **Launch**; your choices are remembered.
+   **Launch**; your choices are remembered. **Seamless Loading** is already on
+   and prepares its data cache on first launch. The executable is prebuilt;
+   players do not need a compiler, Python, or a Generate step. Keep the disc
+   available for movies and other original data.
 
 Accepted disc formats: `.cue` + `.bin` (preferred — pick the `.cue`), direct
 `.bin`, `.img`, `.iso`, Steam `.car`, and `.chd`. If the header or game ID does
@@ -248,6 +257,12 @@ To build the experimental Linux AppImage after generating the game sources:
 sh tools/package_appimage.sh
 ```
 
+These packagers are the release entry points. Both build the precompiled game
+and require a fresh original-disc AOT audit; upload their artifacts and SHA-256
+files when creating a release. The obsolete setup-host publishing workflow has
+been retired so version tags no longer publish packages requiring player-side
+code generation.
+
 ## Configuration
 
 Most options are exposed in the launcher and persist to `settings.toml`. The
@@ -259,7 +274,8 @@ underlying defaults live in `game.toml`:
 - `[controller]` — `default_mode` (`analog` / `digital`), `allow_hybrid`,
   `deadzone`.
 - `[runtime]` — authentic loading defaults, `fast_boot`, and `overlay_cache`.
-  Loading acceleration is configured through the default-off Fast Loading mod;
+  Seamless Loading is enabled by default through Mods. The separate Fast Loading
+  mod is default-off and conflicts with Seamless Loading;
   its CD timing choices carry compatibility warnings in the launcher.
 - `[widescreen]*` — widescreen projection / culling / backdrop hooks (gen-time;
   changing these requires a regen and overlay-cache rebuild).

@@ -1,9 +1,9 @@
 format_version = 5
 id = "tomba.experimental.seamless"
 version = "0.1.0"
-name = "Tomba Resident Loading Spike"
+name = "Seamless Loading"
 author = "mstan"
-description = "Experimental resident asset installation for the stock SCUS-94236 disc. Prepares and caches assets on first use. Asset replacement mods are not supported."
+description = "Removes loading screens using resident assets at normal game and audio speed. Prepares a cache once from the stock SCUS-94236 disc. Asset replacement mods are not supported."
 resolver = "declarative"
 save_compatibility = "shared"
 conflicts = ["tomba.enhancement.fast-loading"]
@@ -14,10 +14,10 @@ disc_sha256 = "25ada3dd51e70eb9f9218cd83fb02d73139750229fb44b012d62d183ab32eb13"
 
 [[feature]]
 id = "resident-assets"
-name = "Resident Assets (Experimental)"
-description = "Prepare disc assets once, then keep them in memory at normal game and audio speed. Transition coverage is still under test."
-group = "Experimental"
-default_enabled = false
+name = "Seamless Loading"
+description = "Prepare disc assets once, then keep them in memory for menu and area transitions. Disable to restore retail loading. Whole-game coverage is still under test."
+group = "Quality of Life"
+default_enabled = true
 
 [[plugin]]
 feature = "resident-assets"

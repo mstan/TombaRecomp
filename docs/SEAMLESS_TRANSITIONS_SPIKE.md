@@ -1,5 +1,11 @@
 # Tomba seamless transitions spike
 
+Release promotion: v0.15.0-alpha enables this implementation by default as
+**Seamless Loading**, retaining the existing package and feature IDs so explicit
+opt-outs survive. The release also includes the current launcher file-picker
+fixes. The assessment and captures below describe the original default-off
+spike; broader whole-game validation remains tracked by `beads-eio.4.20`.
+
 The target is a menu or area transition with no loading screen, load-induced
 blackout, held image, or audio hiccup. The worktree now implements a default-off,
 game-owned resident loader and transition adapter. It prepares immutable assets
