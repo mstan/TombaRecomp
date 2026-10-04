@@ -20,14 +20,14 @@ mod_function_entry_funcs = ["0x8005E08C", "0x8005A184"]
 window_title = "Tomba! Recompiled"
 memcard_dir = "saves"
 
-# Authentic CD timing is the baseline. The default-off Fast Loading mod offers
-# mutually exclusive host-pacing and experimental CD-timing choices.
+# Authentic CD timing is the baseline. Seamless Loading (Mods, default on)
+# removes loading screens without changing it.
 disc_speed = "1x"
 
 bios_hle = true
 fast_boot = false
 
-# Loading acceleration is owned by the default-off Fast Loading mod.
+# Loading acceleration is owned by the Seamless Loading mod.
 turbo_loads = false
 offer_turbo_loads = false
 turbo_audio_sink = true

@@ -28,6 +28,11 @@ file(GLOB TOMBA_MOD_PLUGIN_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/mods/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/mods/*.cpp")
 set(TOMBA_PRELOADED_MODS "${CMAKE_CURRENT_SOURCE_DIR}/mods/preloaded")
+# Seamless Loading replaces the framework's CD Speed and host-paced Fast
+# Loading on Tomba, so only the remaining framework builtins are staged.
+set(PSX_BUILTIN_MOD_ALLOWLIST
+    psx.enhancement.pgxp
+    psx.presentation.bezel)
 
 psxrecomp_add_game_runtime(psx-runtime
     # ENABLE_NETPLAY_IF_PRESENT

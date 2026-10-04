@@ -47,7 +47,7 @@ Important files:
 ## Status
 
 The game is playable from BIOS boot through gameplay. Latest release:
-**v0.15.0-alpha** (2026-10-04).
+**v0.15.1-alpha** (2026-10-04).
 
 | Area | State |
 |---|---|
@@ -92,10 +92,6 @@ The game is playable from BIOS boot through gameplay. Latest release:
   game and audio speed. Disable it on the Mods page to restore retail loading.
   Stock SCUS-94236 assets are required; asset replacement mods and whole-game
   transition coverage remain outside the validated scope.
-- **Optional Fast Loading mod.** Disabled by default; disable Seamless Loading
-  before enabling it. Its single dropdown makes
-  recommended host-pacing modes mutually exclusive with experimental 2x, 4x,
-  and instant emulated-CD timing.
 - **Self-growing native cache.** Areas you visit are converted to fast native
   code as you play and reused on later launches (see "Help make your game
   faster" below).
@@ -274,9 +270,8 @@ underlying defaults live in `game.toml`:
 - `[controller]` — `default_mode` (`analog` / `digital`), `allow_hybrid`,
   `deadzone`.
 - `[runtime]` — authentic loading defaults, `fast_boot`, and `overlay_cache`.
-  Seamless Loading is enabled by default through Mods. The separate Fast Loading
-  mod is default-off and conflicts with Seamless Loading;
-  its CD timing choices carry compatibility warnings in the launcher.
+  Seamless Loading is enabled by default through Mods. The older loading-speed
+  mods are hidden while Seamless Loading covers loads.
 - `[widescreen]*` — widescreen projection / culling / backdrop hooks (gen-time;
   changing these requires a regen and overlay-cache rebuild).
 

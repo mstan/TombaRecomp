@@ -1,3 +1,13 @@
+## v0.15.1-alpha
+
+Simplifies the Mods page's Quality of Life list to **Seamless Loading**.
+
+- CD Speed and Fast Loading (host pacing) are no longer bundled with Tomba.
+- Tomba Fast Loading is hidden. If you had enabled it, it still appears so you
+  can turn it off.
+- No game, renderer or loading changes. Saves and settings carry over from
+  v0.15.0-alpha.
+
 ## v0.15.0-alpha
 
 **Seamless Loading is now a bundled mod, enabled by default.** It prepares the

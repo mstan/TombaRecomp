@@ -17,6 +17,7 @@ name = "Fast Loading"
 description = "Run complete loading frames faster in real time. Acceleration stops immediately when the load ends, avoiding spillover into gameplay inputs."
 group = "Quality of Life"
 default_enabled = false
+hidden = true
 
 [[option]]
 feature = "fast-loading"
