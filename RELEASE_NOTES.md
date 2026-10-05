@@ -1,3 +1,31 @@
+## v0.15.3-alpha
+
+Fixes Seamless Loading falling back to the dancing-pig loading screen in many
+areas, rooms and pig arenas, and fixes the fullscreen keyboard shortcuts.
+
+- The loading planner now accepts all 75 original sound-bank configurations.
+  It previously rejected valid banks above index 15, causing normal loading
+  screens depending on the destination and the music already loaded.
+- Alt+Enter and Ctrl+F now recognize either left or right modifier key.
+  Fullscreen toggling was checked on both the primary and a second monitor.
+- Seamless Loading remains enabled by default, and existing opt-outs are
+  preserved. Existing prepared asset caches can be reused. CD Speed and the
+  host turbo loading option remain absent from the bundled mod list.
+
+The production loading planner was checked against all 135 area/section
+queues and 52 music/SFX lists (1,778 resource requests): valid queue rejections
+fell from 138 to zero, while invalid-input guards remained intact. Fresh-boot
+Haunted Mansion and Mushroom Forest loads, the project tests, and fullscreen
+shortcut regression tests also passed.
+
+This fixes the loading-screen fallback; cold first-entry timing and audio
+hitches remain under investigation. Every door, wing and event route has not
+been visually playtested. Stock SCUS-94236 assets are required.
+
+Windows and Linux packages include prebuilt native code. Select your own disc
+and launch; no compiler or ISO rebuild is required. Saves and settings carry
+over from v0.15.2-alpha.
+
 ## v0.15.2-alpha
 
 Fixes the dog bridge cutscene and quick-save restore softlocks.
