@@ -1,0 +1,259 @@
+{
+  "issue": "https://github.com/mstan/TombaRecomp/issues/5#issuecomment-5987487850",
+  "scope": "Stock resource preflight; not runtime route acceptance",
+  "baseline": "v0.15.2-alpha sound-bank guard",
+  "area_sections": 135,
+  "sound_lists": 52,
+  "requests": 1778,
+  "released_rejected_requests": 138,
+  "fixed_rejected_requests": 0,
+  "invalid_index_rejected": true,
+  "custom_callback_rejected": true,
+  "areas": [
+    {
+      "area": 0,
+      "sections": 6,
+      "released_rejected_sections": [],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 1,
+      "sections": 5,
+      "released_rejected_sections": [],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 2,
+      "sections": 6,
+      "released_rejected_sections": [],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 3,
+      "sections": 6,
+      "released_rejected_sections": [
+        4,
+        5
+      ],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 4,
+      "sections": 20,
+      "released_rejected_sections": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        16,
+        17,
+        18,
+        19
+      ],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 5,
+      "sections": 4,
+      "released_rejected_sections": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 6,
+      "sections": 3,
+      "released_rejected_sections": [
+        0,
+        1,
+        2
+      ],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 7,
+      "sections": 5,
+      "released_rejected_sections": [],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 8,
+      "sections": 4,
+      "released_rejected_sections": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 9,
+      "sections": 7,
+      "released_rejected_sections": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 10,
+      "sections": 9,
+      "released_rejected_sections": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 11,
+      "sections": 5,
+      "released_rejected_sections": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 12,
+      "sections": 20,
+      "released_rejected_sections": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        16,
+        17,
+        18,
+        19
+      ],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 13,
+      "sections": 2,
+      "released_rejected_sections": [
+        0
+      ],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 14,
+      "sections": 8,
+      "released_rejected_sections": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 15,
+      "sections": 1,
+      "released_rejected_sections": [],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 16,
+      "sections": 7,
+      "released_rejected_sections": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 17,
+      "sections": 11,
+      "released_rejected_sections": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 18,
+      "sections": 3,
+      "released_rejected_sections": [
+        0,
+        1,
+        2
+      ],
+      "fixed_rejected_sections": []
+    },
+    {
+      "area": 19,
+      "sections": 3,
+      "released_rejected_sections": [
+        0,
+        1
+      ],
+      "fixed_rejected_sections": []
+    }
+  ],
+  "notes": [
+    "Area 15 uses an original-MIPS area 0/0 predecessor allocation; it reuses a prior scene slot.",
+    "All 52 sound lists include auxiliary banks, not just area music.",
+    "Live fresh-boot entries into Haunted Mansion (4/0) and Mushroom Forest (9/0) complete resident loading without the reproduced fallback.",
+    "Snapshot-based multi-area spot sweep is not accepted gameplay evidence: restores/readiness did not reliably correspond to a presented scene.",
+    "Cold first-entry wall-time/audio hitches were observed; resource rejection fix does not establish whole-game timing or audio acceptance."
+  ]
+}

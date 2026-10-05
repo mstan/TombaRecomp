@@ -28,6 +28,65 @@ Baseline: Tomba `05d82b96d31c2bab59256095cdfec82ccd328310`, framework
 `beads-eio.4.18`, constrained implementation `beads-eio.4.19`, broader release
 validation `beads-eio.4.20`.
 
+## Full-run loading-screen report: sound-bank bound
+
+The [issue #5 playtest](https://github.com/mstan/TombaRecomp/issues/5#issuecomment-5987487850)
+exposed a coverage bug in the shipped preflight. Descriptor offset `+14`
+selects an eight-byte sound-bank configuration, not a four-bit sound handle.
+The original table spans `0x80077D50..0x80077FA7`: **75 entries**, indices 0–74.
+The adapter incorrectly rejected indices above 15, falling back to the original
+CD loader for the entire queue. All the assets were already in the resident pack.
+
+Haunted Mansion reproduces this with descriptor `0x8007862C`, file ID 243
+(`SOUND/SND0040.WVD`), configuration 16. Reusing the current music can avoid
+queuing that bank, explaining why an entrance can behave differently depending
+on its source. The Mansion catalog has one lower-index room entry (section 15),
+consistent with the reported 1,000-year-old man's room exception. The corrected bound keeps the existing file,
+RAM, SPU extent, custom-callback and transfer-mode checks.
+
+The new `tools/seamless_coverage_audit.py` runs the **original MIPS queue builders**
+and passes their resulting requests to the **actual production C preflight**.
+It enumerates the warp menu's 135 area/section entries across 20 area IDs,
+including alternate maps, plus all 52 music/SFX resource lists. Including
+music is essential: checking only LDAR area files missed this defect.
+Area 15 is a shared script section that reuses a prior allocation; the audit
+explicitly seeds it with the original area 0/0 allocation rather than zero RAM.
+
+| Resource audit | Released guard | Corrected guard |
+| --- | ---: | ---: |
+| Requests checked | 1,778 | 1,778 |
+| Rejected requests | 138 | 0 |
+| Area/section queues with a rejection | 103 | 0 |
+| Music/SFX lists with a rejection | 35 | 0 |
+
+The asset-free summary is `docs/seamless_coverage_receipt.json`. This is complete
+coverage of those resource lists, not proof of every entrance, event, or audio
+handoff. A synthetic CTest also checks all 75 valid indices, rejects index 75
+and invalid SPU destinations, and retains custom-callback fallback.
+
+Fresh-boot runtime checks entered Haunted Mansion and Mushroom Forest through
+the retail warp menu without the old fallback. A snapshot-based multi-area sweep
+was discarded as gameplay evidence: restored state/readiness did not reliably
+match a presented scene. Cold first-entry wall-time/audio hitches were also
+observed and remain in the broader hardening issue; do not claim whole-game
+timing or audio acceptance from the resource audit.
+
+For manual checks, enable **Warp Debug Menu** under Mods, then select New Game.
+Up/down chooses AREA or SECTION, left/right changes its number, and Start or
+Circle enters. This is a test route; normal doors, wings, changed event flags,
+and both entry directions still need ordinary playtesting. Use copies of saves.
+
+Build `tomba-seamless-request-fixture` with `BUILD_TESTING=ON`, install Unicorn
+in a local developer environment, then run (substitute the platform's library
+suffix and local pack path):
+
+```text
+python tools/seamless_coverage_audit.py --exe disc/SCUS_942.36 --pack PATH/c259ec7ff6ef4163-gam-v1.pack --fixture BUILD/libtomba-seamless-request-fixture.dll --output BUILD/resource-coverage.json
+```
+
+The fixture never starts the game or installs resources. The ordinary
+`tomba_seamless_requests` CTest uses synthetic data and needs no disc.
+
 ## Prebuilt executable and first-run data preparation
 
 Players supply the supported SCUS-94236 disc to a prebuilt executable. Enabling

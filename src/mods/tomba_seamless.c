@@ -128,7 +128,11 @@ static int plan_request(unsigned index, Request *r) {
         for(unsigned i=0;i<=ns;i++) if(u32(p+samples+4*i)>n-samples) return 0;
         for(unsigned i=0;i<nh;i++) if(u32(p+headers+4*i)>n-headers-32) return 0;
         for(unsigned i=0;i<ns;i++) if(u32(p+samples+4*i)>u32(p+samples+4*(i+1))) return 0;
-        if(r16(r->desc+14)>15) return 0;
+        /* This is a sound-bank configuration index, not the four-bit handle
+         * slot above. Retail SCUS-94236 has 75 eight-byte entries at
+         * 80077D50..80077FA7; 80077FA8 starts the loader descriptor lists.
+         * Restricting it to 0..15 sent most later music changes back to CD. */
+        if(r16(r->desc+14)>=75) return 0;
         uint32_t spu_addr=r32(0x80077D50u+r16(r->desc+14)*8);
         if((spu_addr&7) || spu_addr<0x1010 || spu_addr>=0x80000) return 0;
         for(unsigned i=0;i<nh;i++) {
@@ -188,7 +192,8 @@ static int install_batch(CPUState *cpu) {
     }
     for(unsigned i=begin;i!=end;i=(i+1)&127) {
         if(!plan_request(i,requests+count)) {
-            fprintf(stdout,"seamless: fallback frame=%u queue=%u desc=%08X id=%u flags=%X type=%X\n",frame,i,r32(0x8009E748u+i*8),r16(r32(0x8009E748u+i*8)),r32(r32(0x8009E748u+i*8)+16),r8(r32(0x8009E748u+i*8)+3));
+            uint32_t desc=r32(0x8009E748u+i*8);
+            fprintf(stdout,"seamless: fallback frame=%u area=%u/%u queue=%u desc=%08X id=%u flags=%X type=%X bank=%u\n",frame,r16(0x8009BCC8u),r16(0x8009BCCAu),i,desc,r16(desc),r32(desc+16),r8(desc+3),r16(desc+14));
             ++fallbacks; return 0;
         }
         ++count;

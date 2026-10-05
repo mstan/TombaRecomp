@@ -66,6 +66,22 @@ foreach(TOMBA_RUNTIME_CONFIG game.toml game_options.toml)
 endforeach()
 
 if(BUILD_TESTING)
+    # The audit fixture includes the real planner but no running game. Drop
+    # the unreferenced installation/dispatch services from this small target.
+    if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang" AND NOT MSVC)
+        add_library(tomba-seamless-request-fixture SHARED tests/seamless_request_fixture.c)
+        add_executable(tomba-seamless-request-tests tests/test_seamless_requests.c)
+        foreach(target tomba-seamless-request-fixture tomba-seamless-request-tests)
+            target_include_directories(${target} PRIVATE "${PSXRECOMP_ROOT}/runtime/include")
+            target_compile_options(${target} PRIVATE -O2 -ffunction-sections -fdata-sections)
+            if(APPLE)
+                target_link_options(${target} PRIVATE -Wl,-dead_strip)
+            else()
+                target_link_options(${target} PRIVATE -Wl,--gc-sections)
+            endif()
+        endforeach()
+        add_test(NAME tomba_seamless_requests COMMAND tomba-seamless-request-tests)
+    endif()
     add_library(tomba-seamless-reverb-fixture SHARED tests/seamless_reverb_native_fixture.c)
     add_executable(tomba-seamless-prepare-tests
         tests/test_seamless_prepare.cpp src/mods/tomba_seamless_prepare.cpp
