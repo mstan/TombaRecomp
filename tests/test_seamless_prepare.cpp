@@ -1,11 +1,14 @@
-/* Local legal-disc fixture test: native setup must reproduce the independently
- * generated, MIPS-oracle-verified Python pack byte for byte. */
+/* Integration test using an owner-supplied disc, through the framework's
+ * resident pack (mod_resident.cpp) with its disc and plan services replaced
+ * by readers of the real image. No disc data is distributed. The catalogued
+ * GAM outputs were verified separately against the original MIPS decoder
+ * (tools/seamless_asset_probe.py --oracle). */
 #ifdef NDEBUG
 #undef NDEBUG
 #endif
-#include "mod_plugins.h"
-#include <cassert>
-#include <cstdint>
+#include "mod_runtime.h"
+#include "psx_sha256.h"
+#include "../src/mods/tomba_seamless_assets.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -13,7 +16,6 @@
 #include <fstream>
 #include <iterator>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 struct CatalogEntry {
@@ -24,50 +26,110 @@ struct CatalogEntry {
     const char *decoded_sha256;
 };
 #include "../src/mods/tomba_seamless_catalog.inc"
-extern "C" const char *tomba_seamless_prepare_path(int);
-static std::vector<uint8_t> fixture;
-static std::unordered_map<std::string,unsigned> names;
-static bool corrupt;
-static uint32_t le32(const uint8_t *p) {
-    return uint32_t(p[0])|uint32_t(p[1])<<8|uint32_t(p[2])<<16|uint32_t(p[3])<<24;
+static std::ifstream disc;
+static unsigned reads;
+static bool available = true;
+static int patch_file = -1;   /* simulated asset mod: break one GAM header */
+static std::string fingerprint = "stock-test-plan";
+static const CatalogEntry *entry(const char *path) {
+    for (const auto &c : catalog) if (!std::strcmp(c.path, path)) return &c;
+    return nullptr;
 }
-extern "C" int psx_mod_read_disc_file(const char *name, void *buffer, uint32_t capacity, uint32_t *size) {
-    auto it=names.find(name);
-    if(it==names.end()) return 0;
-    const uint8_t *record=fixture.data()+48+32*it->second;
-    *size=le32(record+4);
-    if(!buffer) return 1;
-    if(capacity<*size) return 0;
-    size_t begin=48+32*std::size(catalog)+le32(record+8);
-    assert(begin+*size<=fixture.size());
-    std::memcpy(buffer,fixture.data()+begin,*size);
-    if(corrupt && it->second==0) static_cast<uint8_t*>(buffer)[0]^=1;
+namespace PSXRecompV4 {
+const std::string &mod_runtime_fingerprint() { return fingerprint; }
+bool mod_runtime_read_disc_file_sectors(const std::string &path, uint32_t, std::vector<uint8_t> &padded,
+                                        uint32_t &lba, uint32_t &size, std::string *error) {
+    ++reads;
+    padded.clear();
+    const CatalogEntry *c = entry(path.c_str());
+    if (!available || !c) { if (error) *error = path + ": unavailable"; return false; }
+    padded.resize((c->size + 2047u) & ~2047u);
+    for (unsigned s = 0; s < padded.size() / 2048; s++) {
+        unsigned char raw[2352];
+        disc.clear();
+        disc.seekg(uint64_t(c->lba + s) * 2352);
+        if (!disc.read(reinterpret_cast<char *>(raw), sizeof raw) || raw[15] != 2 || (raw[18] & 0x20)) return false;
+        std::memcpy(padded.data() + s * 2048u, raw + 24, 2048);
+    }
+    if (patch_file >= 0 && c == &catalog[patch_file]) padded[0] ^= 0xFF;
+    lba = c->lba; size = c->size;
+    return true;
+}
+}
+extern "C" int psx_mod_disc_file_extent(const char *path, uint32_t *lba, uint32_t *size) {
+    const CatalogEntry *c = entry(path);
+    if (!c) return 0;
+    *lba = c->lba; *size = c->size;
     return 1;
 }
+extern "C" void psx_mod_counter_add(const char *, uint32_t) {}
+extern "C" uint8_t psx_mod_read_byte(uint32_t) { return 0; }
+static void require(bool condition, const char *message) {
+    if (!condition) { std::fprintf(stderr, "FAIL: %s\n", message); std::exit(1); }
+}
+static std::string hash(const uint8_t *p, size_t n) {
+    uint8_t bytes[32]; char hex[65]; psx_sha256_compute(p, n, bytes);
+    for (unsigned i = 0; i < 32; i++) std::snprintf(hex + 2 * i, 3, "%02x", bytes[i]);
+    return hex;
+}
 int main(int argc, char **argv) {
-    if(argc!=2 || !std::getenv("TOMBA_SEAMLESS_CACHE") || std::getenv("TOMBA_SEAMLESS_PACK")) {
-        std::fprintf(stderr,"Set TOMBA_SEAMLESS_CACHE to an isolated test directory, unset TOMBA_SEAMLESS_PACK, and pass the independent fixture pack.\n");
-        return 2;
+    if (argc != 3) { std::fprintf(stderr, "usage: tomba-seamless-prepare-tests disc.bin scratch-directory\n"); return 2; }
+    const auto cache = std::filesystem::absolute(argv[2]) /
+        ("run-" + std::to_string(std::filesystem::file_time_type::clock::now().time_since_epoch().count()));
+    require(!std::filesystem::exists(cache), "test requires a fresh cache directory");
+#ifdef _WIN32
+    _putenv_s("PSX_RESIDENT_CACHE", cache.string().c_str());
+#else
+    setenv("PSX_RESIDENT_CACHE", cache.string().c_str(), 1);
+#endif
+    disc.open(argv[1], std::ios::binary); require(bool(disc), "disc open");
+    uint32_t count = 0;
+    const TombaAsset *assets = tomba_seamless_prepare(&count);
+    require(assets && count == std::size(catalog) && reads == std::size(catalog), "cold native preparation");
+    unsigned decoded = 0, gam_index = ~0u;
+    for (unsigned i = 0; i < count; i++) {
+        const auto &a = assets[i];
+        const auto &c = catalog[i];
+        require(a.lba == c.lba && a.size == c.size && a.raw_len == ((c.size + 2047u) & ~2047u),
+                "asset extent");
+        require(hash(a.raw, a.raw_len) == c.source_sha256, "resident sector hash");
+        if (c.decoded_size) {
+            require(a.decoded && a.decoded_len == c.decoded_size &&
+                    hash(a.decoded, a.decoded_len) == c.decoded_sha256 && a.declared &&
+                    a.declared <= a.decoded_len, "decoded GAM matches the original decoder");
+            ++decoded;
+            if (gam_index == ~0u) gam_index = i;
+        } else {
+            require(!a.decoded && !a.decoded_len, "raw asset has no decoded output");
+        }
     }
-    std::ifstream in(argv[1],std::ios::binary);
-    if(!in) { std::fprintf(stderr,"Cannot open fixture: %s\n",argv[1]); return 2; }
-    fixture.assign(std::istreambuf_iterator<char>(in),{});
-    assert(fixture.size()>48 && !std::memcmp(fixture.data(),"TMBPK001",8));
-    assert(le32(fixture.data()+8)==std::size(catalog));
-    for(unsigned i=0;i<std::size(catalog);i++) {
-        assert(le32(fixture.data()+48+32*i)==catalog[i].lba);
-        names.emplace(catalog[i].path,i);
-    }
-    const char *result=tomba_seamless_prepare_path(1);
-    assert(result);
-    std::string path=result;
-    std::ifstream built(path,std::ios::binary);
-    std::vector<uint8_t> actual{std::istreambuf_iterator<char>(built),{}};
-    assert(actual==fixture);
-    corrupt=true;
-    assert(!tomba_seamless_prepare_path(1));
-    std::ifstream retained(path,std::ios::binary);
-    std::vector<uint8_t> after{std::istreambuf_iterator<char>(retained),{}};
-    assert(after==fixture); // failed regeneration cannot damage the valid cache
-    std::puts("native first-run preparation: exact full-pack parity; changed disc rejected");
+    reads = 0; available = false;
+    assets = tomba_seamless_prepare(&count);
+    require(assets && reads == 0, "warm launch uses the verified pack");
+    std::filesystem::path pack;
+    for (const auto &e : std::filesystem::recursive_directory_iterator(cache))
+        if (e.path().extension() == ".pack") pack = e.path();
+    require(!pack.empty(), "pack published");
+    fingerprint = "changed-asset-plan";
+    require(!tomba_seamless_prepare(&count), "changed mod plan cannot reuse warm stock cache");
+    /* A modded GAM stream that no longer decodes is served raw; the game's own
+     * decompressor handles it (no prepared output). */
+    available = true; patch_file = int(gam_index);
+    assets = tomba_seamless_prepare(&count);
+    require(assets && !assets[gam_index].decoded && assets[gam_index].raw[0] == uint8_t('G' ^ 0xFF),
+            "modded plan prepared from the effective disc");
+    fingerprint = "stock-test-plan"; patch_file = -1; available = false;
+    assets = tomba_seamless_prepare(&count);
+    require(assets && assets[gam_index].decoded, "return to original mod plan");
+    { std::fstream out(pack, std::ios::in | std::ios::out | std::ios::binary); out.seekp(1 << 20); out.put(char(0xAA)); }
+    available = true; reads = 0;
+    assets = tomba_seamless_prepare(&count);
+    require(assets && reads == std::size(catalog), "corrupt pack rebuilt from the disc");
+    { std::ofstream out(pack, std::ios::binary | std::ios::trunc); out.write("PSXRES01", 8); }
+    available = false;
+    require(!tomba_seamless_prepare(&count), "failed repair keeps retail loading");
+    std::error_code ec;
+    std::filesystem::remove_all(cache, ec);
+    std::printf("PASS: cold/warm preparation, %zu sector hashes, %u decoded GAM hashes, modded stream, "
+                "corruption repair, fail-closed fallback\n", std::size(catalog), decoded);
 }

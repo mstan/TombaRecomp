@@ -9,25 +9,19 @@
 #include "gpu.h"
 #include "spu.h"
 #include "memcard.h"
-#include "dirty_ram_interp.h"
 #include "psx_cycles.h"
+#include "tomba_seamless_assets.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct {
-    uint32_t lba, size, raw, raw_len, decoded, decoded_len, declared, codec_state;
-} Asset;
-static unsigned char *pack, *data;
-static Asset *assets;
-static uint32_t asset_count, data_len;
+typedef TombaAsset Asset;
+static const Asset *assets;
+static uint32_t asset_count;
 static unsigned batches, fallbacks, frame;
 static unsigned last_batch_frame;
 static int trace;
 static int retail_reverb;
-extern const char *tomba_seamless_prepare_path(int rebuild);
-extern double tomba_seamless_now_ms(void);
-extern uint8_t *memory_get_ram_ptr(void);
 
 static uint32_t r32(uint32_t a) { return psx_mod_read_word(a); }
 static uint16_t r16(uint32_t a) { return psx_mod_read_half(a); }
@@ -42,22 +36,14 @@ static uint32_t u32(const unsigned char *p) {
 static int ram(uint32_t a, uint32_t n) {
     return a >= 0x80010000u && a <= 0x80200000u && n <= 0x80200000u-a;
 }
+/* Data the original code produces with CPU stores (decompressor output,
+ * clears, card reads) takes the CPU store path. */
 static void copy_to_ram(uint32_t a, const unsigned char *p, uint32_t n) {
-    /* Outside the static image, a bulk asset copy can invalidate by page.
-     * Touch every affected page through the normal store boundary so watched
-     * overlay generations advance too (the dirty bitmap alone is not enough).
-     * Static text/data retains the full store path and its image guard. */
-    if(n>=64 && a>=0x80098000u && ram(a,n)) {
-        uint32_t phys=a&0x1FFFFFFFu;
-        memcpy(memory_get_ram_ptr()+phys,p,n);
-        dirty_ram_mark_executable_range(phys,n);
-        for(uint32_t q=a;q<a+n;q=(q&~255u)+256)
-            w8(q,p[q-a]);
-        return;
-    }
-    while (n && (a & 3)) { w8(a++, *p++); --n; }
-    while (n >= 4) { w32(a, u32(p)); a += 4; p += 4; n -= 4; }
-    while (n--) w8(a++, *p++);
+    (void)psx_mod_host_write_ram(a, p, n);
+}
+/* Disc sectors arrive as the CD-ROM DMA delivers them. */
+static void deliver_sectors(uint32_t a, const unsigned char *p, uint32_t n, uint32_t lba) {
+    if (((a | n) & 3u) || !psx_mod_dma_write_ram(a, p, n, (int)lba)) copy_to_ram(a, p, n);
 }
 static unsigned bcd(unsigned x) { return (x >> 4)*10 + (x & 15); }
 static const Asset *find_asset(unsigned id) {
@@ -75,16 +61,7 @@ static const Asset *find_asset(unsigned id) {
  * wrappers. Preserve caller registers but keep hardware/deadline side effects. */
 static uint32_t guest(CPUState *cpu, uint32_t pc, uint32_t ra,
                       uint32_t a0, uint32_t a1, uint32_t a2) {
-    uint32_t regs[32], saved_pc=cpu->pc, hi=cpu->hi, lo=cpu->lo;
-    memcpy(regs, cpu->gpr, sizeof(regs));
-    cpu->gpr[4]=a0; cpu->gpr[5]=a1; cpu->gpr[6]=a2; cpu->gpr[31]=ra;
-    psx_snapshot_host_call_begin();
-    psx_dispatch_call(cpu, pc, ra);
-    uint32_t result=cpu->gpr[2];
-    memcpy(cpu->gpr, regs, sizeof(regs));
-    cpu->pc=saved_pc; cpu->hi=hi; cpu->lo=lo;
-    psx_snapshot_host_call_end();
-    return result;
+    return psx_mod_call_guest(cpu, pc, ra, a0, a1, a2, cpu->gpr[7]);
 }
 
 typedef struct { const Asset *asset; uint32_t queue, desc, dest, scratch, raw_dest; unsigned mode, type; } Request;
@@ -108,17 +85,19 @@ static int plan_request(unsigned index, Request *r) {
     if (r->mode==1 || (r->mode==0 && (r->type&0xF0)==0x10)) {
         unsigned width=r16(r->desc+12), height=r16(r->desc+14);
         if (!width || width>1024 || !height || height>512 ||
-            width*height*2 > (r->mode==1 ? r->asset->decoded_len : r->asset->raw_len)) return 0;
+            r16(r->desc+8)>=1024 || r16(r->desc+10)>=512 || (r->scratch&3) ||
+            width*height*2 >(r->mode==1 ? r->asset->decoded_len : r->asset->raw_len)) return 0;
     }
     /* Sound tables are offsets into the raw bank. Validate before any write. */
     if ((r->type&0xF0)==0x90 && r->mode!=3 && r->mode!=1) {
         /* This adapter owns synchronous DMA-style banks only. A custom
          * transfer callback or PIO transfer has additional semantics. */
         if(r32(0x80097C64u) || r32(0x80097C80u) || r32(0x80097C70u)!=3) return 0;
-        const unsigned char *p=data+r->asset->raw;
+        const unsigned char *p=r->asset->raw;
         unsigned n=r->asset->size, slot=r->type&15;
         if(slot==15) slot=0;
-        if(n<36 || !ram(r->dest,n) || r->dest!=r->raw_dest) return 0;
+        /* SPU DMA reads whole words from word-aligned guest addresses. */
+        if(n<36 || !ram(r->dest,n) || r->dest!=r->raw_dest || (r->dest&3)) return 0;
         uint32_t samples=u32(p), headers=u32(p+4);
         if(samples>n-4 || headers>n-32) return 0;
         unsigned sh=u32(p+headers), ss=u32(p+samples);
@@ -140,7 +119,7 @@ static int plan_request(unsigned index, Request *r) {
             uint32_t end=samples+u32(p+samples+4*(i+1==nh ? ns : i+1));
             uint32_t len=(end-src+63)&~63u;
             if(end-src>0x7EFF0 || src>r->asset->raw_len || len>r->asset->raw_len-src ||
-               len>0x80000-spu_addr) return 0;
+               len>0x80000-spu_addr || (src&3)) return 0;
             spu_addr+=end-src;
         }
     }
@@ -168,11 +147,7 @@ static void install_sound(CPUState *cpu, const Request *r) {
         uint32_t bytes=(end-src+63)&~63u;
         w16(0x80097C60u,(uint16_t)(spu_addr>>3));
         w32(0x80097C98u,0); w32(0x80097C9Cu,src); w32(0x80097CA0u,bytes/64);
-        spu_write(0x1F801DA6u,spu_addr>>3);
-        uint16_t ctrl=spu_ctrl_read();
-        spu_write(0x1F801DAAu,(ctrl&~0x30u)|0x20u);
-        for(uint32_t j=0;j<bytes;j+=4) spu_dma_write(r32(src+j));
-        spu_write(0x1F801DAAu,ctrl&~0x30u);
+        (void)psx_mod_spu_upload(spu_addr,src,bytes,1);
         w32(0x80097C7Cu,1);
         uint32_t handle=guest(cpu,0x80073CA8u,0x80021A94u,r32(0x8009C758u+4*(slot+i)),0xFFFFFFFFu,spu_addr);
         w16(0x1F8003A8u+2*(slot+i),(uint16_t)handle);
@@ -185,7 +160,7 @@ static int install_batch(CPUState *cpu) {
     unsigned begin=r32(0x1F8002A0u), end=r32(0x1F80029Cu), count=0;
     Request requests[128];
     if(begin>=128 || end>=128 || begin==end || r16(0x801FD8E0u)) {
-        ++fallbacks;
+        ++fallbacks; psx_mod_counter_add("tomba.seamless.fallbacks",1);
         fprintf(stdout,"seamless: queue fallback frame=%u begin=%u end=%u busy=%u\n",
                 frame,begin,end,r16(0x801FD8E0u));
         return 0;
@@ -194,7 +169,7 @@ static int install_batch(CPUState *cpu) {
         if(!plan_request(i,requests+count)) {
             uint32_t desc=r32(0x8009E748u+i*8);
             fprintf(stdout,"seamless: fallback frame=%u area=%u/%u queue=%u desc=%08X id=%u flags=%X type=%X bank=%u\n",frame,r16(0x8009BCC8u),r16(0x8009BCCAu),i,desc,r16(desc),r32(desc+16),r8(desc+3),r16(desc+14));
-            ++fallbacks; return 0;
+            ++fallbacks; psx_mod_counter_add("tomba.seamless.fallbacks",1); return 0;
         }
         ++count;
     }
@@ -209,9 +184,9 @@ static int install_batch(CPUState *cpu) {
         double file_start=trace ? tomba_seamless_now_ms() : 0; unsigned file_frame=frame;
         w32(0x1F800288u,r->queue); w32(0x1F80028Cu,r->desc);
         w32(0x1F800290u,r->raw_dest); w32(0x1F800294u,a->raw_len/2048);
-        copy_to_ram(r->raw_dest,data+a->raw,a->raw_len);
+        deliver_sectors(r->raw_dest,a->raw,a->raw_len,a->lba);
         if(r->mode==1 || r->mode==3) {
-            copy_to_ram(r->mode==1 ? r->scratch : r->dest,data+a->decoded,a->decoded_len);
+            copy_to_ram(r->mode==1 ? r->scratch : r->dest,a->decoded,a->decoded_len);
             w32(0x1F800070u,a->declared); w32(0x1F800074u,a->decoded_len);
             w16(0x8009B0CCu,(uint16_t)a->codec_state); w8(0x8009B0C8u,(uint8_t)(a->codec_state>>16));
         }
@@ -219,24 +194,16 @@ static int install_batch(CPUState *cpu) {
             /* Drain earlier PsyQ commands before installing this rectangle.
              * The native GP0 upload consumes the data before scratch reuse. */
             guest(cpu,0x8005EB54u,0x80021848u,0,0,0);
-            gpu_set_gp0_source(r->scratch);
-            gpu_write_gp1(0x04000000u);
-            gpu_write_gp0(0x01000000u); /* PsyQ LoadImage invalidates the texture cache. */
-            gpu_write_gp0(0xA0000000u);
-            gpu_write_gp0(r32(r->desc+8));
-            gpu_write_gp0(r32(r->desc+12));
-            unsigned words=(r16(r->desc+12)*r16(r->desc+14)+1)/2;
-            for(unsigned j=0;j<words;j++) {
-                gpu_set_gp0_source(r->scratch+4*j);
-                gpu_write_gp0(r32(r->scratch+4*j));
-            }
-            if(words>=16) gpu_write_gp1(0x04000002u);
+            (void)psx_mod_psyq_load_image(r16(r->desc+8),r16(r->desc+10),
+                                          r16(r->desc+12),r16(r->desc+14),r->scratch);
         } else if((r->type&0xF0)==0x90 && r->mode!=3) install_sound(cpu,r);
         w32(0x1F8002A0u,(begin+i+1)&127);
         if(trace) fprintf(stdout,"seamless: file id=%u mode=%u type=%02X frames=%u..%u ms=%.3f\n",r16(r->desc),r->mode,r->type,file_frame,frame,tomba_seamless_now_ms()-file_start);
     }
     w8(0x1F8001CEu,1);
     ++batches;
+    psx_mod_counter_add("tomba.seamless.batches",1);
+    psx_mod_counter_add("tomba.seamless.files",count);
     last_batch_frame=frame;
     fprintf(stdout,"seamless: batch=%u frame=%u files=%u ms=%.3f cycles=%llu area=%u/%u fallbacks=%u\n",batches,frame,count,tomba_seamless_now_ms()-start,(unsigned long long)(psx_get_cycle_count()-start_cycles),r16(0x8009BCC8u),r16(0x8009BCCAu),fallbacks);
     fflush(stdout);
@@ -270,6 +237,7 @@ static int read_save(CPUState *cpu) {
             if(memcard_read_sector(card,block*64+(int)i,bytes+i*128)!=0) return 0;
         copy_to_ram(cpu->gpr[5],bytes,sizeof bytes);
         cpu->gpr[2]=0;
+        psx_mod_counter_add("tomba.seamless.save_reads",1);
         fprintf(stdout,"seamless: save read card=%d block=%d bytes=%zu frame=%u\n",card,block,sizeof bytes,frame);
         return 1;
     }
@@ -313,7 +281,7 @@ static int dispatch(CPUState *cpu, uint32_t phys) {
         cpu->gpr[31]=0x8001A9C0u;
         return 1;
     }
-    if(!pack) return 0;
+    if(!assets) return 0;
     /* The exit actor's movement step can finish after its fade. In retail
      * it then spends a whole tick entering a pure fade-completion check.
      * Complete that already-ready check now; movement still runs once. */
@@ -365,7 +333,7 @@ static int dispatch(CPUState *cpu, uint32_t phys) {
     }
     if(phys==0x76400u && cpu->gpr[31]!=0x8000FD00u && !retail_reverb) {
         if(clear_reverb(cpu)) return 1;
-        ++fallbacks;
+        ++fallbacks; psx_mod_counter_add("tomba.seamless.fallbacks",1);
         fprintf(stdout,"seamless: reverb fallback frame=%u mode=%u\n",frame,cpu->gpr[4]);
     }
     /* An ordinary exit has already committed to state 7 before its old
@@ -425,7 +393,7 @@ static int dispatch(CPUState *cpu, uint32_t phys) {
     if((phys==0x5B45Cu || (phys==0xB0u && cpu->gpr[9]==0x34u)) && cpu->gpr[31]==0x800E8964u &&
        r32(0x800E895Cu)==(0x0C000000u|(0x8005B45Cu>>2&0x03FFFFFFu))) {
         if(read_save(cpu)) return 1;
-        ++fallbacks;
+        ++fallbacks; psx_mod_counter_add("tomba.seamless.fallbacks",1);
         fprintf(stdout,"seamless: save read fallback frame=%u\n",frame);
         cpu->gpr[2]=guest(cpu,0x800E7ACCu,0x800E8964u,cpu->gpr[4],cpu->gpr[5],cpu->gpr[6]);
         return 1;
@@ -569,50 +537,17 @@ static int dispatch(CPUState *cpu, uint32_t phys) {
 }
 static void tick(void) {
     ++frame;
-    if(pack) tomba_dispatch_install();
-}
-static int load_pack(const char *path) {
-    FILE *f=fopen(path,"rb");
-    if(!f) return 0;
-    fseek(f,0,SEEK_END); long size=ftell(f); rewind(f);
-    if(size<48 || size>256*1024*1024) { fclose(f); return 0; }
-    unsigned char *p=(unsigned char*)malloc((size_t)size);
-    if(!p) { fclose(f); return 0; }
-    int ok=fread(p,1,(size_t)size,f)==(size_t)size; fclose(f);
-    static const unsigned char sha1[20]={0xc2,0x59,0xec,0x7f,0xf6,0xef,0x41,0x63,0x91,0x39,0x91,0xf4,0xe4,0xdb,0x2e,0xff,0x71,0x70,0x28,0x18};
-    asset_count=u32(p+8); data_len=u32(p+12);
-    if(!ok || memcmp(p,"TMBPK001",8) || memcmp(p+16,sha1,20) || asset_count!=1062 ||
-       48ull+asset_count*32ull+data_len!=(uint64_t)size) { free(p); return 0; }
-    uint32_t hash=2166136261u;
-    for(long i=48;i<size;i++) hash=(hash^p[i])*16777619u;
-    if(hash!=u32(p+36)) { free(p); return 0; }
-    assets=(Asset*)(p+48); data=p+48+asset_count*32;
-    for(unsigned i=0;i<asset_count;i++) {
-        const Asset *a=assets+i;
-        if(a->raw>data_len || a->raw_len>data_len-a->raw || a->decoded>data_len ||
-           a->decoded_len>data_len-a->decoded || a->size>a->raw_len ||
-           a->raw_len!=((a->size+2047u)&~2047u)) { free(p); assets=NULL; data=NULL; return 0; }
-    }
-    pack=p;
-    fprintf(stdout,"seamless: resident assets=%u bytes=%u; native loader hook enabled\n",asset_count,data_len);
-    return 1;
+    if(assets) tomba_dispatch_install();
 }
 static void activate(void) {
     const char *trace_env=getenv("TOMBA_SEAMLESS_TRACE");
     trace=trace_env && !strcmp(trace_env,"1");
     const char *retail_env=getenv("TOMBA_SEAMLESS_REVERB_RETAIL");
     retail_reverb=retail_env && !strcmp(retail_env,"1");
-    for(int attempt=0;attempt<2;attempt++) {
-        const char *path=tomba_seamless_prepare_path(attempt);
-        if(!path || !*path) break;
-        if(load_pack(path)) return;
-        const char *explicit_path=getenv("TOMBA_SEAMLESS_PACK");
-        if(explicit_path && *explicit_path) break;
-        if(!attempt) fprintf(stderr,"seamless: invalid cache; rebuilding from your disc\n");
-    }
-    fprintf(stderr,"seamless: asset pack unavailable; resident loading disabled\n");
-}
-PSX_MOD_CONSTRUCTOR(tomba_register_seamless) {
+    /* NULL (preparation failed) keeps the retail loader; resident_status
+     * reports why. */
+    assets=tomba_seamless_prepare(&asset_count);
+}PSX_MOD_CONSTRUCTOR(tomba_register_seamless) {
     tomba_dispatch_register(dispatch);
     (void)psx_mod_register_activation_plugin("tomba.seamless",activate);
     (void)psx_mod_register_vblank_plugin("tomba.seamless",tick);

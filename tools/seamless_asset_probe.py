@@ -140,8 +140,11 @@ def inspect(disc_path: Path, framework_root: Path, oracle_enabled=False,
             raw = disc.read_file_bytes(lba, size)
             source_hash = sha256(raw)
             unique_source[source_hash] = len(raw)
+            # Whole sectors, exactly what a sector-granular read delivers.
+            padded = disc.read_file_bytes(lba, (size + 2047) & ~2047)
             entry = {"path": name, "lba": lba, "source_bytes": size,
-                     "source_sha256": source_hash, "kind": "raw"}
+                     "source_sha256": source_hash,
+                     "source_padded_sha256": sha256(padded), "kind": "raw"}
             prepared = raw
             if raw.startswith(b"GAM\0"):
                 entry["kind"] = CODEC

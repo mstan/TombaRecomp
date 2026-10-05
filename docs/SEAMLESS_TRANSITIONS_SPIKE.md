@@ -107,21 +107,31 @@ file. Both sector-padded originals and decoded GAM output remain resident:
 against the supported-disc metadata. Only filenames, sizes, locations and hashes
 are committed; the pack contains original game assets and stays local.
 
-Windows cache: `%LOCALAPPDATA%/TombaRecomp/seamless/c259ec7ff6ef4163-gam-v1.pack`.
-Other platforms use `$XDG_CACHE_HOME`, or `$HOME/.cache`, under the same game
-directory. `TOMBA_SEAMLESS_CACHE` changes the cache directory for isolated tests.
-The developer-only `TOMBA_SEAMLESS_PACK` selects an explicit existing pack.
-Versioned headers, bounds checks and a body checksum reject invalid caches;
-normal caches are then rebuilt from the mounted disc. Publication uses a
-process-specific temporary file and atomic replacement. A failed preparation
-preserves the previous complete cache and leaves the native loader disabled.
+The pack is the framework's resident disc pack (psxrecomp
+`runtime/include/mod_resident.h`), shared with Tomba2Recomp and MegaManX6Recomp.
+Windows cache: `%LOCALAPPDATA%/TombaRecomp/seamless/scus94236-gam-v2-<key>.pack`;
+other platforms use `$XDG_CACHE_HOME`, or `$HOME/.cache`, under the same game
+directory. The key covers the active mod plan (and the source disc), so a
+changed asset plan never reuses another plan's pack. `PSX_RESIDENT_CACHE`
+changes the cache root for isolated tests. Every source and decoded blob is
+SHA-256 verified on load and the files' disc extents are rechecked; invalid
+caches are rebuilt from the mounted disc. Publication uses a process-specific
+temporary file and atomic replacement; a failed preparation leaves the native
+loader disabled. Identical blobs are stored once.
 
-The independent Python builder and native preparer produce exactly the same
-74,439,288-byte pack, SHA-256
-`dacc6f5ef2d21d6c0a052005621d0bbd379131a290aa058f2d0ba3c3eb221db4`.
-Corrupting a body byte in the isolated cache caused regeneration from the disc
-and restored the exact expected hash. Warm reuse left the cache timestamp
-unchanged, with no preparation pass.
+Files come from the effective (mod-patched) disc. A file that differs from its
+catalogued original is served as found and counted
+(`tomba.seamless.modified_files`); a modified GAM stream is decoded with the
+same codec, and one that does not decode keeps the game's own decompressor.
+Catalog source hashes cover whole sectors (`tools/seamless_catalog.py` from
+the probe's `source_padded_sha256`).
+
+Always-on: TCP `{"cmd":"resident_status"}` and `{"cmd":"mod_counters"}`
+(`tomba.seamless.batches`/`files`/`fallbacks`/`save_reads`, `resident.*`).
+Served sectors reach RAM with CD-DMA side effects (`psx_mod_dma_write_ram`),
+decoded data through the CPU store path; guest calls use `psx_mod_call_guest`,
+sample banks and the reverb clear `psx_mod_spu_upload`, texture rectangles
+`psx_mod_psyq_load_image`.
 This catalog supports stock assets only. Asset-replacement mods and other disc
 editions need a separate compatibility/cache-identity design before support.
 
@@ -451,12 +461,10 @@ Both generated assets and the local dependency installation are ignored by Git.
 The probe never launches Tomba or modifies a save, disc, or Ghidra database.
 
 The following checks are developer-only; players do not run Python or compile
-these tools. Build an independent local pack with `tools/seamless_pack.py`,
-then set `TOMBA_SEAMLESS_CACHE` to an isolated test directory and leave
-`TOMBA_SEAMLESS_PACK` unset. Run `tomba-seamless-prepare-tests` with the pack
-path as its sole argument. It checks full-pack equality and failed regeneration
-preserving the prior cache. This fixture is not a CTest dependency because it
-contains the owner's original disc data.
+these tools. Configure with `-DTOMBA_TEST_DISC=<data-track .bin>` to register
+`tomba_seamless_prepare`, which runs the framework pack code against the disc:
+all 1,062 sector hashes and every decoded GAM hash, warm reuse, plan isolation,
+a modded stream, corruption repair and fail-closed fallback.
 
 Build target `tomba-seamless-reverb-fixture` and run the reverb byte oracle:
 

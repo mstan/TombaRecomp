@@ -83,12 +83,23 @@ if(BUILD_TESTING)
         add_test(NAME tomba_seamless_requests COMMAND tomba-seamless-request-tests)
     endif()
     add_library(tomba-seamless-reverb-fixture SHARED tests/seamless_reverb_native_fixture.c)
+    # Seamless Loading preparation against an owner-supplied disc image:
+    # -DTOMBA_TEST_DISC=<path to the SCUS-94236 data-track .bin>.
     add_executable(tomba-seamless-prepare-tests
         tests/test_seamless_prepare.cpp src/mods/tomba_seamless_prepare.cpp
+        "${PSXRECOMP_ROOT}/runtime/src/mod_resident.cpp"
         "${PSXRECOMP_ROOT}/runtime/src/psx_sha256.c")
     target_compile_features(tomba-seamless-prepare-tests PRIVATE cxx_std_17)
-    target_include_directories(tomba-seamless-prepare-tests PRIVATE "${PSXRECOMP_ROOT}/runtime/include")
-    add_executable(tomba-adaptive-tests tests/test_adaptive_widescreen.c)
+    target_include_directories(tomba-seamless-prepare-tests PRIVATE
+        src/mods "${PSXRECOMP_ROOT}/runtime/include")
+    set(TOMBA_TEST_DISC "" CACHE FILEPATH "Original SCUS-94236 .bin for disc tests")
+    if(TOMBA_TEST_DISC)
+        add_test(NAME tomba_seamless_prepare
+            COMMAND tomba-seamless-prepare-tests "${TOMBA_TEST_DISC}"
+                    "${CMAKE_CURRENT_BINARY_DIR}/seamless-test-cache")
+    endif()
+    add_executable(tomba-adaptive-tests tests/test_adaptive_widescreen.c
+        "${PSXRECOMP_ROOT}/runtime/src/psx_ram_geometry.c")
     target_include_directories(tomba-adaptive-tests PRIVATE "${PSXRECOMP_ROOT}/runtime/include")
     add_test(NAME tomba_adaptive_widescreen COMMAND tomba-adaptive-tests)
     find_package(Python3 QUIET COMPONENTS Interpreter)

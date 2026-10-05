@@ -28,6 +28,16 @@ static void spu_write(uint32_t a, uint32_t v) {
 static void spu_dma_write(uint32_t v) {
     for(unsigned i=0;i<4;i++) sound[cursor++&0x7FFFF]=(uint8_t)(v>>(8*i));
 }
+/* The framework's psx_mod_spu_upload contract at the hardware boundary:
+ * transfer address, DMA-write mode, words through the SPU DMA path, stop. */
+static int psx_mod_spu_upload(uint32_t spu, uint32_t src, uint32_t bytes, int stop) {
+    spu_write(0x1F801DA6u,spu>>3);
+    uint16_t ctrl=spu_ctrl_read();
+    spu_write(0x1F801DAAu,(ctrl&~0x30u)|0x20u);
+    for(uint32_t j=0;j<bytes;j+=4) spu_dma_write(r32(src+j));
+    if(stop) spu_write(0x1F801DAAu,ctrl&~0x30u);
+    return 1;
+}
 #include "../src/mods/tomba_seamless_spu.h"
 #ifdef _WIN32
 __declspec(dllexport)
