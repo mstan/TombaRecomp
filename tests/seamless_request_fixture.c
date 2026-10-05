@@ -26,8 +26,10 @@ uint16_t psx_mod_read_half(uint32_t address) {
 uint32_t psx_mod_read_word(uint32_t address) {
     return psx_mod_read_half(address) | (uint32_t)psx_mod_read_half(address+2)<<16;
 }
-FIXTURE_EXPORT int seamless_fixture_load_pack(const char *path) {
-    return load_pack(path);
+/* The audit supplies the resident assets it parsed from the player's pack. */
+FIXTURE_EXPORT void seamless_fixture_set_assets(const TombaAsset *list, unsigned count) {
+    assets=list;
+    asset_count=count;
 }
 FIXTURE_EXPORT int seamless_fixture_plan(const uint8_t *ram_bytes,
                                           const uint8_t *scratch_bytes,

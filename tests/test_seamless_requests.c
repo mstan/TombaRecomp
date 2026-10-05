@@ -19,7 +19,8 @@ static int check_bank(unsigned bank,int expected) {
 int main(void) {
     Asset asset={0};
     asset.size=asset.raw_len=sizeof test_bank;
-    assets=&asset; asset_count=1; data=test_bank;
+    asset.raw=test_bank;
+    assets=&asset; asset_count=1;
     /* One header and one eight-byte sample, with room for DMA rounding. */
     put32(test_bank,0x100); put32(test_bank+4,0x40);
     put32(test_bank+0x40,8); put32(test_bank+0x44,40);

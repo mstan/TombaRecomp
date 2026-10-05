@@ -1,12 +1,15 @@
 """Audit every stock area/section and sound list against the real preflight.
 
-Requires the player's verified resident pack, original SCUS-94236 executable,
-Unicorn, and tests/seamless_request_fixture.c built as a shared library. Runs
-the original MIPS queue builders, then the production C request planner. This
-is resource coverage, not a gameplay, frame-pacing, or audio-output test.
+Requires the player's resident pack (psxrecomp mod_resident format, e.g.
+%LOCALAPPDATA%/TombaRecomp/seamless/scus94236-gam-v2-*.pack), the original
+SCUS-94236 executable, Unicorn, and tests/seamless_request_fixture.c built as a
+shared library. Runs the original MIPS queue builders, then the production C
+request planner. This is resource coverage, not a gameplay, frame-pacing, or
+audio-output test.
 """
 import argparse
 import ctypes
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -18,25 +21,67 @@ from unicorn import mips_const as reg
 ROOT = Path(__file__).resolve().parent.parent
 
 
+class TombaAsset(ctypes.Structure):
+    """src/mods/tomba_seamless_assets.h"""
+    _fields_ = [('lba', ctypes.c_uint32), ('size', ctypes.c_uint32),
+                ('raw', ctypes.c_void_p), ('raw_len', ctypes.c_uint32),
+                ('decoded', ctypes.c_void_p), ('decoded_len', ctypes.c_uint32),
+                ('declared', ctypes.c_uint32), ('codec_state', ctypes.c_uint32)]
+
+
+GAM_TAG = 0x444D4147  # 'GAMD', tomba_seamless_prepare.cpp
+
+
+def read_pack(path):
+    """psxrecomp runtime/src/mod_resident.cpp container, every hash checked."""
+    data = path.read_bytes()
+    if data[:8] != b'PSXRES01' or struct.unpack_from('<I', data, 8)[0] != 1:
+        raise ValueError('Not a resident pack')
+    nf, nd, nb = struct.unpack_from('<3I', data, 12)
+    payload_size = struct.unpack_from('<Q', data, 56)[0]
+    table = 64 + nf*20 + nd*28 + nb*48
+    if hashlib.sha256(data[:table]).digest() != data[table:table+32]:
+        raise ValueError('Resident pack table hash mismatch')
+    payload = data[table+32:]
+    if len(payload) != payload_size:
+        raise ValueError('Resident pack size mismatch')
+    files = [struct.unpack_from('<5I', data, 64+i*20) for i in range(nf)]
+    derived = [struct.unpack_from('<7I', data, 64+nf*20+i*28) for i in range(nd)]
+    blobs = []
+    for i in range(nb):
+        at = 64 + nf*20 + nd*28 + i*48
+        offset, size = struct.unpack_from('<QI', data, at)
+        blob = payload[offset:offset+size]
+        if hashlib.sha256(blob).digest() != data[at+16:at+48]:
+            raise ValueError('Resident pack blob hash mismatch')
+        blobs.append(blob)
+    return files, derived, blobs
+
+
 def audit(exe_path, pack_path, library_path):
     lib = ctypes.CDLL(str(library_path.resolve()))
-    lib.seamless_fixture_load_pack.argtypes = [ctypes.c_char_p]
+    lib.seamless_fixture_set_assets.argtypes = [ctypes.POINTER(TombaAsset), ctypes.c_uint]
     lib.seamless_fixture_plan.argtypes = [ctypes.c_void_p, ctypes.c_void_p,
                                          ctypes.c_uint]
-    if not lib.seamless_fixture_load_pack(str(pack_path.resolve()).encode()):
-        raise ValueError('Invalid resident pack')
-    pack = pack_path.read_bytes()
-    count = struct.unpack_from('<I', pack, 8)[0]
-    payload = 48 + count * 32
     catalog = (ROOT/'src/mods/tomba_seamless_catalog.inc').read_text()
-    names = {(int(lba), int(size)): name for name, lba, size in
-             re.findall(r'\{"([^"]+)", (\d+), (\d+),', catalog)}
+    order = re.findall(r'\{"([^"]+)", (\d+), (\d+),', catalog)
+    pack_files, pack_derived, blobs = read_pack(pack_path)
+    if len(pack_files) != len(order):
+        raise ValueError('Resident pack does not match the catalog')
+    buffers = [ctypes.create_string_buffer(b, len(b)) for b in blobs]
+    table = (TombaAsset * len(pack_files))()
     assets, files = {}, {}
-    for i in range(count):
-        lba, size, offset, raw_len = struct.unpack_from('<4I', pack, 48+i*32)
-        name = names[(lba, size)]
+    for i, ((lba, size, padded, _stock, blob), (name, _, _)) in enumerate(zip(pack_files, order)):
+        table[i].lba, table[i].size, table[i].raw_len = lba, size, padded
+        table[i].raw = ctypes.cast(buffers[blob], ctypes.c_void_p)
         assets[lba, size] = name
-        files[name] = pack[payload+offset:payload+offset+raw_len][:size]
+        files[name] = blobs[blob][:size]
+    for file, tag, declared, state, length, _, blob in pack_derived:
+        if tag == GAM_TAG:
+            table[file].decoded = ctypes.cast(buffers[blob], ctypes.c_void_p)
+            table[file].decoded_len, table[file].declared = length, declared
+            table[file].codec_state = state
+    lib.seamless_fixture_set_assets(table, len(pack_files))
     exe = exe_path.read_bytes()
     if exe != files['SCUS_942.36']:
         raise ValueError('Executable does not match the verified disc pack')
