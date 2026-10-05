@@ -177,5 +177,5 @@ static void residency_tick(CPUState* cpu, uint32_t address) {
 
 PSX_MOD_CONSTRUCTOR(tomba_register_widescreen_residency) {
     (void)psx_mod_register_function_entry_plugin(
-        "tomba.widescreen.residency", 0x8005A184u, residency_tick);
+        "tomba.widescreen", 0x8005A184u, residency_tick);
 }

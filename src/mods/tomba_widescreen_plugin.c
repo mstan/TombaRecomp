@@ -44,7 +44,7 @@ static void tomba_widescreen_activate(void) {
 
 PSX_MOD_CONSTRUCTOR(tomba_register_widescreen_plugin) {
     (void)psx_mod_register_function_entry_plugin(
-        "tomba.widescreen.hud", 0x8005E08Cu, tomba_widescreen_tag_hud);
+        "tomba.widescreen", 0x8005E08Cu, tomba_widescreen_tag_hud);
     (void)psx_mod_register_activation_plugin(
         "tomba.widescreen", tomba_widescreen_activate);
     (void)psx_mod_register_vblank_plugin(
