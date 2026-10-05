@@ -9,6 +9,7 @@
 #include "../src/mods/tomba_widescreen_residency.h"
 #include "../src/mods/tomba_widescreen_sprites.h"
 #include "../src/mods/tomba_widescreen_view.h"
+#include "../src/mods/tomba_widescreen_scripts.h"
 #include "ws_primitive_roles.h"
 #include "ws_scene_latch.h"
 #include "ws_backdrop_margin.h"
@@ -180,6 +181,17 @@ int main(void) {
     assert(tomba_roof_keep_group(0, 3) && tomba_roof_keep_group(1, 3));
     assert(!tomba_roof_keep_group(1, 1) && !tomba_roof_keep_group(0, 2));
     check_detector();
+    /* The cutscene's actor-visibility opcode uses the retail camera window
+     * even when drawing extends farther. Check both inclusive edges, vertical
+     * clipping and the original halfword wrap behavior. */
+    assert(tomba_script_visible(936, 564, 1000, 500));
+    assert(tomba_script_visible(1384, 196, 1000, 500));
+    assert(!tomba_script_visible(935, 500, 1000, 500));
+    assert(!tomba_script_visible(1385, 500, 1000, 500));
+    assert(!tomba_script_visible(1000, 565, 1000, 500));
+    assert(!tomba_script_visible(1000, 195, 1000, 500));
+    assert(!tomba_script_visible(1500, 500, 1000, 500)); /* wide fringe */
+    assert(tomba_script_visible(-32768, 0, 32767, 0));
     check_hud(0x8004E830, 0x2c, 0x8004E4D4, 0, 0, 1);
     check_hud(0x8004E9AC, 0x3c, 0x8004E4E8, 0, 0, -1);
     check_hud(0x8004EEF4, 0x20, 0x8004E4F8, 0, 0, -1);

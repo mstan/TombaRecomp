@@ -3,6 +3,8 @@
  * The shipped binary prepares the asset pack once from the owner's disc. */
 #include "mod_plugins.h"
 #include "cpu_state.h"
+#include "interrupts.h"
+#include "tomba_dispatch.h"
 #include "bios_hle.h"
 #include "gpu.h"
 #include "spu.h"
@@ -19,7 +21,6 @@ typedef struct {
 static unsigned char *pack, *data;
 static Asset *assets;
 static uint32_t asset_count, data_len;
-static int (*previous_hook)(CPUState *, uint32_t);
 static unsigned batches, fallbacks, frame;
 static unsigned last_batch_frame;
 static int trace;
@@ -77,10 +78,12 @@ static uint32_t guest(CPUState *cpu, uint32_t pc, uint32_t ra,
     uint32_t regs[32], saved_pc=cpu->pc, hi=cpu->hi, lo=cpu->lo;
     memcpy(regs, cpu->gpr, sizeof(regs));
     cpu->gpr[4]=a0; cpu->gpr[5]=a1; cpu->gpr[6]=a2; cpu->gpr[31]=ra;
+    psx_snapshot_host_call_begin();
     psx_dispatch_call(cpu, pc, ra);
     uint32_t result=cpu->gpr[2];
     memcpy(cpu->gpr, regs, sizeof(regs));
     cpu->pc=saved_pc; cpu->hi=hi; cpu->lo=lo;
+    psx_snapshot_host_call_end();
     return result;
 }
 
@@ -291,7 +294,21 @@ static int clear_reverb(CPUState *cpu) {
 
 static int dispatch(CPUState *cpu, uint32_t phys) {
     if(!psx_mod_game_started() || r32(0x80021340u)!=0x27BDFF98u)
-        return previous_hook ? previous_hook(cpu,phys) : 0;
+        return 0;
+    /* v0.15.0 states could capture the ordinary scene tick inside guest().
+     * Its synthetic stop is the tick's own epilogue. After a disk restore
+     * the nested host call no longer exists: re-entering that epilogue pops
+     * the caller's frame a second time and eventually restarts the logos.
+     * The tick has already returned with its frame popped. Continue at the
+     * retail caller's post-JAL PC instead. Live nested calls stop before this
+     * dispatch, so only an abandoned/restored call can reach this contract. */
+    if(phys==0x1AD0Cu && cpu->gpr[31]==0x8001AD0Cu &&
+       r32(0x8001AD0Cu)==0x8FBF0018u && r32(0x8001A9B8u)==0x0C006B00u &&
+       ram(cpu->gpr[29],24)) {
+        cpu->gpr[31]=0x8001A9C0u;
+        return 1;
+    }
+    if(!pack) return 0;
     /* The exit actor's movement step can finish after its fade. In retail
      * it then spends a whole tick entering a pure fade-completion check.
      * Complete that already-ready check now; movement still runs once. */
@@ -543,14 +560,11 @@ static int dispatch(CPUState *cpu, uint32_t phys) {
     }
     if(phys==0x17154u && cpu->gpr[4]==2 && cpu->gpr[5]==0x80021340u &&
        psx_mod_game_started() && r32(0x80021340u)==0x27BDFF98u && install_batch(cpu)) return 1;
-    return previous_hook ? previous_hook(cpu,phys) : 0;
+    return 0;
 }
 static void tick(void) {
     ++frame;
-    if(pack && g_psx_bios_hle_hook!=dispatch) {
-        previous_hook=g_psx_bios_hle_hook;
-        g_psx_bios_hle_hook=dispatch;
-    }
+    if(pack) tomba_dispatch_install();
 }
 static int load_pack(const char *path) {
     FILE *f=fopen(path,"rb");
@@ -594,6 +608,8 @@ static void activate(void) {
     fprintf(stderr,"seamless: asset pack unavailable; resident loading disabled\n");
 }
 PSX_MOD_CONSTRUCTOR(tomba_register_seamless) {
+    tomba_dispatch_register(dispatch);
     (void)psx_mod_register_activation_plugin("tomba.seamless",activate);
     (void)psx_mod_register_vblank_plugin("tomba.seamless",tick);
+    (void)psx_mod_register_savestate_plugin("tomba.seamless",tomba_dispatch_install);
 }

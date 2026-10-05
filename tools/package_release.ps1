@@ -285,8 +285,8 @@ replacement mods are unsupported. Whole-game coverage is still under test.
 Custom Renderer is disabled by default. Enable it in Mods for uncapped Fit to
 Window, or choose fixed 16:9, 21:9 or 32:9. Leave it off for stock 4:3.
 Very wide views remain experimental and may lower the game's frame rate.
-Older quick-save states may not load with this framework version. Keep your
-previous installation and saves until you have verified your progress.
+Quick-save states from v0.15.0/v0.15.1 remain supported. Older quick-save states
+may not load. Keep your previous installation and saves until verified.
 
 This release includes prebuilt native code for all 25 configured area and
 support images. Additional code can still use the runtime fallback.

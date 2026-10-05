@@ -1,3 +1,20 @@
+## v0.15.2-alpha
+
+Fixes the dog bridge cutscene and quick-save restore softlocks.
+
+- The dog crossing cutscene now completes with Custom Renderer enabled. Script
+  visibility queries keep the original camera bounds while the wider view
+  continues to draw normally.
+- Quick-save restores resume gameplay instead of restarting the Whoopee Camp
+  logo and stopping on a white screen. This includes restores immediately after
+  launch and existing v0.15.0/v0.15.1 states containing a Seamless Loading call.
+- New quick-saves defer captures while a host call is preserving guest registers,
+  and retain the game-started state needed to resume safely.
+
+Validated with the reported bridge state, walking across the bridge after the
+cutscene, startup and running-session restores, and a new save/restore round
+trip. Memory cards and settings carry over.
+
 ## v0.15.1-alpha
 
 Simplifies the Mods page's Quality of Life list to **Seamless Loading**.

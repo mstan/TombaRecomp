@@ -19,8 +19,8 @@ Whole-game transition coverage is still under test.
 Other bundled mods are disabled by default. Configure them from the Mods page.
 Custom Renderer defaults to Fit to Window (uncapped), with fixed 16:9, 21:9
 and 32:9 choices. Leave it disabled for stock 4:3 rendering.
-Older quick-save states may not load with this framework version. Keep the
-previous installation and your saves until you have verified your progress.
+Quick-save states from v0.15.0/v0.15.1 remain supported. Older quick-save states
+may not load. Keep your previous installation and saves until verified.
 
 Linux AppImage state is stored in:
   ${XDG_DATA_HOME:-$HOME/.local/share}/TombaRecomp

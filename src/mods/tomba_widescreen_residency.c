@@ -1,5 +1,6 @@
 #include "mod_plugins.h"
 #include "cpu_state.h"
+#include "interrupts.h"
 #include "tomba_widescreen_residency.h"
 #include <stdio.h>
 #include <string.h>
@@ -50,9 +51,11 @@ static int event_available(CPUState* cpu, unsigned event) {
     /* Generated functions are CPS fragments, not synchronous C callees.
      * Use the nested dispatch contract with the real loader's post-call PC. */
     cpu->gpr[31] = 0x8005A5F8u;
+    psx_snapshot_host_call_begin();
     psx_dispatch_call(cpu, 0x80023608u, cpu->gpr[31]);
     int available = cpu->gpr[2] == 0;
     *cpu = saved;
+    psx_snapshot_host_call_end();
     return available;
 }
 
@@ -105,6 +108,7 @@ static int add_bank(CPUState* cpu, unsigned sector, unsigned shared) {
         if ((int)need[p] + (p == 0 ? 8 : 0) > free_slots) return 0;
     }
     CPUState saved = *cpu;
+    psx_snapshot_host_call_begin();
     for (unsigned i = 0; i < count; ++i) {
         *cpu = saved;
         cpu->gpr[4] = plan[i].record;
@@ -113,6 +117,7 @@ static int add_bank(CPUState* cpu, unsigned sector, unsigned shared) {
         psx_dispatch_call(cpu, 0x8005AA98u, cpu->gpr[31]);
     }
     *cpu = saved;
+    psx_snapshot_host_call_end();
     fprintf(stdout, "tomba widescreen: resident roof bank %u, added %u objects (%u/%u/%u)\n",
             sector, count, need[0], need[1], need[2]);
     return 1;

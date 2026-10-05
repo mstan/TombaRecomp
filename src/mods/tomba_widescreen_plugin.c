@@ -3,6 +3,7 @@
 #include "tomba_widescreen_hud.h"
 #include "tomba_widescreen_sprites.h"
 #include "tomba_widescreen_view.h"
+#include "tomba_widescreen_scripts.h"
 
 /*
  * Tomba's game-specific widescreen hooks remain part of generated/runtime
@@ -29,6 +30,7 @@ static void tomba_widescreen_activate(void) {
     char aspect[16];
     tomba_widescreen_enabled = 1;
     tomba_widescreen_residency_activate();
+    tomba_widescreen_scripts_activate();
     psx_mod_set_adaptive_backdrop_preload(1);
 
     if (!psx_mod_option_value(PKG, FEATURE, "aspect", aspect, sizeof aspect))
@@ -45,4 +47,8 @@ PSX_MOD_CONSTRUCTOR(tomba_register_widescreen_plugin) {
         "tomba.widescreen.hud", 0x8005E08Cu, tomba_widescreen_tag_hud);
     (void)psx_mod_register_activation_plugin(
         "tomba.widescreen", tomba_widescreen_activate);
+    (void)psx_mod_register_vblank_plugin(
+        "tomba.widescreen", tomba_widescreen_scripts_tick);
+    (void)psx_mod_register_savestate_plugin(
+        "tomba.widescreen", tomba_widescreen_scripts_tick);
 }
