@@ -47,7 +47,7 @@ Important files:
 ## Status
 
 The game is playable from BIOS boot through gameplay. Latest release:
-**v0.15.1-alpha** (2026-10-04).
+**v0.16.0-alpha** (2026-10-06).
 
 | Area | State |
 |---|---|
@@ -71,6 +71,9 @@ The game is playable from BIOS boot through gameplay. Latest release:
 - **Supersampling + anti-aliasing.** Internal-resolution SSAA (2×–4×) with
   optional linear present filtering for clean edges. Ships at 2×.
 - **Optional texture filtering.** Nearest (native PSX look) or bilinear.
+- **FMV skip modes.** Skip every movie, or enable **Preserve New Game and
+  ending FMVs (Any%)** to keep the opening after New Game, post-final-pig
+  cutscene, and credits. The exception setting is off by default.
 - **Optional Custom Renderer.** Fit to Window follows the window's aspect
   ratio, with fixed 16:9, 21:9 and 32:9 choices. Terrain, objects and HUD adapt
   to the expanded view. Extreme widths and all-area coverage remain experimental.

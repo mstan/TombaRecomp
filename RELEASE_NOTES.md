@@ -1,3 +1,25 @@
+## v0.16.0-alpha
+
+Skip FMVs now has an optional **Preserve New Game and ending FMVs (Any%)**
+setting. Enable it on the Mods page to play the opening after New Game,
+the post-final-pig cutscene, and the credits normally, with audio.
+
+- The movie before the title screen and all other FMVs still skip.
+- The new setting is off by default. Existing Skip FMVs users retain the
+  original skip-all behavior, including for All Events runs.
+- Both modes are available in the existing mod; no separate mod is needed.
+
+The New Game opening was checked through its transition into gameplay, and
+the owner validated the corrected behavior. Tests cover every movie ID,
+mode defaults, and transitions between skipped and preserved movies. The
+ending and credits IDs are verified; a full endgame playthrough was not part
+of this validation.
+
+Windows and Linux packages include prebuilt native code. Supply your own
+Tomba! USA disc. Existing memory cards and settings carry over. When switching
+skip modes, start from a fresh boot or a memory-card save: quick-save states
+made with skip-all may already contain shortened movie lengths.
+
 ## v0.15.3-alpha
 
 Fixes Seamless Loading falling back to the dancing-pig loading screen in many
