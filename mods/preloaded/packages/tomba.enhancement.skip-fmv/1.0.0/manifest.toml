@@ -3,7 +3,7 @@ id = "tomba.enhancement.skip-fmv"
 version = "1.0.0"
 name = "Tomba Skip FMVs"
 author = "mstan"
-description = "Automatically skips Tomba's full-motion videos through the game's original movie-completion path."
+description = "Automatically skips Tomba's full-motion videos, with an optional Any% setting to preserve the title opening, post-final-pig ending, and credits."
 resolver = "declarative"
 save_compatibility = "shared"
 
@@ -14,9 +14,18 @@ disc_sha256 = "25ada3dd51e70eb9f9218cd83fb02d73139750229fb44b012d62d183ab32eb13"
 [[feature]]
 id = "skip-fmv"
 name = "Skip FMVs"
-description = "End each full-motion video immediately through Tomba's original movie-completion logic."
+description = "End full-motion videos immediately through Tomba's original movie-completion logic. By default, skips every FMV, including the ending and credits."
 group = "Gameplay"
 default_enabled = false
+
+[[option]]
+feature = "skip-fmv"
+id = "preserve-any-percent"
+label = "Preserve title and ending FMVs (Any%)"
+description = "Play the title-screen opening, post-final-pig cutscene, and credits normally while skipping every other FMV. Leave off to skip all FMVs for All Events runs."
+group = "Gameplay"
+type = "boolean"
+default = "false"
 
 [[plugin]]
 feature = "skip-fmv"

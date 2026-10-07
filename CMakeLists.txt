@@ -66,6 +66,12 @@ foreach(TOMBA_RUNTIME_CONFIG game.toml game_options.toml)
 endforeach()
 
 if(BUILD_TESTING)
+    add_executable(tomba-fmv-skip-tests tests/test_fmv_skip.c
+        src/mods/tomba_skip_fmv_plugin.c)
+    target_include_directories(tomba-fmv-skip-tests PRIVATE
+        "${PSXRECOMP_ROOT}/runtime/include")
+    add_test(NAME tomba_fmv_skip COMMAND tomba-fmv-skip-tests)
+
     # The audit fixture includes the real planner but no running game. Drop
     # the unreferenced installation/dispatch services from this small target.
     if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang" AND NOT MSVC)

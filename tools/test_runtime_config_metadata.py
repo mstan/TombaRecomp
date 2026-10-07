@@ -57,6 +57,16 @@ def main() -> int:
         errors.append("custom renderer must default to Fit to Window")
     if [c["value"] for c in aspect["choice"]] != ["Fit", "16:9", "21:9", "32:9"]:
         errors.append("custom renderer dropdown choices changed")
+    fmv = load_toml(ROOT / "mods/preloaded/packages/"
+                    "tomba.enhancement.skip-fmv/1.0.0/manifest.toml")
+    if fmv["feature"][0]["default_enabled"]:
+        errors.append("FMV skipping must be default-off")
+    preserve = next(o for o in fmv["option"] if o["id"] == "preserve-any-percent")
+    if (preserve["feature"] != "skip-fmv" or preserve["type"] != "boolean"
+            or preserve["default"] != "false"):
+        errors.append("Any% exceptions must be an opt-in boolean on Skip FMVs")
+    if fmv["plugin"] != [{"feature": "skip-fmv", "id": "tomba.skip-fmv"}]:
+        errors.append("FMV skip plugin must retain its existing feature and id")
     if errors:
         for err in errors:
             print(err, file=sys.stderr)
