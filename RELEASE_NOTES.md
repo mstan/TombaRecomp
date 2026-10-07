@@ -1,3 +1,32 @@
+## v0.17.0-alpha
+
+Adds the optional **HD Texture Packs** mod for Tomba! USA (`SCUS-94236`).
+
+- Enable it in **Mods**, then use **Open folder** to install compatible
+  DuckStation-format PNGs under `mods/texture-packs/SCUS-94236/replacements`.
+- **Dump textures** captures original textures into `dumps` while you play,
+  ready to copy, edit, and enlarge while preserving their filenames.
+- OpenGL displays matching replacements. Software and Vulkan can collect
+  dumps but retain the original display artwork. Options apply on Play.
+- The separate optional `Tomba-HD-texture-example.zip` contains five obvious
+  synthetic checkerboards, a Tomba pack-directory README, and license. It
+  includes no original game artwork or dumps and does not enable the mod.
+- Windows and Linux packages include the HD usage and exact format guides,
+  plus all framework runtime third-party notices, including xxHash.
+
+The mod is disabled by default. Missing or unsupported replacements retain
+their original artwork; advanced pack coalescing, copy/split identities,
+multi-image composition, and wrapped texture footprints are unsupported.
+After loading a quick-save, upload-based replacements need fresh guest
+texture uploads; page-based matching remains available.
+
+Synthetic replacements were visibly checked on the title screen and in
+Village gameplay. Live off/reload/on checks kept the native texture atlas
+unchanged; renderer tests separately verify native VRAM invariance. This is
+an initial format-compatible workflow, not a complete Tomba artwork pack.
+Memory cards and settings carry over. Existing loading and FMV defaults remain.
+See `docs/HD_TEXTURE_PACKS.md` for setup and editing instructions.
+
 ## v0.16.1-alpha
 
 Corrects which opening movie the Any% FMV option preserves.

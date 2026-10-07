@@ -144,8 +144,18 @@ Copy-Item (Join-Path $BundledBiosSrc "openbios.bin") $BundledBiosDst
 Copy-Item (Join-Path $BundledBiosSrc "OpenBIOS.LICENSE") $BundledBiosDst
 $ThirdPartyLicenses = Join-Path $Stage "licenses"
 New-Item -ItemType Directory -Force $ThirdPartyLicenses | Out-Null
-Copy-Item (Join-Path $Root "psxrecomp\runtime\licenses\libchdr-NOTICES.txt") `
-    $ThirdPartyLicenses
+Get-ChildItem -LiteralPath (Join-Path $FrameworkRoot "runtime\licenses") -File |
+    Copy-Item -Destination $ThirdPartyLicenses
+$DocsStage = Join-Path $Stage "docs"
+New-Item -ItemType Directory -Force $DocsStage | Out-Null
+# Keep source-checkout links local to the pinned submodule; the binary package
+# carries the format guide beside the player guide and examples stay optional.
+$HdGuide = [System.IO.File]::ReadAllText((Join-Path $Root "docs\HD_TEXTURE_PACKS.md"))
+$HdGuide = $HdGuide.Replace("../psxrecomp/docs/DUCKSTATION_TEXTURE_FORMAT.md", "DUCKSTATION_TEXTURE_FORMAT.md")
+$HdGuide = $HdGuide.Replace("../examples/hd-texture-pack/", "https://github.com/mstan/TombaRecomp/blob/master/examples/hd-texture-pack/")
+[System.IO.File]::WriteAllText((Join-Path $DocsStage "HD_TEXTURE_PACKS.md"), $HdGuide,
+    [System.Text.UTF8Encoding]::new($false))
+Copy-Item -LiteralPath (Join-Path $FrameworkRoot "docs\DUCKSTATION_TEXTURE_FORMAT.md") -Destination $DocsStage
 if (Test-Path (Join-Path $Root "RELEASE_NOTES.md")) {
     Copy-Item (Join-Path $Root "RELEASE_NOTES.md") $Stage
 }
@@ -287,6 +297,13 @@ Window, or choose fixed 16:9, 21:9 or 32:9. Leave it off for stock 4:3.
 Very wide views remain experimental and may lower the game's frame rate.
 Quick-save states from v0.15.0/v0.15.1 remain supported. Older quick-save states
 may not load. Keep your previous installation and saves until verified.
+
+HD Texture Packs is disabled by default. Enable it in Mods, use Open folder
+to install compatible PNGs, and choose OpenGL to display replacements. Dump
+textures collects original PNGs during gameplay. Read docs/HD_TEXTURE_PACKS.md
+for setup and editing, and docs/DUCKSTATION_TEXTURE_FORMAT.md for exact support.
+The separate optional Tomba-HD-texture-example.zip provides five synthetic
+checkerboards and a Tomba-specific README; no game artwork is included.
 
 This release includes prebuilt native code for all 25 configured area and
 support images. Additional code can still use the runtime fallback.

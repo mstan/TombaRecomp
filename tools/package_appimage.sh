@@ -86,7 +86,14 @@ recompiler_bin=$fw/$bios_build/psxrecomp-game
     --work-dir "$build_dir/aot-release" \
     --stage "$payload" --gcc "${AOT_GCC:-gcc}" --workers "${AOT_WORKERS:-3}"
 mkdir -p "$payload/licenses"
-cp "$root/psxrecomp/runtime/licenses/libchdr-NOTICES.txt" "$payload/licenses/"
+cp -a "$fw/runtime/licenses/." "$payload/licenses/"
+mkdir -p "$payload/docs"
+# The source guide links to its pinned submodule. In the binary distribution
+# both guides are siblings and the example remains a separate optional ZIP.
+sed -e 's|\.\./psxrecomp/docs/DUCKSTATION_TEXTURE_FORMAT\.md|DUCKSTATION_TEXTURE_FORMAT.md|g' \
+    -e 's|\.\./examples/hd-texture-pack/|https://github.com/mstan/TombaRecomp/blob/master/examples/hd-texture-pack/|g' \
+    "$root/docs/HD_TEXTURE_PACKS.md" > "$payload/docs/HD_TEXTURE_PACKS.md"
+cp "$fw/docs/DUCKSTATION_TEXTURE_FORMAT.md" "$payload/docs/DUCKSTATION_TEXTURE_FORMAT.md"
 cp "$root/packaging/release/game.toml" "$payload/game.toml"
 cp "$root/game_options.toml" "$payload/game_options.toml"
 cp "$root/packaging/release/input.ini" "$payload/input.ini"

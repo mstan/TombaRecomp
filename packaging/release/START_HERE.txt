@@ -1,4 +1,4 @@
-Tomba! Recompiled - v0.15.3-alpha
+Tomba! Recompiled - v0.17.0-alpha
 
 This package does not include the game.
 
@@ -14,6 +14,8 @@ step is needed. Keep your disc available for movies and other original data.
 Disable Seamless Loading on the Mods page to restore retail loading. If you
 previously enabled Fast Loading, disable it before using Seamless Loading.
 Stock SCUS-94236 assets are required; asset replacement mods are unsupported.
+HD Texture Packs changes host-rendered artwork only and remains compatible
+with the stock disc data used by Seamless Loading.
 Whole-game transition coverage is still under test.
 
 Other bundled mods are disabled by default. Configure them from the Mods page.
@@ -21,6 +23,13 @@ Custom Renderer defaults to Fit to Window (uncapped), with fixed 16:9, 21:9
 and 32:9 choices. Leave it disabled for stock 4:3 rendering.
 Quick-save states from v0.15.0/v0.15.1 remain supported. Older quick-save states
 may not load. Keep your previous installation and saves until verified.
+
+HD Texture Packs is disabled by default. Enable it in Mods, use Open folder
+to install compatible PNGs, and select OpenGL to display replacements. Dump
+textures collects original PNGs during gameplay. Read docs/HD_TEXTURE_PACKS.md
+for setup and editing, and docs/DUCKSTATION_TEXTURE_FORMAT.md for exact support.
+The separate optional Tomba-HD-texture-example.zip provides five synthetic
+checkerboards and a Tomba-specific README; no game artwork is included.
 
 Linux AppImage state is stored in:
   ${XDG_DATA_HOME:-$HOME/.local/share}/TombaRecomp
