@@ -33,6 +33,10 @@ Important files:
 
 - [Original-disc AOT overlays](docs/AOT_OVERLAYS.md): pre-shard Tomba's 25 known
   overlay images, verify source-byte guards, and run gameplay spot checks.
+- [HD texture packs](docs/HD_TEXTURE_PACKS.md): install compatible DuckStation
+  PNG packs or dump original textures while playing through the Mods launcher.
+- [Optional texture example](examples/hd-texture-pack/README.md): drop-in
+  synthetic checkerboards and a Tomba-specific pack-directory README.
 - `game.toml`: Tomba runtime / recompiler / video / controller / widescreen config.
 - `game_options.toml`: in-game OPTION settings that persist across launches.
 - `seeds/`: Ghidra-derived function starts and game-specific seed data.

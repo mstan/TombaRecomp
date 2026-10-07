@@ -45,6 +45,9 @@ psxrecomp_add_game_runtime(psx-runtime
     GEN_FULL_GLOB "generated/SCUS_942.36_full_*.c"
     CODEGEN_SETUP_SOURCES ${TOMBA_CODEGEN_SETUP_SOURCES}
     PRELOADED_MODS_DIR "${TOMBA_PRELOADED_MODS}"
+    # Tomba provides this generic renderer plugin through its own package so
+    # the launcher has one HD pack feature and title-specific instructions.
+    EXCLUDE_BUILTIN_MODS psx.enhancement.hd-textures
 )
 
 target_sources(psx-runtime PRIVATE ${TOMBA_MOD_PLUGIN_SOURCES})

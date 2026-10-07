@@ -1,0 +1,46 @@
+format_version = 5
+id = "tomba.enhancement.hd-textures"
+version = "1.0.0"
+name = "HD Texture Packs"
+author = "psxrecomp"
+description = "Load compatible DuckStation texture replacements or dump the original textures while playing. OpenGL is required to display replacements. No texture artwork is bundled."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SCUS-94236"
+
+[[feature]]
+id = "hd-textures"
+name = "HD Texture Packs"
+description = "Disabled by default. Select a pack folder, place compatible PNG files in replacements, or enable Dump textures to collect originals in dumps while playing. Options apply on Play."
+group = "Visual"
+default_enabled = false
+
+[[resource]]
+feature = "hd-textures"
+id = "pack"
+label = "Texture pack folder"
+description = "Open folder to add replacement PNGs or collect dumped originals. The default is mods/texture-packs/SCUS-94236 beside the executable. Change folder accepts an empty directory or an existing compatible pack."
+format = "directory"
+required = true
+
+[[option]]
+feature = "hd-textures"
+id = "replacements"
+label = "Load replacements"
+description = "Display matching PNG artwork from replacements in OpenGL. Missing or unsupported textures keep their original artwork. Turn this off when collecting the original textures."
+type = "boolean"
+default = "true"
+
+[[option]]
+feature = "hd-textures"
+id = "dump"
+label = "Dump textures"
+description = "Write original texture PNGs to dumps while playing. Only textures encountered during the session are collected. Disable this after capturing the areas you need."
+type = "boolean"
+default = "false"
+
+[[plugin]]
+feature = "hd-textures"
+id = "psx.hd-textures"
