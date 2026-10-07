@@ -1,0 +1,34 @@
+# Optional authoring settings. This file is NOT loaded automatically.
+# Copy to config.yaml beside replacements/ only when you want these settings.
+# Keys belong at the root; do not place them under an Options: section.
+# The values below retain the default upload-tracked capture policy.
+DumpTexturePages: false
+DumpFullTexturePages: false
+DumpTextureForceAlphaChannel: false
+DumpVRAMWriteForceAlphaChannel: true
+DumpC16Textures: false
+ReducePaletteRange: true
+ConvertCopiesToWrites: false
+MaxVRAMWriteSplits: 0
+MaxVRAMWriteCoalesceWidth: 0
+MaxVRAMWriteCoalesceHeight: 0
+DumpTextureWidthThreshold: 16
+DumpTextureHeightThreshold: 16
+DumpVRAMWriteWidthThreshold: 128
+DumpVRAMWriteHeightThreshold: 128
+ReplacementScaleLinearFilter: false
+
+# For small sprite details, explicitly lower the texture width/height thresholds.
+# DumpTexturePages true selects page capture; DumpFullTexturePages true captures
+# complete 256x256 pages. Page mode often produces duplicate-looking images.
+# Copy/split/coalescing options are bounded; zero leaves those tracking modes off.
+# The legacy vram-write- XXH3-128 background format remains unsupported here;
+# its force-alpha/threshold keys above do not enable that separate dump mode.
+
+# Aliases let a canonical identity point to a friendly filename. Paths are
+# relative to replacements/, not to this config file. Keep identity/hash text
+# from your own dump unchanged. A direct canonical file wins over its alias.
+# To try this alias, rename the corresponding example PNG to title-checker.png
+# inside replacements/, then uncomment these two lines:
+# Aliases:
+#   texupload-P8-F5F3557223CD3F4A-EAFB5B4F0E007E25-128x256-0-0-256x112-P0-255: title-checker.png

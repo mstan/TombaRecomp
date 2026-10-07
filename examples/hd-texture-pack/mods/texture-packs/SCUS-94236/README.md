@@ -26,12 +26,14 @@ read-only executable payload. Put `mods` under
 
 ## Capture and edit your own replacements
 
-`replacements/` holds edited PNGs. The runtime creates `dumps/` beside it when
+`replacements/` holds edited PNG/JPEG/static WebP images. The runtime creates `dumps/` beside it when
 the pack is configured. No dumps are distributed with this example.
 
 To capture originals, turn **Load replacements** off and **Dump textures** on,
-then click **Play** and visit the scenes you want. Original texture PNGs are
-written into `dumps/`. Exit to the launcher, copy chosen PNGs into
+then click **Play** and visit the scenes you want. The runtime combines used
+rectangles per source and palette across the source's lifetime. PNGs can appear
+in `dumps/` when that source is overwritten or retired. **Exit the game to
+finish pending captures**, wait for writing, then copy chosen PNGs into
 `replacements/`, and edit them. Keep every filename unchanged: its hashes,
 dimensions, offsets, and palette range tell the runtime which texture to
 replace. Keep the aspect ratio and use an integer enlargement such as 2x or
@@ -43,13 +45,37 @@ session start. The mod keeps native game textures and saves intact. Keep your
 packs outside `mods/bundled`, which builds and updates regenerate. Do not
 redistribute captured game artwork without permission from its rights holder.
 
+## Capture settings and friendly filenames
+
+`config.yaml.example` is inactive. Copy it to `config.yaml` at this folder's
+root only when you want authoring settings; it does not alter the five examples.
+The keys belong directly at the YAML root, without an `Options:` section.
+Default capture follows uploads, skips C16 textures, requires at least 16x16
+texels, and reduces palette ranges to the indices actually used. Lower the
+texture thresholds for small parts or enable C16 explicitly when needed.
+Optional page capture can produce more duplicate-looking images.
+
+Tomba's characters use separate texture parts and palettes. Captures are source
+textures rather than reconstructed characters, so heads and bodies can remain
+separate. Palette animation, upload history, and used rectangles can give
+related-looking images different identities. These bounds do not promise every
+filename will be identical to DuckStation's for an entire game session.
+
+The commented `Aliases:` example maps one canonical identity to a friendly
+filename under `replacements/`. Rename that corresponding example file before
+enabling its alias. Keep the hash/dimension identity text intact; an existing
+canonical file takes precedence. The five full-range example names remain
+valid even when new captures use reduced palette ranges.
+
 ## Compatibility and removal
 
 The example targets the USA disc. Other regions or revisions may not match;
-unmatched textures retain their originals. PNG is supported, with at most
-8192 pixels per side, 64 MiB encoded, and 64 MiB decoded RGBA. Advanced pack
-coalescing, copy/split identities, multi-image composition, and wrapped
-texture footprints are unsupported. OpenGL displays replacements; software
+unmatched textures retain their originals. PNG, JPEG, and static WebP are supported,
+with at most 8192 pixels per side, 64 MiB encoded, and 64 MiB decoded RGBA.
+Wrapped texture footprints, `vram-write-` XXH3-128 images, legacy unnamed layouts,
+animated WebP, and general YAML features remain unsupported. Copy/split,
+coalescing, and composition support are bounded; see the format notes below.
+OpenGL displays replacements; software
 and Vulkan can dump textures but retain the original display artwork. After
 loading a savestate, upload-based replacements need fresh game texture uploads
 before matching again; page-based matching remains available.

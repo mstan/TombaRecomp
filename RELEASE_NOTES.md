@@ -1,3 +1,27 @@
+## v0.18.0-alpha
+
+Improves **HD Texture Packs** dumping and replacement compatibility with
+DuckStation, including the texture fragmentation reported by early authors.
+
+- Draws using the same texture and palette accumulate into one used rectangle
+  over the source's lifetime. Exit the game to finish writing pending PNGs.
+- Dumping now follows DuckStation's upload mode by default, with its 16x16
+  minimum size and reduced palette ranges. Page dumping is an explicit option.
+- Pack `config.yaml` supports texture dump controls, partial upload splitting,
+  small-write coalescing, and conversion of copies into existing upload sources.
+- PNG, JPEG, and WebP replacements load, including several replacement images
+  within one draw. Unreplaced areas keep the native artwork and transparency.
+- The optional checkerboard example includes a Tomba directory README and an
+  inactive `config.yaml.example` with authoring options and alias instructions.
+
+HD Texture Packs remains disabled by default. Select OpenGL for replacements.
+Existing filenames and packs remain usable. Start a fresh dump directory when
+comparing the new authoring behavior with v0.17 captures. PSX artwork can still
+use several palettes or upload sources, so separate body parts and different
+identities across areas are sometimes expected. This is closer compatibility,
+with remaining limits in the [format guide](https://github.com/RetroPortingToolKit/psxrecomp/blob/master/docs/DUCKSTATION_TEXTURE_FORMAT.md).
+Memory cards and settings carry over. See `docs/HD_TEXTURE_PACKS.md` for usage.
+
 ## v0.17.0-alpha
 
 Adds the optional **HD Texture Packs** mod for Tomba! USA (`SCUS-94236`).

@@ -299,8 +299,9 @@ Quick-save states from v0.15.0/v0.15.1 remain supported. Older quick-save states
 may not load. Keep your previous installation and saves until verified.
 
 HD Texture Packs is disabled by default. Enable it in Mods, use Open folder
-to install compatible PNGs, and choose OpenGL to display replacements. Dump
-textures collects original PNGs during gameplay. Read docs/HD_TEXTURE_PACKS.md
+to install compatible PNG/JPEG/WebP images, and choose OpenGL to display
+replacements. Dump textures collects native source usage while playing; exit
+the game to finish capture PNGs in dumps. Read docs/HD_TEXTURE_PACKS.md
 for setup and editing, and docs/DUCKSTATION_TEXTURE_FORMAT.md for exact support.
 The separate optional Tomba-HD-texture-example.zip provides five synthetic
 checkerboards and a Tomba-specific README; no game artwork is included.

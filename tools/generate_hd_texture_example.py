@@ -51,7 +51,8 @@ def checkerboard(width: int, height: int) -> bytes:
 
 
 def create_archive(example_root: Path, destination: Path) -> None:
-    files = [Path("README.md"), PACK_PATH / "README.md", PACK_PATH / "LICENSE"]
+    files = [Path("README.md"), PACK_PATH / "README.md", PACK_PATH / "LICENSE",
+             PACK_PATH / "config.yaml.example"]
     files.extend(PACK_PATH / "replacements" / name for name, _, _ in FIXTURES)
     destination.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(destination, "w") as archive:
@@ -66,7 +67,7 @@ def create_archive(example_root: Path, destination: Path) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="Verify checked-in PNGs without changing them")
-    parser.add_argument("--archive", type=Path, help="Write a drop-in ZIP containing README files, the license, and five PNGs")
+    parser.add_argument("--archive", type=Path, help="Write a drop-in ZIP containing README files, license, optional config example, and five PNGs")
     args = parser.parse_args()
     replacements = EXAMPLE_ROOT / PACK_PATH / "replacements"
     if not args.check:

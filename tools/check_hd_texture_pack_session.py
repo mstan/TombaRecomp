@@ -3,7 +3,8 @@
 
 Build with PSX_DEBUG_TOOLS=ON, launch with --debug-port 4478, and visit the
 scene under test. This probe only reads status and existing capture files.
-Use --expect-dumps during capture, --expect-replacements after installing a
+Use --expect-dumps after source retirement has written captures,
+--expect-replacements after installing a
 fixture, or --expect-inactive after disabling the mod.
 """
 
@@ -47,11 +48,17 @@ def inspect(status: dict, expect: str) -> dict:
     root = Path(status["root"])
     pack_root = root.parent if root.name.lower() == "replacements" else root
     if expect == "dumps":
-        if not status.get("dump") or status.get("dumped_textures", 0) < 1:
-            raise ValueError("No textures captured; enable Dump textures and visit a textured scene")
+        if not status.get("dump"):
+            raise ValueError("Enable Dump textures and click Play before checking capture")
+        if status.get("dumped_textures", 0) < 1:
+            raise ValueError(
+                "No capture PNGs queued yet; source usage can remain pending until "
+                "overwrite or retirement. Exit the game to finish capture, then inspect "
+                "dumps on disk (pending_dump_sources reports live pending usage)."
+            )
         captures = sorted((pack_root / "dumps").rglob("*.png"))
         if not captures:
-            raise ValueError("Runtime reports captures but no PNGs exist in dumps")
+            raise ValueError("Runtime reports queued captures but no PNGs exist yet; wait for writing or exit the game to finish capture")
         samples = [(path.name, *png_dimensions(path)) for path in captures[:16]]
         status["verified_dump_files"] = len(captures)
         status["dump_samples"] = samples

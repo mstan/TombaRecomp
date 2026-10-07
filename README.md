@@ -34,7 +34,7 @@ Important files:
 - [Original-disc AOT overlays](docs/AOT_OVERLAYS.md): pre-shard Tomba's 25 known
   overlay images, verify source-byte guards, and run gameplay spot checks.
 - [HD texture packs](docs/HD_TEXTURE_PACKS.md): install compatible DuckStation
-  PNG packs or dump original textures while playing through the Mods launcher.
+  PNG/JPEG/WebP packs or capture original textures through the Mods launcher.
 - [Optional texture example](examples/hd-texture-pack/README.md): drop-in
   synthetic checkerboards and a Tomba-specific pack-directory README.
 - `game.toml`: Tomba runtime / recompiler / video / controller / widescreen config.
@@ -51,7 +51,7 @@ Important files:
 ## Status
 
 The game is playable from BIOS boot through gameplay. Latest release:
-**v0.17.0-alpha** (2026-10-06).
+**v0.18.0-alpha** (2026-10-07).
 
 | Area | State |
 |---|---|

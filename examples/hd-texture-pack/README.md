@@ -34,4 +34,5 @@ python tools/generate_hd_texture_example.py --check --archive build/Tomba-HD-tex
 
 Run without `--check` to regenerate the five PNGs from literal dimensions and
 two colors. The script reads no game files and the ZIP includes only this
-README, the pack-directory README and license, and those five replacements.
+README, the pack-directory README and license, `config.yaml.example`, and those
+five replacements. The example config is inactive until copied to `config.yaml`.
