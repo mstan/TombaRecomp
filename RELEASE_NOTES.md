@@ -1,3 +1,17 @@
+## v0.16.1-alpha
+
+Corrects which opening movie the Any% FMV option preserves.
+
+- **Preserve title and ending FMVs (Any%)** now plays the opening before the
+  title screen, the post-final-pig cutscene, and the credits, with audio.
+- The movie after New Game is skipped along with the other in-run FMVs.
+- The option remains off by default, retaining skip-all for All Events.
+  Existing users who enabled it receive the corrected selection automatically.
+
+Windows and Linux packages include prebuilt native code. Memory cards and
+settings carry over. Start from a fresh boot or a memory-card save when
+changing skip modes: quick-save states can retain shortened movie lengths.
+
 ## v0.16.0-alpha
 
 Skip FMVs now has an optional **Preserve New Game and ending FMVs (Any%)**

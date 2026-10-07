@@ -99,8 +99,8 @@ int main(void) {
     /* Cover the full byte domain: exactly three valid movies are exempt;
      * corrupt/out-of-range IDs must not reach the runtime's table writer. */
     static const int expected_skip[] = {
-        1, /* OP_INST: before the title */
-        0, /* BOY: opening after New Game */
+        0, /* OP_INST: title opening */
+        1, /* BOY: New Game */
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         0, /* MABUTA: post-final-pig ending */
         0, /* END_US: credits */
@@ -116,7 +116,7 @@ int main(void) {
 
     /* Re-enter exempt scenes from skipped scenes, including a state restore.
      * Only transitions call the setter, avoiding per-frame console spam. */
-    const uint8_t route[] = {0, 1, 2, 19, 21, 20, 3, 1};
+    const uint8_t route[] = {1, 0, 2, 19, 21, 20, 3, 0};
     for (unsigned i = 0; i < sizeof route; ++i) {
         movie = route[i];
         if (i & 1) restore(); else vblank();
@@ -126,7 +126,7 @@ int main(void) {
         assert(updates == previous_updates);
     }
 
-    movie = 0;
+    movie = 1;
     reject_update = 1;
     vblank();
     assert(enabled == 0);
