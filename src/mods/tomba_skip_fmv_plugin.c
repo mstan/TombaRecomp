@@ -31,13 +31,13 @@ static void tomba_skip_fmv_update(void) {
 
     /* SCUS-94236: movie -> asset map at 8007775C, asset indices at 80078F80,
      * CD locations at 800791A0. Verified against the original disc's movies:
-     *   0 = OP_INST.STR (title opening, 1414 frames)
+     *   1 = BOY.STR     (opening after New Game)
      *  19 = MABUTA.STR  (post-final-pig ending, 316 frames)
      *  20 = END_US.STR  (credits, 943 frames)
-     * ID 1 (BOY.STR, New Game) and ID 21 (LOGO.STR) still skip. Unknown IDs
+     * ID 0 (OP_INST.STR, before the title) and ID 21 (LOGO.STR) still skip. Unknown IDs
      * fail closed instead of letting the runtime index beyond the table. */
     tomba_skip_fmv_set_enabled(
-        movie < 22u && movie != 0u && movie != 19u && movie != 20u);
+        movie < 22u && movie != 1u && movie != 19u && movie != 20u);
 }
 
 /*
