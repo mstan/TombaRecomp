@@ -26,6 +26,11 @@ struct CatalogEntry {
     const char *decoded_sha256;
 };
 #include "../src/mods/tomba_seamless_catalog.inc"
+/* mod_resident.cpp stamps its always-on request ring with the runtime's frame
+ * and cycle clocks; this host-only test links it without the runtime. */
+extern "C" uint64_t s_frame_count;
+uint64_t s_frame_count;
+extern "C" uint64_t psx_get_cycle_count(void) { return 0; }
 static std::ifstream disc;
 static unsigned reads;
 static bool available = true;
@@ -75,7 +80,8 @@ static std::string hash(const uint8_t *p, size_t n) {
 int main(int argc, char **argv) {
     if (argc != 3) { std::fprintf(stderr, "usage: tomba-seamless-prepare-tests disc.bin scratch-directory\n"); return 2; }
     const auto cache = std::filesystem::absolute(argv[2]) /
-        ("run-" + std::to_string(std::filesystem::file_time_type::clock::now().time_since_epoch().count()));
+        ("run-" + std::to_string(static_cast<long long>(
+            std::filesystem::file_time_type::clock::now().time_since_epoch().count())));
     require(!std::filesystem::exists(cache), "test requires a fresh cache directory");
 #ifdef _WIN32
     _putenv_s("PSX_RESIDENT_CACHE", cache.string().c_str());
