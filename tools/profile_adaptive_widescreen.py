@@ -81,6 +81,19 @@ def main():
             swaps = request(args.port, "gl_present_ring", n=2048)
             perf = request(args.port, "frame_perf")
             phase = request(args.port, "phase_profile", window=int(args.seconds))
+            gp1 = request(args.port, "gp1_dump", frame_lo=frame_lo + 1,
+                          frame_hi=frame_hi, count=16384)
+            # Interpolation presents a separate surface whose (0,0) origin
+            # cannot identify new game frames. Count the game's actual GP1(05)
+            # framebuffer changes independently of host presentation.
+            game_flips = 0
+            game_origin = (before["gpu"]["display_y"] << 10) | before["gpu"]["display_x"]
+            for entry in gp1.get("entries", []):
+                value = int(entry["val"], 16)
+                if value >> 24 == 5:
+                    origin = value & 0xFFFFFF
+                    game_flips += origin != game_origin
+                    game_origin = origin
             events = [r for r in swaps["events"] if frame_lo < r[1] <= frame_hi]
             flips = []
             prior = None
@@ -98,7 +111,8 @@ def main():
                           for r in after["hot"]["top"]], key=lambda r:r["samples"], reverse=True)
             row = dict(size=size, mirror_enabled=not ablate, elapsed_s=elapsed,
                 guest_vblank_hz=(frame_hi-frame_lo)/elapsed,
-                display_flips_hz=len(flips)/elapsed,
+                game_flips_hz=game_flips/elapsed if gp1.get("ok") else None,
+                display_flips_hz=len(flips)/elapsed if any(r[2] in ("wide", "vram") for r in events) else None,
                 flip_interval_ms_median=statistics.median(intervals) if intervals else None,
                 cpu_core_equivalents=(after["process_cpu"]-before["process_cpu"])/elapsed,
                 interpreted_insns_s=(after["dirty"]["insns_run"]-before["dirty"]["insns_run"])/elapsed,
@@ -106,7 +120,7 @@ def main():
                 hot_static_wall_samples=hot[:12], frame_perf=perf, phase=phase)
             rows.append(row)
             (case / "measurement.json").write_text(json.dumps(dict(summary=row,
-                before=before, after=after, presents=presents, swaps=swaps), indent=2))
+                before=before, after=after, presents=presents, swaps=swaps, gp1=gp1), indent=2))
             (args.output / "summary.json").write_text(json.dumps(rows, indent=2))
             print(json.dumps({k:v for k,v in row.items()
                               if k not in ("frame_perf", "phase", "hot_static_wall_samples")}), flush=True)
