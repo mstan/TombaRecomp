@@ -227,3 +227,21 @@ FMV and every 2D-room transition were not replayed in this check.
 Diagnostic slot 3 preserves the reported gameplay spot; user slots 0/1 were
 not written. This runtime-only change does not alter the codegen signature or
 savestate format.
+
+## Overhead village: finite ground image (2026-10-07, beads-eio.4.28)
+
+The overhead village is a pre-rendered 2D scene. Overlay handler `0x800EA3A4`
+draws its ground as two GP0 0x65 sprites from the static table at
+`0x800EDAEC` (256x256 at tpage `0x8C` + 128x256 at tpage `0x8E`): one
+384x256 image, nothing beyond it. Props are flat-textured quads placed from
+GTE anchors (`RTPS` with identity rotation), which the widened classifier
+family keeps alive out to x=428. Four of them overhang the canonical frame by
+24+ px, exactly the 2D-only classifier's world threshold, so the scene went
+wide and showed black margins with props floating over them.
+
+Fix (framework `ws_backdrop_extent.h`): a frame whose leading rects form a
+full-screen untagged image that ends inside the configured reveal is
+presented at native 4:3. Owner state slot 5: 4:3 at Fit, 16:9 and 21:9
+(`present_ring` 240/240 `native43`, `bd_veto`=1). Watch Tower field: still
+240/240 wide; its sky/flower grid is sprite-tagged and covers only 81% of the
+canonical height, so it never forms a finite backdrop.
