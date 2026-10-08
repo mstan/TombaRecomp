@@ -9,6 +9,10 @@
  * Build selection and LLE floor: TOMBA_GEOMETRY_IMPL in CMakeLists.txt.
  */
 #include "cpu_state.h"
+#include "boot_state.h"
+#if !defined(PSX_BOOT_STATE_IMPL_TAG_VERSION) || PSX_BOOT_STATE_IMPL_TAG_VERSION < 1
+#error "Tomba geometry HLE requires framework snapshot implementation-tag support"
+#endif
 #include "gpu.h"
 #include "pgxp_hooks.h"
 #include "psx_cycles.h"

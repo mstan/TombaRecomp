@@ -73,10 +73,15 @@ gets broader gameplay coverage. Each executable prints its effective geometry
 selection; the CMake cache records it. For the isolated reference comparison,
 add `-DTOMBA_GEOMETRY_VALIDATE=ON` to the HLE configuration; leave it off for
 play/performance measurements. The framework must include the optional
-`PSX_SAVESTATE_IMPL_TAG` compatibility-key support (commit `edb78e83`).
+`PSX_SAVESTATE_IMPL_TAG` compatibility-key support (commit `edb78e83`) and
+its public capability marker (`c6dcdcf8`). HLE compilation rejects older
+framework headers rather than silently accepting incompatible snapshots.
 The freshly rebuilt LLE executable also resumed the rainy diagnostic save and
 saved/loaded its own snapshot successfully; no native geometry HLE counters
 were present.
+The final PGXP product exercise selected an older rewind snapshot (history
+fell from 50 to 36 entries), restored it, saved/loaded again, and then refilled
+the rewind history to 50 with the capture guard clear.
 
 The September notes below are historical measurements and recommendations.
 Their stock-centre reveal recommendation and strict HLE timing gate are
