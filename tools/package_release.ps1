@@ -295,8 +295,8 @@ replacement mods are unsupported. Whole-game coverage is still under test.
 Custom Renderer is disabled by default. Enable it in Mods for uncapped Fit to
 Window, or choose fixed 16:9, 21:9 or 32:9. Leave it off for stock 4:3.
 Very wide views remain experimental and may lower the game's frame rate.
-Quick-save states from v0.15.0/v0.15.1 remain supported. Older quick-save states
-may not load. Keep your previous installation and saves until verified.
+Quick-save states from v0.18.0 and earlier do not load in this version; they
+are refused safely. Memory cards carry over, so save in-game before updating.
 
 HD Texture Packs is disabled by default. Enable it in Mods, use Open folder
 to install compatible PNG/JPEG/WebP images, and choose OpenGL to display

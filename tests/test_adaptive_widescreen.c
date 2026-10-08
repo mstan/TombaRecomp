@@ -15,6 +15,82 @@
 #include "ws_backdrop_margin.h"
 #include "ws_backdrop_detect.h"
 
+static TombaPoolObject pool_object(int pool, int type, int variant, int group,
+                                   int x, int y, int z, int pending) {
+    TombaPoolObject o;
+    memset(&o, 0, sizeof o);
+    o.pool = (uint8_t)pool; o.type = (uint8_t)type; o.variant = (uint8_t)variant;
+    o.group = (int8_t)group; o.pending = (uint8_t)pending;
+    o.x = (int32_t)((uint32_t)(uint16_t)x << 16);
+    o.y = (int32_t)((uint32_t)(uint16_t)y << 16);
+    o.z = (int32_t)((uint32_t)(uint16_t)z << 16);
+    o.owner = -1;
+    return o;
+}
+
+static void check_bank_owners(void) {
+    /* beads-eio.4.27: area 1 sector 1, bank 0 already retired. The elders'
+     * message bubble (80030800: pool 0, type 1A, variant 0, pool-clear group 0)
+     * must not make bank 0 look resident, and must not be owned/retired. */
+    const TombaBankRecord records[] = {
+        /* pool type var grp rel   x     y    z */
+        {0, 0x15, 3, 0, 0, 3135, -250, 35},   /* bank 0 scenery */
+        {0, 0x1A, 9, 0, 0,  930, -167, 35},   /* bank 0 sign, type shared w/ bubble */
+        {0, 0x05, 1, 0, 0, 2000, -300, 0},    /* bank 0 actor (moves) */
+        {0, 0x18, 2, 0, 1,   16,    0, 0},    /* bank 0 chained to its parent */
+        {0, 0x19, 7, 1, 0, 3729, -623, 0},    /* bank 1 scenery */
+        {0, 0x1A, 0x63, 1, 0, 4242, -394, 35}, /* bank 1 exit arrow */
+        {2, 0x04, 0, 0, 0, 2500, -200, 0},    /* bank 0, third pool */
+        {0, 0x15, 3, -1, 0, 2709, -227, 0},   /* shared: owned by no bank */
+    };
+    const unsigned nrec = sizeof records / sizeof *records;
+    TombaPoolObject o[8];
+    unsigned n = 0;
+    o[n++] = pool_object(0, 0x19, 7, 1, 3729, -623, 0, 0);
+    o[n++] = pool_object(0, 0x1A, 0x63, 1, 4242, -394, 35, 0);
+    o[n++] = pool_object(0, 0x1A, 0, 0, 141, 167, 0, 0); /* bubble */
+    o[n++] = pool_object(0, 0x05, 9, 0, 0, 0, 0, 0);     /* effect, group 0 */
+    assert(tomba_assign_bank_owners(records, nrec, 0, o, n) == 0);
+    assert(tomba_assign_bank_owners(records, nrec, 1, o, n) == 2);
+    assert(o[0].owner == 1 && o[0].anchored && o[1].owner == 1 && o[1].anchored);
+    assert(o[2].owner == -1 && o[3].owner == -1);
+    assert(!tomba_roof_keep_group(0, 2)); /* group alone WOULD retire the bubble */
+
+    /* Both banks resident: every bank-0 object is owned exactly once. A
+     * moved actor is owned by signature but does not anchor; a chained record
+     * never anchors. A second object with the same signature as a record that
+     * is already owned stays unowned (1:1). */
+    n = 0;
+    o[n++] = pool_object(0, 0x15, 3, 0, 3135, -250, 35, 0);
+    o[n++] = pool_object(0, 0x05, 1, 0, 2112, -301, 0, 0);  /* moved actor */
+    o[n++] = pool_object(0, 0x18, 2, 0, 16, 0, 0, 0);       /* chained: abs pos differs */
+    o[n++] = pool_object(0, 0x1A, 9, 0, 930, -167, 35, 0);
+    o[n++] = pool_object(0, 0x1A, 9, 0, 930, -167, 35, 0);  /* duplicate signature */
+    o[n++] = pool_object(2, 0x04, 0, 0, 2500, -200, 0, 0);
+    o[n++] = pool_object(1, 0x15, 3, 0, 3135, -250, 35, 0); /* wrong pool */
+    assert(tomba_assign_bank_owners(records, nrec, 0, o, n) == 3);
+    assert(o[0].owner == 0 && o[0].anchored);
+    assert(o[1].owner == 0 && !o[1].anchored);
+    assert(o[2].owner == 0 && !o[2].anchored);
+    assert(o[3].owner == 0 && o[3].anchored && o[4].owner == -1);
+    assert(o[5].owner == 0 && o[5].anchored && o[6].owner == -1);
+
+    /* A record's anchor is preferred over a signature-only claim, whatever the
+     * pool order, and destruction-pending anchors do not prove residency. */
+    n = 0;
+    o[n++] = pool_object(0, 0x15, 3, 0, 3000, -250, 35, 0); /* same sig, moved */
+    o[n++] = pool_object(0, 0x15, 3, 0, 3135, -250, 35, 1); /* anchor, pending */
+    assert(tomba_assign_bank_owners(records, nrec, 0, o, n) == 0);
+    assert(o[1].owner == 0 && o[1].anchored && o[0].owner == -1);
+
+    /* Exact 16.16 position: a fractional offset is not the spawn point. */
+    n = 0;
+    o[n] = pool_object(0, 0x15, 3, 0, 3135, -250, 35, 0);
+    o[n++].x += 1;
+    assert(tomba_assign_bank_owners(records, nrec, 0, o, n) == 0);
+    assert(o[0].owner == 0 && !o[0].anchored);
+}
+
 static void check_detector(void) {
     /* Shared magic is established in the taken branch's delay slot. The
      * skipped arm clobbers it; a linear nearest-definition scan is wrong. */
@@ -181,6 +257,7 @@ int main(void) {
     assert(tomba_roof_keep_group(0, 3) && tomba_roof_keep_group(1, 3));
     assert(!tomba_roof_keep_group(1, 1) && !tomba_roof_keep_group(0, 2));
     check_detector();
+    check_bank_owners();
     /* The cutscene's actor-visibility opcode uses the retail camera window
      * even when drawing extends farther. Check both inclusive edges, vertical
      * clipping and the original halfword wrap behavior. */
@@ -218,6 +295,6 @@ int main(void) {
     assert(psx_ws_backdrop_bound(41, 1, 11) == 52);
     assert(psx_ws_backdrop_bound(28, 0, 40) == 0);
     assert(psx_ws_backdrop_bound(32000, 1, 1000) == 0x7fff);
-    puts("PASS: world/HUD packet roles, rooftop residency and adaptive terrain bounds");
+    puts("PASS: world/HUD packet roles, rooftop residency, bank ownership and adaptive terrain bounds");
     return 0;
 }
