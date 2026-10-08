@@ -25,24 +25,98 @@ static int ram_record(uint32_t p, uint32_t bytes) {
     return p >= 0x80098000u && p <= 0x80200000u - bytes;
 }
 
+static unsigned pool_of_kind(unsigned kind) {
+    if (kind >= 2 && kind <= 5) return 0;
+    if (kind == 8) return 1;
+    if (kind == 7) return 2;
+    return 3; /* unsupported allocator class */
+}
+
+static int read_records(uint32_t list, TombaBankRecord* out, unsigned* count) {
+    if (!ram_record(list, 16)) return 0;
+    for (unsigned i = 0; i < 512; ++i, list += 16) {
+        if (!ram_record(list, 16)) return 0;
+        if (psx_mod_read_byte(list + 2) == 0xFF) return 1;
+        if (*count >= TOMBA_BANK_RECORDS_MAX) return 0;
+        TombaBankRecord* r = &out[(*count)++];
+        r->group = (int8_t)psx_mod_read_byte(list);
+        r->pool = (uint8_t)pool_of_kind(psx_mod_read_byte(list + 1) & 0x7F);
+        r->type = psx_mod_read_byte(list + 2);
+        r->variant = psx_mod_read_byte(list + 4);
+        r->relative = (psx_mod_read_byte(list + 15) & 3) >= 2;
+        r->x = (int16_t)psx_mod_read_half(list + 6);
+        r->y = (int16_t)psx_mod_read_half(list + 8);
+        r->z = (int16_t)psx_mod_read_half(list + 10);
+    }
+    return 0; /* missing terminator */
+}
+
+/* Area 1's spawn records for both banks: the per-sector lists plus the active
+ * event bank (whose records name their sector in byte 0). Fail closed. */
+static int read_bank_records(TombaBankRecord* out, unsigned* count) {
+    *count = 0;
+    uint32_t table = psx_mod_read_word(0x8007F0CCu); /* area 1's bank table */
+    if (table != 0x8007EEFCu) return 0;
+    for (unsigned sector = 0; sector < 2; ++sector) {
+        uint32_t slot = psx_mod_read_word(table + sector * 4);
+        if (slot != 0x1F800358u + sector * 4) return 0;
+        if (!read_records(psx_mod_read_word(slot), out, count)) return 0;
+    }
+    unsigned event_bank = psx_mod_read_half(0x8007B296u);
+    if (event_bank > 15) event_bank = 15;
+    uint32_t event_slot = psx_mod_read_word(table + event_bank * 4);
+    if (event_slot < 0x1F800000u || event_slot > 0x1F8003FCu) return 0;
+    return read_records(psx_mod_read_word(event_slot), out, count);
+}
+
+#define POOL_OBJECTS_MAX 255u
+static TombaBankRecord s_records[TOMBA_BANK_RECORDS_MAX];
+static TombaPoolObject s_objects[POOL_OBJECTS_MAX];
+static uint32_t s_object_addr[POOL_OBJECTS_MAX];
+static unsigned s_object_count;
+
 /* Reconstruct residency from guest state every time. No host-only ownership
- * cache that could survive a savestate load and duplicate/miss a whole bank. */
-static unsigned inspect_pools(unsigned* pending, unsigned* shared) {
-    unsigned loaded = 0;
-    *pending = *shared = 0;
+ * cache that could survive a savestate load and duplicate/miss a whole bank.
+ * A bank is loaded only when one of its records still has its object at the
+ * exact spawn point (see tomba_assign_bank_owners); group bytes alone also
+ * match dynamic objects. Returns 0 when the records cannot be validated. */
+static int inspect_pools(unsigned* loaded, unsigned* pending, unsigned* shared) {
+    unsigned record_count;
+    *loaded = *pending = *shared = 0;
+    if (!read_bank_records(s_records, &record_count)) return 0;
+    s_object_count = 0;
     for (unsigned p = 0; p < 3; ++p) {
         for (unsigned i = 0; i < pools[p].count; ++i) {
             uint32_t a = pools[p].base + i * pools[p].stride;
             if (!psx_mod_read_byte(a)) continue;
+            if (psx_mod_read_byte(a + 0x1C) & 0x80) continue; /* persistent */
             int group = (int8_t)psx_mod_read_byte(a + 0x1D);
-            if (psx_mod_read_byte(a + 0x1C) & 0x80) continue;
             if (group == -1) *shared = 1;
             if (group < 0 || group > 1) continue;
-            if (psx_mod_read_byte(a + 4) >= 2) *pending |= 1u << group;
-            else loaded |= 1u << group;
+            if (s_object_count >= POOL_OBJECTS_MAX) return 0;
+            TombaPoolObject* o = &s_objects[s_object_count];
+            s_object_addr[s_object_count++] = a;
+            o->pool = (uint8_t)p;
+            o->type = psx_mod_read_byte(a + 2);
+            o->variant = psx_mod_read_byte(a + 3);
+            o->group = (int8_t)group;
+            o->pending = psx_mod_read_byte(a + 4) >= 2;
+            o->x = (int32_t)psx_mod_read_word(a + 0x10);
+            o->y = (int32_t)psx_mod_read_word(a + 0x14);
+            o->z = (int32_t)psx_mod_read_word(a + 0x18);
+            o->owner = -1;
+            o->anchored = 0;
         }
     }
-    return loaded;
+    for (int bank = 0; bank < 2; ++bank) {
+        if (tomba_assign_bank_owners(s_records, record_count, bank,
+                                     s_objects, s_object_count))
+            *loaded |= 1u << bank;
+    }
+    for (unsigned i = 0; i < s_object_count; ++i)
+        if (s_objects[i].owner >= 0 && s_objects[i].pending)
+            *pending |= 1u << s_objects[i].owner;
+    return 1;
 }
 
 static int event_available(CPUState* cpu, unsigned event) {
@@ -123,17 +197,17 @@ static int add_bank(CPUState* cpu, unsigned sector, unsigned shared) {
     return 1;
 }
 
+/* Retire only objects a bank record owns. Dynamic objects (message bubbles,
+ * effects, drops) belong to no bank and are left to their own logic. */
 static void retire_outside(unsigned mask) {
-    for (unsigned p = 0; p < 3; ++p) {
-        for (unsigned i = 0; i < pools[p].count; ++i) {
-            uint32_t a = pools[p].base + i * pools[p].stride;
-            if (!psx_mod_read_byte(a) || (psx_mod_read_byte(a + 0x1C) & 0x80)) continue;
-            int group = (int8_t)psx_mod_read_byte(a + 0x1D);
-            if (tomba_roof_keep_group(group, mask) || psx_mod_read_byte(a + 4) >= 2) continue;
-            /* Same orderly destruction request as stock 8005A3B0. */
-            psx_mod_write_byte(a, 2);
-            psx_mod_write_byte(a + 4, 3);
-        }
+    for (unsigned i = 0; i < s_object_count; ++i) {
+        const TombaPoolObject* o = &s_objects[i];
+        if (o->owner < 0 || o->pending || tomba_roof_keep_group(o->owner, mask))
+            continue;
+        uint32_t a = s_object_addr[i];
+        /* Same orderly destruction request as stock 8005A3B0. */
+        psx_mod_write_byte(a, 2);
+        psx_mod_write_byte(a + 4, 3);
     }
 }
 
@@ -150,14 +224,14 @@ static void residency_tick(CPUState* cpu, uint32_t address) {
     int margin = psx_mod_widescreen_x_margin();
     int camera = (int16_t)psx_mod_read_half(0x1F800176u);
     unsigned wanted = tomba_roof_resident_mask(camera, margin, sector);
-    unsigned pending, shared;
-    unsigned loaded = inspect_pools(&pending, &shared);
+    unsigned loaded, pending, shared;
+    if (!inspect_pools(&loaded, &pending, &shared)) return;
     if (wanted == 3) {
         if (pending) return; /* let an already-requested native destruction finish */
         for (unsigned bank = 0; bank < 2; ++bank) {
             if (!(loaded & (1u << bank))) {
                 if (!add_bank(cpu, bank, shared)) return;
-                loaded = inspect_pools(&pending, &shared);
+                if (!inspect_pools(&loaded, &pending, &shared)) return;
             }
         }
     }
