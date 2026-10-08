@@ -1,3 +1,22 @@
+## v0.19.0-alpha
+
+Fixes two **Custom Renderer** (widescreen) problems in the village.
+
+- **Village event softlock.** After the elders' event in the village, the
+  scripted scene could wait forever with Custom Renderer on. The renderer's
+  object culling removed the dialog bubble the moment it appeared. It now only
+  removes objects that come from the area's own spawn list, so bubbles,
+  effects and drops created during play are kept.
+- **Village view.** The village ground is a fixed image only slightly wider
+  than 4:3, so wide views showed black side margins with fences and signs
+  floating in them. Scenes whose background image stops short of the window
+  now display at 4:3 with black bars. Full 3D areas still fill the window.
+- Updated to current psxrecomp and recomp-ui.
+
+Custom Renderer remains disabled by default. Memory cards and settings carry
+over. Quick-save states from v0.18.0 and earlier do not load in this version,
+so save in-game before updating.
+
 ## v0.18.0-alpha
 
 Improves **HD Texture Packs** dumping and replacement compatibility with
