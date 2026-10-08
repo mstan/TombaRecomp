@@ -28,6 +28,8 @@ def main():
     parser.add_argument("--sizes", nargs="+", default=["800x600", "1280x720",
                         "1680x720", "1920x540", "2048x510"])
     parser.add_argument("--ablate", action="store_true")
+    parser.add_argument("--title", default="Tomba! - Uncapped Adaptive Spike")
+    parser.add_argument("--hidden-window", action="store_true")
     args = parser.parse_args()
     if args.seconds < 5 or args.seconds > 25:
         parser.error("Use 5-25 seconds (bounded by presentation ring capacity)")
@@ -65,7 +67,8 @@ def main():
             subprocess.run([sys.executable,
                 str(Path(__file__).with_name("probe_adaptive_widescreen.py")),
                 "--pid", str(args.pid), "--port", str(args.port), "--output", str(case),
-                "--sizes", size, "--load-slot", str(args.load_slot), "--keep-size"],
+                "--sizes", size, "--load-slot", str(args.load_slot), "--keep-size",
+                "--title", args.title] + (["--hidden-window"] if args.hidden_window else []),
                 check=True, stdout=subprocess.DEVNULL)
             request(args.port, "gl_ws_ablate", mode=ablate)
             time.sleep(1)
