@@ -2,6 +2,16 @@ cmake_minimum_required(VERSION 3.20)
 project(TombaRecomp LANGUAGES C CXX)
 include(CTest)
 
+set(TOMBA_GEOMETRY_IMPL "HLE" CACHE STRING "Terrain packet implementation: HLE or LLE")
+set_property(CACHE TOMBA_GEOMETRY_IMPL PROPERTY STRINGS HLE LLE)
+option(TOMBA_GEOMETRY_VALIDATE "Test-only isolated HLE/LLE packet comparison" OFF)
+if(NOT TOMBA_GEOMETRY_IMPL MATCHES "^(HLE|LLE)$")
+    message(FATAL_ERROR "TOMBA_GEOMETRY_IMPL must be HLE or LLE")
+endif()
+if(TOMBA_GEOMETRY_VALIDATE AND NOT TOMBA_GEOMETRY_IMPL STREQUAL "HLE")
+    message(FATAL_ERROR "TOMBA_GEOMETRY_VALIDATE requires HLE")
+endif()
+
 set(PSXRECOMP_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/psxrecomp" CACHE PATH
     "Path to psxrecomp")
 
@@ -54,6 +64,25 @@ target_sources(psx-runtime PRIVATE ${TOMBA_MOD_PLUGIN_SOURCES})
 if(TARGET psx-runtime-pgxp)
     target_sources(psx-runtime-pgxp PRIVATE ${TOMBA_MOD_PLUGIN_SOURCES})
 endif()
+
+set(_tomba_geometry_targets psx-runtime)
+if(TARGET psx-runtime-pgxp)
+    list(APPEND _tomba_geometry_targets psx-runtime-pgxp)
+endif()
+file(GLOB _tomba_geometry_shards "${CMAKE_CURRENT_SOURCE_DIR}/generated/SCUS_942.36_full_*.c")
+psxrecomp_select_guest_implementation(
+    NAME tomba_geometry IMPLEMENTATION ${TOMBA_GEOMETRY_IMPL}
+    TARGETS ${_tomba_geometry_targets}
+    GENERATED_SOURCES ${_tomba_geometry_shards}
+    SYMBOLS func_80024EEC func_800251C0 func_800253C8
+    HLE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/hle/tomba_geometry_hle.c"
+    REFERENCE_PREFIX tomba_lle_
+    SNAPSHOT_TAG 0x54474801)
+if(TOMBA_GEOMETRY_VALIDATE)
+    set_property(SOURCE src/hle/tomba_geometry_hle.c APPEND PROPERTY
+        COMPILE_DEFINITIONS TOMBA_GEOMETRY_VALIDATE=1)
+endif()
+message(STATUS "Tomba geometry: ${TOMBA_GEOMETRY_IMPL}, validation=${TOMBA_GEOMETRY_VALIDATE}")
 
 # Stage configs beside the binary for direct launches. Gate on EXISTS so a
 # setup-host zip that forgot an optional file still links successfully.

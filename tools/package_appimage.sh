@@ -54,6 +54,8 @@ cmake -S "$root" -B "$build_dir" -G Ninja \
     -DPSX_DEBUG_TOOLS=OFF \
     -DPSX_SDL_BACKEND=SDL3 \
     -DPSX_PGXP_VARIANT=OFF \
+    -DTOMBA_GEOMETRY_IMPL=HLE \
+    -DTOMBA_GEOMETRY_VALIDATE=OFF \
     ${CMAKE_EXTRA_ARGS:-}
 cmake --build "$build_dir" --target psx-runtime -j "${BUILD_JOBS:-$(getconf _NPROCESSORS_ONLN)}"
 fi

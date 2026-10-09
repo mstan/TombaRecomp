@@ -1,12 +1,13 @@
 # Tomba adaptive-widescreen spike
 
 The bundled **Tomba Custom Renderer** mod selects the framework's
-native-wide compositor and defaults to `Fit to Window`. It starts a
+enhanced renderer and defaults to `Fit to Window`. It starts a
 16:9 window, then tracks live window resizing with no upper aspect limit
 (native 4:3 minimum). This grows the native-wide render target; the native-wide
-path leaves GTE projection unsquashed. It is not a newly implemented scene
-renderer. Fixed 16:9, 21:9 and 32:9 use this same path. Disabling the mod
+path leaves GTE projection unsquashed. Fixed 16:9, 21:9 and 32:9 use this same path. Disabling the mod
 retains the stock 4:3 renderer. Menus and FMV retain the framework's 4:3 policy.
+Reconstruction/expansion from stock-renderer output is deprecated. Performance
+work targets the complete enhanced-renderer scene and its geometry producers.
 The former Tomba HUD squash, hardcoded backdrop-X stores and far-backdrop
 GTE unsquash configuration have been removed; adaptive terrain selection and
 explicit HUD/world roles replace them. Shared squash support for other titles

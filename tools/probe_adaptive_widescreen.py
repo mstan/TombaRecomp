@@ -33,6 +33,8 @@ def main():
                         "1680x720", "1920x540", "1920x270", "800x600"])
     parser.add_argument("--keep-size", action="store_true",
                         help="Leave the window at the final test size")
+    parser.add_argument("--hidden-window", action="store_true",
+                        help="Probe a --hidden-window process without showing its window")
     parser.add_argument("--load-slot", type=int,
                         help="Restore this diagnostic slot before each size (never saves)")
     modes = parser.add_mutually_exclusive_group()
@@ -63,7 +65,7 @@ def main():
         user.GetWindowThreadProcessId(hwnd, C.byref(pid))
         title = C.create_unicode_buffer(512)
         user.GetWindowTextW(hwnd, title, len(title))
-        if (pid.value == args.pid and user.IsWindowVisible(hwnd)
+        if (pid.value == args.pid and (args.hidden_window or user.IsWindowVisible(hwnd))
                 and title.value == args.title):
             windows.append(hwnd)
         return True
@@ -77,7 +79,8 @@ def main():
     maximized = user.IsZoomed(hwnd)
     rows = []
     try:
-        user.ShowWindow(hwnd, 9)  # Restore, so subsequent resizes take effect.
+        if not args.hidden_window:
+            user.ShowWindow(hwnd, 9)  # Restore, so subsequent resizes take effect.
         for size in args.sizes:
             width, height = map(int, size.split("x"))
             outer, client = W.RECT(), W.RECT()
@@ -134,7 +137,7 @@ def main():
             user.SetWindowPos(hwnd, None, original.left, original.top,
                               original.right - original.left,
                               original.bottom - original.top, 0x0014)
-            if maximized:
+            if maximized and not args.hidden_window:
                 user.ShowWindow(hwnd, 3)
     (args.output / "resize-results.json").write_text(json.dumps(rows, indent=2))
     print("PASS: live " + ("stock" if args.disabled else args.fixed_aspect or "Fit")

@@ -1,4 +1,4 @@
-Tomba! Recompiled - v0.19.0-alpha
+Tomba! Recompiled - v0.20.0-alpha
 
 This package does not include the game.
 
@@ -21,7 +21,9 @@ Whole-game transition coverage is still under test.
 Other bundled mods are disabled by default. Configure them from the Mods page.
 Custom Renderer defaults to Fit to Window (uncapped), with fixed 16:9, 21:9
 and 32:9 choices. Leave it disabled for stock 4:3 rendering.
-Quick-save states from v0.18.0 and earlier do not load in this version; they
+Native geometry batches reduce CPU work and wider-view frame loss. Performance
+with all mods on older PCs still needs testing.
+Quick-save states from v0.19.0 and earlier do not load in this version; they
 are refused safely. Memory cards carry over, so save in-game before updating.
 
 HD Texture Packs is disabled by default. Enable it in Mods, use Open folder

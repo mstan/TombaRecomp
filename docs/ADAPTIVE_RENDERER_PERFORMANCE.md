@@ -1,5 +1,96 @@
 # Adaptive renderer performance investigation — 2026-09-19
 
+## Current direction — 2026-10-08
+
+The owner confirmed that the separate enhanced renderer owns widescreen.
+Reconstructing a wider image from the stock renderer is deprecated. The
+stock-centre/edge replay experiment suggested below has been shelved.
+Optimize the complete enhanced-renderer geometry inputs instead.
+
+HLE follows [the owner's policy](F:/Projects/recomp-template/HLE.md): select
+HLE or LLE at build time, preserve caller outputs and useful gameplay pacing,
+and permit different internal work and timing. Exact cycle charges are not
+an acceptance requirement for HLE.
+
+`TOMBA_GEOMETRY_IMPL=HLE` selects native batches for `80024EEC`, `800251C0`
+and `800253C8`; `LLE` selects the maintained generated original routines.
+`src/hle/tomba_geometry_hle.c` retains exact shared GTE operations, full
+widescreen culling, animated UV handling, packet layout and OT links. It removes
+per-instruction dispatch/load/stall bookkeeping and charges 16 + 24 cycles
+per input polygon for each atomic batch. VSync, devices, input and audio keep
+their ordinary pacing. There is no runtime HLE selector.
+
+The test-only `TOMBA_GEOMETRY_VALIDATE=ON` build executes the original against
+isolated RAM/scratchpad/CPU inputs, restores them, and compares HLE outputs.
+At the supplied Stormy save, 200 batches per routine matched all packet/OT RAM,
+scratchpad, GTE arrays, return PC/value and callee-saved registers. Unobserved
+stack scratch and internal cycle/load timing are outside the contract.
+
+Latest-release reference versus the first HLE sample, native 240-line output,
+Fit, same stationary rainy save, interpolation and rewind off:
+
+| View | Original display flips/s | HLE display flips/s |
+| --- | ---: | ---: |
+| 16:9 | 59.92 | 59.72 |
+| 32:9 | 56.94 | 59.39 |
+| 64:9 | 45.64 | 59.76 |
+
+The 16:9 process-CPU sample fell from about 1.00 to 0.67 core equivalents.
+Wider HLE views do more useful work per second because they now complete
+nearly 60 frames. These are bounded local samples on a faster PC, not results
+on the reporter's GTX 1060 / approximate Ryzen 5. Raw local evidence lives in
+`evidence/stormy-hle-first/` and the reference performance directories.
+
+HLE snapshots carry implementation tag `TGH1`, separate from the LLE key.
+Old mid-instruction LLE snapshots are rejected; memory-card saves remain the
+game's original format. Product builds disable differential validation.
+
+The PGXP product build also loaded the supplied Stormy Mountain memory-card
+save at the shipped 2x resolution with antialiasing, PGXP, interpolation at
+165 Hz, widescreen and rewind enabled. Walking/jumping, saving, loading,
+opening and accepting rewind, then saving again succeeded. The HD texture
+feature was enabled with an empty pack; replacement texture cost was not
+tested. Stationary 5-second game-framebuffer samples measured 53.40, 56.91
+and 60.44 flips/s at 16:9, 32:9 and 64:9 respectively. Guest VBlank tracked
+those rates, so the remaining drops in these samples were host throughput or
+pacing rather than missed guest display deadlines. These are not an A/B
+against an equally configured LLE build and do not establish older-GPU speed.
+The interpolation presentation surface has a fixed (0,0) origin; the profiler
+now also counts actual GP1(05) framebuffer changes so interpolated swaps are
+not mistaken for game frames.
+
+Build selection (after the ordinary title setup/code generation):
+
+```powershell
+cmake -S . -B build-hle -DTOMBA_GEOMETRY_IMPL=HLE -DPSX_PGXP_VARIANT=ON
+cmake --build build-hle --target psx-runtime psx-runtime-pgxp
+cmake -S . -B build-lle -DTOMBA_GEOMETRY_IMPL=LLE -DPSX_PGXP_VARIANT=ON
+cmake --build build-lle --target psx-runtime psx-runtime-pgxp
+```
+
+Both runtime variants build. v0.20 ships HLE by default; `LLE` remains an explicit
+developer build choice. Each executable prints its effective geometry
+selection; the CMake cache records it. For the isolated reference comparison,
+add `-DTOMBA_GEOMETRY_VALIDATE=ON` to the HLE configuration; leave it off for
+play/performance measurements. The framework must include the optional
+`PSX_SAVESTATE_IMPL_TAG` compatibility-key support (commit `edb78e83`) and
+its public capability marker (`c6dcdcf8`). HLE compilation rejects older
+framework headers rather than silently accepting incompatible snapshots.
+Binding, reference symbol renaming, snapshot identity and crash metadata now
+use shared `psxrecomp_select_guest_implementation()`; see
+[the framework interface](../psxrecomp/docs/GUEST_IMPLEMENTATIONS.md).
+The shared prerequisite is integrated through framework PR #594.
+The freshly rebuilt LLE executable also resumed the rainy diagnostic save and
+saved/loaded its own snapshot successfully; no native geometry HLE counters
+were present.
+The final PGXP product exercise selected an older rewind snapshot (history
+fell from 50 to 36 entries), restored it, saved/loaded again, and then refilled
+the rewind history to 50 with the capture guard clear.
+
+The September notes below are historical measurements and recommendations.
+Their stock-centre reveal recommendation and strict HLE timing gate are
+superseded by the owner instructions above.
+
 ## Finding
 
 The reported bridge slowdown is primarily **additional emulated game work**,
