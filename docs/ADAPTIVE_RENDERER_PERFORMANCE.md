@@ -68,14 +68,18 @@ cmake -S . -B build-lle -DTOMBA_GEOMETRY_IMPL=LLE -DPSX_PGXP_VARIANT=ON
 cmake --build build-lle --target psx-runtime psx-runtime-pgxp
 ```
 
-Both runtime variants build. `LLE` remains the default while the HLE candidate
-gets broader gameplay coverage. Each executable prints its effective geometry
+Both runtime variants build. v0.20 ships HLE by default; `LLE` remains an explicit
+developer build choice. Each executable prints its effective geometry
 selection; the CMake cache records it. For the isolated reference comparison,
 add `-DTOMBA_GEOMETRY_VALIDATE=ON` to the HLE configuration; leave it off for
 play/performance measurements. The framework must include the optional
 `PSX_SAVESTATE_IMPL_TAG` compatibility-key support (commit `edb78e83`) and
 its public capability marker (`c6dcdcf8`). HLE compilation rejects older
 framework headers rather than silently accepting incompatible snapshots.
+Binding, reference symbol renaming, snapshot identity and crash metadata now
+use shared `psxrecomp_select_guest_implementation()`; see
+[the framework interface](../psxrecomp/docs/GUEST_IMPLEMENTATIONS.md).
+The shared prerequisite is integrated through framework PR #594.
 The freshly rebuilt LLE executable also resumed the rainy diagnostic save and
 saved/loaded its own snapshot successfully; no native geometry HLE counters
 were present.

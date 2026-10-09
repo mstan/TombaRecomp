@@ -1,3 +1,28 @@
+## v0.20.0-alpha
+
+Improves rainy Stormy Mountain performance, especially in wider Custom Renderer
+views, and fixes a cause of save-state/rewind capture stopping during a session.
+
+- Native geometry batches replace three costly guest polygon loops while
+  retaining the complete enhanced renderer scene, animation UVs and packet
+  output. Build-time LLE remains available for accuracy/reference work.
+- At a stationary rainy save on the development PC, 64:9 recovered from about
+  46 to 60 game frames/s; 16:9 stayed near 60 with lower CPU use. This is a
+  bounded local result, not a GTX 1060 performance guarantee or full-playthrough
+  qualification. Heavy visual mods can still be limited by host workload.
+- Restore capture guards after nonlocal guest exits so abandoned callbacks
+  cannot permanently block save states and rewind. Save/load, selecting an
+  older rewind snapshot, and saving afterward were tested. The original
+  extended flower-area report remains unconfirmed end to end.
+- The reusable HLE/LLE binding and snapshot identity support live in shared
+  psxrecomp; Tomba retains its game-specific geometry records and animation.
+
+Custom Renderer and other optional mods retain their existing defaults.
+Memory cards and settings carry over. **Quick-save states from v0.19.0 and
+earlier are refused safely**, so save in-game before updating. HLE and LLE
+builds use separate quick-save identities. The release contains HLE only;
+reference dual execution is disabled.
+
 ## v0.19.0-alpha
 
 Fixes two **Custom Renderer** (widescreen) problems in the village.

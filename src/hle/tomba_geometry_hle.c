@@ -25,9 +25,9 @@
 extern uint8_t* memory_get_ram_ptr(void);
 extern uint8_t* memory_get_scratchpad_ptr(void);
 extern uint32_t memory_get_ram_bytes(void);
-extern void tomba_lle_80024EEC(CPUState*);
-extern void tomba_lle_800251C0(CPUState*);
-extern void tomba_lle_800253C8(CPUState*);
+extern void tomba_lle_func_80024EEC(CPUState*);
+extern void tomba_lle_func_800251C0(CPUState*);
+extern void tomba_lle_func_800253C8(CPUState*);
 #endif
 
 extern uint32_t g_debug_last_store_pc;
@@ -154,7 +154,7 @@ static void entry(CPUState* cpu, unsigned kind) {
         memcpy(spad_before, memory_get_scratchpad_ptr(), 1024);
         if (!psx_cycle_freeze_begin(&freeze, 0, NULL)) abort();
         gte_precision_speculative_begin();
-        void (*original[])(CPUState*) = {tomba_lle_80024EEC, tomba_lle_800251C0, tomba_lle_800253C8};
+        void (*original[])(CPUState*) = {tomba_lle_func_80024EEC, tomba_lle_func_800251C0, tomba_lle_func_800253C8};
         original[kind](cpu);
         reference = *cpu;
         memcpy(expected, memory_get_ram_ptr(), bytes);

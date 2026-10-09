@@ -51,7 +51,7 @@ Important files:
 ## Status
 
 The game is playable from BIOS boot through gameplay. Latest release:
-**v0.19.0-alpha** (2026-10-07).
+**v0.20.0-alpha** (2026-10-08).
 
 | Area | State |
 |---|---|
@@ -68,6 +68,10 @@ The game is playable from BIOS boot through gameplay. Latest release:
 
 ## Features
 
+- **Native geometry batches.** The release replaces three costly polygon
+  loops while preserving the enhanced renderer's full widescreen scene.
+  Developers can build the maintained reference with
+  `-DTOMBA_GEOMETRY_IMPL=LLE`; HLE is selected at build time and ships by default.
 - **Two renderers.** A CPU software rasterizer and a GPU-authoritative OpenGL
   backend (default). OpenGL moves rasterization and supersampling onto the GPU
   so fill-heavy scenes (e.g. the mushroom forest) hold 59.94 fps. Falls back to

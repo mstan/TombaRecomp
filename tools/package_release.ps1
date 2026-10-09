@@ -110,7 +110,7 @@ if ($SkipRegen) {
 
 # Ship compiled game code. Override old CMake caches that enabled the player
 # code-generation wizard; first-run resident assets are prepared natively.
-Invoke-Native { & $Cmake -S $Root -B $BuildPath -G Ninja -DCMAKE_BUILD_TYPE=Release -DPSX_SETUP_WIZARD=OFF -DPSXRECOMP_FORCE_SETUP_HOST=OFF -DPSX_DEBUG_TOOLS=OFF -DPSX_PGXP_VARIANT=OFF -DPSX_SDL_BACKEND=SDL3 "-DPSX_GAME_VERSION=$GameVersion" } "cmake configure"
+Invoke-Native { & $Cmake -S $Root -B $BuildPath -G Ninja -DCMAKE_BUILD_TYPE=Release -DPSX_SETUP_WIZARD=OFF -DPSXRECOMP_FORCE_SETUP_HOST=OFF -DPSX_DEBUG_TOOLS=OFF -DPSX_PGXP_VARIANT=OFF -DPSX_SDL_BACKEND=SDL3 -DTOMBA_GEOMETRY_IMPL=HLE -DTOMBA_GEOMETRY_VALIDATE=OFF "-DPSX_GAME_VERSION=$GameVersion" } "cmake configure"
 Invoke-Native { & $Cmake --build $BuildPath --target $RuntimeTarget -j $Jobs } "cmake build"
 
 if (Test-Path -LiteralPath $StageRoot) {
@@ -294,8 +294,9 @@ replacement mods are unsupported. Whole-game coverage is still under test.
 
 Custom Renderer is disabled by default. Enable it in Mods for uncapped Fit to
 Window, or choose fixed 16:9, 21:9 or 32:9. Leave it off for stock 4:3.
-Very wide views remain experimental and may lower the game's frame rate.
-Quick-save states from v0.18.0 and earlier do not load in this version; they
+Native geometry batches reduce CPU work and wider-view frame loss. Performance
+with all mods on older PCs still needs testing.
+Quick-save states from v0.19.0 and earlier do not load in this version; they
 are refused safely. Memory cards carry over, so save in-game before updating.
 
 HD Texture Packs is disabled by default. Enable it in Mods, use Open folder

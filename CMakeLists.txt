@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 project(TombaRecomp LANGUAGES C CXX)
 include(CTest)
 
-set(TOMBA_GEOMETRY_IMPL "LLE" CACHE STRING "Terrain packet implementation: HLE or LLE")
+set(TOMBA_GEOMETRY_IMPL "HLE" CACHE STRING "Terrain packet implementation: HLE or LLE")
 set_property(CACHE TOMBA_GEOMETRY_IMPL PROPERTY STRINGS HLE LLE)
 option(TOMBA_GEOMETRY_VALIDATE "Test-only isolated HLE/LLE packet comparison" OFF)
 if(NOT TOMBA_GEOMETRY_IMPL MATCHES "^(HLE|LLE)$")
@@ -65,45 +65,24 @@ if(TARGET psx-runtime-pgxp)
     target_sources(psx-runtime-pgxp PRIVATE ${TOMBA_MOD_PLUGIN_SOURCES})
 endif()
 
-# Rename only the maintained original definitions. The dispatch table binds
-# the native batch symbols in HLE builds; LLE compiles the unmodified source.
-# Locate by symbol rather than relying on the current codegen shard number.
-if(TOMBA_GEOMETRY_IMPL STREQUAL "HLE")
-    file(GLOB _tomba_geometry_shards "${CMAKE_CURRENT_SOURCE_DIR}/generated/SCUS_942.36_full_*.c")
-    foreach(_tomba_geometry_shard IN LISTS _tomba_geometry_shards)
-        file(READ "${_tomba_geometry_shard}" _tomba_geometry_text)
-        foreach(_tomba_geometry_entry 80024EEC 800251C0 800253C8)
-            if(_tomba_geometry_text MATCHES "void func_${_tomba_geometry_entry}\\(")
-                set_property(SOURCE "${_tomba_geometry_shard}" APPEND PROPERTY COMPILE_DEFINITIONS
-                    "func_${_tomba_geometry_entry}=tomba_lle_${_tomba_geometry_entry}")
-                set(_tomba_found_${_tomba_geometry_entry} TRUE)
-            endif()
-        endforeach()
-    endforeach()
-    foreach(_tomba_geometry_entry 80024EEC 800251C0 800253C8)
-        if(NOT _tomba_found_${_tomba_geometry_entry})
-            message(FATAL_ERROR "Missing original geometry routine ${_tomba_geometry_entry}; run codegen")
-        endif()
-    endforeach()
+set(_tomba_geometry_targets psx-runtime)
+if(TARGET psx-runtime-pgxp)
+    list(APPEND _tomba_geometry_targets psx-runtime-pgxp)
 endif()
-foreach(_tomba_geometry_target psx-runtime psx-runtime-pgxp)
-    if(TARGET ${_tomba_geometry_target})
-        target_sources(${_tomba_geometry_target} PRIVATE src/hle/tomba_geometry_build.c)
-        target_compile_definitions(${_tomba_geometry_target} PRIVATE TOMBA_GEOMETRY_IMPL="${TOMBA_GEOMETRY_IMPL}")
-        if(TOMBA_GEOMETRY_IMPL STREQUAL "HLE")
-            target_sources(${_tomba_geometry_target} PRIVATE src/hle/tomba_geometry_hle.c)
-            if(TOMBA_GEOMETRY_VALIDATE)
-                set_property(SOURCE src/hle/tomba_geometry_hle.c APPEND PROPERTY COMPILE_DEFINITIONS TOMBA_GEOMETRY_VALIDATE=1)
-            endif()
-        endif()
-    endif()
-endforeach()
+file(GLOB _tomba_geometry_shards "${CMAKE_CURRENT_SOURCE_DIR}/generated/SCUS_942.36_full_*.c")
+psxrecomp_select_guest_implementation(
+    NAME tomba_geometry IMPLEMENTATION ${TOMBA_GEOMETRY_IMPL}
+    TARGETS ${_tomba_geometry_targets}
+    GENERATED_SOURCES ${_tomba_geometry_shards}
+    SYMBOLS func_80024EEC func_800251C0 func_800253C8
+    HLE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/hle/tomba_geometry_hle.c"
+    REFERENCE_PREFIX tomba_lle_
+    SNAPSHOT_TAG 0x54474801)
+if(TOMBA_GEOMETRY_VALIDATE)
+    set_property(SOURCE src/hle/tomba_geometry_hle.c APPEND PROPERTY
+        COMPILE_DEFINITIONS TOMBA_GEOMETRY_VALIDATE=1)
+endif()
 message(STATUS "Tomba geometry: ${TOMBA_GEOMETRY_IMPL}, validation=${TOMBA_GEOMETRY_VALIDATE}")
-if(TOMBA_GEOMETRY_IMPL STREQUAL "HLE")
-    # TGH1: atomic packet batches cannot resume an old mid-instruction state.
-    set_property(SOURCE "${PSXRECOMP_ROOT}/runtime/src/boot_state.c" APPEND PROPERTY
-        COMPILE_DEFINITIONS PSX_SAVESTATE_IMPL_TAG=0x54474801u)
-endif()
 
 # Stage configs beside the binary for direct launches. Gate on EXISTS so a
 # setup-host zip that forgot an optional file still links successfully.
