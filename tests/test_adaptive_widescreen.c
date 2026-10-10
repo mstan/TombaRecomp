@@ -15,6 +15,11 @@
 #include "ws_backdrop_margin.h"
 #include "ws_backdrop_detect.h"
 
+/* This fixture uses main RAM packets and allocates no enhancement aperture. */
+uint32_t psx_gpu_packet_key(uint32_t address) {
+    return psx_gpu_packet_key_for(address, 0);
+}
+
 static TombaPoolObject pool_object(int pool, int type, int variant, int group,
                                    int x, int y, int z, int pending) {
     TombaPoolObject o;

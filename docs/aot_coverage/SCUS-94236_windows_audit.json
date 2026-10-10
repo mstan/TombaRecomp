@@ -1,1513 +1,1398 @@
 {
   "game_id": "SCUS-94236",
-  "cache_tag": "cg10_e4839529_gca6a91e9d_f0",
+  "cache_tag": "cg18_0bea7895_gc272cdb19_f0",
   "flavor": 0,
-  "recipe_input_sha256": "a74094ad038c1ea72c0d932205be2d218737f82e058123a36cf97e53eda81f4f",
+  "recipe_input_sha256": "14f75c275f370f48e2042f49e4de0e570e9814819570d8a2394b55820ddac832",
   "recipe_count": 25,
-  "published_pairs": 196,
-  "manifest_rows": 8213,
+  "published_pairs": 176,
+  "manifest_rows": 8191,
   "all_pairs_valid": true,
   "all_guards_match_known_input_bytes": true,
   "full_static_coverage_proven": false,
   "image_coverage": [
     {
       "name": "000-SYSTEM/X00.BIN",
+      "required_entries_verified": 0,
       "native_entries": 589,
-      "guarded_variants": 603
+      "guarded_variants": 601
     },
     {
       "name": "001-SYSTEM/X01.BIN",
+      "required_entries_verified": 0,
       "native_entries": 593,
-      "guarded_variants": 607
+      "guarded_variants": 605
     },
     {
       "name": "002-SYSTEM/INFO.BIN",
+      "required_entries_verified": 0,
       "native_entries": 54,
       "guarded_variants": 54
     },
     {
       "name": "003-SYSTEM/INFO3.BIN",
+      "required_entries_verified": 0,
       "native_entries": 55,
       "guarded_variants": 55
     },
     {
       "name": "004-SYSTEM/X02.BIN",
-      "native_entries": 358,
-      "guarded_variants": 373
+      "required_entries_verified": 0,
+      "native_entries": 359,
+      "guarded_variants": 372
     },
     {
       "name": "005-SYSTEM/X03.BIN",
+      "required_entries_verified": 0,
       "native_entries": 556,
-      "guarded_variants": 571
+      "guarded_variants": 569
     },
     {
       "name": "006-SYSTEM/X04.BIN",
+      "required_entries_verified": 0,
       "native_entries": 535,
-      "guarded_variants": 549
+      "guarded_variants": 547
     },
     {
       "name": "007-SYSTEM/INFO2.BIN",
+      "required_entries_verified": 0,
       "native_entries": 199,
       "guarded_variants": 199
     },
     {
       "name": "008-SYSTEM/X05.BIN",
+      "required_entries_verified": 0,
       "native_entries": 337,
-      "guarded_variants": 351
+      "guarded_variants": 349
     },
     {
       "name": "009-SYSTEM/X06.BIN",
-      "native_entries": 375,
+      "required_entries_verified": 0,
+      "native_entries": 377,
       "guarded_variants": 389
     },
     {
       "name": "010-SYSTEM/X08.BIN",
+      "required_entries_verified": 0,
       "native_entries": 321,
-      "guarded_variants": 335
+      "guarded_variants": 333
     },
     {
       "name": "011-SYSTEM/X09.BIN",
-      "native_entries": 478,
+      "required_entries_verified": 0,
+      "native_entries": 480,
       "guarded_variants": 492
     },
     {
       "name": "012-SYSTEM/X10.BIN",
+      "required_entries_verified": 0,
       "native_entries": 507,
-      "guarded_variants": 521
+      "guarded_variants": 519
     },
     {
       "name": "013-SYSTEM/X11.BIN",
-      "native_entries": 352,
-      "guarded_variants": 366
-    },
-    {
-      "name": "014-SYSTEM/X13.BIN",
-      "native_entries": 339,
-      "guarded_variants": 353
-    },
-    {
-      "name": "015-SYSTEM/X14.BIN",
-      "native_entries": 467,
-      "guarded_variants": 481
-    },
-    {
-      "name": "016-SYSTEM/X16.BIN",
-      "native_entries": 362,
-      "guarded_variants": 376
-    },
-    {
-      "name": "017-SYSTEM/X17.BIN",
-      "native_entries": 351,
+      "required_entries_verified": 0,
+      "native_entries": 353,
       "guarded_variants": 365
     },
     {
-      "name": "018-SYSTEM/X18.BIN",
+      "name": "014-SYSTEM/X13.BIN",
+      "required_entries_verified": 0,
+      "native_entries": 339,
+      "guarded_variants": 351
+    },
+    {
+      "name": "015-SYSTEM/X14.BIN",
+      "required_entries_verified": 0,
+      "native_entries": 467,
+      "guarded_variants": 479
+    },
+    {
+      "name": "016-SYSTEM/X16.BIN",
+      "required_entries_verified": 0,
+      "native_entries": 362,
+      "guarded_variants": 374
+    },
+    {
+      "name": "017-SYSTEM/X17.BIN",
+      "required_entries_verified": 0,
       "native_entries": 352,
-      "guarded_variants": 366
+      "guarded_variants": 364
+    },
+    {
+      "name": "018-SYSTEM/X18.BIN",
+      "required_entries_verified": 0,
+      "native_entries": 353,
+      "guarded_variants": 365
     },
     {
       "name": "019-SYSTEM/X19.BIN",
+      "required_entries_verified": 0,
       "native_entries": 321,
-      "guarded_variants": 335
+      "guarded_variants": 333
     },
     {
       "name": "020-SYSTEM/DSPSUB.BIN",
+      "required_entries_verified": 0,
       "native_entries": 64,
       "guarded_variants": 64
     },
     {
       "name": "021-SYSTEM/DSPSUB3.BIN",
+      "required_entries_verified": 0,
       "native_entries": 49,
       "guarded_variants": 49
     },
     {
       "name": "022-SYSTEM/DSPSUB2.BIN",
+      "required_entries_verified": 0,
       "native_entries": 32,
       "guarded_variants": 32
     },
     {
       "name": "023-SYSTEM/OPTSUB00.BIN",
+      "required_entries_verified": 0,
       "native_entries": 27,
       "guarded_variants": 27
     },
     {
       "name": "024-SYSTEM/GOVER.BIN",
+      "required_entries_verified": 0,
       "native_entries": 7,
       "guarded_variants": 7
     }
   ],
   "pairs": [
     {
-      "dll": "000E7000_007C4C4D.dll",
-      "functions": 5,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "66195c80a72a96da67df7d21958aba560ff5f18ff9a3938bc36042adde29037e",
-      "manifest_sha256": "7220e24fea1bb14d206d45fa1cbc547676301608f67bb89c8d790bb413e60df5"
-    },
-    {
       "dll": "000E7000_0450D04C.dll",
       "functions": 27,
       "matched_recipe": "023-SYSTEM/OPTSUB00.BIN",
-      "dll_sha256": "6ebaa2b8742b93ee2094f8b3f83e1f6bbdea491039065f1eb3bba020e2b38e6f",
-      "manifest_sha256": "adccf4bb2d53b1c2f51432c63d588b3ab72d5426f29a4ad8a428253043ff5fda"
+      "dll_sha256": "8d1f744944a68a8864cada2f8099bd123339622eb33a805d519c3be86eac6ecd",
+      "manifest_sha256": "17f9a1b6d67a496ddba0ca43949a3546cbd6b59fac4f78156486023fbb14547a"
     },
     {
       "dll": "000E7000_04DFFC5B.dll",
       "functions": 3,
       "matched_recipe": "006-SYSTEM/X04.BIN",
-      "dll_sha256": "baad5163c81dbeaee252ef4e265111aa641e2464c6214133fd7aaa5e4f56516d",
-      "manifest_sha256": "87a07501cf49adc16af04dd1e48317b4d67f4090850b3248b8a8fff4c4866ba3"
+      "dll_sha256": "b86afc18d4e527a2531a46bbb1cfd68261b43f6985225495ffe6af0c6b69fabe",
+      "manifest_sha256": "ecba3e965e4b3b4ee974ae3ed9f0b6ec42d7ee2dd91a60fe67f680415d526965"
     },
     {
-      "dll": "000E7000_068DF28B.dll",
-      "functions": 8,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "cff1b4ec3433d8a80340eea99fee81cc727729356d6d000686d2a8627fdd60be",
-      "manifest_sha256": "9e0d30e6af614c4e869fd7ea8cf0028bc36dd7fbabe5f0c39af1f354b3df602d"
+      "dll": "000E7000_052CC7CE.dll",
+      "functions": 76,
+      "matched_recipe": "009-SYSTEM/X06.BIN",
+      "dll_sha256": "333c0984a28821a21ccea89846e485ac27440cb76c89b73ed35353482c65785f",
+      "manifest_sha256": "26ba2c569ee3cffbc114611a90fe48ec94d1c8d2699af0faf090ed94bf05b781"
     },
     {
       "dll": "000E7000_07343307.dll",
       "functions": 8,
       "matched_recipe": "012-SYSTEM/X10.BIN",
-      "dll_sha256": "ab2a6247943ab3a488306f3ed28f1d7574abc5a5d139d17aa079f7074db331fe",
-      "manifest_sha256": "090bdee1d37a474b9ffe39d5da4d9f732b5b6b342177f2db2b23bf2b12f96966"
+      "dll_sha256": "43f01957f73732f151ab99fdcaed3484f0a07f32ecc97e501419b048015526cf",
+      "manifest_sha256": "381d54b18fe541a4d8c729a0a95cd0a554cf784b4963dd0bddcf8691639be768"
     },
     {
       "dll": "000E7000_075E6F6A.dll",
       "functions": 14,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "fa2a791dc7ff3d0b97ea2c3ae2ff945fa816a08ec9423993241ed9d7ac57ffa7",
-      "manifest_sha256": "33aadea7109414f2e9720e54721559bbebdf8bf6a86c7a4d41ffecb4b4821645"
+      "dll_sha256": "db8a1801edada524143224cc1fabbd8c85bea0133472a1670104a6a3a9fd20eb",
+      "manifest_sha256": "058b55ab5d01d9f03030446ec68911d83818e4ff497ec6155293ac88cc6544e7"
+    },
+    {
+      "dll": "000E7000_07605D67.dll",
+      "functions": 2,
+      "matched_recipe": "009-SYSTEM/X06.BIN",
+      "dll_sha256": "7d71d3076d98a5a0543f4607b56731c628f4e053107a9d38451fb2afda1fac95",
+      "manifest_sha256": "96de8f601cef605b3fd7974fedf8b749e083f7572ea8f5b9463e42f7cf8fa47c"
     },
     {
       "dll": "000E7000_0903B1B5.dll",
       "functions": 2,
       "matched_recipe": "009-SYSTEM/X06.BIN",
-      "dll_sha256": "7cf061141d454e328a6994f82b89a3cc57ffd063f2c70ec3bc468b54c0e1676c",
-      "manifest_sha256": "eb97f76cb85df5d25e620a6c15f05340898c193ee09f78c685d74dc5f9d01ce0"
+      "dll_sha256": "e57f90ce4022ce78cbfd456d3fedd26d5a9fd2f56707490af4eb465c1758c559",
+      "manifest_sha256": "47a1538b722bab0fe351d0038f7dbb291d45e47800dc27b21b18126652a41dde"
     },
     {
       "dll": "000E7000_09834021.dll",
       "functions": 1,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "70d95aca7baecfecdfca1daf003653bfb96f217902a959896421a2da6ec99b11",
-      "manifest_sha256": "67cf8ceb46695fabf8cbd06863c0902f7197d4f4bd555988d825e69c2702afef"
+      "dll_sha256": "4aa21545f7e81eac6c295cec9717f8cf80864aa5138a139abaea5cefc62e9859",
+      "manifest_sha256": "64513c36d5f6ae1736b0142e79fae9f518249b2d1ffec57ef75ee0869d7ef1bb"
     },
     {
       "dll": "000E7000_0B53BCA9.dll",
       "functions": 1,
       "matched_recipe": "021-SYSTEM/DSPSUB3.BIN",
-      "dll_sha256": "f229387d7c450a1ca2d67d17e2e17512d187c6320e455ec5d9b24acca3a45f15",
-      "manifest_sha256": "a6b5d1043842ecb92bcb1aad40153f609c8d302372d976930ca32f2c3c4be7bb"
-    },
-    {
-      "dll": "000E7000_0BDB3357.dll",
-      "functions": 29,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "1d098e360fce53c0137980cfc33a0d9e5663dd23688c927a120798337e121567",
-      "manifest_sha256": "915d3d66ef7a76fbacdb103fa09678ccb53efe845f25c2a06cc09c34443550a6"
+      "dll_sha256": "0e5173f7ca5d4304a85d5facec78947e97e919cf4c59a6497798f12570e6c925",
+      "manifest_sha256": "3e7abae4b00b80b41d3a06fa4bc9fa2a6f5dc9201094102c6c4ab1c252965f54"
     },
     {
       "dll": "000E7000_0C47A315.dll",
       "functions": 66,
       "matched_recipe": "012-SYSTEM/X10.BIN",
-      "dll_sha256": "cc22556cf2e047de78db222c60e2497c504fde85dedd660fd951bdc62477128b",
-      "manifest_sha256": "d8e38f6870e75cc85ae89a75cc63967bc6ba7f7894e0a6b06d3d50ae8a501d73"
-    },
-    {
-      "dll": "000E7000_0CF6F1B9.dll",
-      "functions": 41,
-      "matched_recipe": "013-SYSTEM/X11.BIN",
-      "dll_sha256": "ca7e60a58411fb2958ea74117ac89415cc513bdbf355bd0ebed44ed4c0267949",
-      "manifest_sha256": "1c0bc3cefbcff40a7aab222fd402259c2dc856145021a5d9b0112789dd107a6e"
+      "dll_sha256": "7922197c2246f52b56bb8e5ec88e3179b23253016810d80b012e86d2ff05c4bd",
+      "manifest_sha256": "abd7b63f7509b62d9249e8e2af5951a627c342c0843ca68eaab3e7a2abdfffc4"
     },
     {
       "dll": "000E7000_0E802B0F.dll",
       "functions": 592,
       "matched_recipe": "001-SYSTEM/X01.BIN",
-      "dll_sha256": "e2785859b646008bbc476729ff4a9db61f31c1b9e2d637b27e35c0f158eccb21",
-      "manifest_sha256": "32e8628d1c3df827827d0e787b93b0f929a5fa37cf8b2502bd22d3bc88ce19e9"
-    },
-    {
-      "dll": "000E7000_0E89EFF2.dll",
-      "functions": 20,
-      "matched_recipe": "018-SYSTEM/X18.BIN",
-      "dll_sha256": "fb146b9b250be7b0d8057d9f4541b6d031b509181e9b1516a135d9f271b606c9",
-      "manifest_sha256": "beea065274713b91aa8fb12a583c4ec43b41e86bea54f9cb37daf9bd02baec8e"
+      "dll_sha256": "a47d277bf11e5d11b4f9b3e27d7b34d6bdaf0af1545ee9b80e4d167d5ca2ae9f",
+      "manifest_sha256": "e8337423c71115672d2dd3af917cc739350558f46f997e53585176e8c8c0bdb6"
     },
     {
       "dll": "000E7000_0F4922EF.dll",
       "functions": 4,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "52e4c706ca16524e9d9a0638889f132a91a5c0352d6bd3d2a70cdac5f4e936d4",
-      "manifest_sha256": "afbb727ee55263fb6cdfa53f1c3f0504b8e1b2afcea1cadecb764045217508d4"
+      "dll_sha256": "d124896774e64669447b3c4bcdc65972ecca8fa151b41f7b849db41917efdd20",
+      "manifest_sha256": "e9797e0980f057295b1c8fd57911a540803ad969ed0cd4da608e0c5882c88c49"
+    },
+    {
+      "dll": "000E7000_0F8AA770.dll",
+      "functions": 186,
+      "matched_recipe": "013-SYSTEM/X11.BIN",
+      "dll_sha256": "d3c02d863ec206c5397b39c4ba06026e23d83e18ba8bf48f24420d87e2d95d68",
+      "manifest_sha256": "718dcfd54f8d2e7c6cfbbf2823d685323063005b19a1333941b63d43c76b5b63"
     },
     {
       "dll": "000E7000_1130A6D9.dll",
       "functions": 9,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "d9252cd7ef6850ba0578bea70b5a688e812594874896080b7f2f8803c631bbc8",
-      "manifest_sha256": "a739811cbe98ce875a6dfb298599bee40dd77f5ca65f62a9f54ee0feab7ac0d0"
+      "dll_sha256": "bbea05228be5a8a0208cf9ae4cf5fab924de303dc0c2451a248c64e84d4af189",
+      "manifest_sha256": "a167017b2546f5d25b557d1aa0ded83fe7dbb1e28b81fbcb24d60f700a6e7170"
+    },
+    {
+      "dll": "000E7000_114661B0.dll",
+      "functions": 12,
+      "matched_recipe": "017-SYSTEM/X17.BIN",
+      "dll_sha256": "633b8ebc6c2a274725da45e0f3c692109378e6e2c9eb9ee0048d0112a93be9c5",
+      "manifest_sha256": "03ca8124299ad78bdc28cc17b0f28c7ba1b174099b800bb7a4b2431924bb3016"
     },
     {
       "dll": "000E7000_136E4736.dll",
       "functions": 1,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "1986eaf6b4ba3db81e86df9e4a7cc4d7f4f08451907e73e2fef13c2aebcb35f5",
-      "manifest_sha256": "cc6267b9b30379c20e590ca59818e0cb95eb6d4e7bbdc3250413bce65e3566fd"
-    },
-    {
-      "dll": "000E7000_14A16886.dll",
-      "functions": 62,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "1c97c710376e3ac3d87c2fc53f24a59c0d344b86312cbfd4c91fe2ac0110cdce",
-      "manifest_sha256": "19a02f8c50bb3fb1a1237e4c9e9873990bb26fdf1d8951328d5860ae817008d8"
+      "dll_sha256": "c0d1bad7e545df9584fa36be532e01f93fcb96a4f5b75c096332f4360c030ac3",
+      "manifest_sha256": "6eb76162e9c1c104b92e5968ef261d8ce9df70c54522592737fb160fbcfcbe3c"
     },
     {
       "dll": "000E7000_14F64243.dll",
       "functions": 23,
       "matched_recipe": "005-SYSTEM/X03.BIN",
-      "dll_sha256": "bec9388bf33b768be2743c608e7dd144b1cb165f11d8baf60cb5acbccdb1e60c",
-      "manifest_sha256": "d2dcb8071bee337f406756178f277b830fc286a47d4d301209d229a7f3f15d77"
-    },
-    {
-      "dll": "000E7000_156C63C0.dll",
-      "functions": 64,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "cf70d18fdf5ee74cd00246770cf766c55874f0ee0274e3ed1507e30ea7e636a4",
-      "manifest_sha256": "020264385ab6c2487c6cbe5b437c86793c6646e6343e4f61b1d7a4984625eb96"
+      "dll_sha256": "bf2fa3637cdc7e86bef5374ec5bffbb9a30f42e1735f63bfe798aab75594c06d",
+      "manifest_sha256": "0e62d88aaadb6c559aaacdd93b5dc1568deda4744367cfbe09b5a0acc291a336"
     },
     {
       "dll": "000E7000_16391264.dll",
       "functions": 3,
       "matched_recipe": "005-SYSTEM/X03.BIN",
-      "dll_sha256": "3611601f9ba8ecab8fae6b633ff21101632615f9f476abc2bdadbb73d61a1935",
-      "manifest_sha256": "0181765992a56ad812deba8293da7163d2270f0559035d3745df3be93fa1d546"
+      "dll_sha256": "08772d6cbafe4d47d0a2a04b68d9f15ab77b79d476fd8d2a9c32883bba97811e",
+      "manifest_sha256": "c87dfcc8d5156c52f2abd5cfc4d0b7f9efd085b9a00e8dd7b543f03f9d3a66d4"
     },
     {
       "dll": "000E7000_166F98C4.dll",
       "functions": 4,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "e4c271fa0a247df72d27e8484513fb4b9c5e27f036b255069b6612cc0d135bfe",
-      "manifest_sha256": "afbb727ee55263fb6cdfa53f1c3f0504b8e1b2afcea1cadecb764045217508d4"
+      "dll_sha256": "c3ef1ad875fbfeda8124c50a40d5c442ca6345483d0e820698d54d52989039f3",
+      "manifest_sha256": "e9797e0980f057295b1c8fd57911a540803ad969ed0cd4da608e0c5882c88c49"
+    },
+    {
+      "dll": "000E7000_1819084E.dll",
+      "functions": 2,
+      "matched_recipe": "018-SYSTEM/X18.BIN",
+      "dll_sha256": "ebf4f4d618a1dba50a6c6416960a5976e192ad21c0196b38bce170813ebbb302",
+      "manifest_sha256": "5b70844aacef0c0fa4d46f2d8ebe2808456533f75a8d31a374847ba4b4530b4e"
     },
     {
       "dll": "000E7000_1871F568.dll",
       "functions": 63,
       "matched_recipe": "020-SYSTEM/DSPSUB.BIN",
-      "dll_sha256": "137bc04f303b166a48c7eb4464264bceb19ed0dbb3927ca5c1b57cfadac64fcb",
-      "manifest_sha256": "38da58c6c77aa988a5594661d1ccd2914cb26ad4d41dbf80e5392a2f9639dadc"
-    },
-    {
-      "dll": "000E7000_196D3DEF.dll",
-      "functions": 43,
-      "matched_recipe": "009-SYSTEM/X06.BIN",
-      "dll_sha256": "ae5a86645ecfd813feafb40afc13a3df621b064a4ac960003af4ec406e7efca4",
-      "manifest_sha256": "af62d97251266c0025851ef13e1a533f1a83c60f7bb1c8231328698f88af3434"
-    },
-    {
-      "dll": "000E7000_1B6B94F6.dll",
-      "functions": 41,
-      "matched_recipe": "018-SYSTEM/X18.BIN",
-      "dll_sha256": "9e58bebfe6ff163e4ae5926ac964cb707366811bae79e8c2583cb91a8cfaae6d",
-      "manifest_sha256": "1533350678564cf3dae4a0fcfcab7a7b15abde12980965f4aec635e96f1fe6ce"
+      "dll_sha256": "968a289135ceef269dbfb6c5b59ce8f56f654bb0aa6c3710793afd125b0e842c",
+      "manifest_sha256": "8313922825b6a2aac46d17bc23a422ddb7f02db8f08e057aed83c0c40c3d8b91"
     },
     {
       "dll": "000E7000_1C208778.dll",
       "functions": 1,
       "matched_recipe": "020-SYSTEM/DSPSUB.BIN",
-      "dll_sha256": "dc3b5af96c15dfcfd63a79bd886dc8d4a41e27afefa62a58a87d7951731bdb59",
-      "manifest_sha256": "6644caa98610c558aef99d75010e6200a3765ca4f66955b5657b5cba59850f9d"
+      "dll_sha256": "c9793cfa4a6620544f529db7e957cf26f0a589651fb1c9f22fc0d3649c67c659",
+      "manifest_sha256": "dbdcd99c2396098292c0f0ad5517a4d7723e5b422c9d93d99e73bcb904c17db4"
     },
     {
-      "dll": "000E7000_21FBDEBB.dll",
+      "dll": "000E7000_1E8132E4.dll",
       "functions": 1,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "9bb16bfd1f91999b84984766fbcb62f3efa832423bdfcf0c4e4e52dc2b5b7323",
-      "manifest_sha256": "76b08df033627d20cc835c0cf3a6e23492d7ffa8b78697a21db0cc294b7883a0"
+      "matched_recipe": "013-SYSTEM/X11.BIN",
+      "dll_sha256": "55d026d2c927f3a1f348a81fb19dcb371f37b7abf99a9f3f5299af307a2d6435",
+      "manifest_sha256": "d26187cc0345c461245d3c0dcd2786fbbce660e021cbc09ff54339f29d3cdd3b"
+    },
+    {
+      "dll": "000E7000_213D1CA8.dll",
+      "functions": 10,
+      "matched_recipe": "013-SYSTEM/X11.BIN",
+      "dll_sha256": "3ae6b9b4ed6b1bf33a07d3bad89b25bd0847ea7199a651f6bf05fae678dddcb0",
+      "manifest_sha256": "ec0d8d45a4f4ffe5bb219f9a81dbbf01d6b85545a0b881d821a423617d2261e1"
     },
     {
       "dll": "000E7000_232753A3.dll",
       "functions": 338,
       "matched_recipe": "014-SYSTEM/X13.BIN",
-      "dll_sha256": "7c43d660a943a50527d04f213b30b861f83f5dfd84b4a68f6754884a78bb2a77",
-      "manifest_sha256": "09df241c69472dd1f67fada42dbe619502fa26bd797fba88966d6a052b120435"
+      "dll_sha256": "4da8b25e5509f624d487bc5a4a708f1ceb27b3fb4a2ef0cd9c7f67919de994f2",
+      "manifest_sha256": "a0705d5f05f2764840efca6b8774c2061a620fd6c9267aa2079e368346c12f11"
+    },
+    {
+      "dll": "000E7000_23BD509B.dll",
+      "functions": 185,
+      "matched_recipe": "017-SYSTEM/X17.BIN",
+      "dll_sha256": "df158b0b470d6a7e87e9fbde9936a30af452dcb476f8d7eb3ff96453fba5c01c",
+      "manifest_sha256": "f3fdc11d86116a2acc4ab276de4564a19a15129146ea030c08165c0d2db0dd82"
     },
     {
       "dll": "000E7000_24606ACB.dll",
       "functions": 4,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "d670839158bd1c60eba972b348ae3cd37b38ba23f29549a8b10c7ba29f320f1e",
-      "manifest_sha256": "afbb727ee55263fb6cdfa53f1c3f0504b8e1b2afcea1cadecb764045217508d4"
+      "dll_sha256": "54046621a5f487d015dce443c4f824a0bc300a54458cfd5cb90ea7973d96e9cf",
+      "manifest_sha256": "e9797e0980f057295b1c8fd57911a540803ad969ed0cd4da608e0c5882c88c49"
     },
     {
       "dll": "000E7000_250367FF.dll",
       "functions": 1,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "a4d2be1e403f6dbde28f6fbb8f4c41767f18df2e9c8e379a6d5e921338a66588",
-      "manifest_sha256": "b70f4217ac787a835efdbec8180c6371d63ebb99ba978c9a4de8c80084bb0465"
-    },
-    {
-      "dll": "000E7000_26F07BEC.dll",
-      "functions": 35,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "18645fdc813ccd2a4f0288e6dab3ec216b1e280c796013d00cc9d6078f7d6c40",
-      "manifest_sha256": "da5a641041118adf82ed4ab69676f7afc3773518a229cc397530ee56d778f4d2"
+      "dll_sha256": "310809d2190bd1780409afe29fda0511f84a908ab7a2a4aac822eec5b19d89a0",
+      "manifest_sha256": "be569ecd42d4af48e476694ab98f452d586b566c74dab0c3206d9454031ec405"
     },
     {
       "dll": "000E7000_26F1F16C.dll",
       "functions": 62,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "13b0ae1efa23486592fdbfd135c8a3c95414c555076fcfeaf8ff8b0c72193324",
-      "manifest_sha256": "ad9b78ef46394d7b7d7c4ac89c41a867e5d4d42dc125ddbecf440e9e3b648792"
+      "dll_sha256": "e44a1ec567776258d41fe7faa5054e855e7ab2ea707848689f967c7f8d812945",
+      "manifest_sha256": "dd337c715a04982db99ec1f6996e3d28e26f141e316e65c8019a837b210eefb4"
     },
     {
-      "dll": "000E7000_2786286E.dll",
-      "functions": 27,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "1c98c4593d7b708cf5c4a81ef03f7a808096b2f582d38fe22d38fee8d2d2cf83",
-      "manifest_sha256": "f8b67c53be64a36c888430a064ac677815df0ed0a7162691744e0848e1dc13d4"
+      "dll": "000E7000_27B63759.dll",
+      "functions": 4,
+      "matched_recipe": "004-SYSTEM/X02.BIN",
+      "dll_sha256": "70b8e77782feb6e9438f5054575a5d966be0960ccee0bfd4fdb8d6a3a595f8d2",
+      "manifest_sha256": "be067861c7aee3bd48fe0e8f7f7f39e6428876e9bdc362d9cbaa312bb6c64858"
     },
     {
       "dll": "000E7000_285EB529.dll",
       "functions": 3,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "64e6e18fe0a6fe0adc8d403c2729a9f01a1906a6171ec98d7a525c3d4f9d858c",
-      "manifest_sha256": "8ba5c206cce78743c44002dd9a6329c0f41a046a71d6b33c4eaecf85648b6294"
+      "dll_sha256": "17b5e51dc7560d9615e57c4912a70f0ea9b8ac39b1311a664191748a82f378a8",
+      "manifest_sha256": "0bd26db2f30272021a93a3e54a445d670bf5ea949562ec222f6cc1dc5c994439"
     },
     {
       "dll": "000E7000_2A8B920B.dll",
       "functions": 8,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "d7d6334bee8df2b2a91c7a7ed17d5f3347f610a15075bba155b2635ae80f075a",
-      "manifest_sha256": "b7a4d2f491271ceae2bfa27525d2ec0f2aa9fdc1a99d5b5455175b2a47bbdbc9"
+      "dll_sha256": "b39b810aa7e2c5f862e45001ac401012f850df437f34331d418b78e7724282d4",
+      "manifest_sha256": "2aea6f9b554c4bcdbf26532cc61a590244892c12068168257843f68cc2c9140e"
     },
     {
       "dll": "000E7000_2C0935FC.dll",
       "functions": 6,
       "matched_recipe": "012-SYSTEM/X10.BIN",
-      "dll_sha256": "11dc92f00d02d0bba5186707de90a92f14a963b6367c90218048378232c21d35",
-      "manifest_sha256": "52c0130c51069f6c0e2374f818f31c8e34f186dd42e88734526e8d423ef61e58"
+      "dll_sha256": "c269e6a9bbb8f6802011a703a1790be2ed448a07b6470ee20acf259ef31f2a93",
+      "manifest_sha256": "14d9bea7983c9fb4966639e0621766e9654c06120ce7720716c48682529f5a76"
     },
     {
       "dll": "000E7000_2C219FAC.dll",
       "functions": 1,
       "matched_recipe": "010-SYSTEM/X08.BIN",
-      "dll_sha256": "12cffbe4a1e5c54082bfd1418695a0ea2b6dc927e94835568af3dc015aab0c03",
-      "manifest_sha256": "fe1310d58d5a0d97e3d53779fc3241f33b3002185dbb274ea2ae4d99e4bc37fb"
+      "dll_sha256": "23cc8a439b5b3262c9c01a5f3e812f87f50c98f8a584232f5faaefb269c666d2",
+      "manifest_sha256": "c5f28634a49fe77a1cedca9f613d0279b2c18a5c8c073f3711f88383389b89fe"
+    },
+    {
+      "dll": "000E7000_2D44C4FF.dll",
+      "functions": 76,
+      "matched_recipe": "011-SYSTEM/X09.BIN",
+      "dll_sha256": "c5cffe4ff8314588ee1aa7cd480919733dbc21aa36b906377d9509bf88334295",
+      "manifest_sha256": "4695e723cff1a76a3532d8ad06181bd1886c46e2884bbe61970e13261482d1ec"
+    },
+    {
+      "dll": "000E7000_32D54560.dll",
+      "functions": 24,
+      "matched_recipe": "000-SYSTEM/X00.BIN",
+      "dll_sha256": "0f8b6a85aea4d3ccebf92736e1d2b93223ba138afa61f75ffd1d6a1a0bbf3a65",
+      "manifest_sha256": "474bea50012be3fb087439a5cb01fb36192ed67c1f840f5d472d4cfe1fe9e24f"
+    },
+    {
+      "dll": "000E7000_33B0FF3F.dll",
+      "functions": 5,
+      "matched_recipe": "009-SYSTEM/X06.BIN",
+      "dll_sha256": "25ecc1ac98339412aa83ee9d8e48e6e1a596996dd37acb606758fc5342fc3d91",
+      "manifest_sha256": "25291df212fcce6f03999f1e9c4322d559e1fd35cf5b2d9e574f84122915c409"
     },
     {
       "dll": "000E7000_3458C117.dll",
       "functions": 320,
       "matched_recipe": "019-SYSTEM/X19.BIN",
-      "dll_sha256": "6dd8f3c000cb7a4c98301cb7936fa3714957511735cd8d0f13a45c50c8ac4baf",
-      "manifest_sha256": "0b93f75080a28ca895238495a26ae70ced398de4fac68c78a3492b7877b17721"
+      "dll_sha256": "defebd4ef2ca82cc053a9bb7fa9fe53ba290d272201085d4953afaaa09fd9184",
+      "manifest_sha256": "51feafaaf90f04f73f7f8557f664d8c0b405a54f04f52d9bf176852885585180"
+    },
+    {
+      "dll": "000E7000_358C379F.dll",
+      "functions": 2,
+      "matched_recipe": "009-SYSTEM/X06.BIN",
+      "dll_sha256": "f51f1cccf9e5bcc3e717763f38c1f40a2c809e901295df97faebb5f6062d0c1d",
+      "manifest_sha256": "a74958ced52e0c02ee3b79eb95aeb63d5393352c4652eb9f0faa5436ca9427c5"
     },
     {
       "dll": "000E7000_3634AFD4.dll",
       "functions": 52,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "9d6db6f3bc4bb84003ff91224286e69fe276ff3a86e79e3ab83d146a2ef86c80",
-      "manifest_sha256": "9ed4bba494ef32db27e471318eddcb346fb3e6cec58bc12f39121907b8160233"
+      "dll_sha256": "fbba524ebd9506b9cdb7b17a8804d4bb07e821c9e4fc82e63f9ad7a794e0b421",
+      "manifest_sha256": "dee70be25df093016ba92132b7f5f16ae6b594e879aabffad2b260928770081a"
     },
     {
       "dll": "000E7000_36EFAF8A.dll",
       "functions": 62,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "ba2fc949eec67c04c3e781dc0c9a9a09876d0d327af9bade550f484f37082436",
-      "manifest_sha256": "2ce00cda55cdf2af1b70def875593629c5749acc1fb7703f5bba149c44b5dbaf"
+      "dll_sha256": "3f4a85a5e25d3722bed04f34eaec680129d6e29ba5860d06b9d39e3dbcea3b12",
+      "manifest_sha256": "8e9b3b82f7062bf5549491cfaedf5b4f301b4db5d83cd963cdd6ea9bb692d553"
     },
     {
       "dll": "000E7000_371A15A6.dll",
       "functions": 6,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "0daec2e6c430dc6d1e4363369bde8b4ba5c964c92943cd637883fae6d3c52a37",
-      "manifest_sha256": "7d23067f9917d16eefb01e830dccde95af4c15c8d4e0ac3f07f33e3d92cbc273"
+      "dll_sha256": "67f92b1d86e8e443af536336ae69a1a572bd76093a977abf7a91b4aacf783a8f",
+      "manifest_sha256": "cbd63282567daac385b70d65d765f1a3b8142454dda04f4a6b45879657897233"
     },
     {
       "dll": "000E7000_38ED08F0.dll",
       "functions": 12,
       "matched_recipe": "012-SYSTEM/X10.BIN",
-      "dll_sha256": "82157ee93107c2981fc69630164ec98accedab1f99c800319342bdada08a6d5e",
-      "manifest_sha256": "24a9378a08ba8f7a9111b8e4a961be5260f5d1034f724e204ca397f930a933c6"
+      "dll_sha256": "34d85d80df68166c3351d93778ebdf807e86b1efbf65df019e0013f7365c5970",
+      "manifest_sha256": "908526b761818e5864ff0df6c2bebda45961e40a7cb277c6be87a1015e76767e"
     },
     {
       "dll": "000E7000_3AEB192D.dll",
       "functions": 13,
       "matched_recipe": "011-SYSTEM/X09.BIN",
-      "dll_sha256": "f272194871d08d93ca81f938245e174c5eddb24bcfd9347b74b941c297ff5f37",
-      "manifest_sha256": "16b33ac55a00b1718c9d4340a19f2a6f1478d1eb0b93d5ef0fd8d2ba9f6fd011"
+      "dll_sha256": "5d54278dfd96a185bb6d44bcef5f9722afb9299af03f91f8d55854ce01f8792f",
+      "manifest_sha256": "33e9a89780eb839213f7bdcc63b63b9f69bca97d97a525409017d46b9bc7ef29"
     },
     {
       "dll": "000E7000_3C8D66C8.dll",
       "functions": 20,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "6b86d5b4f78b84ac52634178b209ef8e86df1c7d9d0fce8e0a7b7f4fef3bb88f",
-      "manifest_sha256": "05b731eeb81179e921f2853bbd5f2a7dab4fb43e08fd09b08b3d3e6f29a07663"
+      "dll_sha256": "82d5a0818f717b06154090018557ff7d7f3523483c2eab1ee2f8ba1a5a58edb7",
+      "manifest_sha256": "7d9706237b6c00ae1d48bc76c7d1bf4dbca6b36fda989fdd00754886343f51ff"
     },
     {
-      "dll": "000E7000_3E460B7F.dll",
-      "functions": 63,
-      "matched_recipe": "011-SYSTEM/X09.BIN",
-      "dll_sha256": "423fb2f4e81c138fe81b7900b6ba719b0bfd69811ff23ca2206b78acac99114a",
-      "manifest_sha256": "d2f402a1f879ac07238dbcb3ad37842527b859432c2feb55a3dd8226677cc735"
+      "dll": "000E7000_3EA3EE55.dll",
+      "functions": 61,
+      "matched_recipe": "000-SYSTEM/X00.BIN",
+      "dll_sha256": "40a89c1a6ffa124470997d790edddc11b5ac248354ea563864c45ef987fb00ef",
+      "manifest_sha256": "8348c8a21f64b9de24d422e5fb702f09629086069735a0cdd25c063477d217ec"
     },
     {
       "dll": "000E7000_3EDB6C7B.dll",
       "functions": 54,
       "matched_recipe": "002-SYSTEM/INFO.BIN",
-      "dll_sha256": "472ea7f582eb763773cfc762d58f1ca8ea0b94821c374f4b7f5e33dbc6e9df92",
-      "manifest_sha256": "7a490126f7f16031759bb8810dedc9f79b5fbb56fe5e843715552964238901f5"
+      "dll_sha256": "9d7d6a705d6091450af1926fae02fdb187a961240524335df7d461cb7a611af0",
+      "manifest_sha256": "8d753ef8af0799e8a24935d08ced5d4cd02b3d7c0396757cfda365d462053893"
     },
     {
-      "dll": "000E7000_4051C4E2.dll",
-      "functions": 8,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "77d892f342c7158b8d8c37b8378cf61e58ab4ce32d2dde36f6af3816e294a06d",
-      "manifest_sha256": "475a7b3a147f2f65f235427efbe3366ed05176aaaf359a578cb15dd65ab8f1b4"
+      "dll": "000E7000_402449DD.dll",
+      "functions": 5,
+      "matched_recipe": "018-SYSTEM/X18.BIN",
+      "dll_sha256": "b86eb2b7dea66b163f5a98f6a2f2481a9ac26dbe5079570498fd4300184dea98",
+      "manifest_sha256": "329e8d2a4c98ae96c3f9b2796578dd8bf7d6f40132e39fb8c92bae0d7a9d8439"
     },
     {
-      "dll": "000E7000_41342119.dll",
-      "functions": 20,
-      "matched_recipe": "017-SYSTEM/X17.BIN",
-      "dll_sha256": "96659a3962f7ac05eec9f64e5407901be03946ce28ca1f8f4d8cc578a99d9303",
-      "manifest_sha256": "8f767ae2b84c0ebf3226d4678b96fada07ac66ee941452634910e661f12635e6"
+      "dll": "000E7000_40B698AD.dll",
+      "functions": 115,
+      "matched_recipe": "018-SYSTEM/X18.BIN",
+      "dll_sha256": "67fc5d72ef3505c30a8e2cc5b870b18357a57d22ded95cf69063a9bf01596dfd",
+      "manifest_sha256": "55cafc9f37fd0464e727bb12f1b75aad72e254b6d823db1773416f53ef2a6ed0"
     },
     {
       "dll": "000E7000_417412BA.dll",
       "functions": 65,
       "matched_recipe": "005-SYSTEM/X03.BIN",
-      "dll_sha256": "d3f30e70d243078e9261c3c662d9f3f928c194e39094996bdbadb352cf3cc9b2",
-      "manifest_sha256": "3d2492f210d2c5ee270c6fd061a0d5b37cd5033c0dae5522dbd49ef950731ac5"
+      "dll_sha256": "f89c1050004d347faae5efdaad236fde6eb3694823ecd0b878ad60674c048955",
+      "manifest_sha256": "a40dc5555df0c39b6f460739e0f174651c3579dbff44431f7860944a2ea68ccd"
     },
     {
       "dll": "000E7000_42A046AB.dll",
       "functions": 11,
       "matched_recipe": "006-SYSTEM/X04.BIN",
-      "dll_sha256": "69d2b4473a13349f8cbe617a0cd72d3656c6d40cd21ffdd4043cfc1eeb7d07df",
-      "manifest_sha256": "936ba93061de221d1293d2b2484b51a890bf8fae25a2ce20f70873a9204f3d12"
-    },
-    {
-      "dll": "000E7000_43B99343.dll",
-      "functions": 11,
-      "matched_recipe": "004-SYSTEM/X02.BIN",
-      "dll_sha256": "64995045cb707b93e0b9ef10883bd9c220467f58c7b2713202ae245717570fe1",
-      "manifest_sha256": "4314e4dfeba366f7bcd224f227c97deaac6ac36a5d2d1ecff8e68efc16a1cdb9"
+      "dll_sha256": "7b7f70c794dd3877ed82705f82987c4c82e0b124284ebf2f9e643d2ad158e151",
+      "manifest_sha256": "d401c3309ed67fa1ab0ec0cb53c360c5fd7e3ed2b5d82558d221cbd6cbc990f8"
     },
     {
       "dll": "000E7000_441419A9.dll",
       "functions": 10,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "cfe201602cbf3e7c13664d59bb61f168319821436546b8b6a6321176195c271b",
-      "manifest_sha256": "7066f0a4955323723544e7f4586e5b58cd8f669f5e674ccda1adc4a0dcd4a90f"
+      "dll_sha256": "96df0320c3c77f737d1f4e148b719f07616c2130a9edcb3bf8e296871f45317a",
+      "manifest_sha256": "663d9ddce2e4e7d11a9705639f4813a9b9476089d651f01fe966046ea86233b3"
     },
     {
-      "dll": "000E7000_44CB71D5.dll",
-      "functions": 51,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "95276326d09e8613db31604ac050c2630638efa7bb4780d1ff6aef301f7ad22c",
-      "manifest_sha256": "9425a9decea89da7e9f6f209acf2feebc3ad66074eaa66fea1ad1344bc7014d5"
-    },
-    {
-      "dll": "000E7000_4B5B1F91.dll",
-      "functions": 114,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "9c82a99ca8155cc237be52b554df564cce40f2ea0cf2cc0da60e1b295ef49991",
-      "manifest_sha256": "831daaf70b4e1629196f25fcf94e1c8a934ecfaed9372a9060becb8810b77a76"
+      "dll": "000E7000_452179C0.dll",
+      "functions": 22,
+      "matched_recipe": "004-SYSTEM/X02.BIN",
+      "dll_sha256": "98764a138bab47cbfb6b51173e44d4ef59917dd3d2742fe022e7156c37fc84e6",
+      "manifest_sha256": "df5f57f4e3d91025e87156e3dfcaa136fcd32361eb66a98eb47c28fe315fb795"
     },
     {
       "dll": "000E7000_4BE1665A.dll",
       "functions": 4,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "169c273c2d6fedd427044223bc0ec7b108044d089d568ea48ca033a084ab2235",
-      "manifest_sha256": "afbb727ee55263fb6cdfa53f1c3f0504b8e1b2afcea1cadecb764045217508d4"
-    },
-    {
-      "dll": "000E7000_4D157997.dll",
-      "functions": 1,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "b9c47050d485c8be83e5407f3b95b9a4f3486e1991a16f5020ff82a73f0af0c8",
-      "manifest_sha256": "63b2fc4222fe207a8d8216821ee3fa7276e0ac0a4d2a332dd81b0592c9c88296"
+      "dll_sha256": "962c37225d8cbcd372d199a963c16a68f98055aa3fd1c941783b6802d1475c25",
+      "manifest_sha256": "e9797e0980f057295b1c8fd57911a540803ad969ed0cd4da608e0c5882c88c49"
     },
     {
       "dll": "000E7000_5012D832.dll",
       "functions": 2,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "875d5553f8c4fcb7baa20d333293d991ae9ef8a192af791ea12eff8367cb6868",
-      "manifest_sha256": "a74c1715bf01aaaaafcf9b5f5142ba0b7cbb5a2a933f28beb59a0433034c15dd"
+      "dll_sha256": "f05f0c42fe61f5931f7c0f011d0a26ec67b0fac8baca4ecc4305fe88cd8c0600",
+      "manifest_sha256": "4e0b054da135ebebbdf1447eeabf1517f01994c6798e6ce261e199c5c756f583"
     },
     {
       "dll": "000E7000_5073849A.dll",
       "functions": 3,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "0739cc2010ce8f5e00396e331dec03b975348cb753428f96ae9ff868b4b75529",
-      "manifest_sha256": "b00eba1dd910a109cbc76191e8f00aa4e55d6a1630ee81918c9ea05249a8a60f"
+      "dll_sha256": "b1f09df03dad43ecb99e6cd602577bc5283e964829185e3a443b3a7889a0ba83",
+      "manifest_sha256": "a13ff04ff2f50c44bf9c22382cd0b1cf6fba2099255b3d1dee1e822cc84e7293"
     },
     {
       "dll": "000E7000_508BE0A7.dll",
       "functions": 41,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "0e3896ba4e6b5094ce6fb3c85858bb1f92ae6a09f9a09d87961b1886258c0b23",
-      "manifest_sha256": "2d4f9c9211679cd4ca8b8358400e2e4107d25b91936f6c6db74f2c26f2e79261"
+      "dll_sha256": "073232432593450db86bb08fadd6c6e437914c3fe8d0210c8ed5dd4eafbec1fc",
+      "manifest_sha256": "e46c9f0f97f0b06670526cb5c904914db17a956d4317c31fca09024cabdaefbb"
     },
     {
       "dll": "000E7000_50C1447E.dll",
       "functions": 15,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "d3825076c228acc501d65a528b23fdb9c8d7035f2736c7c36b9e01411b0cc093",
-      "manifest_sha256": "f60df3c8246ea4c6ee25b496f16ecdd4333cf163a1a815cee86eef973053a67e"
+      "dll_sha256": "b17c21f46cde09b15d65aea391d6937e9a2b62536de48450d6954e74ca3f6bfa",
+      "manifest_sha256": "1d83b4b55809f290480109720f7b7e813740954ce0a8d296d00ce4845244c98d"
     },
     {
       "dll": "000E7000_51E59E0A.dll",
       "functions": 4,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "19a5935feaed2ad63afbc0d33372634bf095d0ab1e994ac94534f709705f269f",
-      "manifest_sha256": "b354667708d8ff3577468239fd381b1fcf46ced6d12c298a5d41f5f97d9732f3"
+      "dll_sha256": "9ec17b9e079c8ad6a9c6f042d7836f94ac380b75db524beae14c314a41ba4801",
+      "manifest_sha256": "1b543b76a4417b66f10bfeb05095c4cc02cb6e9b5a707addf5d1eb541e2903ff"
     },
     {
-      "dll": "000E7000_52E75426.dll",
-      "functions": 39,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "88c07e4916f70b7b13f8c2699d9a932c9d6d000ac765bfdc671f3f9e5f4132ab",
-      "manifest_sha256": "9fc9ac7f4b37f0dedaf49a3f6808db0362fd33399589897a45579858bfb452c9"
+      "dll": "000E7000_58EC7C2C.dll",
+      "functions": 10,
+      "matched_recipe": "013-SYSTEM/X11.BIN",
+      "dll_sha256": "2a7a56efcc4730afdb8a910cf0025ac35e554aae6e0966fd17407f48d18857d7",
+      "manifest_sha256": "70cd7a6e4b1a4f32c017739e3a56b42c7ec6302ff8380c2b3155db36bf29ee1c"
     },
     {
-      "dll": "000E7000_54123264.dll",
-      "functions": 3,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "9393cb87fedf643b72b67ce88ba43d2d26d6759cbc44a1a080a499edbf36c0f4",
-      "manifest_sha256": "b30219f3b51fb395b5facac392386efa5622827694eb7c949cc108c6cb82eb08"
+      "dll": "000E7000_59F40DA4.dll",
+      "functions": 1,
+      "matched_recipe": "018-SYSTEM/X18.BIN",
+      "dll_sha256": "d9507a837cdbaed0627cc0cd197fb7d2f83eada771048259d6ba3b659a1a14ac",
+      "manifest_sha256": "970bccc015090a7c8f82549d4a8d06c841fa22cfcb97cb669f8cc126df19dbf7"
     },
     {
-      "dll": "000E7000_58994303.dll",
-      "functions": 21,
-      "matched_recipe": "009-SYSTEM/X06.BIN",
-      "dll_sha256": "109e68127f6d0386e950c8c235d39d5b8910ceda89075fd0056e73d4ec7ae814",
-      "manifest_sha256": "ff566faf6aae1bbf9a5229222edfde346a42e8b004eb040e6ac7ecc7f4b3ab9c"
-    },
-    {
-      "dll": "000E7000_59329DBF.dll",
-      "functions": 41,
+      "dll": "000E7000_5B5CFE84.dll",
+      "functions": 40,
       "matched_recipe": "017-SYSTEM/X17.BIN",
-      "dll_sha256": "83d4a627e6ef2cd8ee5d57d3c8c58e12ed06435ba4fc203f8065bc83db407383",
-      "manifest_sha256": "ece6e298379d85ec2eb13e1d2bd5eed0ce5281a1709f321f6de8a3b98b52e246"
+      "dll_sha256": "8426b5019fb7277f6bf1bb2e22cd772bdb7c7506d0a4d890afdbb2bfc71113f5",
+      "manifest_sha256": "40c9e87f7906c5ac2f1e5528064e4b0951c0c5b57ec950684023c71dbd83addc"
     },
     {
-      "dll": "000E7000_5CF837B0.dll",
-      "functions": 20,
-      "matched_recipe": "004-SYSTEM/X02.BIN",
-      "dll_sha256": "d71e515a0da6b31f6955451b8492f68d3b0d9cf2ec330631d8276896d7e65b2c",
-      "manifest_sha256": "8af529773efc82a3ff5ef8624d119b5b13cac3e3de7ecee97114c68107f022ac"
+      "dll": "000E7000_5CCD6C2E.dll",
+      "functions": 40,
+      "matched_recipe": "018-SYSTEM/X18.BIN",
+      "dll_sha256": "cb79536ea15b1eb113e6b66cf77a1dbede47ec041a2072bab2703d8f7565bab9",
+      "manifest_sha256": "6d1b63b0287c6182665e495290957549bb8912a17e2fc5eb5cb7c8cca02de416"
     },
     {
       "dll": "000E7000_5D10DB34.dll",
       "functions": 11,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "2bdd885dd8ce5ab754c6e16fc6fb5efed982c906ce52e4edd4af52fec21ab9ff",
-      "manifest_sha256": "c6d7a1f363f4f98f07519c62438e493896bda0273550dd111b6231feb1fcf2b3"
+      "dll_sha256": "a20382bcf520f1fea543b07aaa389d582ee4901b7b7a51bf19c9a327afbe36bc",
+      "manifest_sha256": "3c754815635a590f18b142a5efb114ce94dae29a939560ae7141838e0f45de51"
     },
     {
       "dll": "000E7000_5D740957.dll",
       "functions": 13,
       "matched_recipe": "011-SYSTEM/X09.BIN",
-      "dll_sha256": "22226e5efc2fc6414d3e722f18d2d23403196fee241bf9e2c0a1d4c262cdfaad",
-      "manifest_sha256": "41f1805af8608d8697116037435c1d49fa9c25a1baaf688bfc7595dd4f154996"
+      "dll_sha256": "9f8e65e7cea34dbbfffea696421a2f57f8422e459bd10fed89fea9080cb07ac0",
+      "manifest_sha256": "9f17ec3a454d03afab888b8c278e83a55182d0e25e9a0ce39fe8352fc421253c"
     },
     {
       "dll": "000E7000_5DA6CFC3.dll",
       "functions": 50,
       "matched_recipe": "012-SYSTEM/X10.BIN",
-      "dll_sha256": "3af48b586862f115fc75026252e7bd7858b3d6813ce7d9c6fd90c12035cae304",
-      "manifest_sha256": "0e476db37e3163201c80fc8954cb905a5763f05bc6aeb64e9a2b9c1cc521016f"
+      "dll_sha256": "4a1bd0c81ca2a80e423ab7de254d1c05c3a180d386f7bf7a4368ca56e97e4354",
+      "manifest_sha256": "369cab55cb6698037a49473c900924349409ac027efd9d1bed9b84acafc6349a"
     },
     {
-      "dll": "000E7000_5DA8B305.dll",
-      "functions": 5,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "1ecda9a59dc278104183592814eac8cb00e36f2f59e544035ac0a0b051227bd5",
-      "manifest_sha256": "eecf21b1785f9524df3efb42d1922578bd75fa0395d1817218376a0357e97df7"
-    },
-    {
-      "dll": "000E7000_5FF74DEC.dll",
-      "functions": 6,
+      "dll": "000E7000_5E8CF46D.dll",
+      "functions": 42,
       "matched_recipe": "004-SYSTEM/X02.BIN",
-      "dll_sha256": "705793bb3c61b594c3ec6189c38aaa0cf4fb78efd54ff3d9e912fd4168a72ba9",
-      "manifest_sha256": "6b62cf0adda2ee858764845a06206563e4274df1dfc4404d9a9e27a35222ecec"
+      "dll_sha256": "9757cd4c1a5bb46f6cbb6c7cbd3a7754bee36673b733330180089bb2ed0a3847",
+      "manifest_sha256": "bc83ab20ea19490ee9ddaba3dbf7d11eaccf3b29668baca3d271a412e553d1bd"
+    },
+    {
+      "dll": "000E7000_5F1E96FD.dll",
+      "functions": 67,
+      "matched_recipe": "004-SYSTEM/X02.BIN",
+      "dll_sha256": "3abe76f3a0d0de3f7847f9d53edeef3114efe2898129e1baf6262b3030347e25",
+      "manifest_sha256": "228baad992b32ce96f1497be447e4848361d75b12e2ef2533ab7dc9f4753f47d"
     },
     {
       "dll": "000E7000_604F20CD.dll",
       "functions": 3,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "2597d51935fa1a6196801a1ca967312eb30628911a5524436505b0d5b950e96a",
-      "manifest_sha256": "e3359b5dbefdb1f393373e37cdf2b9f0845db28d9c80ff8a11c4a5db4c620315"
+      "dll_sha256": "b65470a5552e954cfac4ba6f24139a3de49decc3fb42637457154b20c4c3ed81",
+      "manifest_sha256": "25231d44dfd56397de884e6f5c49d304a07364934a0d180ef69721bd14e10ca3"
     },
     {
       "dll": "000E7000_627A4248.dll",
       "functions": 50,
       "matched_recipe": "012-SYSTEM/X10.BIN",
-      "dll_sha256": "7286dc84beb195acd0d49e6283eb69fd03a4808e560cda4ea69c2ab422e58917",
-      "manifest_sha256": "ffe7b6366c241602d29a5a0fcf03a78b69ca8ceca52d501e24a43d4fab294ed2"
+      "dll_sha256": "c72ec2adf89b2697c484aa60599032ddd959ee36386a6ae04292124006b3d559",
+      "manifest_sha256": "667c941d8049bbea69fedb8b35c1e5a852526d0441023e9146f8914e0c2e1a80"
+    },
+    {
+      "dll": "000E7000_62D56CF1.dll",
+      "functions": 27,
+      "matched_recipe": "011-SYSTEM/X09.BIN",
+      "dll_sha256": "c2d8104a833e43be07aee44bdc0d3443092c59b91282628992d5f34c8ab9d4eb",
+      "manifest_sha256": "cde7a849adf4761b548d1ea1dd76a76260df27c957df2c00660830a8dc70ad51"
     },
     {
       "dll": "000E7000_64047822.dll",
       "functions": 32,
       "matched_recipe": "022-SYSTEM/DSPSUB2.BIN",
-      "dll_sha256": "2188a3b48db988da4589d56760f95c5f24bebab25bf729ff45965fe0550a2112",
-      "manifest_sha256": "c3a6f2014039cd78b5a179249c451553732ef76c4158cf9f5adbdcbeca954b23"
+      "dll_sha256": "34a4d5f4976810d6d7af317f17b930a59d9ef5da6f6e60fb854c754518858720",
+      "manifest_sha256": "b684d52137828b71ba2a93d88bb05ca9b16b3322f486dabe28efe6682efc8c51"
+    },
+    {
+      "dll": "000E7000_6448ECBE.dll",
+      "functions": 20,
+      "matched_recipe": "017-SYSTEM/X17.BIN",
+      "dll_sha256": "b951f637d8346538c3b34199d4e3affaef79dcd28a00f80890bf040e33c0a02f",
+      "manifest_sha256": "c382eeb68e35f54dda581c0025b0130b8e6313e399202aecaba4e091a98a3b6d"
+    },
+    {
+      "dll": "000E7000_6550D87B.dll",
+      "functions": 5,
+      "matched_recipe": "000-SYSTEM/X00.BIN",
+      "dll_sha256": "ee5f71dad56343741939bee6eb41ba47ae8931906cbbb1f0a4bc17fc8366014a",
+      "manifest_sha256": "1a9cecf48b411bd91425ac67e1348c0e9ac23d3ed942eb2871c8d6b2af93c952"
     },
     {
       "dll": "000E7000_66813A60.dll",
       "functions": 6,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "5255f7dd870310d3101243d308c0cb74616e5afa69998a32f0f3a24cc729a9df",
-      "manifest_sha256": "3ad129f17597ddc7a9c36f6a1590a11eda1490dbafcea937bc0ec286b51adec0"
+      "dll_sha256": "92f5f3b065eeb4dbfe3e50cb520d1e15bf8361f3dac28a5fe1daf59e21662f69",
+      "manifest_sha256": "76f47b5f3c4fd15153f34054274cf38298226e9d00c497dfa6139b4c100fb35c"
     },
     {
       "dll": "000E7000_676F52EF.dll",
       "functions": 10,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "f321da9c778680b9ebf3d593eee608b0cd38b90fde48c621889bcae90fb37fbf",
-      "manifest_sha256": "321acbbedb499b0cb470e5ff0ed38e4f96f641c6fa6ec85a0de73fbb4d6062ff"
+      "dll_sha256": "f5d82975b7b4b27fbe8e80cf9dc5efa938b96dd182c3deef9a026f5e467755d8",
+      "manifest_sha256": "d73e4078eb969474d7b96b30622f35f7a328784854bcc5aac8894eafd953fe38"
     },
     {
-      "dll": "000E7000_6C4548C5.dll",
-      "functions": 10,
-      "matched_recipe": "013-SYSTEM/X11.BIN",
-      "dll_sha256": "247b6f138af2573924db1eac976160ddd10718058f4fd44aa4468633502b9897",
-      "manifest_sha256": "748f79daf3bb671debea668712189a82b32995b71e8cf91b51944255f7abbcbf"
+      "dll": "000E7000_6899972B.dll",
+      "functions": 62,
+      "matched_recipe": "011-SYSTEM/X09.BIN",
+      "dll_sha256": "7d632e480581e0d1a7ac13f63d1286985bd84013bb77d7a744819147954195eb",
+      "manifest_sha256": "2a09c9dc6fffa419e3dea351d2fd2825c60987556ca4d47513de5412f4299cb0"
     },
     {
       "dll": "000E7000_6C517446.dll",
       "functions": 23,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "7cf9389037b9d14da749efd3b7899b1f70b795c8ce4617f96968e83734573ed3",
-      "manifest_sha256": "2cb6d1dc4255c9c95af33f4050d6e5fb87df2cd4edeb94754b745c775d2edb63"
+      "dll_sha256": "d283696f09cf956ad8ef15001c920b5d298d86147cbe1a0f2fd3e9ba6b1dc757",
+      "manifest_sha256": "cb6d319b1044bfde8a5148cc4e07febf7ea05bf926dc75efee0be4f3f4021a75"
+    },
+    {
+      "dll": "000E7000_6E632966.dll",
+      "functions": 4,
+      "matched_recipe": "000-SYSTEM/X00.BIN",
+      "dll_sha256": "67bcd2216dc631d19ddb4c844a3b58adc9f4100dade14e1b2cd5cc30a0d2eb19",
+      "manifest_sha256": "1fd75b54d11f41ea82d37c6cf3a7ad27a61d0c4b27c9133f4ee8fd80cc2fd7c7"
     },
     {
       "dll": "000E7000_72E08C78.dll",
       "functions": 1,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "b2b1af8d620faf36fca1277bfa5262811cfc4cf5461ef532dc2458d691a300ef",
-      "manifest_sha256": "0839aeaad2967f2b21e3ebf2d9f50e4e99fd98047987b96035b09a99d0c6f551"
+      "dll_sha256": "0b11403f9564565ec448a22532e0c861cffd294c0406c9a6659203da5dae9305",
+      "manifest_sha256": "2e59a3dc1fff8c5339d63756b359567caf5ef230358652771284963615dd1999"
     },
     {
       "dll": "000E7000_7675500B.dll",
       "functions": 361,
       "matched_recipe": "016-SYSTEM/X16.BIN",
-      "dll_sha256": "31f62b5a33d13836323dd15d8ce84110206cf35027b8d13405f73773216849f0",
-      "manifest_sha256": "991db1b9434efbfebdaa88e6087d1da2164274a3f28194ed2b9d209c6b7d7984"
+      "dll_sha256": "1012fc9b9644b4dbf3c1c4ecb64789d930b1c1a84b14426edc3d7f314891c064",
+      "manifest_sha256": "84bfa2599e5e8ee09143b0ab8c87197c4fd7e5bb95c90bdf5a746b9a6961f68b"
     },
     {
       "dll": "000E7000_76FE455F.dll",
       "functions": 588,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "cbd2ee994f7c722b3ddac56ab1f38be321c3c368ac9bb3ba14fb18c2d16faf11",
-      "manifest_sha256": "18b20088e400e6de4c5ced5d5dcec702922abceabc71cc93e433c7cdfe810758"
-    },
-    {
-      "dll": "000E7000_79342E1D.dll",
-      "functions": 62,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "4dd40466e9fa5b10a68d694ca3c41770745a940e129354dcfbaae393d2cb2079",
-      "manifest_sha256": "7d61173273b9af71e4d3ddb7a179d2c556a060fdeae789cf5754cd88f939b458"
+      "dll_sha256": "7de517ece7bb30c3f6ff3f39dab8fa587eb33d3d88f67495d636b03aa225471c",
+      "manifest_sha256": "1ddadffba5791d6441ebcd7844a2aec3ef36799cfbfbc8c204ff80867eec3602"
     },
     {
       "dll": "000E7000_794452F2.dll",
       "functions": 4,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "5dadc17af2acdfcba2721b1e0e535904dad26e7701b116f79ac1e1a8f2cab4a2",
-      "manifest_sha256": "afbb727ee55263fb6cdfa53f1c3f0504b8e1b2afcea1cadecb764045217508d4"
+      "dll_sha256": "8998f9aa42642f765a5739a5f96ed71a7cdb662889f8344ff8ae259a68a4b71e",
+      "manifest_sha256": "e9797e0980f057295b1c8fd57911a540803ad969ed0cd4da608e0c5882c88c49"
     },
     {
-      "dll": "000E7000_7BFFEB28.dll",
-      "functions": 5,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "e1137ff4ce16f6b69c054370e2a340eb567a83ddc28cb3b9351ae9990895e90b",
-      "manifest_sha256": "23ff1bd4a06f466f85a57ed32506060edc881e51ed28c6b3781825730b748b0a"
-    },
-    {
-      "dll": "000E7000_7D807D0E.dll",
-      "functions": 77,
-      "matched_recipe": "009-SYSTEM/X06.BIN",
-      "dll_sha256": "334c126d7b0eba14d30942203770ac1426b6f11e18360c364c032d4b88aa9770",
-      "manifest_sha256": "c3e835f2a5785f5e74e28201e7efd48581234e63012e49292e8cf2b010f0c53a"
+      "dll": "000E7000_7EBD17C9.dll",
+      "functions": 20,
+      "matched_recipe": "018-SYSTEM/X18.BIN",
+      "dll_sha256": "d67174618fbe0bc2065406b5774ad76fb24963af43299db35484f1df41a34c37",
+      "manifest_sha256": "fba47c076bebb1d68ba19c07cca551ea291c6ab862fe60f9ba6a4498e6fd6b8f"
     },
     {
       "dll": "000E7000_82237EAE.dll",
       "functions": 148,
       "matched_recipe": "005-SYSTEM/X03.BIN",
-      "dll_sha256": "23ae041c2dcddbe4da203b6b150368138a82daf290a9d254458275661ecad56a",
-      "manifest_sha256": "ac75bc4bbfe9f4e58585a18f0103b97908eafaed33e2afe21b8217886c38b8f6"
+      "dll_sha256": "e1a6975fedff4fdcb639f64f463d2e858996d30b3fe07a65fba09df1d86bfbba",
+      "manifest_sha256": "dde4daf14733683ed844c72f465c43c18e9dbfd65433fb14f16b4a0650e1d750"
     },
     {
-      "dll": "000E7000_823467CC.dll",
-      "functions": 15,
-      "matched_recipe": "011-SYSTEM/X09.BIN",
-      "dll_sha256": "c235faa56f57ad50acf590360cd931c2859d3145bc78a54649dc8f3dbcd45b92",
-      "manifest_sha256": "b542a4cf7be0b87b3a909c7aa22041723f4b3457a9957091014e3eff85649196"
+      "dll": "000E7000_847D6924.dll",
+      "functions": 21,
+      "matched_recipe": "009-SYSTEM/X06.BIN",
+      "dll_sha256": "9e82327a66dc2e9c511035f1eb5611eca8ce9e7bd2c712ffd91c8134898d0689",
+      "manifest_sha256": "74f5ab8dce11ba9c29d70afa35e38a319b27c61fb358a7dbf49bb577fa572a92"
     },
     {
       "dll": "000E7000_86C30B86.dll",
       "functions": 7,
       "matched_recipe": "024-SYSTEM/GOVER.BIN",
-      "dll_sha256": "8614b020855f6eade942501fb7679c9f67224d531be423b6be7f027dcf07814c",
-      "manifest_sha256": "9d016cedd964f5ba4ef249d4e58db336339510660080e030e04cf24267065f80"
-    },
-    {
-      "dll": "000E7000_8888F8E6.dll",
-      "functions": 18,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "066e53d1ebc6e3b74f07a1760fdee4e3fcc0a4faea86ab4a4b7a665b03e156af",
-      "manifest_sha256": "39f47928c4bd1010d9b67c306717756829b2ea719e7734b13821efbe96cad280"
+      "dll_sha256": "e0d08696dd9e2e1cb9f8cd84adc43a44183ed823c3637b24c8493dd21f8912c4",
+      "manifest_sha256": "2e96d01ac75ad052621127fbd0ffd381bb3d0aac0921edf6e8b352cb17c418d8"
     },
     {
       "dll": "000E7000_88A5816D.dll",
       "functions": 48,
       "matched_recipe": "021-SYSTEM/DSPSUB3.BIN",
-      "dll_sha256": "1981ace5d999683d10f157ceed4b7d053622aa4fa3218cabfbb4c34775c3c984",
-      "manifest_sha256": "8bf08b6a14f0ff121918c2393dcf23c112cbe4dab1bbc41f33626db08902ca8d"
+      "dll_sha256": "1a01d096975fc167aa98d3a79e035c000535f2a879f2980b503ec2506e243668",
+      "manifest_sha256": "e67ab16715dcde2d6b88366ebd68733e95f16df112f3114999fe096b55cef00e"
     },
     {
       "dll": "000E7000_88A770CA.dll",
       "functions": 20,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "2d80abafceb960eb945c1132b418ed1810bc0d1ecade9e20209aeb383b956202",
-      "manifest_sha256": "551c66d50e19f76e637fd553f359885d50246d87b280bc29577c6334f0b956e4"
+      "dll_sha256": "0df56a2eb54ac0eb72c7b2b21a2a674357b70a751781844a429b2e175fb51b01",
+      "manifest_sha256": "a80340f89e6d4d5a8e3a97f454acf7b507d5d67c35159e0571828f4c41d9587b"
+    },
+    {
+      "dll": "000E7000_8970FBAD.dll",
+      "functions": 8,
+      "matched_recipe": "011-SYSTEM/X09.BIN",
+      "dll_sha256": "64f1efe62c0e076eb193d5870c7d0588c202ca0dd6b87d9ed87c32696443db55",
+      "manifest_sha256": "f39816825c0cfd382f3b052c499a4f894c56a1e718f66463b5ab5eb7f35b3ce4"
     },
     {
       "dll": "000E7000_8A8438BD.dll",
       "functions": 8,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "cbf98e67d90088f740c06421aabab77d390cedda1282bf4ea3409899320eedc6",
-      "manifest_sha256": "39e8a96d16e1a356908f578d6ffb8941a8f1c029c86d48431b68c8ec31727ad5"
-    },
-    {
-      "dll": "000E7000_8AC71A36.dll",
-      "functions": 6,
-      "matched_recipe": "004-SYSTEM/X02.BIN",
-      "dll_sha256": "09b00eefa87ea64384e910d2e7df64865862b092fafea2a3742b3658d13b6af1",
-      "manifest_sha256": "64431d5dd18cf13f1fac727fb4f66e7d4d308a952064e160d803ccac6f25551a"
+      "dll_sha256": "45180ee126a41a390bedb97348e2cf903ef5be7970f75b893765bd3e43a1ff53",
+      "manifest_sha256": "0ecf6fcd5d5c7d56c4b0b5dc3b939d16b47014e8541915a5fe37617606ecb0c4"
     },
     {
       "dll": "000E7000_8AE92087.dll",
       "functions": 18,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "c78701b4f5b7354a2442a766844a02bd8b62d149032002a6112d7c94b768172f",
-      "manifest_sha256": "3fdd33dda4f1f55688fcbe84bdc2f00404d2c629333ba1bbf693b4230e1c4694"
-    },
-    {
-      "dll": "000E7000_8B8E8F7A.dll",
-      "functions": 9,
-      "matched_recipe": "011-SYSTEM/X09.BIN",
-      "dll_sha256": "b5bae755a83a98e2028b40a98215628b8ddb488e95aa100f1ba969a4a10615e7",
-      "manifest_sha256": "6b28907b1a57ec5616ef0051c23b4bec69ed9b140844f426b8bff94ddebf7381"
+      "dll_sha256": "30063cfc3d292a0337a0d8aaa4f13b268a44491dd0b0fa0b31befcc8b6668ff6",
+      "manifest_sha256": "7e47ec60d2dceca1130372ef3ddc30487ddfe2ff2e7c04ca72b9c850efd6c22c"
     },
     {
       "dll": "000E7000_8C0D5104.dll",
       "functions": 2,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "e31594ef036e90baba37904303ac6d52ae6e9842681ffeca24ae8b00af888825",
-      "manifest_sha256": "3200fc49d0899ddee31ae5d8011fc739482f06f6ae2bd0e1ba3a5e3d5f669474"
+      "dll_sha256": "fc4ac4d46cee9afe2e25e6e98b51a132b0867b4e656d0efc1fb9b7a7e3e50c48",
+      "manifest_sha256": "aa3af8b707182185f40a8fa8aa8b6b89309f57d58f902c4662b9b596522a60a4"
     },
     {
       "dll": "000E7000_8D999AD5.dll",
       "functions": 4,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "4698e2bc93f7360fc5b497a25cdda185646f2b830ff51bdd9ca384cb4cb39aa5",
-      "manifest_sha256": "afbb727ee55263fb6cdfa53f1c3f0504b8e1b2afcea1cadecb764045217508d4"
-    },
-    {
-      "dll": "000E7000_8DBA04E1.dll",
-      "functions": 10,
-      "matched_recipe": "017-SYSTEM/X17.BIN",
-      "dll_sha256": "62fe36ac950de1c55d7ce706b8264d710e24581bb52845058b20c5b7a9c3ee97",
-      "manifest_sha256": "3e4a6e7dbee748350c9f2baacf4660f1f04ac7eaa0de914495a9a35258805dd2"
+      "dll_sha256": "947e095e17efd33857d05f303829843b66346a2eb8a93e64b155a33c39c821a5",
+      "manifest_sha256": "e9797e0980f057295b1c8fd57911a540803ad969ed0cd4da608e0c5882c88c49"
     },
     {
       "dll": "000E7000_8EA99645.dll",
       "functions": 3,
       "matched_recipe": "017-SYSTEM/X17.BIN",
-      "dll_sha256": "8a27526c09568161114c01e01ab9b914573ddb6327ca15cda7523dbb7e347879",
-      "manifest_sha256": "33a78e5239e8626d16b5c44ab855b81155f448cf6a92e34205a5f52576542214"
+      "dll_sha256": "575769a3770ed783571154603550ed936df03b9d6b43db60a6f02e39371db392",
+      "manifest_sha256": "f4759c8eb6ad70093f8bc3cc5b8d7f4ae54a225c0372e1f74c89b1176cf185c7"
     },
     {
-      "dll": "000E7000_90E5F9DE.dll",
-      "functions": 35,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "6ffdfc294974151808182e75f2a27e4485619e27b962c0cb89647f1effcd0158",
-      "manifest_sha256": "751e77f5a41135bb61441164046244b194e95f17a86f79d8cd72f4e63b987d03"
+      "dll": "000E7000_8F42FEDC.dll",
+      "functions": 5,
+      "matched_recipe": "004-SYSTEM/X02.BIN",
+      "dll_sha256": "e388b04d257c62e398d5f3cf7ec2f1cca389ff241f0f117025fda093126000f8",
+      "manifest_sha256": "4e2999e6a2329a58d5e2b4896c214bca6edcb4ba0658d328ff5abc2dda7039fe"
     },
     {
       "dll": "000E7000_916B982A.dll",
       "functions": 27,
       "matched_recipe": "011-SYSTEM/X09.BIN",
-      "dll_sha256": "4f2e6a2a0ba52f2703aba0e6562014e681d58a6032f787c281d21251d34c3db5",
-      "manifest_sha256": "15d0d12e4f660b9b5a32bade2833bb4abf5c026c01973387e4d4354316788d0a"
+      "dll_sha256": "7b06c43927a01525b42f9cc748768adeb85d08c8b6484245229b7f02bfd68e50",
+      "manifest_sha256": "dbb4a8de81855c7a99201ea9de79b618db8b306a548cdcb63d692c021f2a35d9"
     },
     {
       "dll": "000E7000_93B17248.dll",
       "functions": 63,
       "matched_recipe": "006-SYSTEM/X04.BIN",
-      "dll_sha256": "6a14a581c373aaa856fdfd93f407c1e5261f08b17f2662ad6480c0225aa1d2c9",
-      "manifest_sha256": "c425b3f8628a130b1d6eb204b24ce877c09b1623851bc5029e91a49d1939ffd9"
-    },
-    {
-      "dll": "000E7000_942FD39F.dll",
-      "functions": 14,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "f5fe3954fa7f398e339c49df60f347ac85c9ff93c08e3c2af7c8006733545439",
-      "manifest_sha256": "abd3f23245279b70a393e716e98f1f638924867df561992ead04057b47f38ea9"
+      "dll_sha256": "faa234e0e6cfc96d10dbe73e07fb7c177dddcb32ba772b8bc01e8c4a96ed0256",
+      "manifest_sha256": "56a21f41530d6756879bbba870b1dcdb9d95ed1d886bc88f976b1f0bc00e7988"
     },
     {
       "dll": "000E7000_96CDA7A1.dll",
       "functions": 4,
       "matched_recipe": "006-SYSTEM/X04.BIN",
-      "dll_sha256": "3f0fd7883c6042bda411e11effb5c575e7c98d74fb270c49709d5db12679bb8b",
-      "manifest_sha256": "b7f574fa6fcf9890434f8233525a3953c7f9730be5fef6b422be013ced3bcc7e"
+      "dll_sha256": "82d6132bae0eb377f2d79c9a8fdfe45b4fb00cad199dc483c31e21cf8556004b",
+      "manifest_sha256": "7b8786d969e42b248dc24394d7c6c9e729dc72ae2480696c005fb71f259b14c5"
     },
     {
       "dll": "000E7000_97ECE751.dll",
       "functions": 4,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "39c2ac19d2177d1897145ee22a380ffeef3adb77a1181dff18cd4fa07ed600f3",
-      "manifest_sha256": "cad5cb288055dc8d1e043de39ef9fb49b9c460574c1a311d17b6f6982f5de2f6"
+      "dll_sha256": "7fcb4c2705821ace3a131d9ab05daf4ea51a7e31a7eefb1c587a7b96f748fa0b",
+      "manifest_sha256": "36017cc08de42258dab896a17d87217ae6dd9c219e72456ff182525e58932422"
     },
     {
       "dll": "000E7000_98117A56.dll",
       "functions": 3,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "e2eb0e3388b5f6c46877b3eb3bc1e5b6e04b14b153c3e5610465f0918e0642d0",
-      "manifest_sha256": "a0e33efbfc95d6d05ff15f3c3db1f67135fa8cd22c9da323c1215cd30d29706d"
+      "dll_sha256": "93ce4f3dc164d1f3f3d3ea12f5a571253c06d958a522e8ae3cbb3d8db5fd5260",
+      "manifest_sha256": "a6960475a5b0213bd977368a3cb4744c54f51bbe0d0e0800126b2bb7e3735b03"
     },
     {
       "dll": "000E7000_98204F56.dll",
       "functions": 199,
       "matched_recipe": "007-SYSTEM/INFO2.BIN",
-      "dll_sha256": "41d3b923fe7a4ee042550453e376b32f7ca75e0a583268420e109495359ed07e",
-      "manifest_sha256": "cf25c5735e00fcaae0092eb7a0a520978285747fff7f7bb74a8215c05973c388"
+      "dll_sha256": "ad9f79b4625e18be6962a1e66c6cfdc555e70c97f169e298509f069a2a2c8acb",
+      "manifest_sha256": "019ad9b23c363682d1997b86a37fcafeeed7a50f2ab495d9e7327c0cae74af2a"
     },
     {
       "dll": "000E7000_98702CD3.dll",
       "functions": 16,
       "matched_recipe": "012-SYSTEM/X10.BIN",
-      "dll_sha256": "ad2c038eb5ec349148162fa06f162189e08bdd6e3db27559a641f872551b5e5b",
-      "manifest_sha256": "1d474d39fb2d77c70f68319d5af5fe74188c00b4dbe2f04947f0d53d189feaf6"
+      "dll_sha256": "e39bb8650167c928054656de48772004a371760cca8e5c014286e8fcc4f0d2f5",
+      "manifest_sha256": "28b9ae95185cc96ace3a16366dcd50e2279a38e803ebbfbee2fae95a59bc127c"
     },
     {
       "dll": "000E7000_987D0933.dll",
       "functions": 5,
       "matched_recipe": "005-SYSTEM/X03.BIN",
-      "dll_sha256": "ec1dce2809a0bcaa0c3cd22eef87dc7d708a92368897117901551fd518ddc603",
-      "manifest_sha256": "69cde19465ed0bc614e47b8d3c86433d31a96521103363ed9852220e14d90ed5"
+      "dll_sha256": "9695cabae0bd93ad69630d4d02f7667cf01552d053ffa7466e51029097d68133",
+      "manifest_sha256": "1b5afc8d45fd8e0e1faa67d52b2930a20652ba77ab0209541621aa707ccc9be7"
     },
     {
       "dll": "000E7000_98B2C610.dll",
       "functions": 9,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "f827be85889c056bde169cbc3a1f71e46ba64c8a6351c9572f3f5451b6c3ccb5",
-      "manifest_sha256": "8d2c7fbebf6db33eb5993e587f646265d4366096e3ee76cd0fc9e12205f7a271"
+      "dll_sha256": "3ae0af95bc6c1e7218f79931287c2446a542d9bd341857a06150265f332d1bbb",
+      "manifest_sha256": "65255c923faffe2c8d91248a876e0f2303672ae7bda904b769bad6a7318771a6"
     },
     {
       "dll": "000E7000_997E4D47.dll",
       "functions": 14,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "523286a13962e65451367e0fb7c77fa8b157a687a50b1ef1c33aee79765cc647",
-      "manifest_sha256": "76087466c76daec117bd4a6638d1444ca080d6db0c39c40b470a66e3ef780808"
+      "dll_sha256": "30eee4a17b207fd6780d6ab81492b3c095101f7701b74afe239955c99a96d902",
+      "manifest_sha256": "fee0eca85808212d0a776571649e7492d24503d09133bbeab5e29c04515f6644"
     },
     {
       "dll": "000E7000_99F1347A.dll",
       "functions": 32,
       "matched_recipe": "006-SYSTEM/X04.BIN",
-      "dll_sha256": "a6610070aa58984a705723b8a264c73a74e8a4fc39010fcbb62d61165af58011",
-      "manifest_sha256": "c3a08f2e5936d724e36cc6a604517e6d0beda1f00c92c2708f75c667114543b6"
+      "dll_sha256": "3b0585c0bbedb01515c4b6a1da1d72532a2feb8f15fec04eb1240078e33b43e6",
+      "manifest_sha256": "c17fc818ff2a261b3e7787cde07ec591495517530b4d8a803b2fb8118c3ab694"
+    },
+    {
+      "dll": "000E7000_9B174C3B.dll",
+      "functions": 11,
+      "matched_recipe": "004-SYSTEM/X02.BIN",
+      "dll_sha256": "edffc2a47ea5c535f3504f78467a2c3fed5e5c0c63561508db95f3564a9a0cc9",
+      "manifest_sha256": "2b4e92afe51ed39247176087ab41324cb14865504994d961cf1b0552f2c9f0b8"
     },
     {
       "dll": "000E7000_9D39520F.dll",
       "functions": 16,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "8fe379d6c2bddbaaf4ec1f2e7aae192ad6b2e37674121725fdd8a0aaed1c6b70",
-      "manifest_sha256": "b27ddfd25c4bf4aea12fcc7ce6dc4d3ffc3d4c6b3a8d6762d4f627e7ca28c04c"
-    },
-    {
-      "dll": "000E7000_9F4DA3F1.dll",
-      "functions": 65,
-      "matched_recipe": "009-SYSTEM/X06.BIN",
-      "dll_sha256": "2fff33df2eae540035d1e557a9b0265f48b2ee08f9c2a4d402b0c0ec64b92333",
-      "manifest_sha256": "531c374e953bbefc5e43504fecf576d75fca51ce31756030e4128657d3fdfe30"
+      "dll_sha256": "53c845cf514a927c819c268a4a12251c5d7654efb8223a7dfabbcb6609d2c51d",
+      "manifest_sha256": "ab629a7866a9e0a7acb4c4bbcc1bea7afc04c426d349cc7d70629b67d1338da1"
     },
     {
       "dll": "000E7000_9F8D679C.dll",
       "functions": 27,
       "matched_recipe": "012-SYSTEM/X10.BIN",
-      "dll_sha256": "7fd094a211990fdf10a09f760db6242d5cf5572fffe35a68f86139010339abb6",
-      "manifest_sha256": "000738bd55cae04d1708fc500c7cc29b8069b28b5bcb3d3d133914642b1f0820"
+      "dll_sha256": "6d30eef450b4a3ba4afa80a5597ae83078ad43b04edabdee75b1d67b01c14708",
+      "manifest_sha256": "efc6dd3f73f6fdc0570c2f9e42972ace8cf0c708e4905e2fa8e63f7ba6a6b7a3"
     },
     {
       "dll": "000E7000_9FF68199.dll",
       "functions": 2,
       "matched_recipe": "013-SYSTEM/X11.BIN",
-      "dll_sha256": "48ad6140cfdbb42103df9f3d3d5060a3ecdf1a3d1c5e055ace82cdede062dfd6",
-      "manifest_sha256": "43f5c2e385fbb302148b6e8c51b77fe9fadad3743449d956fc241865d6973468"
-    },
-    {
-      "dll": "000E7000_A009D723.dll",
-      "functions": 20,
-      "matched_recipe": "013-SYSTEM/X11.BIN",
-      "dll_sha256": "12a2973ad3dafce5bfbfa6a97b13b4d2d903935cbbbe61364caeb49d9b337060",
-      "manifest_sha256": "d63789c2fdf519126547e9807c011aa674fbd4d27fbf3d1db52ab4feca6bb443"
-    },
-    {
-      "dll": "000E7000_A219F905.dll",
-      "functions": 1,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "f44461adb309dfdd15605619b6f027b8e6d351333fedfb9efdb3facbb0d049cf",
-      "manifest_sha256": "a11f434aaa829a657ab8d1a2aed5408808bee4996afd734af9a714919afb3aae"
+      "dll_sha256": "c9b148e3d4c281e7102efb44802e883cc260ef6d95a27bca28010ddbd6a8557c",
+      "manifest_sha256": "119b517b0aacd4e761936ab1be00fd8bbef52d837aac97312510f70d49f89d5c"
     },
     {
       "dll": "000E7000_A3B5C77B.dll",
       "functions": 6,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "0908028df39249e09f0963afadc629dc7863e0027411a9700e2a1b6e4d8b6f38",
-      "manifest_sha256": "daae8ad178277f43ed79a44d3fbe5647ad30ab59e041be2f17588f23e3a7ea2e"
-    },
-    {
-      "dll": "000E7000_A416F929.dll",
-      "functions": 2,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "38bc2c5cdfbf7c9a12d0e71f7c54df63d32e46e3bfe0eb30e2dd8f3159c1eacd",
-      "manifest_sha256": "502f8f291727a0555dcc7c4713085d9d740d1fc5155035d43db7b46696855292"
+      "dll_sha256": "74c3031390716d35c20589e0eb4be72295771cbc61c1684cb553258903bd6a5c",
+      "manifest_sha256": "6fb80e4920bd6e138cca2868d1aa4c08fdb5ce466311415b7ba1bb41594f7560"
     },
     {
       "dll": "000E7000_A43DD757.dll",
       "functions": 8,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "deb5c7fc2e6d2b2e1c8f6156942eeda59586a38a085a55835164ac181ea9f70c",
-      "manifest_sha256": "d9e9eedbf3ce4f04cab55718ea56222e4f1ab7a6dac9391c944f7b44fdab09d4"
-    },
-    {
-      "dll": "000E7000_A47EC95C.dll",
-      "functions": 9,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "9453f343c50ce45ae670a8a25a2845e1e4e95ff49a6b68dc0519e7021b8d9819",
-      "manifest_sha256": "a7a1df392f0b4ad763866e1658f07c589777832d386d6cce79cdaf95fcde25aa"
-    },
-    {
-      "dll": "000E7000_A59BC599.dll",
-      "functions": 2,
-      "matched_recipe": "013-SYSTEM/X11.BIN",
-      "dll_sha256": "5637917bc9b97a1d2079a51d876cde45cfe0cffbb2d7555cd099bfc7726bf5e0",
-      "manifest_sha256": "c6890139622c76b77529a52348681e09b20cf834a7c7bd5ea7de4c979d2e288a"
-    },
-    {
-      "dll": "000E7000_A6EF4302.dll",
-      "functions": 2,
-      "matched_recipe": "018-SYSTEM/X18.BIN",
-      "dll_sha256": "ca9e3af08d03b90c26ae0397125f8e3fe098d636b7a52b870e6c69cc7039a672",
-      "manifest_sha256": "307f79ce9e712937aa939dc16bba32c36bc42fd501ba97dbd88b12c3b5ab814d"
+      "dll_sha256": "3e8533aa567009208218030c37cbd447fc68c275ba67dad162c4d1a4244dc88e",
+      "manifest_sha256": "ff776c5c5024f013c75f7defccdb47d7e61cb4ad40eeda45d46eca8b7d971423"
     },
     {
       "dll": "000E7000_A7626755.dll",
       "functions": 4,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "bceb624c5c73f19177cdecd9636cd5f105d2c6428af6abada80075e8547ae4e7",
-      "manifest_sha256": "afbb727ee55263fb6cdfa53f1c3f0504b8e1b2afcea1cadecb764045217508d4"
+      "dll_sha256": "4d3e11fa9c6ac1e94e7e0ec1c1a0c4f0aec2a84f876aab95cd386732dd626916",
+      "manifest_sha256": "e9797e0980f057295b1c8fd57911a540803ad969ed0cd4da608e0c5882c88c49"
     },
     {
       "dll": "000E7000_A829A342.dll",
       "functions": 55,
       "matched_recipe": "003-SYSTEM/INFO3.BIN",
-      "dll_sha256": "b544648a2947f976e80a575914c3da5b6d843e64ccb770bee2d2cfca2be0225d",
-      "manifest_sha256": "521ea3174be55d5c3717064b80b6d51d69dff9d186ca920b0b35853768c3dbc5"
+      "dll_sha256": "d74e3d31a96a7e74c3087edb0cf06f2890a62bbba7bd556966884c9ead35356e",
+      "manifest_sha256": "11c69b83a6504e71c58a866315f4ac9ac8abfecc2487c449587411581ed6da0f"
     },
     {
       "dll": "000E7000_A8A9D193.dll",
       "functions": 98,
       "matched_recipe": "004-SYSTEM/X02.BIN",
-      "dll_sha256": "5707264e4c1aa392a974d2adcfd030062cb2abe2e2804f346fc84980b16f71bd",
-      "manifest_sha256": "f18da5dc26605106803408ff8c9e597ed61e646d7b52cabc81d07ae907fe6e0c"
+      "dll_sha256": "42ac1b25ae8d8aed144f2dd85a3f14fdca13369dfa809c54298ed9cb2f9ea645",
+      "manifest_sha256": "2168057532e392cea357b133f804cc28bbf7406f236a1096b6c696003c70aa72"
     },
     {
-      "dll": "000E7000_AC1A4111.dll",
-      "functions": 1,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "3accb95a92174bb02865a094b371b62b0ec480f0766fb4f00c4695814fe6b81e",
-      "manifest_sha256": "bf7376e3b98b6ed424ad5e21a888f922ba6649565d59a5859a4edb1c0f8450da"
-    },
-    {
-      "dll": "000E7000_AE3F329A.dll",
-      "functions": 22,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "4d13acfb6505efdf3c695dfadf1bfa3d93ca5a4af338224cc1e7a87ea0535649",
-      "manifest_sha256": "76b214571f7cc73c387ff609c3705b0566989c5075472f867f362caef0c9f9f4"
+      "dll": "000E7000_ABFD2842.dll",
+      "functions": 122,
+      "matched_recipe": "009-SYSTEM/X06.BIN",
+      "dll_sha256": "b97811e7b1db42c36da7bd46262f380def7cc2b9bbdbc8f57fc92ae11169a2a0",
+      "manifest_sha256": "db7df43305d95bd979ffbd3c5538085d9c510207444c56183da87514366f64c8"
     },
     {
       "dll": "000E7000_AE800A3F.dll",
       "functions": 38,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "42014b8c2dd6083f53936c9f3658b52cc36e98d334c3d63f3849ff1ccc6f0085",
-      "manifest_sha256": "dd1bd923818393f4cd34f9f9fe2e146fe5e1fab3e5967e86286140c0379689e9"
+      "dll_sha256": "86045e1a1b7d3bab8772de4942f6c1a86fee2402a92c5da2f2d5a4009fe70c2a",
+      "manifest_sha256": "676c0707fbb81d9d1b6899b148f97898112c3aa3327a5803f4a9d3b497731663"
     },
     {
       "dll": "000E7000_AEDD5718.dll",
       "functions": 4,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "8ecf0b1297021c5b461ce6a582abae9635a542612cba675481edeb11ccd69a40",
-      "manifest_sha256": "0994137f27015475d8900dc9354627b8e3ff762b3300dec6bc18e6d0f63788e9"
+      "dll_sha256": "cc1796c1f146d33523323cdf5af7e872cf4f35948de3c7a0b11684962c2e5cdf",
+      "manifest_sha256": "aaf64825f8454591e4351b95729ddf47514414b6eb6497206cbcd68869a01567"
     },
     {
       "dll": "000E7000_AF627F83.dll",
       "functions": 1,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "f579abfadb9e6465d0470ce9472ac9468e00dbb1d47b2c786d08d028f9781791",
-      "manifest_sha256": "4057df4ec59a1b230e7ebb4e7cde59d918c21951ee7e1300259a7f34e94ebeb8"
-    },
-    {
-      "dll": "000E7000_B02CA43A.dll",
-      "functions": 11,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "fbe60c966cdfc019c9424e8fde3ec7ac796aacbc177619eb31760d2b5f723ca4",
-      "manifest_sha256": "f1635382979d4a7119543be8808e4dbe8d69d8331833de6783d278a0e8c77340"
+      "dll_sha256": "1d2e15d552a0df01a10336fd02a8ccd9b0289d41a7739e91c4fe7298364cbfa1",
+      "manifest_sha256": "39b9a75a8ec97fb2f33e047f4222f7f435d0ac8980d31f5f9c15c1f7af0bd046"
     },
     {
       "dll": "000E7000_B28C278A.dll",
       "functions": 140,
       "matched_recipe": "006-SYSTEM/X04.BIN",
-      "dll_sha256": "c6da6381ac3bc84b0af16b820a070fcb1c621be8c54d46b9687b8bd15902eeeb",
-      "manifest_sha256": "2d821c915eaf9a80e3b8eb7c117247f55e43786638982dc22c33a629593b2950"
+      "dll_sha256": "f31439e4feddb4a776bf390423f2172da7162ce0101d2351c10e0d0384ae60b8",
+      "manifest_sha256": "234c7083b74b79f6b1c4c5296d702e1c719cfe4e1f9b57864262d5c0e577e65c"
+    },
+    {
+      "dll": "000E7000_B3760E10.dll",
+      "functions": 19,
+      "matched_recipe": "013-SYSTEM/X11.BIN",
+      "dll_sha256": "6ded5ae24ff699fa2ae5d88f94c721c44f69117414cce4048a2e66bf5aa97831",
+      "manifest_sha256": "cb999ae76dfa1038dca1c4bdf89fae4907386d475af2b4f3e7dc74a27dbce052"
     },
     {
       "dll": "000E7000_B3F42780.dll",
       "functions": 2,
       "matched_recipe": "018-SYSTEM/X18.BIN",
-      "dll_sha256": "4afc118fca081351376e9fb71052327ac992a3099ad5219773e1c3cde54769d1",
-      "manifest_sha256": "5764584aa63a9fbfaa4fb1efea8684a1077c6958718628284375f411c6bcfc4e"
-    },
-    {
-      "dll": "000E7000_B400BDAE.dll",
-      "functions": 45,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "eb414f4c36d7cf4c672d76026ab4efb77c355e67db071ba64d645ddccd6bb989",
-      "manifest_sha256": "9fbb19af31e277a65c9f2e1140ed16d6df5f4f180d3e499379da0b7f849ee585"
-    },
-    {
-      "dll": "000E7000_B4DCDFAD.dll",
-      "functions": 5,
-      "matched_recipe": "009-SYSTEM/X06.BIN",
-      "dll_sha256": "2e59b62598d2836b38da66b8a9c65543898d5f8420efc8f37918f39ebdb3c501",
-      "manifest_sha256": "b77d5905f2c47a06227fadc71eafc05ca58374d499ff56a3f4abafe2c7e3527b"
+      "dll_sha256": "821dbd867857a5c0a5dcf5c4b29c49227b1ff1618c8da9ea597f739d01956b1c",
+      "manifest_sha256": "ee14e2cfb7abe5bb9a86e8065c8bdefada032bd0eed60404ecc9ee09f1974f12"
     },
     {
       "dll": "000E7000_B5255A7B.dll",
       "functions": 5,
       "matched_recipe": "011-SYSTEM/X09.BIN",
-      "dll_sha256": "971bb87584615f455a4112dd03575009d8979487b35a5f756698898cf4146250",
-      "manifest_sha256": "d054976ab61e0115b2fb7ba78fa02628b8fbd621ebcd295edf8aa7523d46d82b"
+      "dll_sha256": "f16d11da48c2197331ad4414b740270954454ab1bee9c88ba84d6027f69ce00c",
+      "manifest_sha256": "843e3d555ec8a2f3ab3d94496b3f29f45fd68fa08fecb460d2bb486f96eac28a"
     },
     {
       "dll": "000E7000_B682C1F8.dll",
       "functions": 27,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "d471bbe5da6956c884fcc05596143e45f1571d4cc7b191ef9d265be2cce7b49b",
-      "manifest_sha256": "8da459104c2a74cb00111713c2ec14e215145bb1efaf6ee1ae9fd0420eeb9af7"
+      "dll_sha256": "84309e400d3c4ea55d47854096349c2d05927b3ff6cecf91a90e2134e197820b",
+      "manifest_sha256": "ca91a85d6324a9ccec98624108e6243a47132a1e92e9531bcdf71827d7db67a4"
     },
     {
       "dll": "000E7000_B7D6B71C.dll",
       "functions": 2,
       "matched_recipe": "012-SYSTEM/X10.BIN",
-      "dll_sha256": "2c471ca4140ba49b4d892cfc338dd1fc9cdd301cf8789006d6af35e4a070417b",
-      "manifest_sha256": "340d03ecd8df0f4bb00ca930561c21fe64c24c6542661d4cea05ca79ef96ff5f"
+      "dll_sha256": "01bb1ced8d68b5f68ce280d1d96ca49ff5ba088a35efa6ef77583f63d4d18f37",
+      "manifest_sha256": "394028e8393820983566eb180a688c44a8aa5b8f68b5a0cd8aa4ee74711098a0"
+    },
+    {
+      "dll": "000E7000_B8B1B996.dll",
+      "functions": 35,
+      "matched_recipe": "000-SYSTEM/X00.BIN",
+      "dll_sha256": "19a1e66b92a0bc8ddfa08b7351d6258490095a42a29bfd24d4d24706e99ae4a5",
+      "manifest_sha256": "600624dc866d7aa944e4b50e44e2a5ecdf39b9db156c2af222a373e7982d4590"
     },
     {
       "dll": "000E7000_BB44C25C.dll",
       "functions": 3,
       "matched_recipe": "006-SYSTEM/X04.BIN",
-      "dll_sha256": "398e001967792538df7acee14b0c8be60431ce255b69323d8be14b328ea50513",
-      "manifest_sha256": "02c622083d30589a4e2a81bb78c359df72edd2540a8bf957e115d59a6e8b465e"
+      "dll_sha256": "90f027aebcc32c37f20aafaef9bef2354e9abe12e019cf7946bf67c0e40be20a",
+      "manifest_sha256": "fb4904cbf2392cce6cc0cdda5f9e8916e4b7a33a86970df46e89da1f4ec7a96e"
     },
     {
       "dll": "000E7000_BD2644F8.dll",
       "functions": 68,
       "matched_recipe": "005-SYSTEM/X03.BIN",
-      "dll_sha256": "f3af5f66f754e79bbd337c4594e12a47c5aff7f8c7220357a4ef471749ab1770",
-      "manifest_sha256": "d2c0d1d082c78f86a7572ef718b1dfc9dc4cdf7fc20efc3665c3682c2d19f30c"
-    },
-    {
-      "dll": "000E7000_BE920E41.dll",
-      "functions": 113,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "9976c8966e41bbbf7717c099cf100ff58b68f69053faf17190025f10acec0051",
-      "manifest_sha256": "f84fd66549c38a3b273d52c714c13f7339c63e47efb5a2fae33ee7b836dfb9fe"
+      "dll_sha256": "2d525320ce3d26c6b8ab26cc5e2f3d7bd251a148e0444ff6f8710e885a20eb39",
+      "manifest_sha256": "fcb58dae7b9495d42e6a32bbba90e048ede24b6f8d046afd2f13eda5c5207f85"
     },
     {
       "dll": "000E7000_BF6D5912.dll",
       "functions": 1,
       "matched_recipe": "012-SYSTEM/X10.BIN",
-      "dll_sha256": "17867602ef2197fcb48bc781eba0e13a3bb779c9a5c11aaf0d744faeb3141cc5",
-      "manifest_sha256": "12406b9dfb7d9fb63add30734964060f78592b7d8a895d45018a81079261ec4e"
+      "dll_sha256": "d4428bc0713207b553fea794c9c1f67ec309910115584dee64881f40fd7c21cc",
+      "manifest_sha256": "e3b0a8ca5c73eb905ac07f6dd0bc3ff93cce0d9e231d4bc4364d4d5f9c3eb1a8"
     },
     {
       "dll": "000E7000_BFE41C9A.dll",
       "functions": 6,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "e61487cadf52a70ac00cf20e0d7483fd3f8619c55fcf1e1a35233d36ada7aa22",
-      "manifest_sha256": "670aa3b177bc76037ef41e52413689f98e547f71c27c5a7e2993cd7e4afa9711"
+      "dll_sha256": "6c985bc3d3ceebcadf0526dca1835c433905aacbc26bac2653063fd9011a177d",
+      "manifest_sha256": "ad6b8e74cfa595b0c9443c8656bc0d1b925058659916ed5fc37361c950989743"
+    },
+    {
+      "dll": "000E7000_C11E5BEA.dll",
+      "functions": 6,
+      "matched_recipe": "017-SYSTEM/X17.BIN",
+      "dll_sha256": "fbca96cd50438327131d355d2cefa7151288eaabee38df8a9da3f08342347562",
+      "manifest_sha256": "2fa942c72775a84e2b66570f493ce6f9405349c5cba390909514ded4cc8ab9de"
+    },
+    {
+      "dll": "000E7000_C1BF0F2D.dll",
+      "functions": 3,
+      "matched_recipe": "000-SYSTEM/X00.BIN",
+      "dll_sha256": "bcb8417eaf523861f134c9bb0e7528c5f6db4c10e3329e143237f02cd915e157",
+      "manifest_sha256": "7ac245a24d9f1dd51cd15ab304cd908c77e8ac27df657028e953c0152389b657"
     },
     {
       "dll": "000E7000_C3A2F7A6.dll",
       "functions": 9,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "bc05f32a1af7a2e40dba1e9fdbbd8ec7b7c237bf565a85267682b98eec2d3428",
-      "manifest_sha256": "8e59b26e347ef575a5888fe3c9be327405a5a889d5c355d19502f331b2b5c0e6"
+      "dll_sha256": "a5237da2d55485d2400f9def37e69ed676195508dc9e5dc02418e55382a3ffe8",
+      "manifest_sha256": "692f34dfb2d73320eb998757223d157a3d3039bc45004f209b684a8f3224f395"
     },
     {
-      "dll": "000E7000_C48A86AD.dll",
-      "functions": 5,
-      "matched_recipe": "018-SYSTEM/X18.BIN",
-      "dll_sha256": "a685fb9ee447fdcb097fa63ede47e68f5b17776080b67bde825cfb98073810bd",
-      "manifest_sha256": "52f864db55e8c33cf03cc9e67c99e23babbc563ffe73b8c3df83e95a0f31adbc"
+      "dll": "000E7000_C6401908.dll",
+      "functions": 1,
+      "matched_recipe": "017-SYSTEM/X17.BIN",
+      "dll_sha256": "ff4bcc1a6ed177d8e50a164cddcfcafb650232f371eeefb2dce0570bf05846c4",
+      "manifest_sha256": "6e4d118b737d8a93a3b72de0b188361651e1a69003a0f908206beab9a2cfa317"
     },
     {
       "dll": "000E7000_C6808637.dll",
       "functions": 33,
       "matched_recipe": "005-SYSTEM/X03.BIN",
-      "dll_sha256": "cf4388701deaef3b42ee53f721e9eb8b28f05ef28f514bf910276dbebf0d0b38",
-      "manifest_sha256": "8123b1cfebcfd1ead3f10965b1699d3de337f20a1c9f8bda439f7d3e165fd442"
+      "dll_sha256": "67c9a71cfa53fb1a2f064f7385369317efc664cf7c37b31ac41662e76297c91b",
+      "manifest_sha256": "d36c65b790fdf69d8ffc50df929ae8576d290956f6461b964299ea774c2fe7b1"
     },
     {
       "dll": "000E7000_C6824898.dll",
       "functions": 9,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "5ad67c3f899b989a392bcd29316cb5136a578c7cd745b84bf1d7ceda04edbce9",
-      "manifest_sha256": "986acf640b62abdc5a717b421c0626dfac7c990ed52abf7f2067558f99460f16"
-    },
-    {
-      "dll": "000E7000_C7296344.dll",
-      "functions": 1,
-      "matched_recipe": "011-SYSTEM/X09.BIN",
-      "dll_sha256": "939c0dfec72efad87eb760bb028c26ce92a62f84b4eb81d37065066d7663e5e7",
-      "manifest_sha256": "e65c06c655f471c3a5a97eb6bf51e3dd50554fc1f2aef7fc9cde183a7a6dd3ea"
-    },
-    {
-      "dll": "000E7000_C7A6B57D.dll",
-      "functions": 2,
-      "matched_recipe": "017-SYSTEM/X17.BIN",
-      "dll_sha256": "19cbd7ea582de33914dfa72472b920acb29e0c637c04971dc60c6d8128ac7863",
-      "manifest_sha256": "5af5e387c7a4e4b52b3766692cec5bdab4807da6c4424f1f130602d0f6833acb"
+      "dll_sha256": "02b7c26020f9afeddcba349e8149d3e0b3d3c0060956035b3e9db6d763a5f406",
+      "manifest_sha256": "2b458f6ede85f15a1a8401820fdde7e6e73e355e9a92310917ae5b8da4453c83"
     },
     {
       "dll": "000E7000_C8D35623.dll",
       "functions": 11,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "300575c18326d8f6600bfea503b09f743f4d0ca34643c7ff1e5e1d2372bbd77a",
-      "manifest_sha256": "c4ce962cb42a9cb4f2d29d9ce0a527ec57c7cdd27e5d9a7b2840efba0b35bb1a"
+      "dll_sha256": "6f32d24da1ea0e7989e1177b86e9d999041e880806647e2e529c1834ca24ac93",
+      "manifest_sha256": "6384d62d0999686748810653c779795f569aef31d42f78bf43b137457b398f38"
     },
     {
       "dll": "000E7000_C903A881.dll",
       "functions": 263,
       "matched_recipe": "011-SYSTEM/X09.BIN",
-      "dll_sha256": "c4fc37fd7c01b1c7f336082b36c36626f63ed7b2659573ce6238fa8134d2bfe7",
-      "manifest_sha256": "18de0fe78cb8ee1af68130a08093770bd2be84f1ce6299e9a5377552f8ba8f86"
+      "dll_sha256": "71cab0653ecd7ab4d40bdb5e20a8a5b3c36016857186c7db57ce1345f1e05a5a",
+      "manifest_sha256": "4c74de545104d853fc8d3250f2c407a68a5e28717dedc48391a703dc2b24f4e8"
+    },
+    {
+      "dll": "000E7000_CB5E5E5C.dll",
+      "functions": 6,
+      "matched_recipe": "004-SYSTEM/X02.BIN",
+      "dll_sha256": "df88847e70223ad5563bb82c6794698cbc7c8fb61d84dce501da796dd54160cf",
+      "manifest_sha256": "33045b359262e36b944aeec39938f8877805770c13bf783219db55b6a15d4b24"
     },
     {
       "dll": "000E7000_CCAB32F3.dll",
       "functions": 4,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "10086717db9754989b1ed791efcfcc5ee8ad81c0773dd5a459c30e04558b94d3",
-      "manifest_sha256": "afbb727ee55263fb6cdfa53f1c3f0504b8e1b2afcea1cadecb764045217508d4"
-    },
-    {
-      "dll": "000E7000_CDDF0F7C.dll",
-      "functions": 11,
-      "matched_recipe": "018-SYSTEM/X18.BIN",
-      "dll_sha256": "bad90a2a4647ada03e2ebd1b4b5837eb887a4e786bdce0ea47b479fde9d1998e",
-      "manifest_sha256": "a5edf6dd68e1e9263b3701a5bb62fe547c5ce799afaabfd0f43ff077fbec3eda"
+      "dll_sha256": "42201873d2de1959f0b8f533fa0fdc88e23a300aa22248255863dbeb31ab4cb6",
+      "manifest_sha256": "e9797e0980f057295b1c8fd57911a540803ad969ed0cd4da608e0c5882c88c49"
     },
     {
       "dll": "000E7000_CF67D646.dll",
       "functions": 4,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "afdb97279b5c2c5cba30691b6783b4caecaff6fe90269756fa584f1c9408c72d",
-      "manifest_sha256": "afbb727ee55263fb6cdfa53f1c3f0504b8e1b2afcea1cadecb764045217508d4"
+      "dll_sha256": "437c943ec595e7e3aceb20ec4f3562bdef9c42089ab06737acd9cb7a21aa0f37",
+      "manifest_sha256": "e9797e0980f057295b1c8fd57911a540803ad969ed0cd4da608e0c5882c88c49"
     },
     {
       "dll": "000E7000_D1DCFAAF.dll",
       "functions": 274,
       "matched_recipe": "012-SYSTEM/X10.BIN",
-      "dll_sha256": "0eafea9a1938c9ecf9afc6173f9a73bff57e9ff2d5178044ecd878b046d9a92e",
-      "manifest_sha256": "5e89fdfccca6da32566c45a5c1e33f5f6d27d10610292122d9c043ebaa6e6e08"
+      "dll_sha256": "000d7c59a4cf7dbd94cacd69e81061cd417c2223794c8c11050172a5fcdfdf1d",
+      "manifest_sha256": "566064857701e70c8069c8992bee0e03f46c399b0745a43eee49e26c67289c22"
     },
     {
-      "dll": "000E7000_D4536CE9.dll",
-      "functions": 1,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "f3d8bf955c5969890829853d088c4c2a851d02d70acbe6ef79dc066ad409463f",
-      "manifest_sha256": "f1b7013898c635aa49a3ad0d8041b38b4dd932df3399909d114a63b381b19041"
+      "dll": "000E7000_D41EE5D4.dll",
+      "functions": 12,
+      "matched_recipe": "009-SYSTEM/X06.BIN",
+      "dll_sha256": "01ae849194afb9211367bb48e6d5b1205126d88644e9e0060d588f7f5f7bdb93",
+      "manifest_sha256": "2ddec1fd7e353b0e28d1cb1eaac04f68ca156a1edf38aa94e90e17f930667f10"
     },
     {
       "dll": "000E7000_D56179F9.dll",
       "functions": 4,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "7dcee16b0e3a3323a8fbfdde043d46fc380cf3bc7683b564281fde31a4d4d6a9",
-      "manifest_sha256": "afbb727ee55263fb6cdfa53f1c3f0504b8e1b2afcea1cadecb764045217508d4"
+      "dll_sha256": "d78e2afbdb0f5506b1dddb54ea5db7c52f2f6807e98d8569ac1a64f06426c0e3",
+      "manifest_sha256": "e9797e0980f057295b1c8fd57911a540803ad969ed0cd4da608e0c5882c88c49"
     },
     {
-      "dll": "000E7000_D5675496.dll",
-      "functions": 12,
-      "matched_recipe": "009-SYSTEM/X06.BIN",
-      "dll_sha256": "67b8ca249d44fcc27d75403ed9ea7473be5503e2b3000e4c61e854f16c0907b8",
-      "manifest_sha256": "968888581e524faa5539f953a3c7a831de3e04c937b669f1d7cd7562c398ebc1"
+      "dll": "000E7000_D5739602.dll",
+      "functions": 4,
+      "matched_recipe": "011-SYSTEM/X09.BIN",
+      "dll_sha256": "2b157e089c90fd72d568d807c184379d68fedc86c8694183064c3dcef1a14e04",
+      "manifest_sha256": "12a55bebf4d7de49b49f3602de83a1df97f15d6c76d29cb9fa2926a6d312b8dc"
     },
     {
       "dll": "000E7000_D7DFE570.dll",
       "functions": 1,
       "matched_recipe": "004-SYSTEM/X02.BIN",
-      "dll_sha256": "9788981f9250781cf09cf6e5944644392cab892a9d75111ff920784aa33e56f3",
-      "manifest_sha256": "c1607fc1bbabba1291df211ebe7470ce0c5857fcc216da1394428b0f6fd2e5d2"
+      "dll_sha256": "cef58d215956cf09cd82c558ddd0e18fd3ae28affb6021db0de7bed3009ba5c9",
+      "manifest_sha256": "28a89b279bd80a4287fee041d880c4809d26c409849f3bafa3d5ca5ddbf3c121"
     },
     {
       "dll": "000E7000_D7F1D791.dll",
       "functions": 37,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "56ecdeba88c603ecbab6e06f36e05525d8029baf541c6ffb86a06e524d52c553",
-      "manifest_sha256": "291420f327c2619869d594ce45607e97f39187488e7488b7c46d8aff8bd3a928"
+      "dll_sha256": "738f646b4ccb8f527697616f5e9c10903a1762ade3eedde6bc022aa188a1558d",
+      "manifest_sha256": "cbc31e9ce78f79ddebd5186cf72d13c3e8090064ba22dc453f60a0566dc2adcf"
+    },
+    {
+      "dll": "000E7000_DA566B97.dll",
+      "functions": 2,
+      "matched_recipe": "013-SYSTEM/X11.BIN",
+      "dll_sha256": "005759a6f15d149d934b5dd989f46ed11e6cdecb8a51675bf1df5348bab49521",
+      "manifest_sha256": "a074c7bc8efeadbff230fe65e1526accad41d196c0b846bc6f03f7db79c52458"
     },
     {
       "dll": "000E7000_DA691C38.dll",
       "functions": 19,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "8d01cb9561b95716970fc2246a549e6dcc833252ba97a7c4b9c18cc930e7b961",
-      "manifest_sha256": "50cab5686b92613eab7b4f284537805c0f27265bbf5ceccb82e366f11524c61f"
+      "dll_sha256": "737bdb8789d5addc6963cdf8f78f66f851a4a0452eb7b50b42dbe3b1835220c0",
+      "manifest_sha256": "333c377e76d238ed862ca737fe0fa668d1edf194c181274bff05fcb5e03b6fa2"
     },
     {
-      "dll": "000E7000_DC7DEB90.dll",
-      "functions": 42,
-      "matched_recipe": "004-SYSTEM/X02.BIN",
-      "dll_sha256": "dfcba54806e721222bfbc982146e54c1135c622060197769697985e0151fa708",
-      "manifest_sha256": "01b27fc0e1c6189b025895760e6bc612dab06708c47ccb19e59030248a3149bc"
-    },
-    {
-      "dll": "000E7000_DCA51E7B.dll",
-      "functions": 1,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "8a283ed5e0abf2b1b290db89164982d3cb2dd499d5e354c8c3d677cb85265bfc",
-      "manifest_sha256": "278681cbe09c26e280172b37927a92ce116959a47ad1e188513e679a6bb9febb"
+      "dll": "000E7000_DBACD4F9.dll",
+      "functions": 11,
+      "matched_recipe": "018-SYSTEM/X18.BIN",
+      "dll_sha256": "6ebd946b3eafa52bf84302965744325c87e9ccda2cd2e7e9379ceffeefdf018f",
+      "manifest_sha256": "f132da8bdc9a443f7436a7e238d7280c44cfb5139db403bb74affbd58bea320b"
     },
     {
       "dll": "000E7000_DD275667.dll",
       "functions": 53,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "26bffa4bacab9017efb26d7819f3d3c76ce53d37336637a26a7a840a6f282d70",
-      "manifest_sha256": "ed544022daa4e70cec53d6438ea0bf330cb2f6baa045a786b32401ae49c0e96a"
+      "dll_sha256": "b0fa036b54fd0a6b703eb6f564bf28783021be4bc32ea57d5da172f18966cf3a",
+      "manifest_sha256": "39d1c39101f7df9a770c629a717de90efd9c4ec24d7a41e4ce124369b69188e8"
     },
     {
       "dll": "000E7000_DE042716.dll",
       "functions": 13,
       "matched_recipe": "005-SYSTEM/X03.BIN",
-      "dll_sha256": "0f1886a65692a01cf7870658bcf3421accee686ab5fce3ee478ff28c39958e60",
-      "manifest_sha256": "32757c8ef9d78a795e8e1c244cf8f952de364b5eccb305dd77af061c568db22a"
+      "dll_sha256": "9b45ed79795382b43e3bb8021f729364fbab4b1cbed7a5a7cb19f58a797bc378",
+      "manifest_sha256": "a810e7d10ee239f5b01437f3119e4322560f39d84f80b883f0a46dffa918dfce"
     },
     {
       "dll": "000E7000_DE6F5B89.dll",
       "functions": 6,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "94e80cf451a1f9db5c36d959bad9b38de9e4416678faf28469502efffc84b4b8",
-      "manifest_sha256": "738139ef5d810baf341aac643955857a9528a8a0f0fa66b569981db9cde5d12c"
-    },
-    {
-      "dll": "000E7000_DE6FA73F.dll",
-      "functions": 12,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "cccf6f6761f7feac6cddb7d3d7e13def8483d2593c1042d368556d3885346a02",
-      "manifest_sha256": "f3301378f2ecf91f55c88c59face392986250bc0975eee074777cc891b5c1e31"
-    },
-    {
-      "dll": "000E7000_DF56C1F6.dll",
-      "functions": 5,
-      "matched_recipe": "011-SYSTEM/X09.BIN",
-      "dll_sha256": "749b805aabbe09c269a83184c8549503309438e70fccd0f6203eb9044880ccdc",
-      "manifest_sha256": "54eac320af77e1a1aa7149729ca9d6e6073e28b028abe769835a6ffeb5b65330"
+      "dll_sha256": "dd77979e73c02b37c108f41d4af62527edc255ab6c2d9a1de1b43adcf52b6c3b",
+      "manifest_sha256": "8774a1d7af110880310c0a49bba821c8017b441f600476c268e622c338dca8a3"
     },
     {
       "dll": "000E7000_E06E8131.dll",
       "functions": 15,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "5b5d818ee9c07ceb9567f89eb39e305fbea69aac95ab348cba2adfbe07b06f5f",
-      "manifest_sha256": "e5e447ae54340b6c7b2cf9f2c403cd6249f82a3dd01f866664ab6539f96b87ef"
+      "dll_sha256": "45898f438a7b42faa9e7a7e6c756cff780873841b0eaa5916dcfe73ac4ee6d6a",
+      "manifest_sha256": "6f717e32a6d6b3792133abf2efda13506fdab7e45cb2904a3e0bde162fdd1c91"
     },
     {
       "dll": "000E7000_E0A590D6.dll",
       "functions": 3,
       "matched_recipe": "005-SYSTEM/X03.BIN",
-      "dll_sha256": "996590989ff0b2543d50041c4bf6d53bb077c59a9950db57a8628b8624261e26",
-      "manifest_sha256": "463710709df5804cb56b9c0177e4e5ba2e9cc46c7609abe8343e6e58a41955aa"
-    },
-    {
-      "dll": "000E7000_E0B2240B.dll",
-      "functions": 11,
-      "matched_recipe": "013-SYSTEM/X11.BIN",
-      "dll_sha256": "fa741bc633d26e28f49dedb88fcefa4561d35d060ea5843fef08d1b871a6d144",
-      "manifest_sha256": "19061f135d99832c4c6678315543c3b30d8a3662d429a5c4a4aa7c5b4ce141f1"
+      "dll_sha256": "9780d136a4c62b36cf34502842259efb935a384ac9bbdb5406bef6c0599a6695",
+      "manifest_sha256": "408116445dfc85f1e6f51909c13485e0af7d2d4bd9ad3af0e55ac43be7f5e827"
     },
     {
       "dll": "000E7000_E2C837A8.dll",
       "functions": 466,
       "matched_recipe": "015-SYSTEM/X14.BIN",
-      "dll_sha256": "66acd6bc2ad3914d88027d386760c98bc54504403071596c7d887f439507a9e1",
-      "manifest_sha256": "d849d33c68307bbc39230f376446ce0ddf7681085ead7d59ca4642a231669b93"
-    },
-    {
-      "dll": "000E7000_E2CA340E.dll",
-      "functions": 27,
-      "matched_recipe": "011-SYSTEM/X09.BIN",
-      "dll_sha256": "8a6e74bd14d8c9d950f34a9068c5d249917fa29bc000735c862a4ed5374c5652",
-      "manifest_sha256": "38549f9f339a98e81436a6ff325dc4e2c433e100fa85ff61a833b9abb3db2c5e"
+      "dll_sha256": "486edefeb759251bf77f6b3416bd25bb8cf45c63979df6674b91c11e2eca6f9b",
+      "manifest_sha256": "a58edb41b7467a7ccae8a890487a1096bed478412baca795c4417034e1461874"
     },
     {
       "dll": "000E7000_E59AB9BF.dll",
       "functions": 9,
       "matched_recipe": "005-SYSTEM/X03.BIN",
-      "dll_sha256": "371ce14a8af7a272919caaddcfb0dcdbea62b3f2e5437ac02f10181ccd8e558d",
-      "manifest_sha256": "c5ede8a01f6654085e715761e88bbd91a1458555bd3ab739ee494f8bdcba2801"
+      "dll_sha256": "6f8d24bd47c05b82fd7fe522a639020aa9d45ca0859daa4f782673803f63960e",
+      "manifest_sha256": "28e563ae8c7a30a6a57d07a5d4bf3bc37fa1034f83d4eab2393b934a85dc5b3b"
     },
     {
       "dll": "000E7000_E5EA53CE.dll",
       "functions": 55,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "494dc74ab97049e4fd15970806f1625d563d77755dd99b4630e54bfd45df3a66",
-      "manifest_sha256": "1ce969923c463c1ca47256cd0aaa314a8499ba3747ec9f12cf4a7b68592c6b2d"
+      "dll_sha256": "6058f4d6243be67b539e748677b24a54cae088a5ce99b2cf9c633b463c3a729e",
+      "manifest_sha256": "c85fb9dc1ab3368f9c65ed9ab978ea8a2f2a6b5c09090e0728473411b396cb4b"
     },
     {
       "dll": "000E7000_E61422F5.dll",
       "functions": 152,
       "matched_recipe": "005-SYSTEM/X03.BIN",
-      "dll_sha256": "25231d41b52ab4e22db5e553d6227679f111539646f5ce73d5aee11a16c2142f",
-      "manifest_sha256": "5556315b75ab4b269811feb7810ac5acdddd2c7169a1ba37cb51ce958456b54f"
-    },
-    {
-      "dll": "000E7000_E6D1DE2C.dll",
-      "functions": 5,
-      "matched_recipe": "017-SYSTEM/X17.BIN",
-      "dll_sha256": "8ad6f7157bb7f612db950dff46c907da8809923cfb771efb84d700b066279aa5",
-      "manifest_sha256": "58a739fc5fe289e23f9bc3413b8645791cc25b74c7ae4d2395b124950aaf37a2"
+      "dll_sha256": "8075bee52f4658bfeb32aab4797d86b80939d4fd760878817425fd6c13a41d60",
+      "manifest_sha256": "e5e91b99b6b63f783a72eeebdf09787f49f4d7428797135864a20638608a71d4"
     },
     {
       "dll": "000E7000_E9312AF7.dll",
       "functions": 105,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "47e689ddf71773fde80bdc9b98c15d8f58ca09a4f1b16a3a1c8d14b8028753c4",
-      "manifest_sha256": "c5bd1be3ec6cc854117b41c371fed57de97d502f6bffb7777e5b2f2c326566a4"
+      "dll_sha256": "42b45d701b04705fd7241145eec0f1233719b6869bed20f7c4e07c63daf95fdc",
+      "manifest_sha256": "e6b4acb45fcfaaa0d9f21d74ae033379dd3311a9609e1cba295ef3a0aec98210"
     },
     {
-      "dll": "000E7000_EB61A762.dll",
-      "functions": 7,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "8f46ca6fba35ca4d14e36d0b6118ac5d52dcfe2e3d870fc100851ec4cc26df1f",
-      "manifest_sha256": "88c6d57da7befe7c9ddedbcb8dc7847dd5f6235b29f9a3454f650a6535d6375e"
+      "dll": "000E7000_EBC31888.dll",
+      "functions": 43,
+      "matched_recipe": "009-SYSTEM/X06.BIN",
+      "dll_sha256": "cb3fbc757cb78292df80bd313b5a7112cb7989a80718dcd44b8daa8802f4ab4a",
+      "manifest_sha256": "326f47aaee48df381cfe97bd10cc571092b9c3a0bd59d39e578866d67263d46c"
     },
     {
       "dll": "000E7000_ECD07894.dll",
       "functions": 336,
       "matched_recipe": "008-SYSTEM/X05.BIN",
-      "dll_sha256": "0d1321875d325eeb0f7420534ce1583662c956d3bf98598d50c10df789d35164",
-      "manifest_sha256": "421b3cd408769cd72dbd0dd66f3cfad18f06ffe2053dd24764992b82eccc46ce"
+      "dll_sha256": "d4bee52e24f5ec2645e12462ff4ec36306fe5afe4cd1750f6aae8fee0e5b35d4",
+      "manifest_sha256": "144f3c5b573707920633d75281e97063b1d069067212f198e470c57c6231e3c5"
     },
     {
       "dll": "000E7000_ECE04D10.dll",
       "functions": 22,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "e061387cbd3b56453cb31f391b8311885c4aebd9d3dab3dbec49ac00b6970e88",
-      "manifest_sha256": "5382ff28a06715d9d1ea4fa3fe208df99556bb2bf3121fdb5d5b5f0214b0e5ab"
-    },
-    {
-      "dll": "000E7000_EE908E9F.dll",
-      "functions": 6,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "dfa70030d89f36345c952880cf1c0714d3cdf28e4b2887501a91f8d11bbf58cd",
-      "manifest_sha256": "5fd0ab91e635e266ce36155f58c9e0366eb1b7d931d5489cde185bad729acb54"
-    },
-    {
-      "dll": "000E7000_F098D4E5.dll",
-      "functions": 7,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "d5cbf874f41585ec3d7868f0dbfb784c736dcbe8400b690014f18e9e059296f2",
-      "manifest_sha256": "7a26787c06a7bf677a40f7e2d08f0a060288946a39c88b21929268748fac7875"
+      "dll_sha256": "39fa045a70b4070d0d60d8ced893afcb23e580f63730b453e38b18c6d32c7693",
+      "manifest_sha256": "5834fc50ab22784804988a4dfca06c4a8132d6cf31588592c2ef54cddd4ba05f"
     },
     {
       "dll": "000E7000_F0F62377.dll",
       "functions": 2,
       "matched_recipe": "012-SYSTEM/X10.BIN",
-      "dll_sha256": "7fef1f813ef973c50159f009bc8167b0725b190b9d993c6cde9f83b17ab5470d",
-      "manifest_sha256": "b7627f7165a7183b65089f6f248aca1b0007f6b2b1de8749a98f8cc43f67275e"
+      "dll_sha256": "fbb03206344212bdc2c63412171d2a998bec9ec4be404968bbf350e51d93b07c",
+      "manifest_sha256": "574ffdb28f0f63f0af656271c56022ee4678ae1da4810cd5a17cc52b8243b33d"
+    },
+    {
+      "dll": "000E7000_F2C074F3.dll",
+      "functions": 41,
+      "matched_recipe": "013-SYSTEM/X11.BIN",
+      "dll_sha256": "97991d33cbc21e997e65bd116c459f5ab933725e69eb37e033b4c2974f5d165c",
+      "manifest_sha256": "d8158baadd8b30654b0674947271eb27101ae177361f2628cf165e6723c71808"
     },
     {
       "dll": "000E7000_F39DCC20.dll",
       "functions": 1,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "a7dd3cf0ccebbe7ba2882af0eb1a01777ad0d3defb72f81a5b7a74f3b872c0bb",
-      "manifest_sha256": "6176bee70209e5e9a6fb7eeee1f5770c5d047c6cc663377ed07eb6e5c12068dc"
+      "dll_sha256": "faa49321fb88c087d048754f8ef907d38d649666fbd8792fdeb5c5005d1fc993",
+      "manifest_sha256": "1bf7654e9bf1cfcdb0413bca1e819a86d06a0f463de65d210e18d3aa5d859683"
     },
     {
       "dll": "000E7000_F85F79EB.dll",
       "functions": 83,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "77b4135b1acd37236cf2ac69c9e37957d7ee8617e1129738be71c0ad89b76731",
-      "manifest_sha256": "fe0723cd1176bbdd913d27a7d54f0ebaea2f3bc3d04318754a30a3eb7c235730"
-    },
-    {
-      "dll": "000E7000_F87F058C.dll",
-      "functions": 7,
-      "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "b883b26c013d98e5a016f7198486ce3531167b555aa88731e9b1433a86733c6f",
-      "manifest_sha256": "269f99fb354f4ac0f8d11ffe519bd9c6de300088eac22355050dff94903e5510"
+      "dll_sha256": "32287a7ffd8e76a01a5adf6753adf6ed828d748a0235008d7e1ec1f8a0cdca30",
+      "manifest_sha256": "376251e4477bdbfecbacd54ae7ab69eb335c63aab9804d95e65bb680ddd24322"
     },
     {
       "dll": "000E7000_F8CBDD78.dll",
       "functions": 7,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "7e84e5cbb71e42e976c502d483f9abcf7e8d21bd84dc935282f1d2d48ff09602",
-      "manifest_sha256": "8d2cc4afe25c2b5bebd72c80b2e0ce48733ffbc3a7664de14d1972acbd1e6a1b"
+      "dll_sha256": "b66f9a90d37acc31cb71a371c5b477f62ee43cbebfc267450e96d7b7367ab9bb",
+      "manifest_sha256": "17dde50d12c8308a08c3e8c50d733d5dfdbe21dd4cf477d7acaff99f8168cec1"
     },
     {
       "dll": "000E7000_F9443FA5.dll",
       "functions": 4,
       "matched_recipe": "012-SYSTEM/X10.BIN",
-      "dll_sha256": "a8bd6e2a198008d7b6dd073046fc8cd8a2b513b40062664851aed6cf92ff76e6",
-      "manifest_sha256": "711028589e05329fdf91b823fb578101844af421e53ab710b0575cf66e734579"
+      "dll_sha256": "6545419a1f7500aca34e2f5a1de807f66dfa06c91ee72e109b54498fd781d668",
+      "manifest_sha256": "136645e3e6158ed2d5aeb12d1476bcaa43827f218deaac4bd5ca047f9c804957"
+    },
+    {
+      "dll": "000E7000_F94E1C00.dll",
+      "functions": 3,
+      "matched_recipe": "011-SYSTEM/X09.BIN",
+      "dll_sha256": "0cbfb9909506f1b06b00da5ad9774a462fbb4ecdb2aa43e0e6e8828b0cca110f",
+      "manifest_sha256": "ec56bb0339dc89dd25460645dfa1d1db9448390356a72df66d57f405ef42644f"
+    },
+    {
+      "dll": "000E7000_FA2754E2.dll",
+      "functions": 2,
+      "matched_recipe": "017-SYSTEM/X17.BIN",
+      "dll_sha256": "f69604f9a9824ad332030a6f93213e5c0b55a723388632d5ed98ebeb640dcf9d",
+      "manifest_sha256": "f5051ebe58f207253b16107b4968f3d34cab0134d77055bbae272b83cc3da101"
     },
     {
       "dll": "000E7000_FB95D66B.dll",
       "functions": 7,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "9b4257143cba74561f6224e2fc48ad7ef5ce2d221e4b32c6d4147115a50b616f",
-      "manifest_sha256": "92aecd05cc87f2b205fb2242ae9893ba7529ec49bb066dc9b78bcef77d337b1e"
+      "dll_sha256": "422d8d5496a0dde175b3de45ada01e5c74f71f77d3fd05e3c157ab7a699f7e3d",
+      "manifest_sha256": "b06c29506cb8a8690819b34ff38594b7fcf2af9585c5283978506c38c83719e4"
     },
     {
       "dll": "000E7000_FCB65014.dll",
       "functions": 18,
       "matched_recipe": "006-SYSTEM/X04.BIN",
-      "dll_sha256": "acf6bfb1499e00fcd8195036c29cb480ef192708c9508b460a6584d14766e8ff",
-      "manifest_sha256": "e65a4a22ce10e6997563f6b48a19ff6141668f8e13c8a146f9d8707aa790177d"
+      "dll_sha256": "3020cb3b7a515e1a65b331df97e0e4dcf82aebf269e65a1485daca70701835fd",
+      "manifest_sha256": "9c584d84f9820925b3235097f13c06f3edaed756f1b79c3ae95177781236cba5"
     },
     {
       "dll": "000E7000_FCF4EA38.dll",
       "functions": 278,
       "matched_recipe": "006-SYSTEM/X04.BIN",
-      "dll_sha256": "2e7f8b51b00406257d38f425606830790a9f6be4b079acc1cc78537bea1c591f",
-      "manifest_sha256": "776dc94353453ea80ea250425b6cadb7f1978d6db4c29c29f7f1338365a17d96"
+      "dll_sha256": "77d4f534f9d7bb125a4a26cab59217b0f9aed5a156633978378c2bccd975c19e",
+      "manifest_sha256": "041e8e988766020fe886b90e635e84ae034cadd762b943969821e179846d0e93"
     },
     {
       "dll": "000E7000_FD906707.dll",
       "functions": 169,
       "matched_recipe": "000-SYSTEM/X00.BIN",
-      "dll_sha256": "de1e6c9501090f33ed89b42ebb69ae056a1d68871b2b07c9b77cb667880dc6cb",
-      "manifest_sha256": "1a6923ece0df75aaa0ba66c10a142427b78764373477e4b8123333f2849549de"
-    },
-    {
-      "dll": "000E7000_FDA9C471.dll",
-      "functions": 3,
-      "matched_recipe": "009-SYSTEM/X06.BIN",
-      "dll_sha256": "1ab76d9aed56565b2c19d9319a91c5f6c0df7a395c94c8619afbb5e1d0538969",
-      "manifest_sha256": "5d6814cfcda22a7ab37ecea0de76a63367d2f213aac8828847077337d87b69f9"
+      "dll_sha256": "438e3ea933dc8a006686d1bd82dbef7b06de339dab8b3488a1395f8a208abb03",
+      "manifest_sha256": "bbdf51d5ca957f03718e98d52a7add451c67a59d3baa7ae123e8d4a4baacf95d"
     }
   ],
   "profile_sha256": "742622743b3e6515956b69c761bb88889f302d55b9334b98f1de9fb89c3d2bc6",

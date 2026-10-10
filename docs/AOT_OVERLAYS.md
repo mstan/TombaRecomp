@@ -81,12 +81,26 @@ movement, graphics, audio, transition behavior, and performance. Visit other
 available areas as convenient; historical save-state files may be incompatible
 with the current runtime, so ordinary memory-card saves are preferable.
 
-## Current validation (2026-09-11)
+## Validation
+
+### v0.21.0-alpha Windows integration (2026-10-10)
+
+Fresh extraction and compilation produced 176 native pairs and 8,191 manifest
+entry rows for all 25 original-disc images, using cache tag
+`cg18_0bea7895_gc272cdb19_f0`. Every pair passed the ABI/export audit and every
+guard matched the original source bytes. The
+[Windows receipt](aot_coverage/SCUS-94236_windows_audit.json) records this build.
+The base game code and both BIOS backends were regenerated with the pinned
+framework. The Linux receipt below remains the historical v0.13 validation.
+With runtime compilation disabled, the Evil Pig scene loaded 466 native
+candidates from the rebuilt cache and its native dispatch count advanced
+from 12,942 to 55,400 in two seconds, with no stale-blocked dispatches.
+
+### v0.13.0-alpha Windows and Linux (2026-09-11)
 
 The v0.13.0-alpha Windows and Linux builds each produced 196 native pairs
 with 8,213 manifest entry rows for the packaged configuration. Every pair passed the ABI/export audit, and every guard matched known
 original-disc bytes. All 25 images have matching native entries; see the
-[Windows receipt](aot_coverage/SCUS-94236_windows_audit.json),
 [Linux receipt](aot_coverage/SCUS-94236_linux_audit.json) and
 [disc inventory](aot_coverage/SCUS-94236_disc_inventory.json).
 

@@ -32,7 +32,8 @@ the pack is configured. No dumps are distributed with this example.
 To capture originals, turn **Load replacements** off and **Dump textures** on,
 then click **Play** and visit the scenes you want. The runtime combines used
 rectangles per source and palette across the source's lifetime. PNGs can appear
-in `dumps/` when that source is overwritten or retired. **Exit the game to
+in `dumps/` periodically during play, including resident backgrounds, and when
+that source is overwritten or retired. **Exit the game to
 finish pending captures**, wait for writing, then copy chosen PNGs into
 `replacements/`, and edit them. Keep every filename unchanged: its hashes,
 dimensions, offsets, and palette range tell the runtime which texture to

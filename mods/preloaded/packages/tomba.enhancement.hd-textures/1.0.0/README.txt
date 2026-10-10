@@ -7,7 +7,8 @@ Load replacements enabled and the OpenGL renderer selected.
 
 To collect originals, enable Dump textures and play the areas you want to edit.
 Capture combines used areas across each source's lifetime. Original texture
-PNGs appear in dumps when sources retire; exit the game to finish pending PNGs.
+PNGs appear in dumps periodically during play, including resident backgrounds.
+Sources also publish on retirement; exit the game to finish pending PNGs.
 Keep their filenames when placing edited or enlarged images in replacements.
 Restart with Dump textures disabled to use
 the finished pack. Options and newly added files apply on the next Play.

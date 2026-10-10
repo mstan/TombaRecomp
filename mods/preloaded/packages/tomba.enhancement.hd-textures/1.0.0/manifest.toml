@@ -3,7 +3,7 @@ id = "tomba.enhancement.hd-textures"
 version = "1.0.0"
 name = "HD Texture Packs"
 author = "psxrecomp"
-description = "Load compatible DuckStation PNG/JPEG/WebP replacements or capture original textures while playing. Exit the game to finish capture PNGs. OpenGL displays replacements. No texture artwork is bundled."
+description = "Load compatible DuckStation PNG/JPEG/WebP replacements or capture original textures while playing. Resident backgrounds publish during play; exit to finish pending PNGs. OpenGL displays replacements. No texture artwork is bundled."
 resolver = "declarative"
 save_compatibility = "shared"
 
@@ -13,7 +13,7 @@ game_id = "SCUS-94236"
 [[feature]]
 id = "hd-textures"
 name = "HD Texture Packs"
-description = "Disabled by default. Install compatible PNG/JPEG/WebP replacements or collect original textures while playing. Exit the game to finish capture files in dumps. Options apply on Play."
+description = "Disabled by default. Install compatible PNG/JPEG/WebP replacements or collect original textures in dumps during play. Exit to finish pending captures. Options apply on Play."
 group = "Visual"
 default_enabled = false
 
@@ -37,7 +37,7 @@ default = "true"
 feature = "hd-textures"
 id = "dump"
 label = "Dump textures"
-description = "Collect original texture usage while playing. Exit the game to finish capture PNGs under dumps, then edit the files you need."
+description = "Collect original texture usage under dumps during play, including resident backgrounds. Exit to finish pending PNGs, then edit the files you need."
 type = "boolean"
 default = "false"
 

@@ -53,6 +53,10 @@ Important files:
 The game is playable from BIOS boot through gameplay. Latest release:
 **v0.20.0-alpha** (2026-10-08).
 
+The **v0.21.0-alpha** source update fixes persistent HD texture-pack lag,
+publishes resident background dumps during play, and reduces CPU use during
+high-refresh temporal blending. See [release notes](RELEASE_NOTES.md).
+
 | Area | State |
 |---|---|
 | PS1 BIOS boot | Works (real recompiled BIOS) |

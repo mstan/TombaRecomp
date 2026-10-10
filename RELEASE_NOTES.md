@@ -1,3 +1,24 @@
+## v0.21.0-alpha
+
+Fixes persistent slowdown with large HD texture packs, missing background
+dumps, and CPU-heavy presentation at high refresh rates.
+
+- Reuse textures already resident on the GPU and complete composed images
+  after their decoded source PNGs leave the CPU cache. Small tiled images
+  fit within the existing memory budgets without repeatedly evicting each other.
+- Publish observed background textures during play, including atlases that
+  remain resident throughout a level. Later draws retain their original palette
+  and expand the recorded crop; native texture matching is unchanged.
+- Use short, high-resolution waits before blended presents. In the tornado
+  Evil Pig fight at 32:9, 6x resolution and 165 Hz temporal blending, a local
+  half-core CPU budget improved from about 51–54 to 60 game frames/s. This
+  measures a CPU budget on the development PC, not an older Ryzen or GTX 1060.
+- Update the shared framework and regenerate base code and audited AOT overlays.
+
+Memory cards and settings carry over. HD textures, Custom Renderer and temporal
+blending retain their existing activation settings; these fixes apply whenever
+those features are used.
+
 ## v0.20.0-alpha
 
 Improves rainy Stormy Mountain performance, especially in wider Custom Renderer
