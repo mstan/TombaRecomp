@@ -51,6 +51,8 @@ own legally obtained assets.
 
 Important files:
 
+- [Archipelago and local debugging](docs/ARCHIPELAGO.md): enable the optional
+  TCP debug server in release builds and connect local tools.
 - [Original-disc AOT overlays](docs/AOT_OVERLAYS.md): pre-shard Tomba's 25 known
   overlay images, verify source-byte guards, and run gameplay spot checks.
 - [HD texture packs](docs/HD_TEXTURE_PACKS.md): install compatible DuckStation
