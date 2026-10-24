@@ -41,6 +41,7 @@ set(TOMBA_PRELOADED_MODS "${CMAKE_CURRENT_SOURCE_DIR}/mods/preloaded")
 # Seamless Loading replaces the framework's CD Speed and host-paced Fast
 # Loading on Tomba, so only the remaining framework builtins are staged.
 set(PSX_BUILTIN_MOD_ALLOWLIST
+    psx.integration.debug-server
     psx.enhancement.pgxp
     psx.presentation.bezel)
 
