@@ -51,6 +51,9 @@ def stage_mods():
     target = ROOT / 'build-eu2-seamless/generated/mods'
     shutil.copytree(ROOT/'eu2/mods', target, dirs_exist_ok=True)
     for manifest in target.glob('packages/*/*/manifest.toml'):
+        if 'tombi.enhancement.language-confirmation' in manifest.parts and active()!='original':
+            manifest.unlink()
+            continue # The original selector binding has not been verified for Rev 1.
         text = manifest.read_text(encoding='utf-8')
         text = text.replace(PROFILES['original']['sha256'], PROFILES[active()]['sha256'])
         manifest.write_text(text, encoding='utf-8', newline='\n')

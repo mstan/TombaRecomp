@@ -47,6 +47,7 @@ psxrecomp_add_game_runtime(${tombi_target}
     DEFAULT_GAME_CONFIG_PATH "${tombi_config}"
     VERSION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/VERSION"
     MAX_PLAYERS 1
+    LAUNCHER_BOXART "${CMAKE_CURRENT_SOURCE_DIR}/launcher_assets/img/boxart.tga"
     GEN_MARKER "${TOMBA_ROOT}/build-eu-prototype/generated/SCES_013.30_dispatch.c"
     GEN_FULL_GLOB "${TOMBA_ROOT}/build-eu-prototype/generated/SCES_013.30_full_*.c"
     PRELOADED_MODS_DIR "${tombi_mods}"
@@ -117,6 +118,7 @@ if(TOMBI_PC_FEATURES)
         add_executable(tombi-host-sha-tests tests/test_host_sha256.cpp "${PSXRECOMP_ROOT}/runtime/src/psx_sha256.c")
         target_include_directories(tombi-host-sha-tests PRIVATE "${PSXRECOMP_ROOT}/runtime/include")
         target_compile_options(tombi-host-sha-tests PRIVATE -UNDEBUG)
+        add_test(NAME tombi_host_sha256 COMMAND tombi-host-sha-tests)
         add_executable(tombi-language-confirmation-tests tests/test_language_confirmation.cpp boot.c)
         target_include_directories(tombi-language-confirmation-tests PRIVATE
             "${PSXRECOMP_ROOT}/runtime/include" "${TOMBA_ROOT}/build-eu-seamless/generated")

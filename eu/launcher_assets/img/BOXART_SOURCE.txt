@@ -1,0 +1,4 @@
+Tombi! (Europe) box cover (SCES-01330 and SCES-01331 share the artwork).
+Sourced from the libretro PS1 boxart set (libretro-thumbnails/Sony_-_PlayStation,
+Named_Boxarts/Tombi! (Europe) (En,Fr,De,It,Nl) (Rev 1).png) and converted to a
+24-bit top-origin TGA, matching launcher_assets/img/boxart.tga for Tomba! (USA).

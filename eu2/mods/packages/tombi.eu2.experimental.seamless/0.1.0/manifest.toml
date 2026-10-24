@@ -17,6 +17,7 @@ name = "Seamless Loading"
 description = "Uses a verified local asset cache; unsupported requests retain the original loader. Original card operations and PAL timing remain in place."
 group = "Quality of Life"
 default_enabled = true
+quick = true
 
 [[plugin]]
 feature = "resident-assets"

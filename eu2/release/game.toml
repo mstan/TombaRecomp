@@ -75,3 +75,7 @@ auto_screen_x = true
 # PAL funnels compare Y against 256; keep the shared 224/241 variants too.
 screen_h_imms = ["0x100", "0x101", "0xE0", "0xF1"]
 auto_backdrop = true
+
+[launcher]
+# Quick Mods / Quick Settings cards beside the memory cards (recomp-ui).
+quick_controls = true

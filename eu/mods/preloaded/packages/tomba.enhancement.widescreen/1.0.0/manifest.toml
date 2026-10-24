@@ -17,6 +17,7 @@ name = "Widescreen"
 description = "Enable Tomba's native-wide gameplay view. The render target and resident-object culling expand with the current window; extreme-width content and enemy spawning are experimental."
 group = "Display"
 default_enabled = false
+quick = true
 
 [[option]]
 feature = "widescreen"

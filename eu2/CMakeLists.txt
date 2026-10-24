@@ -27,6 +27,14 @@ if(TOMBI_EU2_SEAMLESS)
     execute_process(COMMAND "${Python3_EXECUTABLE}" -I -B
         "${CMAKE_CURRENT_SOURCE_DIR}/geometry_profile.py" ${geometry_args} COMMAND_ERROR_IS_FATAL ANY)
     set(eu2_mods "${TOMBA_ROOT}/build-eu2-seamless/generated/mods")
+    # Wait for Language Confirmation binds the original release's selector;
+    # revisions.py drops the package for Rev 1, which is not verified.
+    execute_process(COMMAND "${Python3_EXECUTABLE}" -I -B -c
+        "import sys;sys.path.insert(0,r'${CMAKE_CURRENT_SOURCE_DIR}');from revisions import active;print(active())"
+        OUTPUT_VARIABLE eu2_selector_revision OUTPUT_STRIP_TRAILING_WHITESPACE COMMAND_ERROR_IS_FATAL ANY)
+    if(eu2_selector_revision STREQUAL "original")
+        execute_process(COMMAND "${Python3_EXECUTABLE}" -I -B "${CMAKE_CURRENT_SOURCE_DIR}/boot_profile.py" COMMAND_ERROR_IS_FATAL ANY)
+    endif()
     execute_process(COMMAND "${Python3_EXECUTABLE}" -I -B
         "${CMAKE_CURRENT_SOURCE_DIR}/widescreen_profile.py" COMMAND_ERROR_IS_FATAL ANY)
 endif()
@@ -35,6 +43,8 @@ psxrecomp_add_game_runtime(tombi-eu2
     DEFAULT_GAME_CONFIG_PATH "game.toml"
     VERSION_FILE "${TOMBA_ROOT}/VERSION"
     MAX_PLAYERS 1
+    # SCES-01331 shares the SCES-01330 cover artwork.
+    LAUNCHER_BOXART "${TOMBA_ROOT}/eu/launcher_assets/img/boxart.tga"
     GEN_MARKER "${TOMBA_ROOT}/build-eu2/generated/SCES_013.31_dispatch.c"
     GEN_FULL_GLOB "${TOMBA_ROOT}/build-eu2/generated/SCES_013.31_full_*.c"
     PRELOADED_MODS_DIR "${eu2_mods}"
@@ -43,6 +53,9 @@ psxrecomp_add_game_runtime(tombi-eu2
 set_target_properties(tombi-eu2 PROPERTIES OUTPUT_NAME "TombiRecompEU2")
 if(TOMBI_EU2_SEAMLESS)
     set(eu2_generated "${TOMBA_ROOT}/build-eu2-seamless/generated")
+    if(eu2_selector_revision STREQUAL "original")
+        target_sources(tombi-eu2 PRIVATE "${TOMBA_ROOT}/eu/boot.c")
+    endif()
     set(eu2_widescreen "${eu2_generated}/widescreen")
     target_sources(tombi-eu2 PRIVATE "${eu2_generated}/eu2_loader.c"
         "${eu2_generated}/eu2_geometry.c"
@@ -62,6 +75,7 @@ if(TOMBI_EU2_SEAMLESS)
     set_source_files_properties("${TOMBA_ROOT}/src/mods/tomba_seamless_prepare.cpp" PROPERTIES
         COMPILE_DEFINITIONS "TOMBA_SEAMLESS_CATALOG_HEADER=\"${eu2_generated}/eu_catalog.inc\";TOMBA_SEAMLESS_PACK_FORMAT=\"sces01331-five-languages-gam-v1\"")
     if(NOT TOMBI_EU2_PLAYER_RELEASE)
+    include(CTest)
     add_executable(tombi-eu2-widescreen-tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_widescreen_identity.c"
         "${eu2_widescreen}/eu_widescreen.c")
     execute_process(COMMAND "${Python3_EXECUTABLE}" -I -B -c
@@ -72,6 +86,8 @@ if(TOMBI_EU2_SEAMLESS)
     endif()
     target_include_directories(tombi-eu2-widescreen-tests PRIVATE
         "${eu2_widescreen}" "${PSXRECOMP_ROOT}/runtime/include")
+    add_test(NAME tombi_eu2_widescreen_identity
+        COMMAND tombi-eu2-widescreen-tests "${TOMBA_ROOT}/disc/eu2")
     add_executable(tombi-eu2-hd-install-tests "${TOMBA_ROOT}/eu/tests/test_hd_install.cpp"
         "${PSXRECOMP_ROOT}/runtime/src/texture_pack_install.cpp"
         "${PSXRECOMP_ROOT}/runtime/src/duckstation_texture_pack.cpp")
@@ -84,5 +100,15 @@ if(TOMBI_EU2_SEAMLESS)
         TOMBI_TEST_LOADER_SOURCE="eu2_loader.c" TOMBI_TEST_ADDRESS=eu2_address)
     target_compile_options(tombi-eu2-loader-tests PRIVATE -O2 -UNDEBUG -ffunction-sections -fdata-sections)
     target_link_options(tombi-eu2-loader-tests PRIVATE -Wl,--gc-sections)
+    add_test(NAME tombi_eu2_loader COMMAND tombi-eu2-loader-tests)
+    if(eu2_selector_revision STREQUAL "original")
+        add_executable(tombi-eu2-language-confirmation-tests tests/test_language_confirmation.cpp
+            "${TOMBA_ROOT}/eu/boot.c")
+        target_include_directories(tombi-eu2-language-confirmation-tests PRIVATE
+            "${PSXRECOMP_ROOT}/runtime/include" "${eu2_generated}")
+        target_compile_options(tombi-eu2-language-confirmation-tests PRIVATE -UNDEBUG)
+        add_test(NAME tombi_eu2_language_confirmation
+            COMMAND tombi-eu2-language-confirmation-tests "${TOMBA_ROOT}/disc/eu2")
+    endif()
     endif()
 endif()

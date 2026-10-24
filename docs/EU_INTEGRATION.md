@@ -117,3 +117,6 @@ SCES-01331 builds also accept the En/Es/Pt/Sv/Da **Rev 1** track (SHA-1
 revision automatically; `--eu2-revision rev1 --plan` previews its commands.
 Each build and native cache binds one revision. See the [EU2 guide](../eu2/README.md)
 for both original inputs, contracts and the bounded EN/ES runtime sample.
+
+Cover gallery, dashboard quick controls and SCES-01331 language confirmation:
+see [European launcher additions](regional/README.md).

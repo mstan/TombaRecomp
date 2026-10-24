@@ -23,7 +23,7 @@ def generate():
     for byte in body:value=((value^byte)*16777619)&0xffffffff
     out=ROOT/'build-eu-seamless/generated/eu_boot_profile.inc'
     out.parent.mkdir(parents=True,exist_ok=True)
-    out.write_text(f'#define TOMBI_SELECTOR_HASH 0x{value:08X}u\n')
+    out.write_text(f'#define TOMBI_SELECTOR_HASH 0x{value:08X}u\n#define TOMBI_SELECTOR_START 0x80010E50u\n#define TOMBI_SELECTOR_END 0x800114A0u\n#define TOMBI_SELECTOR_BRANCH 0x800112D4u\n#define TOMBI_SELECTOR_TIMER 0x800AF064u\n')
     print('PASS: original EU selector timeout, manual confirmation and complete body guard',flush=True)
 
 

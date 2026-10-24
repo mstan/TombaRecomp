@@ -41,3 +41,7 @@ default_mode = "digital"
 
 [widescreen]
 offer = false
+
+[launcher]
+# Quick Mods / Quick Settings cards beside the memory cards (recomp-ui).
+quick_controls = true

@@ -1,0 +1,23 @@
+format_version = 5
+id = "tombi.enhancement.language-confirmation"
+version = "1.0.0"
+name = "Wait for Language Confirmation"
+author = "TombaRecomp contributors"
+description = "Keeps the original EU language selector open until you confirm. No external files required."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SCES-01331"
+disc_sha256 = "2eba3dfdd25f5d270d47f5fe408391971aa25ee09c6aac9874bba4e3bf6f32cc"
+
+[[feature]]
+id = "wait"
+name = "Wait for Language Confirmation"
+description = "Disables the original selector's idle countdown. Choose a language and press Cross to continue. Does not change menus or progress after boot."
+group = "Quality of Life"
+default_enabled = true
+
+[[plugin]]
+feature = "wait"
+id = "tombi.language-confirmation"

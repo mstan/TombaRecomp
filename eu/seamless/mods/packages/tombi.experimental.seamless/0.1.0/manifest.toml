@@ -17,6 +17,7 @@ name = "Seamless Loading"
 description = "Reduces area loading interruptions. Uses extra memory and prepares a local cache from your own disc on first use. Unsupported requests use the original loader; saves and game speed are unchanged."
 group = "Quality of Life"
 default_enabled = true
+quick = true
 
 [[plugin]]
 feature = "resident-assets"

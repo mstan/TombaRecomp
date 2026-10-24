@@ -60,3 +60,7 @@ a1_sites = ["0x800200A4", "0x800201D8", "0x8002056C"]
 auto_screen_x = true
 screen_h_imms = ["0x100", "0x101", "0xE0", "0xF1"]
 auto_backdrop = true
+
+[launcher]
+# Quick Mods / Quick Settings cards beside the memory cards (recomp-ui).
+quick_controls = true
