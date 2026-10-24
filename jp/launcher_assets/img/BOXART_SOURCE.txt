@@ -1,0 +1,3 @@
+Ore! Tomba (Japan), SLPS-01144, box cover.
+Sourced from the libretro PS1 boxart set (libretro-thumbnails/Sony_-_PlayStation,
+Named_Boxarts/Ore! Tomba (Japan).png) and converted to a 24-bit top-origin TGA.

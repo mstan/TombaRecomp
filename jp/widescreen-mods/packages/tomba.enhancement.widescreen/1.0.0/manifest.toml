@@ -1,0 +1,48 @@
+format_version = 5
+id = "tomba.enhancement.widescreen"
+version = "1.0.0"
+name = "Widescreen"
+author = "mstan"
+description = "Experimental SLPS-01144 adapter for the shared native-wide renderer."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SLPS-01144"
+disc_sha256 = "fb5b8ea9e3bd328e88a6b8b8ecb0b493d0dda5a9b5f732a7a6e4c9b146d9cd2b"
+
+[[feature]]
+id = "widescreen"
+name = "Widescreen"
+description = "Enable Tomba's native-wide gameplay view. The render target and resident-object culling expand with the current window; extreme-width content and enemy spawning are experimental."
+group = "Display"
+default_enabled = false
+
+[[option]]
+feature = "widescreen"
+id = "aspect"
+label = "View"
+description = "Fit to Window follows live resizing from 4:3 through 34:9. Wider windows keep clean side bars. Fixed ratios use the same widescreen renderer."
+group = "Display"
+type = "choice"
+default = "Fit"
+
+[[option.choice]]
+value = "Fit"
+label = "Fit to Window"
+
+[[option.choice]]
+value = "16:9"
+label = "16:9"
+
+[[option.choice]]
+value = "21:9"
+label = "21:9"
+
+[[option.choice]]
+value = "32:9"
+label = "32:9"
+
+[[plugin]]
+feature = "widescreen"
+id = "tomba.widescreen"

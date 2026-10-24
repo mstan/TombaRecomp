@@ -81,7 +81,7 @@ static std::string hash(const uint8_t *p, size_t n) {
     return hex;
 }
 int main(int argc, char **argv) {
-    if (argc != 3) { std::fprintf(stderr, "usage: tomba-seamless-prepare-tests disc.bin scratch-directory\n"); return 2; }
+    if (argc != 3 && argc != 4) { std::fprintf(stderr, "usage: tomba-seamless-prepare-tests disc.bin scratch-directory [codec-states.csv]\n"); return 2; }
     const auto cache = std::filesystem::absolute(argv[2]) /
         ("run-" + std::to_string(static_cast<long long>(
             std::filesystem::file_time_type::clock::now().time_since_epoch().count())));
@@ -96,6 +96,11 @@ int main(int argc, char **argv) {
     const TombaAsset *assets = tomba_seamless_prepare(&count);
     require(assets && count == std::size(catalog) && reads == std::size(catalog), "cold native preparation");
     unsigned decoded = 0, gam_index = ~0u;
+    std::ofstream codec_states;
+    if (argc == 4) {
+        codec_states.open(argv[3]); require(bool(codec_states), "codec state output");
+        codec_states << "file,declared,state,decoded_len\n";
+    }
     for (unsigned i = 0; i < count; i++) {
         const auto &a = assets[i];
         const auto &c = catalog[i];
@@ -107,11 +112,13 @@ int main(int argc, char **argv) {
                     hash(a.decoded, a.decoded_len) == c.decoded_sha256 && a.declared &&
                     a.declared <= a.decoded_len, "decoded GAM matches the original decoder");
             ++decoded;
+            if (codec_states.is_open()) codec_states << c.path << ',' << a.declared << ',' << a.codec_state << ',' << a.decoded_len << '\n';
             if (gam_index == ~0u) gam_index = i;
         } else {
             require(!a.decoded && !a.decoded_len, "raw asset has no decoded output");
         }
     }
+    if (codec_states.is_open()) codec_states.close();
     reads = 0; available = false;
     assets = tomba_seamless_prepare(&count);
     require(assets && reads == 0, "warm launch uses the verified pack");
