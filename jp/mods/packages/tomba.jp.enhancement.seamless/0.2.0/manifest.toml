@@ -1,0 +1,22 @@
+format_version = 5
+id = "tomba.jp.enhancement.seamless"
+version = "0.2.0"
+name = "Seamless Loading"
+author = "TombaRecomp contributors"
+description = "Keep verified Japanese disc resources resident and complete supported loads without the CD wait. Original scripts and save data are preserved; unsupported requests use the original loader."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SLPS-01144"
+
+[[feature]]
+id = "resident-assets"
+name = "Seamless Loading"
+description = "Reduce loading screens with a verified Japanese resource profile. First launch prepares a local cache from your disc. Unsupported loads keep their original loading screen."
+group = "Performance"
+default_enabled = false
+
+[[plugin]]
+feature = "resident-assets"
+id = "tombi.seamless"

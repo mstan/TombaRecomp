@@ -1,0 +1,159 @@
+{
+  "reference_revision": "fb3b36715f6966c099be95564c155bd842003b76",
+  "images": {
+    "SYSTEM/X02.BIN": {
+      "sha256": "9c2d4ac107af08d3d792f197e0ab960ba8263e8e1268930385a6c81095b8979f",
+      "excluded_ranges": [
+        {
+          "start": "0x8011b910",
+          "end": "0x8011ca6c",
+          "sha256": "eb5776d41dbc7025b074015042e949b153e384d193c4ff4cbbbe099dfa8ac3fb",
+          "reason": "Byte-matched Japan x02.yaml marks final file interval 0x31e18..0x32f74 as data; retain interpreter if reached"
+        }
+      ]
+    },
+    "SYSTEM/X03.BIN": {
+      "sha256": "085eda165568056159a6a1a72219593bf9bd262e7c0a560b7868aad56e8f095f",
+      "excluded_ranges": [
+        {
+          "start": "0x80134164",
+          "end": "0x8013784c",
+          "sha256": "36115d2f38d7964009a98f3fcea7b6cad229ea4b8d1c0ef7e91cca1a07cfa0a4",
+          "reason": "Byte-matched Japan x03.yaml marks final file interval 0x4a66c..0x4dd54 as data; retain interpreter if reached"
+        }
+      ]
+    },
+    "SYSTEM/X04.BIN": {
+      "sha256": "ae82e6dd4b219cc0a8d199a91d699178467aa4aea1d2c9f4af0113e2cf975b39",
+      "excluded_ranges": [
+        {
+          "start": "0x8012ebc4",
+          "end": "0x80131b28",
+          "sha256": "6e3bbdb556ce12ce31d9cb36fffc5eea59785276c81e6f638b54f3c5e17cba0c",
+          "reason": "Byte-matched Japan x04.yaml marks final file interval 0x450cc..0x48030 as data; retain interpreter if reached"
+        }
+      ]
+    },
+    "SYSTEM/X05.BIN": {
+      "sha256": "c5ccc6d9c3e810aabf0d12272949d7401281e095d8087445579a1f220d2fc943",
+      "excluded_ranges": [
+        {
+          "start": "0x80116998",
+          "end": "0x80117578",
+          "sha256": "81b446e8adde85523e8b64c1055fb1a4b925ab24fdeac169d31d019bba157060",
+          "reason": "Byte-matched Japan x05.yaml marks final file interval 0x2cea0..0x2da80 as data; retain interpreter if reached"
+        }
+      ]
+    },
+    "SYSTEM/X06.BIN": {
+      "sha256": "472b26d701c8da4f7f80d72baa357dff324960119b14eb8cf2c0d32591fbb8c1",
+      "excluded_ranges": [
+        {
+          "start": "0x8011dfc4",
+          "end": "0x8011fd58",
+          "sha256": "6c24fea0aaa816d3e59d967b245dcd8ef614f3565204a2eb0b081683e93b8b8d",
+          "reason": "Byte-matched Japan x06.yaml marks final file interval 0x344cc..0x36260 as data; retain interpreter if reached"
+        }
+      ]
+    },
+    "SYSTEM/X08.BIN": {
+      "sha256": "aa8cde99d0796663fc7fc6f58f8ea1490e7b38fe568e05771901c4120a6cab6c",
+      "excluded_ranges": [
+        {
+          "start": "0x80115260",
+          "end": "0x801153ec",
+          "sha256": "5cbce7bef697b44ec14de7c306affd43c77e91b177b68c7922a4fd1b3093f02c",
+          "reason": "Byte-matched Japan x08.yaml marks final file interval 0x2b768..0x2b8f4 as data; retain interpreter if reached"
+        }
+      ]
+    },
+    "SYSTEM/X09.BIN": {
+      "sha256": "7fdff16cd77637bd139dbd3513817a4aba376ada73b9c83a0ac17c716c658d3a",
+      "excluded_ranges": [
+        {
+          "start": "0x80129904",
+          "end": "0x8012df88",
+          "sha256": "89faf9dac5d0fe4c467add712dc0d96422c2501624550ece9e61e684854596d6",
+          "reason": "Byte-matched Japan x09.yaml marks final file interval 0x3fe0c..0x44490 as data; retain interpreter if reached"
+        }
+      ]
+    },
+    "SYSTEM/X10.BIN": {
+      "sha256": "82fa51303c9bdbe64ea26b049ddeea014637843884fd0e07eeb15c581d733087",
+      "excluded_ranges": [
+        {
+          "start": "0x8012d618",
+          "end": "0x8012efd4",
+          "sha256": "931cf85b2f20fd1e0cc76232009745a369d2515f684325cd7fc3b3a87459088d",
+          "reason": "Byte-matched Japan x10.yaml marks final file interval 0x43b20..0x454dc as data; retain interpreter if reached"
+        }
+      ]
+    },
+    "SYSTEM/X11.BIN": {
+      "sha256": "ba0c0147921ca9e2b75e56949a3ea89d4f9ee3192064c4d9a78d1a41832fd995",
+      "excluded_ranges": [
+        {
+          "start": "0x801188ac",
+          "end": "0x80118fac",
+          "sha256": "00f013eda4ec5e54c2c105764bd4923356b6ee2af76669b437d9a2a5b82a57bc",
+          "reason": "Byte-matched Japan x11.yaml marks final file interval 0x2edb4..0x2f4b4 as data; retain interpreter if reached"
+        }
+      ]
+    },
+    "SYSTEM/X13.BIN": {
+      "sha256": "4906b9fafa3f177722a5723b070c3238cb1f915896b17a808cc9ed9a87c4c8ca",
+      "excluded_ranges": [
+        {
+          "start": "0x80116b70",
+          "end": "0x80117300",
+          "sha256": "f5c399ecf8d476bd57d44fe8233d70e39092a6c5cdc7206fa4bf124eb7657560",
+          "reason": "Byte-matched Japan x13.yaml marks final file interval 0x2d078..0x2d808 as data; retain interpreter if reached"
+        }
+      ]
+    },
+    "SYSTEM/X14.BIN": {
+      "sha256": "66a3d70fbed8644b2d532233537211b8bfbb7d8cc93a8ad25c462a9fd172b8fa",
+      "excluded_ranges": [
+        {
+          "start": "0x801228bc",
+          "end": "0x80125594",
+          "sha256": "5e9ff86df60e661d5d514e2a633170f28f266227e874522eea23bcb04c3b8532",
+          "reason": "Byte-matched Japan x14.yaml marks final file interval 0x38dc4..0x3ba9c as data; retain interpreter if reached"
+        }
+      ]
+    },
+    "SYSTEM/X16.BIN": {
+      "sha256": "44711f04978ee08fe3654abeaf704c5067bfdd3a383f40ffd29f66d1a78160a2",
+      "excluded_ranges": [
+        {
+          "start": "0x80118004",
+          "end": "0x801186ec",
+          "sha256": "ed40950cec466318e4579fedbc1831626aead9c6b522a21c5034d5b05683f091",
+          "reason": "Byte-matched Japan x16.yaml marks final file interval 0x2e50c..0x2ebf4 as data; retain interpreter if reached"
+        }
+      ]
+    },
+    "SYSTEM/X17.BIN": {
+      "sha256": "b889b27a369b53d6960f5cdd27e70b3455bfcefbd16e4fa0cdfe311d6b56dba1",
+      "excluded_ranges": [
+        {
+          "start": "0x80118314",
+          "end": "0x80118c88",
+          "sha256": "46b8738012d6cce19f1c3df7b5981cb45e513daba5fee8bad0982cd2c7147c31",
+          "reason": "Byte-matched Japan x17.yaml marks final file interval 0x2e81c..0x2f190 as data; retain interpreter if reached"
+        }
+      ]
+    },
+    "SYSTEM/X18.BIN": {
+      "sha256": "aefe3c286d91a9814f0fbe3a4d65f968214cc5a7277e157703ebbf9c6e44d40b",
+      "excluded_ranges": [
+        {
+          "start": "0x801194ac",
+          "end": "0x8011989c",
+          "sha256": "925f1d6ac5d27fc457ee9a203429bef29c79c09e26d2191f766faf80eeae3f3a",
+          "reason": "Byte-matched Japan x18.yaml marks final file interval 0x2f9b4..0x2fda4 as data; retain interpreter if reached"
+        }
+      ]
+    }
+  }
+}

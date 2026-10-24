@@ -20,25 +20,27 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--oracle', action='store_true',
                         help='Compare unique streams with the original EU MIPS decoder, two fills')
-    parser.add_argument('--variant',choices=['eu1','eu2'],default='eu1')
+    parser.add_argument('--variant',choices=['eu1','eu2','jp'],default='eu1')
+    parser.add_argument('--output',type=Path,help='Private generated catalog directory')
     parser.add_argument('--oracle-limit',type=int,help='Explicit bounded original-MIPS sample; never claims full corpus')
     args = parser.parse_args()
     started = time.monotonic()
-    cue = ROOT/('disc/eu2/disc.cue' if args.variant=='eu2' else 'disc/Tombi! (Europe) (En,Fr,De,It,Nl) (Rev 1).cue')
+    cue = ROOT/('disc/jp/disc.cue' if args.variant=='jp' else 'disc/eu2/disc.cue' if args.variant=='eu2' else 'disc/Tombi! (Europe) (En,Fr,De,It,Nl) (Rev 1).cue')
     disc = Disc(cue)
     eu2_profile = None
     if args.variant=='eu2':
         sys.path.insert(0,str(ROOT/'eu2'))
         from revisions import PROFILES, active, source
         eu2_profile=PROFILES[active()]
-    check_disc(dict(disc_hashes={'sha1': eu2_profile['sha1'] if eu2_profile else
+    check_disc(dict(disc_hashes={'sha1': 'c86baf702303e7e0963b99aff307b1c40e40478a' if args.variant=='jp' else eu2_profile['sha1'] if eu2_profile else
                                '2505d958b4439d04844cadd3f968fc7432a48e00'}), disc, cue)
     oracle = None
     if args.oracle:
-        sys.path.insert(0, str(ROOT/('build-eu2-seamless/python-deps' if args.variant=='eu2' else 'build-eu-seamless/python-deps')))
-        oracle = DecoderOracle(disc.read('EXE/MAIN0.EXE' if args.variant=='eu2' else 'EXE/MAIN2.EXE'),
-                               entry=int(json.loads(source('seamless-contract.json').read_text())['languages'][0]['code']['0x8003bafc']['address'],16) if eu2_profile else 0x8003BAFC)
-    out = ROOT/('build-eu2-seamless/generated' if args.variant=='eu2' else 'build-eu-seamless/generated')
+        sys.path.insert(0, str(ROOT/('build-jp/full/test-deps' if args.variant=='jp' else 'build-eu2-seamless/python-deps' if args.variant=='eu2' else 'build-eu-seamless/python-deps')))
+        oracle = DecoderOracle(disc.read('SLPS_011.44' if args.variant=='jp' else 'EXE/MAIN0.EXE' if args.variant=='eu2' else 'EXE/MAIN2.EXE'),
+                               entry=0x8003C8C4 if args.variant=='jp' else int(json.loads(source('seamless-contract.json').read_text())['languages'][0]['code']['0x8003bafc']['address'],16) if eu2_profile else 0x8003BAFC)
+    out = (args.output or ROOT/('build-jp/final/generated' if args.variant=='jp' else 'build-eu2-seamless/generated' if args.variant=='eu2' else 'build-eu-seamless/generated')).resolve()
+    assert out.is_relative_to(ROOT)
     out.mkdir(parents=True, exist_ok=True)
     rows, streams, decoded = [], [], {}
     source_bytes = decoded_bytes = gam_count = oracle_count = 0

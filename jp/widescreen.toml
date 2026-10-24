@@ -1,0 +1,73 @@
+[game]
+name = "Ore! Tomba (Japan Widescreen RC3)"
+region = "Japan (NTSC-J)"
+id = "SLPS-01144"
+players = 1
+exe = "../disc/jp/SLPS_011.44"
+disc = "../disc/jp/disc.cue"
+load_address = "0x80010000"
+entry_pc = "0x80065D80"
+text_size = "0x0008E000"
+stack_base = "0x801FFFF0"
+
+[prepare_disc]
+boot_exe = "SLPS_011.44"
+known_sizes = [289430064]
+known_md5 = ["788922f281da3337e03c7113f9bd9bf5"]
+known_sha1 = ["c86baf702303e7e0963b99aff307b1c40e40478a"]
+
+[recompiler]
+seeds = "seeds/boot.txt"
+out_dir = "../build-jp/widescreen/generated/boot"
+strict = true
+mod_function_entry_funcs = ["0x80016740", "0x800167C0", "0x8001B808", "0x80043A90", "0x8005AF80", "0x80060598", "0x80057260"]
+
+[runtime]
+window_title = "Ore! Tomba SLPS-01144 Widescreen RC3"
+memcard_dir = "saves/SLPS-01144"
+overlay_cache = true
+disc_speed = "1x"
+idle_skip = false
+turbo_loads = false
+offer_turbo_loads = false
+bios_hle = true
+fast_boot = false
+
+[video]
+renderer = "opengl"
+vsync = "off"
+fullscreen = 0
+internal_resolution = "1080p"
+pgxp_mod_only = true
+offer_vulkan = false
+offer_render_pipeline = false
+offer_frame_interpolation = false
+aspect_ratio = "4:3"
+auto_skip_fmv = false
+fmv_skip_total_table = 0x80071D3C
+fmv_skip_movie_id = 0x1F8001CD
+fmv_skip_end_total = 3
+offer_skip_fmv = false
+
+[audio]
+spu_hq = true
+
+[controller]
+default_mode = "digital"
+multitap_analog = false
+
+[widescreen]
+offer = false
+adaptive_view = true
+native_wide = true
+sprite_tag_funcs = ["0x8005AF80"]
+sprite_anchor_addr = "0x1F800070"
+[widescreen.cull]
+guard_pixels = 32
+activation_guard_pixels = 32
+bias_sites = ["0x80021260", "0x8002137C", "0x800213D0", "0x80021450"]
+range_sites = ["0x80021268", "0x80021384", "0x800213D8", "0x80021458"]
+a1_sites = ["0x8002101C", "0x80021150", "0x800214E4"]
+auto_screen_x = true
+screen_h_imms = ["0xE0", "0xF1"]
+auto_backdrop = true
