@@ -97,7 +97,7 @@ if(TOMBI_PC_FEATURES)
     endif()
     # Address-free host policy; guest widescreen hooks use checked EU adapters.
     target_sources(${tombi_target} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/low_input_latency.c"
+        "${TOMBA_ROOT}/src/mods/tomba_low_input_latency_plugin.c"
         "${TOMBA_ROOT}/src/mods/tomba_hybrid_controller_plugin.c"
         "${TOMBA_ROOT}/src/mods/tomba_skip_fmv_plugin.c")
     if(TARGET ${tombi_target}-pgxp)
