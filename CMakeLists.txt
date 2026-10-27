@@ -26,6 +26,7 @@ set(PSXRECOMP_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/psxrecomp" CACHE PATH
 #     set(PSX_NETPLAY ON CACHE BOOL "…" FORCE)
 # endif()
 option(PSX_SETUP_WIZARD "Enable the legacy developer code-generation wizard" OFF)
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/MemoryCardManager.cmake")
 include("${PSXRECOMP_ROOT}/runtime/runtime.cmake")
 
 set(TOMBA_CODEGEN_SETUP_SOURCES)

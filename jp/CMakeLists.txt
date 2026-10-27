@@ -5,6 +5,7 @@ set(PSXRECOMP_ROOT "${TOMBA_ROOT}/psxrecomp" CACHE PATH "Shared framework")
 set(RECOMP_UI_ROOT "${TOMBA_ROOT}/recomp-ui" CACHE PATH "Shared launcher")
 set(PSX_SETUP_WIZARD OFF CACHE BOOL "No developer wizard" FORCE)
 set(PSXRECOMP_REQUIRE_GAME_C ON CACHE BOOL "Verified native boot required" FORCE)
+include("${TOMBA_ROOT}/cmake/MemoryCardManager.cmake")
 include("${PSXRECOMP_ROOT}/runtime/runtime.cmake")
 # The enhanced build carries every Japanese feature: Seamless Loading and FMV
 # Skip (checked loader/movie bindings) and Widescreen (checked shared-renderer
