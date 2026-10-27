@@ -14,6 +14,9 @@ and overlays with the added mod_instruction_sites. Never rename old native DLLs
 into a new configuration namespace. Whole-function contracts and device checks
 fall back to original input when a profile or controller mode is unsupported.
 
+Runtime acceptance beyond EU1 is still pending; static contracts alone are not
+a gameplay acceptance test. This regional extension remains a review draft.
+
 Coverage is offline single-player digital P1. Analog/Hybrid, controller transforms
 or sources, multitap, netplay, replay and input guards retain original input.
 Short observed taps are latched; discontinuities re-prime without replaying old
