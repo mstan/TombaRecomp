@@ -1,0 +1,22 @@
+format_version = 5
+id = "tombi.enhancement.low-input-latency"
+version = "0.1.0"
+name = "Low Input Latency"
+author = "TombiRecomp contributors"
+description = "Uses fresher digital input without changing the original simulation rate."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SCES-01330"
+
+[[feature]]
+id = "low-input-latency"
+name = "Low Input Latency"
+description = "Reduces the original digital controller packet delay. Currently verified for English EU1 Rev 1, offline single-player D-pad. Other languages and controller modes retain original input. Applies at the next game start."
+group = "Gameplay"
+default_enabled = false
+
+[[plugin]]
+feature = "low-input-latency"
+id = "tombi.low-input-latency"

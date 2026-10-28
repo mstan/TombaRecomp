@@ -27,6 +27,7 @@ known_sha1 = [
 ]
 
 [recompiler]
+mod_instruction_sites = ["0x80028EEC"]
 seeds = "seeds/ghidra_funcs.txt"
 out_dir = "generated"
 strict = true

@@ -96,6 +96,7 @@ if(TOMBI_PC_FEATURES)
     endif()
     # Address-free host policy; guest widescreen hooks use checked EU adapters.
     target_sources(${tombi_target} PRIVATE
+        "${TOMBA_ROOT}/src/mods/tomba_low_input_latency_plugin.c"
         "${TOMBA_ROOT}/src/mods/tomba_hybrid_controller_plugin.c"
         "${TOMBA_ROOT}/src/mods/tomba_skip_fmv_plugin.c")
     if(TARGET ${tombi_target}-pgxp)
@@ -105,6 +106,25 @@ if(TOMBI_PC_FEATURES)
     endif()
     include(CTest)
     if(BUILD_TESTING)
+        add_executable(tombi-low-input-tests tests/test_low_input_latency.c)
+        target_include_directories(tombi-low-input-tests PRIVATE
+            "${PSXRECOMP_ROOT}/runtime/include")
+        target_compile_options(tombi-low-input-tests PRIVATE
+            $<$<C_COMPILER_ID:MSVC>:/UNDEBUG>
+            $<$<NOT:$<C_COMPILER_ID:MSVC>>:-UNDEBUG>)
+        set(TOMBI_INPUT_TEST_MAIN_DIR "" CACHE PATH
+            "Optional owner-extracted EU1 MAIN0..4 directory")
+        if(TOMBI_INPUT_TEST_MAIN_DIR)
+            add_test(NAME tombi_low_input COMMAND tombi-low-input-tests
+                "${TOMBI_INPUT_TEST_MAIN_DIR}/MAIN0.EXE"
+                "${TOMBI_INPUT_TEST_MAIN_DIR}/MAIN1.EXE"
+                "${TOMBI_INPUT_TEST_MAIN_DIR}/MAIN2.EXE"
+                "${TOMBI_INPUT_TEST_MAIN_DIR}/MAIN3.EXE"
+                "${TOMBI_INPUT_TEST_MAIN_DIR}/MAIN4.EXE")
+        else()
+            add_test(NAME tombi_low_input COMMAND tombi-low-input-tests)
+        endif()
+        set_tests_properties(tombi_low_input PROPERTIES SKIP_RETURN_CODE 77)
         add_executable(tombi-widescreen-identity-tests tests/test_widescreen_identity.c
             "${tombi_ws}/eu_widescreen.c")
         target_include_directories(tombi-widescreen-identity-tests PRIVATE

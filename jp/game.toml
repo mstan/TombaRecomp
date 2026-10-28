@@ -17,6 +17,7 @@ known_md5 = ["788922f281da3337e03c7113f9bd9bf5"]
 known_sha1 = ["c86baf702303e7e0963b99aff307b1c40e40478a"]
 
 [recompiler]
+mod_instruction_sites = ["0x800207C8"]
 seeds = "seeds/boot.txt"
 out_dir = "../build-jp/generated"
 strict = true
