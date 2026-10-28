@@ -50,6 +50,8 @@ def emit(rows,codes,offset,identities,out,overlay_call='0x0C00A8E2u',script_call
         for key,value in cases.items():source=source.replace(key,value)
         source=source.replace('0x0C00B3BEu',overlay_call).replace('0x0C008B91u',script_call).replace('0x22E44u',hex(codes[0x80022e44]&0x1fffffff)+'u')
         if descriptor:source=source.replace('/* POOL_DESCRIPTORS */',descriptor).replace('pools[p].base','eu_ws_address(pools[p].base)')
+        source=source.replace('if (!tomba_widescreen_enabled) return 0;',
+            'if (!tomba_widescreen_enabled || !eu_ws_refresh()) return 0;')
         source=source.replace('if (!tomba_widescreen_enabled) return;','if (!tomba_widescreen_enabled || !eu_ws_refresh()) { psx_mod_set_widescreen_view_anchor(0,0); return; }')
         source=source.replace('if (!enabled ||','if (!eu_ws_refresh() || !enabled ||')
         source=source.replace('    tomba_widescreen_scripts_tick();','    if (!eu_ws_refresh()) { psx_mod_set_widescreen_view_anchor(0,0); return; }\n    tomba_widescreen_scripts_tick();')

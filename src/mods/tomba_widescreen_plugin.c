@@ -5,6 +5,7 @@
 #include "tomba_widescreen_view.h"
 #include "tomba_widescreen_camera.h"
 #include "tomba_widescreen_scripts.h"
+#include "tomba_widescreen_scene.h"
 
 /*
  * Tomba's game-specific widescreen hooks remain part of generated/runtime
@@ -17,6 +18,35 @@
 #define PKG "tomba.enhancement.widescreen"
 #define FEATURE "widescreen"
 static int tomba_widescreen_enabled;
+static uint32_t tomba_widescreen_frame, tomba_widescreen_world_frame;
+static int tomba_widescreen_world_seen;
+
+static int tomba_widescreen_world_scene_present(void) {
+    if (!tomba_widescreen_enabled) return 0;
+    if (!psx_mod_game_started()) return 0;
+    return tomba_widescreen_world_scene(
+        psx_mod_read_half(0x8009BCC8u), psx_mod_read_half(0x8009BCCAu),
+        tomba_widescreen_world_seen, tomba_widescreen_frame,
+        tomba_widescreen_world_frame);
+}
+/* Event-title glyphs use the persistent layer-8 pool, including the untextured
+ * GTE jingle quads. They are UI, not newly revealed terrain. Preserve the
+ * underlying scene's presentation instead of forcing every event to 4:3.
+ * The pool base/stride/count already belong to the checked residency profile. */
+static int tomba_widescreen_retained_scene(void) {
+    if (!tomba_widescreen_enabled) return 0;
+    if (!psx_mod_game_started()) return 0;
+    for (unsigned i = 0; i < 45; ++i) {
+        uint32_t object = 0x800B0B88u + i * 0xD4u;
+        if (psx_mod_read_byte(object) == 1 &&
+            psx_mod_read_byte(object + 2) == 1 &&
+            psx_mod_read_half(object + 8) == 0x7D16u &&
+            (psx_mod_read_byte(object + 0x1C) & 0x80))
+            return PSX_MOD_SCENE_HOLD;
+    }
+    /* Guest objects can finish before their submitted frontbuffer is replaced. */
+    return PSX_MOD_SCENE_UNTIL_FLIP;
+}
 extern void tomba_widescreen_residency_activate(void);
 
 /* Moving the guest camera itself under-shifts slower parallax backdrops.
@@ -53,6 +83,7 @@ static void tomba_widescreen_anchor_camera(CPUState* cpu, uint32_t address) {
 }
 
 static void tomba_widescreen_tick(void) {
+    ++tomba_widescreen_frame;
     tomba_widescreen_scripts_tick();
     tomba_widescreen_refresh_anchor();
 }
@@ -60,14 +91,21 @@ static void tomba_widescreen_tick(void) {
 static void tomba_widescreen_tag_hud(CPUState* cpu, uint32_t address) {
     (void)address;
     if (!tomba_widescreen_enabled) return;
-    psx_mod_tag_hud_primitive(cpu->gpr[4],
-        tomba_hud_edge(cpu->gpr[31], cpu->gpr[29], psx_mod_read_word));
-    psx_mod_tag_world_primitive(cpu->gpr[4], tomba_is_world_sprite(cpu->gpr[31]));
+    int edge = tomba_hud_edge(cpu->gpr[31], cpu->gpr[29], psx_mod_read_word);
+    psx_mod_tag_hud_primitive(cpu->gpr[4], edge);
+    int world = tomba_is_world_sprite(cpu->gpr[31]);
+    psx_mod_tag_world_primitive(cpu->gpr[4], world);
+    if (world || edge) {
+        tomba_widescreen_world_seen = 1;
+        tomba_widescreen_world_frame = tomba_widescreen_frame;
+    }
 }
 
 static void tomba_widescreen_activate(void) {
     char aspect[16];
     tomba_widescreen_enabled = 1;
+    psx_mod_set_world_scene_predicate(tomba_widescreen_world_scene_present);
+    psx_mod_set_retained_scene_predicate(tomba_widescreen_retained_scene);
     tomba_widescreen_residency_activate();
     tomba_widescreen_scripts_activate();
     psx_mod_set_adaptive_backdrop_preload(1);
@@ -83,6 +121,11 @@ static void tomba_widescreen_activate(void) {
             TOMBA_WIDESCREEN_FIT_MAX_DENOMINATOR);
 }
 
+static void tomba_widescreen_restore(void) {
+    tomba_widescreen_world_seen = 0;
+    tomba_widescreen_tick();
+}
+
 PSX_MOD_CONSTRUCTOR(tomba_register_widescreen_plugin) {
     (void)psx_mod_register_function_entry_plugin(
         "tomba.widescreen", 0x800636A4u, tomba_widescreen_anchor_camera);
@@ -93,5 +136,5 @@ PSX_MOD_CONSTRUCTOR(tomba_register_widescreen_plugin) {
     (void)psx_mod_register_vblank_plugin(
         "tomba.widescreen", tomba_widescreen_tick);
     (void)psx_mod_register_savestate_plugin(
-        "tomba.widescreen", tomba_widescreen_tick);
+        "tomba.widescreen", tomba_widescreen_restore);
 }

@@ -124,6 +124,8 @@ foreach(TOMBA_RUNTIME_CONFIG game.toml game_options.toml)
 endforeach()
 
 if(BUILD_TESTING)
+    add_executable(tomba-widescreen-scene-tests tests/test_widescreen_scene.c)
+    add_test(NAME tomba_widescreen_scene COMMAND tomba-widescreen-scene-tests)
     add_executable(tomba-retired-frame-blending-tests
         tests/test_retired_frame_blending.c src/mods/tomba_frame_interpolation_plugin.c)
     target_include_directories(tomba-retired-frame-blending-tests PRIVATE
