@@ -47,9 +47,14 @@ static void read_return(struct CPUState *cpu,uint32_t pc) {
         if(!current || current->start!=match->start || current->hash!=match->hash)reset();
         current=match;
     }
-    uint32_t held;
-    if(psx_mod_read_digital_pad(0,&reader,cpu->gpr[2],&held))
-        cpu->gpr[2]=match->kind?(uint16_t)held:(uint32_t)(int32_t)(int16_t)(uint16_t)held;
+    /* Japan's legacy BIOS ReadPad layout swaps the two button bytes.
+     * Keep the shared host reader canonical in both directions; only convert
+     * the checked guest boundary. Original P2 and SIO data stay untouched. */
+    uint32_t legacy=cpu->gpr[2],held;
+    if(match->kind)legacy=((legacy>>8)&0xffu)|((legacy&0xffu)<<8);
+    if(psx_mod_read_digital_pad(0,&reader,legacy,&held))
+        cpu->gpr[2]=match->kind?((held>>8)&0xffu)|((held&0xffu)<<8):
+            (uint32_t)(int32_t)(int16_t)(uint16_t)held;
 }
 PSX_MOD_CONSTRUCTOR(tombi_register_low_input_latency) {
     (void)psx_mod_register_session_reset_plugin(PLUGIN,reset);

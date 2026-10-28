@@ -6,14 +6,14 @@
 #include <string.h>
 #include "../low_input_latency.c"
 static unsigned char image[0x200000];
-static uint32_t sample;
+static uint32_t sample,last_legacy;
 static int allowed,reads;
 uint8_t psx_mod_read_byte(uint32_t pc) {return (pc&0x1fffffffu)<sizeof image?image[pc&0x1fffffffu]:0;}
 uint16_t psx_mod_read_half(uint32_t pc) {return psx_mod_read_byte(pc)|(uint16_t)psx_mod_read_byte(pc+1)<<8;}
 uint32_t psx_mod_read_word(uint32_t pc) {return psx_mod_read_half(pc)|(uint32_t)psx_mod_read_half(pc+2)<<16;}
 static void put(uint32_t a,uint32_t v) {for(int i=0;i<4;++i)image[(a&0x1fffffu)+i]=(uint8_t)(v>>(8*i));}
 int psx_mod_read_digital_pad(uint32_t player,PSXModDigitalPadReader *r,uint32_t old,uint32_t *out) {
-    (void)r;(void)old;assert(player==0);++reads;*out=sample;return allowed;
+    (void)r;last_legacy=old;assert(player==0);++reads;*out=sample;return allowed;
 }
 int psx_mod_register_session_reset_plugin(const char *id,PSXModActivationCallback cb) {(void)id;(void)cb;return 1;}
 int psx_mod_register_activation_plugin(const char *id,PSXModActivationCallback cb) {(void)id;(void)cb;return 1;}
@@ -43,7 +43,7 @@ int main(int argc,char **argv) {
         for(unsigned bit=0;bit<18;++bit) {
             sample=bit<16?1u<<bit:bit==16?0:65535;
             CPUState cpu=before,expected=before;
-            expected.gpr[2]=p->kind?(uint16_t)sample:(uint32_t)(int32_t)(int16_t)(uint16_t)sample;
+            expected.gpr[2]=p->kind?((sample>>8)&0xffu)|((sample&0xffu)<<8):(uint32_t)(int32_t)(int16_t)(uint16_t)sample;
             read_return(&cpu,p->hook);assert(!memcmp(&cpu,&expected,sizeof cpu));
         }
         assert(reads==18);
@@ -55,11 +55,17 @@ int main(int argc,char **argv) {
                 if(q->kind!=p->kind || q->hash!=p->hash || q->start!=p->start)continue;
                 CPUState call=before,expected=before;
                 call.gpr[31]=expected.gpr[31]=q->caller;
-                sample=0xa55au;expected.gpr[2]=sample;
+                sample=0xa55au;expected.gpr[2]=0x5aa5u;
                 int count=reads;read_return(&call,q->hook);
                 assert(reads==count+1 && !memcmp(&call,&expected,sizeof call));
             }
         }
+        /* Priming/fallback receives canonical buttons while preserving the
+         * original guest result when the host reader declines. */
+        CPUState raw=before;raw.gpr[2]=0x1234u;CPUState original=raw;
+        allowed=0;read_return(&raw,p->hook);
+        assert(last_legacy==(p->kind?0x3412u:0x1234u));
+        assert(!memcmp(&raw,&original,sizeof raw));
         CPUState cpu=before;allowed=0;read_return(&cpu,p->hook);assert(!memcmp(&cpu,&before,sizeof cpu));
         allowed=1;cpu=before;cpu.gpr[31]=0;CPUState bad=cpu;reads=0;
         read_return(&cpu,p->hook);assert(!reads && !memcmp(&cpu,&bad,sizeof cpu));
