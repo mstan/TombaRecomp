@@ -38,6 +38,8 @@ if(TOMBI_EU2_SEAMLESS)
     execute_process(COMMAND "${Python3_EXECUTABLE}" -I -B
         "${CMAKE_CURRENT_SOURCE_DIR}/widescreen_profile.py" COMMAND_ERROR_IS_FATAL ANY)
 endif()
+include("${TOMBA_ROOT}/cmake/TombaAudioSync.cmake")
+tomba_audio_sync_catalog(eu2_mods "${eu2_mods}")
 psxrecomp_add_game_runtime(tombi-eu2
     WINDOW_TITLE "Tombi! (Europe, SCES-01331)"
     DEFAULT_GAME_CONFIG_PATH "game.toml"
@@ -112,3 +114,5 @@ if(TOMBI_EU2_SEAMLESS)
     endif()
     endif()
 endif()
+
+target_sources(tombi-eu2 PRIVATE "${TOMBA_ROOT}/src/mods/tomba_audio_sync_plugin.c")

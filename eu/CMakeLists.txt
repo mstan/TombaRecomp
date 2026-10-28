@@ -42,6 +42,8 @@ if(TOMBI_PLAYER_RELEASE)
     file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/release/mods/packages/"
         DESTINATION "${tombi_mods}/packages")
 endif()
+include("${TOMBA_ROOT}/cmake/TombaAudioSync.cmake")
+tomba_audio_sync_catalog(tombi_mods "${tombi_mods}")
 psxrecomp_add_game_runtime(${tombi_target}
     WINDOW_TITLE "Tombi! Europe Rev 1"
     DEFAULT_GAME_CONFIG_PATH "${tombi_config}"
@@ -169,3 +171,5 @@ else()
     set_target_properties(${tombi_target} PROPERTIES OUTPUT_NAME "Tombi_EU_Prototype")
 endif()
 # Original EU profiles supply guest addresses; host policies remain shared.
+
+target_sources(${tombi_target} PRIVATE "${TOMBA_ROOT}/src/mods/tomba_audio_sync_plugin.c")
