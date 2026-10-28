@@ -14,11 +14,17 @@ and overlays with the added mod_instruction_sites. Never rename old native DLLs
 into a new configuration namespace. Whole-function contracts and device checks
 fall back to original input when a profile or controller mode is unsupported.
 
-Runtime acceptance beyond EU1 is still pending; static contracts alone are not
-a gameplay acceptance test. This regional extension remains a review draft.
+Short controller-only LOAD checks pass for USA and English EU2 original revision:
+walking, direction changes, jump/landing, and observed input edges. English EU1
+also has an owner-confirmed responsiveness improvement. The other European
+languages and EU2 Rev 1 have original-byte contract coverage, not new gameplay
+acceptance. Japan's original menu lists the save, but loading into controllable
+gameplay remains unconfirmed. These checks are not campaign certification.
 
-Coverage is offline single-player digital P1. Analog/Hybrid, controller transforms
-or sources, multitap, netplay, replay and input guards retain original input.
+Coverage is offline single-player digital P1. Analog/Hybrid, registered controller
+transforms or sources, configured multiple pads, multitap, netplay, replay and
+input guards retain original input. Unknown guest-only multiplayer patches are
+not validated by this API.
 Short observed taps are latched; discontinuities re-prime without replaying old
 edges. No host API can recover input that the operating system never delivered.
 
@@ -27,3 +33,7 @@ eu/tests/test_low_input_latency.c accepts owner-extracted regional executables
 and checks original-byte contracts, preserved registers and fallback paths.
 Retail bytes are never distributed. Internal timings are not controller-to-TV
 measurements. Frame interpolation is independent and is not part of this change.
+
+The validated production path is unchanged. Re-polling SDL inside the guest hook
+or changing presentation timing needs separate correctness work; neither is an
+additional proven safe latency reduction in this change.

@@ -47,6 +47,19 @@ int main(int argc,char **argv) {
             read_return(&cpu,p->hook);assert(!memcmp(&cpu,&expected,sizeof cpu));
         }
         assert(reads==18);
+        /* Both verified Japanese callers reach the same original P1 store.
+         * Exercise each, not just the first matching regional profile. */
+        if(p->kind) {
+            for(unsigned i=0;i<sizeof input_profiles/sizeof *input_profiles;++i) {
+                const TombaInputProfile *q=&input_profiles[i];
+                if(q->kind!=p->kind || q->hash!=p->hash || q->start!=p->start)continue;
+                CPUState call=before,expected=before;
+                call.gpr[31]=expected.gpr[31]=q->caller;
+                sample=0xa55au;expected.gpr[2]=sample;
+                int count=reads;read_return(&call,q->hook);
+                assert(reads==count+1 && !memcmp(&call,&expected,sizeof call));
+            }
+        }
         CPUState cpu=before;allowed=0;read_return(&cpu,p->hook);assert(!memcmp(&cpu,&before,sizeof cpu));
         allowed=1;cpu=before;cpu.gpr[31]=0;CPUState bad=cpu;reads=0;
         read_return(&cpu,p->hook);assert(!reads && !memcmp(&cpu,&bad,sizeof cpu));
