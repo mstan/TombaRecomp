@@ -13,7 +13,10 @@ option(TOMBI_EU2_GEOMETRY_VALIDATE "Private original-vs-HLE differential checks"
 if(TOMBI_EU2_PLAYER_RELEASE AND PSX_DEBUG_TOOLS)
     message(FATAL_ERROR "Player releases must use PSX_DEBUG_TOOLS=OFF")
 endif()
-set(eu2_mods NONE)
+set(input_mods "${CMAKE_CURRENT_BINARY_DIR}/input-preloaded")
+file(COPY "${TOMBA_ROOT}/mods/preloaded/packages/tombi.enhancement.low-input-latency"
+    DESTINATION "${input_mods}/packages")
+set(eu2_mods "${input_mods}")
 if(TOMBI_EU2_SEAMLESS)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
     execute_process(COMMAND "${Python3_EXECUTABLE}" -I -B
@@ -117,3 +120,4 @@ if(TOMBI_EU2_SEAMLESS)
 endif()
 
 target_sources(tombi-eu2 PRIVATE "${TOMBA_ROOT}/src/mods/tomba_audio_sync_plugin.c")
+target_sources(tombi-eu2 PRIVATE "${TOMBA_ROOT}/src/mods/tomba_low_input_latency_plugin.c")
