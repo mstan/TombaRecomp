@@ -41,7 +41,8 @@ antialiasing = true
 texture_filtering = "nearest"
 renderer = "opengl"
 
-# Native movie playback and 4:3 are the baseline. Their bundled mods are off.
+# Native movie playback is the baseline. Widescreen defaults to Fit to Window
+# through its bundled mod; disabling it restores the 4:3 base view below.
 auto_skip_fmv = false
 offer_skip_fmv = false
 fmv_skip_total_table = 0x80077728

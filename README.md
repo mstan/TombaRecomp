@@ -27,8 +27,9 @@ Download the matching Windows ZIP from
 | **TombiRecomp-Europe-SCES01331-Rev1** | SCES-01331 Rev 1 | English, Spanish, Portuguese, Swedish, Danish |
 
 All three include optional adaptive **Widescreen**, Geometry Optimization,
-Seamless Loading and audited native opening overlays. Widescreen starts off;
-enable it in Mods and choose Fit to Window or a fixed ratio. EU2 FMV Skip
+Seamless Loading and audited native opening overlays. The current USA prerelease
+enables Widescreen with Fit to Window for fresh settings; saved choices are
+preserved. Choose a fixed ratio or disable the mod in Mods. EU2 FMV Skip
 remains unavailable. See the [SCES-01331 guide](eu2/README.md) for its exact
 original-disc inputs and scoped validation.
 
@@ -51,6 +52,8 @@ own legally obtained assets.
 
 Important files:
 
+- [Archipelago and local debugging](docs/ARCHIPELAGO.md): enable the optional
+  TCP debug server in release builds and connect local tools.
 - [Original-disc AOT overlays](docs/AOT_OVERLAYS.md): pre-shard Tomba's 25 known
   overlay images, verify source-byte guards, and run gameplay spot checks.
 - [HD texture packs](docs/HD_TEXTURE_PACKS.md): install compatible DuckStation
@@ -115,7 +118,8 @@ follow-ups. See the release page for the evidence attached to each version.
 - **FMV skip modes.** Skip every movie, or enable **Preserve title and
   ending FMVs (Any%)** to keep the opening before the title, post-final-pig
   cutscene, and credits. The exception setting is off by default.
-- **Optional Widescreen.** Fit to Window follows the window's aspect
+- **Adaptive Widescreen.** Enabled by default in the current USA prerelease.
+  Fit to Window follows the window's aspect
   ratio through 34:9, with fixed 16:9, 21:9 and 32:9 choices. Terrain, objects and HUD adapt
   to the expanded view. Extreme widths and all-area coverage remain experimental.
 - **Controller modes.** Choose Analog (DualShock, variable stick movement) or

@@ -1,5 +1,18 @@
 # Tomba! (USA) release notes
 
+## 0.24.3-alpha — production TCP server and default adaptive widescreen
+
+Integrates the production TCP Debug Server previously available only in the
+PR #49 test prerelease. Enable it in Mods / Advanced before launching, then
+connect Archipelago or another local tool to 127.0.0.1:4370. The choice is
+remembered and starts disabled. Bulk RAM writes support 1–1024 bytes and reject
+invalid requests before writing any memory. Development tracing stays off.
+
+Fresh profiles enable Widescreen with Fit to Window and Internal Resolution
+at 4x. Explicit saved aspect, mod and resolution choices remain in effect.
+The qualified HLE geometry, native waits and shared native services from
+0.24.2 are retained. This prerelease contains only Tomba! (USA), SCUS-94236.
+
 ## 0.24.2-alpha — current master, USA HLE and internal HD resolution
 
 Updates psxrecomp to master `a7b37e07` and recomp-ui to master `a956157`.

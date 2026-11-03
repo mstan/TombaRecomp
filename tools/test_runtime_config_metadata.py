@@ -99,8 +99,8 @@ def main() -> int:
             errors.append('US and EU must display Widescreen')
         if regional['id'] != 'tomba.enhancement.widescreen' or regional['feature'][0]['id'] != 'widescreen':
             errors.append('renaming Widescreen must preserve existing package/feature identities')
-        if regional['feature'][0]['default_enabled'] or regional['option'][0]['default'] != 'Fit':
-            errors.append('regional Widescreen must remain optional and default to Fit')
+        if regional['option'][0]['default'] != 'Fit':
+            errors.append('regional Widescreen must default to Fit')
     if eu['target'][0]['game_id'] != 'SCES-01330':
         errors.append('EU Widescreen must target the verified EU release')
     for rel in ('eu/pc.toml','eu/seamless/game.toml','eu/release/game.toml'):
@@ -111,8 +111,8 @@ def main() -> int:
             errors.append(rel+': incorrect EU sprite builder')
         if '0x100' not in cfg['widescreen']['cull'].get('screen_h_imms',[]):
             errors.append(rel+': PAL geometry requires its 256-line screen signature')
-    if package["feature"][0]["default_enabled"]:
-        errors.append("custom renderer must be default-off")
+    if package["feature"][0]["default_enabled"] is not True:
+        errors.append("USA Widescreen must default on for fresh profiles")
     aspect = next(o for o in package["option"] if o["id"] == "aspect")
     if aspect["default"] != "Fit":
         errors.append("custom renderer must default to Fit to Window")
