@@ -25,4 +25,4 @@ ship = true
 
 [payload]
 start_here = "packaging/release/OPTIMIZATION_START_HERE.txt"
-files = ["README.md", "RELEASE_NOTES.md"]
+files = ["README.md", "RELEASE_NOTES.md", "docs/ARCHIPELAGO.md"]

@@ -1,7 +1,9 @@
 # Widescreen integration
 
 The optional **Widescreen** mod uses the native wide renderer in both USA and
-Europe builds. It starts disabled and initially selects **Fit to Window**.
+Europe builds. Fresh USA release profiles enable it with **Fit to Window**;
+explicit saved mod and aspect choices are preserved. Other regional releases
+retain their published settings.
 Fit follows live window changes from 4:3 through 34:9; wider windows keep side
 bars. Fixed 16:9, 21:9 and 32:9 use the same rendering path. Disabling the mod
 restores the native 4:3 view. Movies and full-screen 2D scenes retain their
