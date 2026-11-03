@@ -21,6 +21,8 @@ if(TOMBA_JP_ENHANCEMENTS)
     execute_process(COMMAND "${Python3_EXECUTABLE}" -I -B "${CMAKE_CURRENT_SOURCE_DIR}/widescreen_profile.py" --output "${jp_generated}" COMMAND_ERROR_IS_FATAL ANY)
     set(jp_mods "${CMAKE_CURRENT_SOURCE_DIR}/mods")
 endif()
+include("${TOMBA_ROOT}/cmake/TombaAudioSync.cmake")
+tomba_audio_sync_catalog(jp_mods "${jp_mods}")
 psxrecomp_add_game_runtime(tomba-jp
     PGXP
     WINDOW_TITLE "Ore! Tomba"
@@ -57,3 +59,5 @@ endif()
 # The shared launcher already embeds the UTF-8 application manifest
 # (recomp-ui windows/recomp_utf8.manifest); a second manifest resource would
 # collide with it at link time.
+
+target_sources(tomba-jp PRIVATE "${TOMBA_ROOT}/src/mods/tomba_audio_sync_plugin.c")
