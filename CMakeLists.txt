@@ -38,6 +38,7 @@ set(PSX_GL_BATCH_IMPL "${_tomba_gl_batch_default}" CACHE STRING
     "OpenGL textured batching: LLE or HLE")
 unset(_tomba_gl_batch_default)
 
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/MemoryCardManager.cmake")
 include("${PSXRECOMP_ROOT}/runtime/runtime.cmake")
 
 set(TOMBA_CODEGEN_SETUP_SOURCES)
