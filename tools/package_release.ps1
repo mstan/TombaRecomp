@@ -132,6 +132,7 @@ if (-not (Test-Path $DevExe)) { throw "Built runtime executable not found in $Bu
 Copy-Item $DevExe (Join-Path $Stage "TombaRecomp.exe")
 Copy-Item (Join-Path $Root "README.md") $Stage
 Copy-Item (Join-Path $Root "LICENSE") $Stage
+Copy-Item (Join-Path $Root "PERMISSIONS.md") $Stage
 $BundledBiosSrc = Join-Path $BuildPath "bios"
 if (!(Test-Path (Join-Path $BundledBiosSrc "openbios.bin")) -or
     (Get-Item (Join-Path $BundledBiosSrc "openbios.bin")).Length -ne 524288 -or

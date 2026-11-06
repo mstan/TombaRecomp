@@ -102,7 +102,7 @@ cp "$root/packaging/release/game.toml" "$payload/game.toml"
 cp "$root/game_options.toml" "$payload/game_options.toml"
 cp "$root/packaging/release/input.ini" "$payload/input.ini"
 cp "$root/packaging/release/START_HERE.txt" "$payload/START_HERE.txt"
-cp "$root/LICENSE" "$root/README.md" "$payload/"
+cp "$root/LICENSE" "$root/PERMISSIONS.md" "$root/README.md" "$payload/"
 cp "$root/packaging/linux/README.md" "$payload/APPIMAGE_README.md"
 psx_add_overlay_toolchain --stage "$payload" \
                           --recomp-dir "$(dirname -- "$recompiler_bin")" \

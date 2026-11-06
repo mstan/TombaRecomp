@@ -150,6 +150,7 @@ def package(region, build, aot, out, version):
                                                 'the shared audio measurement design'))
     shutil.copytree(ROOT / 'psxrecomp/runtime/licenses', player / 'licenses')
     for source, target in ((ROOT / 'LICENSE', player / 'LICENSE'),
+                           (ROOT / 'PERMISSIONS.md', player / 'PERMISSIONS.md'),
                            (ROOT / 'psxrecomp/LICENSE', player / 'licenses/PSXRecomp-LICENSE'),
                            (ROOT / 'recomp-ui/LICENSE', player / 'licenses/recomp-ui-LICENSE'),
                            (ROOT / 'recomp-ui/src/third_party/imgui/LICENSE.txt', player / 'licenses/ImGui-LICENSE.txt'),
