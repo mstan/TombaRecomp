@@ -1,0 +1,40 @@
+format_version = 5
+id = "psx.audio.low-latency"
+version = "1.0.1"
+name = "Audio Sync Fix"
+author = "TombiRecomp contributors"
+description = "Reduces audio latency and prevents excess buffering during startup, fast-forward and display mode changes."
+resolver = "declarative"
+save_compatibility = "shared"
+[[target]]
+game_id = "*"
+[[feature]]
+id = "low-latency-audio"
+name = "Audio Sync Fix"
+description = "Changes apply at the next game start. The Audio Buffer target applies at the next game start (70 ms default and recommended). Values below 70 ms are experimental; higher values provide more buffer reserve. 20 ms is known unstable. Restores low buffering after display-mode changes. Accelerated audio is discarded during fast-forward while the SPU keeps running; normal playback resumes automatically. OFF restores the original buffer. High Quality SPU and game speed are unchanged."
+group = "Audio"
+default_enabled = true
+[[plugin]]
+feature = "low-latency-audio"
+id = "psx.low-latency-audio"
+
+[[option]]
+feature = "low-latency-audio"
+id = "target_ms"
+label = "Audio Buffer"
+description = "Target buffer, not measured output latency. 70 ms default and Recommended; below 70 ms Experimental; above 70 ms more buffer reserve; 20 ms unstable. Applies at the next game start."
+group = "Audio"
+type = "integer"
+min = 20
+max = 180
+step = 5
+default = 70
+
+[[option]]
+feature = "low-latency-audio"
+id = "diagnostics"
+label = "Audio Diagnostics"
+description = "Optional once-per-second target, fill, underrun, overflow and device-lifecycle diagnostics in the runtime log. Applies at next game start. No account data."
+group = "Audio"
+type = "boolean"
+default = "false"
