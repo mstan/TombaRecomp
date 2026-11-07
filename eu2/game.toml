@@ -20,6 +20,7 @@ known_md5 = ["5cbbd8800409d992ce4b6d0df4bd7fab"]
 known_sha1 = ["684dbf0ad03f872511046d40d3cc85b17d839dbf"]
 
 [recompiler]
+mod_instruction_sites = ["0x80026368"]
 bios_config = "../psxrecomp/bios/SCPH1001.toml"
 seeds = "seeds/boot.txt"
 out_dir = "../build-eu2/generated"

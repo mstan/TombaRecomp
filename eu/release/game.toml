@@ -16,6 +16,7 @@ known_md5 = ["5029ec8fee56ec6bb6316bd16ee77d54"]
 known_sha1 = ["2505d958b4439d04844cadd3f968fc7432a48e00"]
 
 [recompiler]
+mod_instruction_sites = ["0x800263B4"]
 seeds = "seeds/boot.txt"
 out_dir = "cache/generated"
 strict = true

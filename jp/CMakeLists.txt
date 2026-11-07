@@ -11,7 +11,10 @@ include("${PSXRECOMP_ROOT}/runtime/runtime.cmake")
 # adapter, jp/widescreen_profile.py).
 option(TOMBA_JP_ENHANCEMENTS "Seamless Loading, FMV Skip and Widescreen" OFF)
 set(TOMBA_JP_GENERATED_DIR "${TOMBA_ROOT}/build-jp/generated" CACHE PATH "Japanese boot code directory")
-set(jp_mods NONE)
+set(input_mods "${CMAKE_CURRENT_BINARY_DIR}/input-preloaded")
+file(COPY "${TOMBA_ROOT}/mods/preloaded/packages/tombi.enhancement.low-input-latency"
+    DESTINATION "${input_mods}/packages")
+set(jp_mods "${input_mods}")
 if(TOMBA_JP_ENHANCEMENTS)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
     get_filename_component(jp_generated "${TOMBA_JP_GENERATED_DIR}" DIRECTORY)
@@ -57,3 +60,5 @@ endif()
 # The shared launcher already embeds the UTF-8 application manifest
 # (recomp-ui windows/recomp_utf8.manifest); a second manifest resource would
 # collide with it at link time.
+
+target_sources(tomba-jp PRIVATE "${TOMBA_ROOT}/src/mods/tomba_low_input_latency_plugin.c")
