@@ -11,6 +11,8 @@
 static PSXModActivationCallback activate, restore;
 static PSXModVBlankCallback vblank;
 static PSXModFunctionEntryCallback camera_entry;
+static PSXModWorldScenePredicate world_scene;
+static PSXModRetainedScenePredicate retained_scene;
 static unsigned area, sector;
 static int started, camera_active = 1, original_overlay = 1;
 static uint32_t follow = 0x1F8000ECu;
@@ -65,6 +67,12 @@ void tomba_widescreen_residency_activate(void) {}
 void tomba_widescreen_scripts_activate(void) {}
 void tomba_widescreen_scripts_tick(void) { ++ticks; }
 void psx_mod_set_adaptive_backdrop_preload(int value) { assert(value == 1); }
+void psx_mod_set_world_scene_predicate(PSXModWorldScenePredicate value) {
+    assert(value); world_scene = value;
+}
+void psx_mod_set_retained_scene_predicate(PSXModRetainedScenePredicate value) {
+    assert(value); retained_scene = value;
+}
 void psx_mod_tag_hud_primitive(uint32_t primitive, int edge) {
     (void)primitive; (void)edge;
 }
@@ -86,7 +94,9 @@ int psx_mod_set_adaptive_display_aspect(uint32_t num, uint32_t den) {
 int main(void) {
     static CPUState cpu;
     assert(activate && restore && vblank && camera_entry);
-    activate(); vblank(); assert(!anchored);
+    activate(); assert(world_scene && retained_scene);
+    assert(!world_scene() && !retained_scene());
+    vblank(); assert(!anchored);
     started = 1;
     cpu.gpr[31] = 0x8002A1E4u; cpu.gpr[4] = 0x1F8000C0u;
     cpu.gpr[5] = 0x1F800060u; cpu.gpr[6] = 0x1F800068u;
