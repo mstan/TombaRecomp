@@ -16,13 +16,13 @@ and overlays with the added mod_instruction_sites. Never rename old native DLLs
 into a new configuration namespace. Whole-function contracts and device checks
 fall back to original input when a profile or controller mode is unsupported.
 
-Short controller-only LOAD checks pass for USA and English EU2 original revision:
-walking, direction changes, jump/landing, and observed input edges. English EU1
-also has an owner-confirmed responsiveness improvement. The other European
-languages and EU2 Rev 1 have original-byte contract coverage, not new gameplay
-acceptance. Japan's original menu lists the save, but loading into controllable
-gameplay remains unconfirmed after the bounded follow-up, including the byte-
-layout correction. These checks are not campaign certification.
+All20 original-executable reader/caller CPU-state contracts pass, including
+both Japanese callers, byte-order conversion, priming and guarded fallback.
+Native USA feature OFF/ON controls and Japanese movement, current-build
+save/load and post-load input are checked. Earlier bounded English EU2
+original-revision LOAD checks cover walking, direction changes and jumping.
+Other European language paths have original-code contract coverage without
+new full regional gameplay acceptance. End-to-end input latency was not measured.
 
 Coverage is offline single-player digital P1. Analog/Hybrid, registered controller
 transforms or sources, configured multiple pads, multitap, netplay, replay and
