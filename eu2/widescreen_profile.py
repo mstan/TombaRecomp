@@ -123,7 +123,9 @@ static inline uint32_t eu_ws_jal(uint32_t key) {
         source = (ROOT/'src/mods'/name).read_text(encoding='utf-8')
         if hashlib.sha256(source.encode()).hexdigest()!=digest:
             raise ValueError('Review EU2 binding after shared policy changes: '+name)
-        if name=='tomba_widescreen_hud.h':
+        if name=='tomba_widescreen_scene.h':
+            pass
+        elif name=='tomba_widescreen_hud.h':
             # Keep compile-time switch keys in the shared policy's address space.
             source=source.replace('    uint32_t caller;', '    ra = eu_ws_code_key(ra);\n    uint32_t caller;')
             source=re.sub(r'(?<!\*)read_word\((sp[^)]*)\)',r'eu_ws_code_key(read_word(\1))',source)
@@ -151,6 +153,8 @@ static inline uint32_t eu_ws_jal(uint32_t key) {
             if descriptor:
                 source=source.replace('/* POOL_DESCRIPTORS */',descriptor)
                 source=source.replace('pools[p].base','eu_ws_address(pools[p].base)')
+            source=source.replace('if (!tomba_widescreen_enabled) return 0;',
+                'if (!tomba_widescreen_enabled || !eu_ws_refresh()) return 0;')
             source=source.replace('if (!tomba_widescreen_enabled) return;',
                 'if (!tomba_widescreen_enabled || !eu_ws_refresh()) { psx_mod_set_widescreen_view_anchor(0,0); return; }')
             source=source.replace('if (!enabled ||', 'if (!eu_ws_refresh() || !enabled ||')
