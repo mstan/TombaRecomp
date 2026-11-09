@@ -38,6 +38,7 @@ set(PSX_GL_BATCH_IMPL "${_tomba_gl_batch_default}" CACHE STRING
     "OpenGL textured batching: LLE or HLE")
 unset(_tomba_gl_batch_default)
 
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/MemoryCardManager.cmake")
 include("${PSXRECOMP_ROOT}/runtime/runtime.cmake")
 
 set(TOMBA_CODEGEN_SETUP_SOURCES)
@@ -169,10 +170,15 @@ if(BUILD_TESTING)
     add_executable(tomba-seamless-prepare-tests
         tests/test_seamless_prepare.cpp src/mods/tomba_seamless_prepare.cpp
         "${PSXRECOMP_ROOT}/runtime/src/mod_resident.cpp"
+        "${PSXRECOMP_ROOT}/runtime/src/iso_reader.cpp"
+        "${PSXRECOMP_ROOT}/runtime/src/cue_sheet.cpp"
+        "${PSXRECOMP_ROOT}/runtime/src/crc32.c"
         "${PSXRECOMP_ROOT}/runtime/src/psx_sha256.c")
     target_compile_features(tomba-seamless-prepare-tests PRIVATE cxx_std_17)
     target_include_directories(tomba-seamless-prepare-tests PRIVATE
-        src/mods "${PSXRECOMP_ROOT}/runtime/include")
+        src/mods "${PSXRECOMP_ROOT}/runtime/include"
+        "${PSXRECOMP_ROOT}/recompiler/include")
+    target_link_libraries(tomba-seamless-prepare-tests PRIVATE chdr-static)
     set(TOMBA_TEST_DISC "" CACHE FILEPATH "Original SCUS-94236 .bin for disc tests")
     if(TOMBA_TEST_DISC)
         add_test(NAME tomba_seamless_prepare
