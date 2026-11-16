@@ -137,11 +137,6 @@ foreach(TOMBA_RUNTIME_CONFIG game.toml game_options.toml)
 endforeach()
 
 if(BUILD_TESTING)
-    add_executable(tomba-retired-frame-blending-tests
-        tests/test_retired_frame_blending.c src/mods/tomba_frame_interpolation_plugin.c)
-    target_include_directories(tomba-retired-frame-blending-tests PRIVATE
-        "${PSXRECOMP_ROOT}/runtime/include")
-    add_test(NAME tomba_retired_frame_blending COMMAND tomba-retired-frame-blending-tests)
     add_executable(tomba-fmv-skip-tests tests/test_fmv_skip.c
         src/mods/tomba_skip_fmv_plugin.c)
     target_include_directories(tomba-fmv-skip-tests PRIVATE

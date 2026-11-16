@@ -128,13 +128,10 @@ def main() -> int:
         errors.append("Any% exceptions must be an opt-in boolean on Skip FMVs")
     if fmv["plugin"] != [{"feature": "skip-fmv", "id": "tomba.skip-fmv"}]:
         errors.append("FMV skip plugin must retain its existing feature and id")
-    blending = load_toml(ROOT / "mods/preloaded/packages/"
-                         "tomba.enhancement.frame-interpolation/1.0.0/manifest.toml")
-    feature = blending["feature"][0]
-    if (blending.get("channel") != "developer" or
-            feature.get("default_enabled") is not False or
-            feature.get("hidden") is not True):
-        errors.append("retired frame blending must remain developer-only, hidden and off")
+    retired = (ROOT / "mods/preloaded/packages/"
+               "tomba.enhancement.frame-interpolation/1.0.0/manifest.toml")
+    if retired.exists():
+        errors.append("retired frame blending must not be included in the catalog")
     if errors:
         for err in errors:
             print(err, file=sys.stderr)
