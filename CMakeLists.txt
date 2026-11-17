@@ -86,6 +86,11 @@ psxrecomp_add_game_runtime(psx-runtime
         psx.enhancement.8mb-ram psx.enhancement.cd-speed psx.enhancement.fast-loading
 )
 
+# The regular Mods page owns independent recording/display choices.
+include("${PSXRECOMP_ROOT}/runtime/playtest_diagnostics.cmake")
+psxrecomp_add_playtest_diagnostics(psx-runtime
+    GAME_ID "SCUS-94236" MOD_ID "tomba.diagnostics")
+
 target_sources(psx-runtime PRIVATE ${TOMBA_MOD_PLUGIN_SOURCES})
 if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
     target_compile_options(psx-runtime PRIVATE
