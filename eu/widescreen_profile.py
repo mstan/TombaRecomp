@@ -47,7 +47,8 @@ OVERLAY = {0x801168f4:0x801175cc,0x801169ec:0x801176c4,
 # A policy edit must review its PAL substitutions too. Normalize line endings
 # so an ordinary Windows checkout does not change this source contract.
 SOURCES = {
-    'tomba_widescreen_plugin.c':'4ecb9e5293fb96011c4fb02412a43d1cf9c99f2b4e87eae3d0cd87f72b2de5fc',
+    'tomba_widescreen_scene.h':'c0adc0a86a6dd2c71c7141121510e9ac8a760bf328e11e5240f63d96e554daf7',
+    'tomba_widescreen_plugin.c':'2e5406a062d5f36046dee6ed0688b43ed55ce413c5fce3cbe580c5afb716eb0c',
     'tomba_widescreen_residency.c':'325c9649ddd0941bd3ad0d50c8fe1127afbe41580157e37520ca887b0129b80e',
     'tomba_widescreen_scripts.c':'d1e8df51e0cc65d98122f931a6b74ec44df01e3a95fc875fc3b08c9a3b78e056',
     'tomba_widescreen_hud.h':'668942a6788b975896fd563965d5bd6ed8a0d0ea3f74901caf48d43a1c8fe0fe',
@@ -155,6 +156,8 @@ uint32_t eu_ws_address(uint32_t);
             source=source.replace('pools[p].base','eu_ws_address(pools[p].base)')
         # Guard every callback that can observe/write guest state. Profile is
         # reconstructed from live MAIN bytes, including after language/restore.
+        source=source.replace('if (!tomba_widescreen_enabled) return 0;',
+            'if (!tomba_widescreen_enabled || !eu_ws_refresh()) return 0;')
         source=source.replace('if (!tomba_widescreen_enabled) return;',
             'if (!tomba_widescreen_enabled || !eu_ws_refresh()) { psx_mod_set_widescreen_view_anchor(0,0); return; }')
         source=source.replace('if (!enabled ||', 'if (!eu_ws_refresh() || !enabled ||')

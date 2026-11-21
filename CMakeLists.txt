@@ -142,6 +142,8 @@ foreach(TOMBA_RUNTIME_CONFIG game.toml game_options.toml)
 endforeach()
 
 if(BUILD_TESTING)
+    add_executable(tomba-widescreen-scene-tests tests/test_widescreen_scene.c)
+    add_test(NAME tomba_widescreen_scene COMMAND tomba-widescreen-scene-tests)
     add_executable(tomba-fmv-skip-tests tests/test_fmv_skip.c
         src/mods/tomba_skip_fmv_plugin.c)
     target_include_directories(tomba-fmv-skip-tests PRIVATE
