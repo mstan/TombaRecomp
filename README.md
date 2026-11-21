@@ -112,8 +112,9 @@ follow-ups. See the release page for the evidence attached to each version.
   backend (default). OpenGL moves rasterization and supersampling onto the GPU
   so fill-heavy scenes (e.g. the mushroom forest) hold 59.94 fps. Falls back to
   software automatically if GL init fails.
-- **Supersampling + anti-aliasing.** Internal-resolution SSAA (2×–4×) with
-  optional linear present filtering for clean edges. Ships at 2×.
+- **Internal resolution and anti-aliasing.** Fresh settings use 4x. Choose
+  1x through 32x under Settings / Display, subject to GPU texture and memory
+  limits. Saved choices are retained; present filtering remains optional.
 - **Optional texture filtering.** Nearest (native PSX look) or bilinear.
 - **FMV skip modes.** Skip every movie, or enable **Preserve title and
   ending FMVs (Any%)** to keep the opening before the title, post-final-pig
