@@ -23,18 +23,28 @@ int main(int argc, char** argv) {
     std::string error;
     ModPackageManager fresh(root);
     check(fresh.scan(&error) && fresh.load_state(&error), error);
+    check(fresh.feature_enabled(id, feature), "fresh enabled");
     check(fresh.feature_option_value(id, feature, option) == "70", "fresh 70");
     check(fresh.set_feature_option(id, feature, option, "80", &error) &&
           fresh.save_state(&error), error);
+    check(fresh.set_feature_enabled(id, feature, false, &error) &&
+          fresh.set_feature_option(id, feature, "diagnostics", "true", &error) &&
+          fresh.save_state(&error), error);
     ModPackageManager saved(root);
     check(saved.scan(&error) && saved.load_state(&error), error);
-    check(saved.feature_option_value(id, feature, option) == "80", "saved 80 retained");
+    check(!saved.feature_enabled(id, feature), "saved Off retained");
+    check(saved.feature_option_value(id, feature, option) == "80", "saved 80 retained while Off");
+    check(saved.feature_option_value(id, feature, "diagnostics") == "true", "saved diagnostics retained");
+    check(!saved.set_feature_option(id, feature, option, "71", &error), "off-step rejected");
+    check(saved.feature_option_value(id, feature, option) == "80", "rejection preserves saved target");
     check(saved.set_feature_option(id, feature, option, "180", &error), "upper bound");
-    check(saved.set_feature_option(id, feature, option, "70", &error) &&
+    check(saved.set_feature_enabled(id, feature, true, &error) &&
+          saved.set_feature_option(id, feature, option, "70", &error) &&
           saved.save_state(&error), error);
     ModPackageManager reset(root);
     check(reset.scan(&error) && reset.load_state(&error), error);
+    check(reset.feature_enabled(id, feature), "saved On retained");
     check(reset.feature_option_value(id, feature, option) == "70", "reset 70 retained");
     fs::remove_all(root);
-    std::cout << "PASS fresh70, saved80, upper180 and reset70 persistence\n";
+    std::cout << "PASS fresh On/70, saved Off/80/diagnostics, rejected71, upper180 and saved On/reset70\n";
 }
