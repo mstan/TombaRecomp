@@ -6,13 +6,12 @@ After a real presentation underrun it also avoids queuing accelerated catch-up.
 Guest speed and SPU simulation are unchanged. Fast-forward is intentionally mute.
 
 ON uses a 70 ms target by default; OFF restores the game's configured fallback.
-The Audio Buffer slider offers 20–180 ms in 5 ms steps. 70 ms is Recommended;
+The Audio Buffer slider offers 20â€“180 ms in 5 ms steps. 70 ms is Recommended;
 lower values are Experimental (20 ms is known unstable), and higher values give
-more reserve. Both views use the same saved mod option. Reset to Defaults resets
+more reserve. The Mods page keeps the saved buffer choice. Reset to Defaults resets
 only that target to 70 ms. Existing enabled/disabled and target choices remain
 authoritative. Changes apply at the next game start, not to a running device.
-High Quality SPU / Enhanced Audio is independent. Quick Mods and Mods use the
-same normal saved feature state. No account or network service is involved.
+High Quality SPU / Enhanced Audio is independent. Enable it and choose the buffer on the Mods page. No account or network service is involved.
 
 Audio Diagnostics optionally emits target, actual fill and host lifecycle
 counters once per second to the runtime log. It is off by default. Fill is not
