@@ -1,5 +1,14 @@
 # Tomba! (USA) release notes
 
+## 0.24.5-alpha - shared packaging on Windows and Linux
+
+The shared release workflow clears a stale profiling hook in a portable way,
+including CMake 3.28 on Linux. The Linux package keeps its writable player data
+separate from the read-only AppImage. Both release channels retain visible
+Input Recording enabled by default and remember a saved Off choice. The
+qualified scene, audio, Fit-to-screen and native-save behavior from 0.24.4 is
+retained; explicit saved presentation and audio choices remain authoritative.
+
 ## 0.24.4-alpha - regional scene retention and saved audio sync
 
 Event-title animations preserve the scene's intended aspect through the final
