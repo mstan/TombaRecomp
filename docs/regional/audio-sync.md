@@ -24,5 +24,5 @@ A long display-mode switch may still cause brief silence while recovering.
 These host-buffer changes do not measure or control external TV/receiver delay.
 The shared runtime uses no regional game addresses. Platform and regional
 listening checks remain necessary; this is not a campaign-wide guarantee.
-The owner confirmed 70 ms without audible issues on one system. Lower targets
-can stutter or drop out; no universal safe minimum is claimed.
+70 ms is the recommended target. Lower targets can stutter or drop out; no
+universal safe minimum is claimed.
