@@ -15,12 +15,10 @@ Files are ordered front, back, disc, then by name; arrows step through them and 
 click enlarges the current one. Cover scans and manuals are never part of this
 repository or a release package.
 
-## Quick controls
+## Mod controls
 
-EU1 and EU2 set `[launcher] quick_controls = true`. The dashboard then shows a
-**Quick Mods** card next to the memory cards, listing Widescreen and Seamless
-Loading (their manifests set `quick = true`). Any listed mod can
-be added or removed with **Show in Quick Mods** on the Mods page.
+Configure Widescreen, Seamless Loading and the other available enhancements
+on the launcher's **Mods** page. Home Quick Mods cards are disabled.
 
 ## Wait for Language Confirmation (SCES-01331)
 
