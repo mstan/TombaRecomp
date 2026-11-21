@@ -23,6 +23,19 @@ cps = false
 [overlay_toolchain]
 ship = true
 
+[diagnostics]
+game_id = "SCUS-94236"
+package_id = "tomba.diagnostics"
+allow_hd_textures = true
+
 [payload]
 start_here = "packaging/release/OPTIMIZATION_START_HERE.txt"
-files = ["README.md", "RELEASE_NOTES.md", "docs/ARCHIPELAGO.md"]
+files = ["README.md", "RELEASE_NOTES.md", "docs/ARCHIPELAGO.md", "docs/regional/audio-sync.md"]
+
+[linux]
+app_run = "packaging/linux/AppRun"
+desktop_file = "packaging/linux/io.github.mstan.TombaRecomp.desktop"
+icon = "launcher_assets/img/boxart.tga"
+payload_dir = "tombarecomp"
+env_prefix = "TOMBA_RECOMP"
+prune_unreferenced_libs = true

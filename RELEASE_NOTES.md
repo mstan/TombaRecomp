@@ -1,5 +1,28 @@
 # Tomba! (USA) release notes
 
+## 0.24.4-alpha - regional scene retention and saved audio sync
+
+Event-title animations preserve the scene's intended aspect through the final
+display frame. Fresh profiles enable Audio Sync Fix with a 70 ms buffer target;
+the Mods page retains saved on/off and buffer choices, applied next game start.
+Disabling this optional adjustment restores the configured fallback and keeps
+game audio enabled. Home Quick Mods cards remain disabled.
+
+This USA Windows update uses accepted public framework pins and the shared
+release pipeline. Available regional originals have identity, plugin and
+configuration checks; this package and gameplay qualification are USA only.
+US movement, adaptive Fit resizing, current-build state restore, cold native
+memory-card loading and continued execution pass. The normal full AOT cache
+contains 175 audited native pairs with 8,037 guard rows. Memory cards and
+explicit saved settings remain intact.
+
+No new physical audio-latency measurement, listening verdict, native-card write,
+whole-campaign or exact all-regional quest-scene acceptance is claimed. Linux
+metadata is configured for the shared packager; this update does not ship a
+newly qualified Linux artifact. CD Speed, Fast Loading and retired frame
+blending packages remain excluded.
+
+
 ## 0.24.3-alpha — production TCP server and default adaptive widescreen
 
 Integrates the production TCP Debug Server previously available only in the

@@ -67,10 +67,10 @@ Important files:
 - `seeds/`: Ghidra-derived function starts and game-specific seed data.
 - `tools/regen.sh` (macOS/Linux) / `tools/regen.ps1` (Windows): regenerates the
   Tomba recompiled C output by invoking the framework recompiler.
-- `tools/package_release.ps1`: builds the redistributable release zip.
+- `packaging/release.toml`: title configuration for the shared release command.
 - `tools/package_regions.py`: stages and audits both Windows regional ZIPs
   from release builds and their original-disc AOT audit receipts.
-- `tools/package_appimage.sh`: builds the experimental Linux x86-64 AppImage.
+- `packaging/linux/`: metadata for the experimental Linux AppImage.
 - `psxrecomp/`: the [PSXRecomp](https://github.com/mstan/psxrecomp) framework,
   pulled in as a **git submodule** pinned to a known-good commit.
 - [Releases](https://github.com/mstan/TombaRecomp/releases): version changes,
@@ -112,8 +112,9 @@ follow-ups. See the release page for the evidence attached to each version.
   backend (default). OpenGL moves rasterization and supersampling onto the GPU
   so fill-heavy scenes (e.g. the mushroom forest) hold 59.94 fps. Falls back to
   software automatically if GL init fails.
-- **Supersampling + anti-aliasing.** Internal-resolution SSAA (2×–4×) with
-  optional linear present filtering for clean edges. Ships at 2×.
+- **Internal resolution and anti-aliasing.** Fresh settings use 4x. Choose
+  1x through 32x under Settings / Display, subject to GPU texture and memory
+  limits. Saved choices are retained; present filtering remains optional.
 - **Optional texture filtering.** Nearest (native PSX look) or bilinear.
 - **FMV skip modes.** Skip every movie, or enable **Preserve title and
   ending FMVs (Any%)** to keep the opening before the title, post-final-pig
@@ -293,21 +294,19 @@ default. Its optional BIOS row can select a verified retail dump:
 .\build\Tomba__Recompiled.exe --game game.toml
 ```
 
-To build the redistributable Windows release instead (does steps 3–4 for you,
-builds with the launcher, bundles assets + cache, and zips it):
-`pwsh tools/package_release.ps1`.
+Build, stage and verify the redistributable Windows player with the shared
+release command (including original-disc AOT audit and selective runtime PGO):
 
-To build the experimental Linux AppImage after generating the game sources:
-
-```sh
-sh tools/package_appimage.sh
+```powershell
+psxrecomp/tools/package_title_release.ps1 --channel public --platform windows --jobs 1
 ```
 
-These packagers are the release entry points. Both build the precompiled game
-and require a fresh original-disc AOT audit; upload their artifacts and SHA-256
-files when creating a release. The obsolete setup-host publishing workflow has
-been retired so version tags no longer publish packages requiring player-side
-code generation.
+Use `--platform linux` for the experimental Linux AppImage or `--platform all`
+for both. Linux compilation and packaging have their own qualification gates;
+a Windows pass does not establish Linux runtime coverage. The command writes
+artifacts and SHA-256 files to `dist/` and does not publish them. See the pinned
+[shared release guide](psxrecomp/docs/RELEASING_A_TITLE.md). Player packages contain
+precompiled code; no player-side code generation step is required.
 
 ## Configuration
 

@@ -2,7 +2,7 @@
 Type=Application
 Name=Tomba! Recompiled
 Comment=Experimental Linux build of Tomba! Recompiled
-Exec=TombaRecomp
+Exec=@EXE_NAME@
 Icon=io.github.mstan.TombaRecomp
 Categories=Game;Emulator;
 Terminal=false

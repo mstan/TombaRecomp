@@ -6,7 +6,9 @@ features are available in the launcher. Memory cards remain in saves/.
 This archive contains no game disc, retail BIOS, personal settings or saves.
 Read RELEASE_NOTES.md for validation coverage and known limitations.
 
-Internal Resolution is enabled at 4x for fresh settings. Choose 1x–32x in Mods; hardware and GPU-memory limits may clamp larger choices. Your saved choices are retained.
+Internal resolution defaults to 4x for fresh settings. Choose another scale
+under Settings / Display; GPU texture and memory limits can clamp larger
+choices. Your saved choices are retained.
 
 Widescreen is enabled with Fit to Window for fresh settings. Explicit saved
 aspect and mod choices are retained.
@@ -14,3 +16,8 @@ aspect and mod choices are retained.
 For Archipelago, enable TCP Debug Server under Mods / Advanced before Launch.
 It starts disabled and listens on 127.0.0.1:4370 when enabled. See
 docs/ARCHIPELAGO.md for setup and bulk-memory protocol details.
+
+Audio Sync Fix is enabled for fresh profiles with a 70 ms buffer target.
+Configure it on the Mods page and restart the game for changes to take effect.
+Turning it off restores the configured buffer fallback without muting audio.
+See docs/regional/audio-sync.md for details and limits.
