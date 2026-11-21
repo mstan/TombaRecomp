@@ -44,4 +44,4 @@ offer = false
 
 [launcher]
 # Quick Mods card beside the memory cards (recomp-ui).
-quick_controls = true
+quick_controls = false
