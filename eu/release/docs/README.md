@@ -15,8 +15,9 @@ language explicitly before the opening sequence.
 
 ## Features and controls
 
-- **Widescreen** starts off. Enable it in Mods and select Fit to Window, which
-  follows resizing from 4:3 through 34:9, or fixed 16:9, 21:9 or 32:9.
+- **Widescreen** starts on with Fit to Window, which follows resizing from
+  4:3 through 34:9. Fixed 16:9, 21:9 or 32:9 and disabling it remain available
+  in Mods. Existing saved choices are preserved.
 - **Seamless Loading** and **Geometry Optimization** start on. Native opening
   overlays are included; unsupported requests retain the original behavior.
 - **Skip FMVs** is available as an optional mod for this disc group.
