@@ -18,7 +18,7 @@ whole folder together.
 | Mod | Default |
 | --- | --- |
 | Seamless Loading | On. The first launch prepares a cache from your disc. |
-| Widescreen | Off. Choose Fit to Window or a fixed ratio. |
+| Widescreen | On with Fit to Window. Fixed ratios and disabling it remain available. Existing saved choices are preserved. |
 | Skip FMVs | Off. |
 | PGXP Precision, HD texture packs, bezel artwork, CRT Filter, Image Filtering, Internal Resolution, Enhanced Audio, Rewind | Off (shared framework mods). |
 
