@@ -1,0 +1,32 @@
+schema = 1
+[product]
+name = "TombaRecomp-Japan-SLPS01144"
+display_name = "Ore! Tomba (Japan)"
+exe_name = "TombaRecompJP"
+version_file = "VERSION"
+game_toml = "jp/release/game.toml"
+player_game_toml = "jp/release/game.toml"
+runtime_target = "tomba-jp"
+zip_folder = "TombaRecomp-Japan-SLPS01144-windows-x64"
+[build]
+regenerate = false
+selective_pgo = false
+[aot]
+mode = "audited-cache"
+[overlay_toolchain]
+ship = true
+[payload]
+game_options = false
+start_here = "packaging/regions/jp-START_HERE.txt"
+files = [
+  {from = "jp/release/README.md", to = "README.md"},
+  "LICENSE",
+  "PERMISSIONS.md",
+  {from = "docs/HD_TEXTURE_PACKS.md", to = "docs/HD_TEXTURE_PACKS.md"},
+  {from = "psxrecomp/docs/DUCKSTATION_TEXTURE_FORMAT.md", to = "docs/DUCKSTATION_TEXTURE_FORMAT.md"},
+  {from = "eu/release/licenses/Lato-OFL.txt", to = "licenses/Lato-OFL.txt"},
+  {from = "eu/release/licenses/NotoSansSymbols2-OFL.txt", to = "licenses/NotoSansSymbols2-OFL.txt"},
+  {from = "jp/seeds/boot.txt", to = "seeds/boot.txt"},
+]
+[[hooks.post_stage]]
+command = ["{python}", "tools/validate_region_release.py", "jp", "{build_dir}", "{stage}"]

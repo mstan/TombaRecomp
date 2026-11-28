@@ -1,0 +1,35 @@
+schema = 1
+[product]
+name = "TombaRecomp-USA"
+display_name = "Tomba! (USA)"
+exe_name = "TombaRecomp"
+version_file = "VERSION"
+game_toml = "packaging/release/game.toml"
+player_game_toml = "packaging/release/game.toml"
+runtime_target = "psx-runtime"
+zip_folder = "TombaRecomp-USA-windows-x64"
+[build]
+regenerate = false
+selective_pgo = false
+[aot]
+mode = "audited-cache"
+[overlay_toolchain]
+ship = true
+[payload]
+game_options = true
+start_here = "packaging/regions/us-START_HERE.txt"
+files = [
+  {from = "README.md", to = "README.md"},
+  "LICENSE",
+  "PERMISSIONS.md",
+  {from = "docs/HD_TEXTURE_PACKS.md", to = "docs/HD_TEXTURE_PACKS.md"},
+  {from = "psxrecomp/docs/DUCKSTATION_TEXTURE_FORMAT.md", to = "docs/DUCKSTATION_TEXTURE_FORMAT.md"},
+  {from = "eu/release/licenses/Lato-OFL.txt", to = "licenses/Lato-OFL.txt"},
+  {from = "eu/release/licenses/NotoSansSymbols2-OFL.txt", to = "licenses/NotoSansSymbols2-OFL.txt"},
+]
+[[hooks.post_stage]]
+command = ["{python}", "tools/validate_region_release.py", "us", "{build_dir}", "{stage}"]
+[diagnostics]
+game_id = "SCUS-94236"
+package_id = "tomba.diagnostics"
+allow_hd_textures = true

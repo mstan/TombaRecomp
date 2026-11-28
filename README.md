@@ -68,7 +68,8 @@ Important files:
 - `tools/regen.sh` (macOS/Linux) / `tools/regen.ps1` (Windows): regenerates the
   Tomba recompiled C output by invoking the framework recompiler.
 - `packaging/release.toml`: title configuration for the shared release command.
-- `tools/package_regions.py`: stages and audits both Windows regional ZIPs
+- `tools/package_regions.py --channel public`: uses the shared builder for USA,
+  EU1, EU2 (original or Rev 1), and Japanese Windows players
   from release builds and their original-disc AOT audit receipts.
 - `packaging/linux/`: metadata for the experimental Linux AppImage.
 - `psxrecomp/`: the [PSXRecomp](https://github.com/mstan/psxrecomp) framework,

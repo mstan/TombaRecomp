@@ -1,0 +1,32 @@
+schema = 1
+[product]
+name = "TombiRecomp-Europe-SCES01331-Rev1"
+display_name = "Tombi! (Europe, En/Es/Pt/Sv/Da) (Rev 1)"
+exe_name = "TombiRecompEU2"
+version_file = "VERSION"
+game_toml = "eu2/rev1/release/game.toml"
+player_game_toml = "eu2/rev1/release/game.toml"
+runtime_target = "tombi-eu2"
+zip_folder = "TombiRecomp-Europe-SCES01331-Rev1-windows-x64"
+[build]
+regenerate = false
+selective_pgo = false
+[aot]
+mode = "audited-cache"
+[overlay_toolchain]
+ship = true
+[payload]
+game_options = false
+start_here = "packaging/regions/eu2-rev1-START_HERE.txt"
+files = [
+  {from = "eu2/release/README_EN.txt", to = "README.txt"},
+  "LICENSE",
+  "PERMISSIONS.md",
+  {from = "eu/release/docs/HD_TEXTURE_PACKS.md", to = "docs/HD_TEXTURE_PACKS.md"},
+  {from = "psxrecomp/docs/DUCKSTATION_TEXTURE_FORMAT.md", to = "docs/DUCKSTATION_TEXTURE_FORMAT.md"},
+  {from = "eu/release/licenses/Lato-OFL.txt", to = "licenses/Lato-OFL.txt"},
+  {from = "eu/release/licenses/NotoSansSymbols2-OFL.txt", to = "licenses/NotoSansSymbols2-OFL.txt"},
+  {from = "eu2/seeds/boot.txt", to = "seeds/boot.txt"},
+]
+[[hooks.post_stage]]
+command = ["{python}", "tools/validate_region_release.py", "eu2-rev1", "{build_dir}", "{stage}"]

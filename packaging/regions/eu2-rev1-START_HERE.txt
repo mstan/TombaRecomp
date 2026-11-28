@@ -1,0 +1,7 @@
+Tombi! (Europe, En/Es/Pt/Sv/Da) (Rev 1) - @VERSION@ - Windows x64
+
+Run TombiRecompEU2.exe, choose your original SCES-01331 disc, then press Play.
+The original disc remains unchanged. Keep the entire extracted folder.
+OpenBIOS is included; no compiler or system Python is needed to play.
+Each regional player keeps its own memory cards in saves/.
+Read README.md (README.txt for SCES-01331) for the supported disc revision.

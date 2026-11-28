@@ -6,21 +6,16 @@ must be repeated without display capture. Each response retains its frame ID.
 import argparse
 import json
 from pathlib import Path
-import socket
+import sys
 import time
 
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'psxrecomp/tools'))
+from debug_client import query
+
+
 def request(port, **command):
-    with socket.create_connection(('127.0.0.1', port), timeout=15) as conn:
-        conn.sendall((json.dumps(command) + '\n').encode())
-        response = ''
-        for line in conn.makefile():
-            response += line
-            try:
-                return json.loads(response)
-            except json.JSONDecodeError:
-                pass
-        raise RuntimeError(f'Truncated response: {response[:200]}')
+    return query('127.0.0.1', port, command, timeout=15)
 
 
 def capture(port, directory, seconds, buttons, input_frames=2):
